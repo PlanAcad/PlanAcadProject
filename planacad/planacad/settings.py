@@ -76,9 +76,9 @@ WSGI_APPLICATION = 'planacad.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'django_db',
+        'NAME': 'djangodb',
         'USER': 'django',
-        'PASSWORD': 'Carlos1*',
+        'PASSWORD': 'Carlos',
         'HOST': '',
         'PORT': '',
         'OPTIONS': {
