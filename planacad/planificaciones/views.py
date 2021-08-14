@@ -27,3 +27,21 @@ def asignatura(request):
          'contact_list': asignatura_list, # Embed data into the HttpResponse object
       }
    )
+
+def show(request):  
+    employees = Asignatura.objects.all()  
+    return render(request,"show.html",{'employees':employees})  
+def edit(request, id):  
+    employee = Asignatura.objects.get(id=id)  
+    return render(request,'edit.html', {'employee':employee})  
+##def update(request, id):  
+    employee = Asignatura.objects.get(id=id)  
+    form = EmployeeForm(request.POST, instance = employee)  
+    if form.is_valid():  
+        form.save()  
+        return redirect("/show")  
+    return render(request, 'edit.html', {'employee': employee})  
+##def destroy(request, id):  
+    employee = Asignatura.objects.get(id=id)  
+    employee.delete()  
+    return redirect("/show")  
