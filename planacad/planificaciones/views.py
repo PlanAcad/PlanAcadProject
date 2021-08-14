@@ -15,19 +15,15 @@ def IndexView(request):
     
 ##Define request    
 def asignatura(request): 
-   """Renders the contact page."""
    assert isinstance(request, HttpRequest) 
 
    # Retrieve all contacts in the database table
-   contact_list = Asignatura.objects.order_by('nombreMateria') 
+   asignatura_list = Asignatura.objects.order_by('nombreMateria') 
 
    return render(
       request, 
-      'app/contact.html', 
+      'app/asignaturas.html', 
       {
-         'title':'Contact', 
-         'message':'Your contact page.',
-         'year':datetime.now().year, 
-         'contact_list': contact_list, # Embed data into the HttpResponse object
+         'contact_list': asignatura_list, # Embed data into the HttpResponse object
       }
    )
