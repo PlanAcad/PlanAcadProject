@@ -6,4 +6,5 @@ app_name = 'planificaciones'
 urlpatterns = [
     path('', views.IndexView, name='index'),
     path('asignaturas', views.AsignaturasView, name='asignaturas'),
+    path('asignaturas/<int:id>', views.AsignaturaDetailView, name='asignaturaDetail'),
 ]

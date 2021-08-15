@@ -12,19 +12,13 @@
   </head>
   <body>
     <div class="container">
-      <h1>Asignaturas</h1>
-      {% if asignaturas %}
-      <ul>
-        {% for asignatura in asignaturas %}
-        <li class="py-4">
-          <a href="/asignaturas/{{ asignatura.id }}"
-            >{{ asignatura.nombreMateria }}</a
-          >
-        </li>
-        {% endfor %}
-      </ul>
+      <h1>Detalle de asignatura</h1>
+      {% if asignatura %}
+
+      <h2 class="py-4">{{ asignatura.nombreMateria }}</h2>
+
       {% else %}
-      <p>No existen asignaturas.</p>
+      <p>No existe la asignatura.</p>
       {% endif %}
     </div>
   </body>
