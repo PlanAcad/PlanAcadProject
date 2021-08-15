@@ -29,9 +29,9 @@ def emp(request):
         form = AsignaturaForm()  
     return render(request,'index.html',{'form':form}) 
 
-def show(request):  
+def AsignaturasView(request):  
     asignaturas = Asignatura.objects.all()  
-    return render(request,"show.html",{'asignaturas':asignaturas})  
+    return render(request,"asignaturas/index.html",{'asignaturas':asignaturas})  
 def edit(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
     return render(request,'edit.html', {'asignatura':asignatura})  
