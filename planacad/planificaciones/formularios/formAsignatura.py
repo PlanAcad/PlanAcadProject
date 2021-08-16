@@ -1,5 +1,5 @@
 from django import forms  
-from .models import Asignatura
+from planificaciones.modelos.modelAsignatura import Asignatura
 
 class AsignaturaForm(forms.ModelForm):  
     class Meta:  
