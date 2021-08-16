@@ -1,13 +1,10 @@
+
 # Para usar los objetos y/o funciones de 'redirect'
 from django.shortcuts import render, redirect  
-####
 ## import model and form
 from planificaciones.formularios.formAsignatura import AsignaturaForm 
 from planificaciones.modelos.modelAsignatura import Asignatura
-##
-def IndexView(request):    
-    return render(request, 'index.html')
-    
+
 ##Define request for Asignatura   
 def asignatura(request):  
     if request.method == "POST":  
@@ -22,12 +19,15 @@ def asignatura(request):
         form = AsignaturaForm()  
     return render(request,'index.html',{'form':form}) 
 
-def show(request):  
+def AsignaturasView(request):  
     asignaturas = Asignatura.objects.all()  
-    return render(request,"show.html",{'asignaturas':asignaturas})  
-def edit(request, id):  
+    return render(request,"asignaturas/index.html",{'asignaturas':asignaturas})  
+
+
+def AsignaturaDetailView(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
-    return render(request,'edit.html', {'asignatura':asignatura})  
+    return render(request,'asignaturas/detail.html', {'asignatura':asignatura})  
+ 
 def update(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
     form = AsignaturaForm(request.POST, instance = asignatura)  

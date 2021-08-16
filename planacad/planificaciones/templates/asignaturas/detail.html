@@ -12,8 +12,14 @@
   </head>
   <body>
     <div class="container">
-      <h1>PlanAcad</h1>
-      <p>test</p>
+      <h1>Detalle de asignatura</h1>
+      {% if asignatura %}
+
+      <h2 class="py-4">{{ asignatura.nombreMateria }}</h2>
+
+      {% else %}
+      <p>No existe la asignatura.</p>
+      {% endif %}
     </div>
   </body>
 </html>

@@ -12,8 +12,20 @@
   </head>
   <body>
     <div class="container">
-      <h1>PlanAcad</h1>
-      <p>test</p>
+      <h1>Asignaturas</h1>
+      {% if asignaturas %}
+      <ul>
+        {% for asignatura in asignaturas %}
+        <li class="py-4">
+          <a href="/asignaturas/{{ asignatura.id }}"
+            >{{ asignatura.nombreMateria }}</a
+          >
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No existen asignaturas.</p>
+      {% endif %}
     </div>
   </body>
 </html>
