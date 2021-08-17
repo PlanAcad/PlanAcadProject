@@ -7,7 +7,9 @@
 <ul>
   {% for profesor in profesores %}
   <li class="py-4">
-    <a href="/profesores/{{ profesor.id }}">{{ profesor.nombre }}</a>
+    <a href="/profesores/{{ profesor.id }}"
+      >{{ profesor.nombre }} {{profesor.apellido}}</a
+    >
   </li>
   {% endfor %}
 </ul>
