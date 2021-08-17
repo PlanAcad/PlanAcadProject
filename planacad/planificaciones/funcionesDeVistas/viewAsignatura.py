@@ -21,7 +21,7 @@ def asignatura(request):
 def AsignaturasView(request):  
     asignaturas = Asignatura.objects.all()  
     return render(request,"asignaturas/index.html",{'asignaturas':asignaturas})  
-
+    
 def AsignaturaDetailView(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
     return render(request,'asignaturas/detail.html', {'asignatura':asignatura})  

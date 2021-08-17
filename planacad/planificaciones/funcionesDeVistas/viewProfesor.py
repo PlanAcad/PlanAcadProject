@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.formularios.formProfesores import  ProfesorForm
-from planificaciones.modelos.modelProfesores import Profesor
+from planificaciones.modelos.modelProfesor import Profesor
 ##Define request for Asignatura   
 def profesor(request):  
     if request.method == "POST":  
@@ -18,11 +18,11 @@ def profesor(request):
     return render(request,'index.html',{'form':form}) 
 
 def ProfesoresView(request):  
-    profesores = Profesor.objects.all()  
+    profesores = Profesor.objects.all()
     return render(request,"profesores/index.html",{'profesores':profesores})  
 
 def ProfesorDetailView(request, id):  
-    profesor = Profesor.objects.get(id=id)  
+    profesor = Profesor.objects.get(id=id).asignatura_set.all()  
     return render(request,'profesores/detail.html', {'profesor':profesor})  
  
 def ProfesorUpdate(request, id):  
