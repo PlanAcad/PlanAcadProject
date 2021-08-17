@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 ## import model and form
 from planificaciones.formularios.formAsignatura import AsignaturaForm 
 from planificaciones.modelos.modelAsignatura import Asignatura
+from planificaciones.modelos.modelCarrera import Carrera
 ##Define request for Asignatura   
 def asignatura(request):  
     if request.method == "POST":  
@@ -24,7 +25,10 @@ def AsignaturasView(request):
     
 def AsignaturaDetailView(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
-    return render(request,'asignaturas/detail.html', {'asignatura':asignatura})  
+    # Obtengo el nombre de la carrera
+    carrera = Carrera.objects.get(id=asignatura.carrera_id)
+    print(carrera.nombreCarrera)
+    return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera})  
  
 def AsignaturaUpdate(request, id):  
     asignatura = Asignatura.objects.get(id=id)  

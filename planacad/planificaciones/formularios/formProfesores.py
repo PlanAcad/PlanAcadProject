@@ -1,5 +1,5 @@
 from django import forms  
-from planificaciones.modelos.modelProfesores import Profesor
+from planificaciones.modelos.modelProfesor import Profesor
 
 class ProfesorForm(forms.ModelForm):  
     class Meta:  
