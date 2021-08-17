@@ -1,5 +1,5 @@
 from django.urls import path
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin
+from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSeccion1
 from . import views
 
 app_name = 'planificaciones'
