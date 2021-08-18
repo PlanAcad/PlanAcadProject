@@ -1,25 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>PlanAcad</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <h1>Detalle de asignatura</h1>
-      {% if asignatura %}
+{% extends 'base.html' %} {% block content %}
 
-      <h2 class="py-4">{{ asignatura.nombreMateria }}</h2>
+<h1>Detalle de asignatura</h1>
 
-      {% else %}
-      <p>No existe la asignatura.</p>
-      {% endif %}
-    </div>
-  </body>
-</html>
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+{% endif %} {% if form.subject.errors %}
+<ol>
+  {% for error in form.subject.errors %}
+  <li><strong>{{ error|escape }}</strong></li>
+  {% endfor %}
+</ol>
+{% endif %} {% if asignatura %}
+
+<h2 class="py-4">{{ asignatura.nombreMateria }}</h2>
+<dl>
+  <dt>Carrera:</dt>
+  <dd>{{ carrera.nombreCarrera }}</dd>
+</dl>
+
+<form action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
+  {% csrf_token %} {{ form }}
+  <input
+    type="submit"
+    class="btn btn-primary my-5"
+    value="Nueva planificación"
+  />
+</form>
+{% if planificaciones %}
+<ul>
+  {% for planificacion in planificaciones %}
+  <li class="py-4">
+    <a href="/planificacion/{{ planificacion.id }}"
+      >{{planificacion.id}} {{ planificacion.fechaCreacion }}</a
+    >
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No se encontraron planificaciones.</p>
+{% endif %} {% else %}
+<p>No existe la asignatura.</p>
+
+{% endif %} {% endblock %}

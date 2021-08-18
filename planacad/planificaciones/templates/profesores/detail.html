@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Perfil del profesor</h1>
+{% if profesor %}
+
+<article>
+  <h2 class="py-4">{{ profesor.nombre }} {{profesor.apellido}}</h2>
+  <dl>
+    <dt>Situación:</dt>
+    <dd>{{ profesor.situacion }}</dd>
+    <dt>Dedicación:</dt>
+    <dd>{{ profesor.dedicacion }}</dd>
+  </dl>
+</article>
+{% if asignaturas %}
+<ul>
+  {% for asignatura in asignaturas %}
+  <li class="py-4">
+    <a href="/asignaturas/{{ asignatura.id }}"
+      >{{ asignatura.nombreMateria }}</a
+    >
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No existen asignaturas.</p>
+{% endif %} {% else %}
+<p>No existe el usuario profesor.</p>
+
+{% endif %} {% endblock %}
