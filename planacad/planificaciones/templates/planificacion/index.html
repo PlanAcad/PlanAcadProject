@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>PlanAcad</h1>
+<h2>Planificación</h2>
+
+{% if form.subject.errors %}
+<ol>
+  {% for error in form.subject.errors %}
+  <li><strong>{{ error|escape }}</strong></li>
+  {% endfor %}
+</ol>
+{% endif %} {% endblock %}

@@ -1,31 +1,44 @@
 # Para usar los objetos y/o funciones de 'redirect'
 
 from django.shortcuts import render, redirect  
+from django.http import HttpResponseRedirect
+
 ## import model and form
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 
-##Define request for Asignatura   
-def profesor(request):  
-    if request.method == "POST":  
-        form = PlanificacionForm(request.POST)  
-        if form.is_valid():  
-            try:  
-                form.save()  
-                return redirect('/show')  
-            except:  
-                pass  
-    else:  
-        form = PlanificacionForm()  
-    return render(request,'index.html',{'form':form}) 
+##Define request for Planificacion   
+def NewPlanificacion(request, asignatura_id):  
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = PlanificacionForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            print("form valid")
+            # Creo una instancia y no lo guardo aun
+            instance = form.save(commit=False)
+            # Asigno la asignatura, no hace falta ir a buscar el objeto
+            instance.asignatura_id = asignatura_id
+            # Guardo el objeto definitivamente
+            instance.save()
+            # redirect to a new URL:
+            return HttpResponseRedirect('/asignaturas/'+str(asignatura_id))
+           
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = PlanificacionForm()
+
+    return render(request, 'planificacion/index.html', {'form': form})
 
 def PlanificacionesView(request,idAsignatura):
     #Obtengo la asignatura
     asignatura = Asignatura.objects.get(id=idAsignatura)   
     #Busco las planificaciones de esa asignatura
     planificaciones = Planificacion.objects.filter(asignatura=asignatura)
-    return render(request,"profesores/index.html",{'planificaciones':planificaciones})  
+    return render(request,"planificacion/index.html",{'planificaciones':planificaciones})  
 
 def PlanificacionDetailView(request, id): 
     planificacion = Planificacion.objects.get(id=id)
