@@ -42,7 +42,7 @@ def PlanificacionesView(request,idAsignatura):
 
 def PlanificacionDetailView(request, id): 
     planificacion = Planificacion.objects.get(id=id)
-    return render(request,'profesores/detail.html', {'planificacion':planificacion})  
+    return render(request,'planificacion/detail.html', {'planificacion':planificacion})  
  
 def PlanificacionUpdate(request, id):  
     planificacion = Planificacion.objects.get(id=id)  
