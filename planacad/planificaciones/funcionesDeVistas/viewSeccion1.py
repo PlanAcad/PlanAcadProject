@@ -1,22 +1,30 @@
-# Para usar los objetos y/o funciones de 'redirect'
-
+# Para usar los objetos y/o funciones de 'redirect'  
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.modelos.modelSeccion1 import Seccion1
 from planificaciones.formularios.formSeccion1 import  Seccion1Form
 ##Define request for Asignatura   
-def seccion1(request):  
+def Newseccion1(request,asignatura_id, carrera_id):  
     if request.method == "POST":  
         form = Seccion1Form(request.POST)  
-        if form.is_valid():  
-            try:  
-                form.save()  
-                return redirect('/show')  
-            except:  
-                pass  
-    else:  
-        form = Seccion1Form()  
-    return render(request,'index.html',{'form':form}) 
+        # check whether it's valid:
+        if form.is_valid():
+            print("form valid")
+            # Creo una instancia y no lo guardo aun
+            instance = form.save(commit=False)
+            # Asigno la asignatura y carrera, no hace falta ir a buscar el objeto
+            instance.asignatura_id = asignatura_id
+            instance.carrera_id = carrera_id
+            # Guardo el objeto definitivamente
+            instance.save()
+            # redirect to a new URL:
+            return  instance.id
+        # if a GET (or any other method) we'll create a blank form 
+        else:  
+            form = Seccion1Form()  
+    return render(request,'index.html',{'form':form})
+
 ##Este no se deberia usar pero bueno
 def Seccion1View(request):  
     secciones1 = Seccion1.objects.all()
