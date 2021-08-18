@@ -5,12 +5,13 @@ from django.http import HttpResponseRedirect
 
 ## import model and form
 from planificaciones.modelos.modelAsignatura import Asignatura
+from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from planificaciones.funcionesDeVistas import viewSeccion1
 
 ##Define request for Planificacion   
-def NewPlanificacion(request, asignatura_id, carrera_id):  
+def NewPlanificacion(request, asignatura_id):  
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -22,7 +23,11 @@ def NewPlanificacion(request, asignatura_id, carrera_id):
             instance = form.save(commit=False)
             # Asigno la asignatura, no hace falta ir a buscar el objeto
             instance.asignatura_id = asignatura_id
-            instance.seccion1_id = viewSeccion1.Newseccion1(request=request.POST, asignatura_id=asignatura_id, carrera_id=carrera_id)
+            # Obtengo el id de carrera 
+            asignatura = Asignatura.objects.get(id=asignatura_id)            
+            seccion1 = viewSeccion1.NewSeccion1(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
+            print("seccion", seccion1)
+            instance.seccion1_id = seccion1.id
             # Guardo el objeto definitivamente
             instance.save()
             # redirect to a new URL:
