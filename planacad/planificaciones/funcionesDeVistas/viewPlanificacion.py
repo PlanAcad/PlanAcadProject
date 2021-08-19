@@ -9,6 +9,7 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from planificaciones.funcionesDeVistas import viewSeccion1
+from planificaciones.funcionesDeVistas import viewSeccion3
 
 ##Define request for Planificacion   
 def NewPlanificacion(request, asignatura_id):  
@@ -26,8 +27,14 @@ def NewPlanificacion(request, asignatura_id):
             # Obtengo el id de carrera 
             asignatura = Asignatura.objects.get(id=asignatura_id)            
             seccion1 = viewSeccion1.NewSeccion1(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
+            seccion3 = viewSeccion3.Seccion3New()
+            
             print("seccion", seccion1)
+            print("seccion3", seccion3)
+            
             instance.seccion1_id = seccion1.id
+            instance.seccion3_id = seccion3.id
+            
             # Guardo el objeto definitivamente
             instance.save()
             # redirect to a new URL:
