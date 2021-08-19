@@ -1,9 +1,9 @@
 
 # Para usar los objetos y/o funciones de 'redirect'
-from planificaciones.formularios.formPlanificacion import PlanificacionForm
+from planificaciones.forms.formPlanificacion import PlanificacionForm
 from django.shortcuts import render, redirect  
 ## import model and form
-from planificaciones.formularios.formAsignatura import AsignaturaForm 
+from planificaciones.forms.formAsignatura import AsignaturaForm 
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion

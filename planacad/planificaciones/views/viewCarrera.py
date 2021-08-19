@@ -1,7 +1,7 @@
 # Para usar los objetos y/o funciones de 'redirect'
 from django.shortcuts import render, redirect  
 ## import model and form
-from planificaciones.formularios.formCarrera import CarreraForm
+from planificaciones.forms.formCarrera import CarreraForm
 from planificaciones.modelos.modelCarrera import Carrera
 ##Define request for Asignatura   
 def profesor(request):  

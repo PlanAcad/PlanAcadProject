@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.modelos.modelSeccion1 import Seccion1
-from planificaciones.formularios.formSeccion1 import  Seccion1Form
+from planificaciones.forms.formSeccion1 import  Seccion1Form
 ##Define request for Asignatura   
 def NewSeccion1(asignatura_id, carrera_id):      
         form = Seccion1()  

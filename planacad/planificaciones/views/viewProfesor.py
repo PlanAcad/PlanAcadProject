@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 ## import model and form
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelProfesor import Profesor
-from planificaciones.formularios.formProfesores import  ProfesorForm
+from planificaciones.forms.formProfesores import  ProfesorForm
 ##Define request for Asignatura   
 def profesor(request):  
     if request.method == "POST":  

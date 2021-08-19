@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
-from planificaciones.formularios.formPlanificacion import PlanificacionForm
+from planificaciones.forms.formPlanificacion import PlanificacionForm
 from planificaciones.views import viewSeccion1
 
 ##Define request for Planificacion   
