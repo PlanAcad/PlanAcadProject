@@ -6,4 +6,7 @@ class Asignatura(models.Model):
    id = models.AutoField(primary_key=True) 
    nombreMateria = models.CharField(max_length=50)
    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
-   profesor = models.ManyToManyField(Profesor)   
+   profesor = models.ManyToManyField(Profesor)
+
+   def __str__(self):
+        return self.nombreMateria  
