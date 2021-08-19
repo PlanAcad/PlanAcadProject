@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from planificaciones.modelos.modelSeccion1 import Seccion1
 from planificaciones.formularios.formSeccion1 import  Seccion1Form
 ##Define request for Asignatura   
-def NewSeccion1(asignatura_id, carrera_id):      
+def Seccion1New(asignatura_id, carrera_id):      
         form = Seccion1()  
         # check whether it's valid:
     
