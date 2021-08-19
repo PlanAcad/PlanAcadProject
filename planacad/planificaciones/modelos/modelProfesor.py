@@ -8,4 +8,4 @@ class Profesor(models.Model):
    dedicacion = models.CharField(max_length=50)
 
    def __str__(self):
-        return f'{self.nombre} {self.apellido}'
+        return "%s, %s" %(self.nombre,self.apellido)
