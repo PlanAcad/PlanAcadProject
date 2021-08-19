@@ -62,6 +62,7 @@ __pypackages__/
 .env
 .venv
 env/
+planacad-env/
 venv/
 ENV/
 
