@@ -6,7 +6,3 @@ from django.views import generic
 
 def IndexView(request):    
     return render(request, 'index.html')
-
-
-def LoginView(request):    
-    return render(request, 'login.html')

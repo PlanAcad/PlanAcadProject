@@ -8,7 +8,7 @@ from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
-from planificaciones.funcionesDeVistas import viewSeccion1
+from planificaciones.views import viewSeccion1
 
 ##Define request for Planificacion   
 def NewPlanificacion(request, asignatura_id):  

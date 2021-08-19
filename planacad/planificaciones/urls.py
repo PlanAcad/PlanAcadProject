@@ -1,10 +1,10 @@
 from django.urls import path
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSeccion1
-from . import views
+from planificaciones.views import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSeccion1
+from .views.index import IndexView
 
 app_name = 'planificaciones'
 urlpatterns = [
-    path('', views.IndexView, name='index'),
+    path('', IndexView, name='index'),
     path('login', viewLogin.LoginView, name='login'),
 
     #Asignaturas
