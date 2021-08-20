@@ -18,5 +18,5 @@ class Seccion1(models.Model):
    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, null=True, blank=True) 
    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, null=True, blank=True) 
 
-   def __str__(self) -> str:
+   def __str__(self):
        return "%s, %s" % (self.carrera, self.asignatura)

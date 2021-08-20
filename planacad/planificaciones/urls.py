@@ -17,4 +17,7 @@ urlpatterns = [
 
     #Planificacion    
     path('planificacion/<int:id>', viewPlanificacion.PlanificacionDetailView, name='planificacionDetail'),
+
+    #Secciones
+    path('planificacion/<int:id_planificacion>/seccion1', viewSeccion1.Seccion1Update, name='seccion1'),
 ]
