@@ -1,54 +1,60 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
-<h1>PlanAcad</h1>
-<h2>Sección 1</h2>
+<h2 class="seccion__encabezado">Sección 1</h3>
+<div class="seccion__card">
+  <form
+    method="POST"
+    class="mt-6"
+    action="{% url 'planificaciones:seccion1' planificacion.id %}"
+  >
+    {% csrf_token %}
+    <label for="id_carrera">Carrera:</label>
+    <input type="text" disabled value="{{seccion1.carrera|default:""}}"
+    name="carrera" id="id_carrera" />
+  
+    <label for="id_departamento">Departamento</label><input type="text"
+    value="{{seccion1.departamento|default:""}}" name="departamento"
+    id="id_departamento" maxlength="50" />
+    <label for="id_areaBloque">Área/Bloque</label><input type="text"
+    value="{{seccion1.areaBloque|default:""}}" name="areaBloque"
+    id="id_areaBloque" maxlength="50" /><label for="id_porcentajeHorasenCarrera"
+      >Porcentaje de horas cátedra de la asignatura en la carrera:</label
+    ><input type="text" value="{{seccion1.porcentajeHorasenCarrera|default:""}}"
+    name="porcentajeHorasenCarrera" id="id_porcentajeHorasenCarrera"
+    maxlength="50" /> <label for="id_asignatura">Asignatura</label><input
+    type="text" disabled value="{{planificacion.asignatura|default:""}}"
+    name="asignatura" id="id_asignatura" maxlength="50" />
+  
+    <label for="id_porcentajeHorasenArea"
+      >Porcentaje de horas cátedra de la asignatura en el area:</label
+    ><input type="text" value="{{seccion1.porcentajeHorasenArea|default:""}}"
+    name="porcentajeHorasenArea" id="id_porcentajeHorasenArea" maxlength="50" />
+    <label for="id_nivel">Nivel:</label><input type="text"
+    value="{{seccion1.nivel|default:""}}"" name="nivel" id="id_nivel"
+    maxlength="50" /> <label for="id_cicloLectivo">Ciclo Lectivo</label><input
+    type="number" value="{{seccion1.cicloLectivo|default:""}}""
+    name="cicloLectivo" id="id_cicloLectivo" />
+    <label for="id_cargaHorariaTotal">Carga horaria total:</label
+    ><input
+      type="number"
+      name="cargaHorariaTotal"
+      id="id_cargaHorariaTotal"
+      step="any"
+    />
+    <label for="id_cargaHorariaSemanal">Carga horaria semanal:</label><input
+    type="number" value="{{seccion1.cargaHorariaSemanal|default:""}}"
+    name="cargaHorariaSemanal" id="id_cargaHorariaSemanal" step="any" />
+    <label for="id_cursado">Cursado:</label
+    ><input type="text" name="cursado" id="id_cursado" />
+  
+    <input type="submit" class="btn btn-primary" value="Guardar" />
+  </form>
+  </div>
 
-<form
-  method="POST"
-  class="mt-6"
-  action="{% url 'planificaciones:seccion1' planificacion.id %}"
->
-  {% csrf_token %}
-  <label for="id_carrera">Carrera:</label>
-  <input type="text" disabled value="{{seccion1.carrera|default:""}}"
-  name="carrera" id="id_carrera" />
+<div class="py-4"></div>
 
-  <label for="id_departamento">Departamento</label><input type="text"
-  value="{{seccion1.departamento|default:""}}" name="departamento"
-  id="id_departamento" maxlength="50" />
-  <label for="id_areaBloque">Área/Bloque</label><input type="text"
-  value="{{seccion1.areaBloque|default:""}}" name="areaBloque"
-  id="id_areaBloque" maxlength="50" /><label for="id_porcentajeHorasenCarrera"
-    >Porcentaje de horas cátedra de la asignatura en la carrera:</label
-  ><input type="text" value="{{seccion1.porcentajeHorasenCarrera|default:""}}"
-  name="porcentajeHorasenCarrera" id="id_porcentajeHorasenCarrera"
-  maxlength="50" /> <label for="id_asignatura">Asignatura</label><input
-  type="text" disabled value="{{planificacion.asignatura|default:""}}"
-  name="asignatura" id="id_asignatura" maxlength="50" />
+<h2 class="seccion__encabezado">Correcciones</h3>
+<div class="seccion__card">No posee correcciones.</div>
 
-  <label for="id_porcentajeHorasenArea"
-    >Porcentaje de horas cátedra de la asignatura en el area:</label
-  ><input type="text" value="{{seccion1.porcentajeHorasenArea|default:""}}"
-  name="porcentajeHorasenArea" id="id_porcentajeHorasenArea" maxlength="50" />
-  <label for="id_nivel">Nivel:</label><input type="text"
-  value="{{seccion1.nivel|default:""}}"" name="nivel" id="id_nivel"
-  maxlength="50" /> <label for="id_cicloLectivo">Ciclo Lectivo</label><input
-  type="number" value="{{seccion1.cicloLectivo|default:""}}""
-  name="cicloLectivo" id="id_cicloLectivo" />
-  <label for="id_cargaHorariaTotal">Carga horaria total:</label
-  ><input
-    type="number"
-    name="cargaHorariaTotal"
-    id="id_cargaHorariaTotal"
-    step="any"
-  />
-  <label for="id_cargaHorariaSemanal">Carga horaria semanal:</label><input
-  type="number" value="{{seccion1.cargaHorariaSemanal|default:""}}"
-  name="cargaHorariaSemanal" id="id_cargaHorariaSemanal" step="any" />
-  <label for="id_cursado">Cursado:</label
-  ><input type="text" name="cursado" id="id_cursado" />
-
-  <input type="submit" class="btn btn-primary" value="Guardar" />
-</form>
 
 {% endblock %}
