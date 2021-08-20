@@ -7,11 +7,6 @@ from planificaciones.formularios.formSeccion1 import  Seccion1Form
 ##Define request for Asignatura   
 def Seccion1New(asignatura_id, carrera_id):      
         form = Seccion1()  
-        # check whether it's valid:
-    
-        print("form valid")
-        # Creo una instancia y no lo guardo aun
-        
         # Asigno la asignatura y carrera, no hace falta ir a buscar el objeto
         form.asignatura_id = asignatura_id
         form.carrera_id = carrera_id

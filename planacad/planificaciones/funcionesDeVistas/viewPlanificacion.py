@@ -29,9 +29,6 @@ def PlanificacionNew(request, asignatura_id):
             seccion1 = viewSeccion1.Seccion1New(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
             seccion3 = viewSeccion3.Seccion3New()
             
-            print("seccion", seccion1)
-            print("seccion3", seccion3)
-            
             instance.seccion1_id = seccion1.id
             instance.seccion3_id = seccion3.id
             
