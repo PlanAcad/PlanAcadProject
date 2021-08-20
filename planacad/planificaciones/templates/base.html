@@ -1,16 +1,19 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <title>PlanAcad</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}" />
     <link rel="stylesheet" href="{% static 'styles/global.css' %}" />
   </head>
   <body>
-    <div class="container py-4">
-      {% block content %} replace me {% endblock %}
-    </div>
+    <div class="container">{% block content %} {% endblock %}</div>
+
+    <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
   </body>
 </html>
