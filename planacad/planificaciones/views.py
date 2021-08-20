@@ -8,5 +8,8 @@ def IndexView(request):
     return render(request, 'index.html')
 
 
+def ComponentesView(request):    
+    return render(request, 'componentes.html')
+
 def LoginView(request):    
     return render(request, 'login.html')
