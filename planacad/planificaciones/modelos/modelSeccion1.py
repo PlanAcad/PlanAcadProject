@@ -19,7 +19,7 @@ class Seccion1(models.Model):
     ('1','1er Cuatrimestre'),
     ('2','2do Cuatrimestre')
     ]
-   cursado = models.CharField( null=True, blank=True,choices=cursadoPosible, default="A")
+   cursado = models.CharField(max_length=1, null=True, blank=True,choices=cursadoPosible, default="A")
    
    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, null=True, blank=True) 
    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, null=True, blank=True) 
