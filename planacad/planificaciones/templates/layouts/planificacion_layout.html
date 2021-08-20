@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="d-flex flex-column min-vh-100">
+<div class="layout d-flex flex-column min-vh-100">
   <header class="pt-4 pb-4 border-bottom">
     <div class="container">
       <div class="row">
@@ -27,7 +27,10 @@
         {% include "iconos/arrow-left.html" with size=30 %}
       </button>
       <div class="row">
-        <aside class="col-3 py-3 px-2 show collapse" id="collapseSidebar">
+        <aside
+          class="layout__sidebar col-3 py-3 px-2 show collapse"
+          id="collapseSidebar"
+        >
           <h2 class="sr-only">Secciones</h2>
 
           <nav>
@@ -54,7 +57,9 @@
             </ol>
           </nav>
         </aside>
-        <main class="col">{% block seccion %} replace me {% endblock %}</main>
+        <main class="col seccion px-4">
+          {% block seccion %} replace me {% endblock %}
+        </main>
       </div>
     </div>
   </div>
