@@ -1,4 +1,5 @@
 from django.urls import path
+from django.shortcuts import render
 from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSeccion1
 from . import views
 
@@ -20,4 +21,6 @@ urlpatterns = [
 
     #Secciones
     path('planificacion/<int:id_planificacion>/seccion1', viewSeccion1.Seccion1Update, name='seccion1'),
+    #Componentes
+    path('componentes', views.ComponentesView, name='componentes'),
 ]
