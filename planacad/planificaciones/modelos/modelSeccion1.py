@@ -10,7 +10,7 @@ class Seccion1(models.Model):
    porcentajeHorasenCarrera =models.CharField(max_length=50, null=True, blank=True)
    porcentajeHorasenArea = models.CharField(max_length=50, null=True, blank=True)
    nivel = models.CharField(max_length=50, null=True, blank=True)
-   cicloLectivo = models.IntegerField(max_length=50, null=True, blank=True)
+   cicloLectivo = models.IntegerField( null=True, blank=True)
    cargaHorariaTotal = models.FloatField(max_length=50, null=True, blank=True)
    cargaHorariaSemanal = models.FloatField(max_length=50, null=True, blank=True)
    cursado = models.DateTimeField(max_length=50, null=True, blank=True)

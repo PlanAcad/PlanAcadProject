@@ -21,8 +21,8 @@ def NewTareasFunciones(request,categoria_id):
          form = TareasFuncionesForm()
       return render(request, 'planificacion/index.html', {'form': form})
 
-def TareasFuncionesView(request):  
-    situaciones = TareasFunciones.objects.all()  
+def TareasFuncionesView(request,categoria_id):  
+    situaciones = TareasFunciones.objects.get(categoria_id=categoria_id)  
     return render(request,"profesores/index.html",{'situaciones':situaciones})  
 
 def SituacionDetailView(request, id):  
