@@ -26,13 +26,19 @@ def NewDetalleProfesorCatedra(request,categoria_id,dedicacion_id,situacion_id):
     # redirect to a new URL:
     return  form
 
-def DetallesProfesorCatedraView(request):  
-    detallesProfesorCatedra = DetalleProfesorCatedra.objects.all()  
-    return render(request,"profesores/index.html",{'detallesProfesorCatedra':detallesProfesorCatedra})  
-
+def DetallesProfesorCatedraView(request,seccion2_id):
+    #seccion2 = Seccion2.objects.get(id=seccion2_id)  
+    #detallesProfesorCatedra = DetalleProfesorCatedra.objects.get(id=seccion2.detalleprofesorcatedra_id)  
+    #return render(request,"profesores/index.html",{'detallesProfesorCatedra':detallesProfesorCatedra})  
+    return
 def DetalleProfesorCatedraDetailView(request, id):  
-    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
-    return render(request,'profesores/detail.html', {'detalleProfesorCatedra':detalleProfesorCatedra})  
+    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)
+    detalleProfesorCatedra.situacion = Situacion.objects.get(id=detalleProfesorCatedra.situacion_id)
+    detalleProfesorCatedra.categoria = Situacion.objects.get(id=detalleProfesorCatedra.categoria_id)
+    detalleProfesorCatedra.dedicacion = Situacion.objects.get(id=detalleProfesorCatedra.dedicacion_id)
+    tareasFunciones = TareasFunciones.objects.filter(detalleProfesorCatedra = detalleProfesorCatedra)
+    return render(request,'profesores/detail.html', {'detalleProfesorCatedra':detalleProfesorCatedra,
+                                                    'tareasfunciones':tareasFunciones})  
  
 def DetalleProfesorCatedraUpdate(request, id):  
     detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  

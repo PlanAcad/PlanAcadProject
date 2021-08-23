@@ -1,5 +1,5 @@
 from django.db import models
-from modelCategoria import Categoria
+from planificaciones.modelos.modelCategoria import Categoria
 
 class TareasFunciones(models.Model): 
    id = models.AutoField(primary_key=True)
