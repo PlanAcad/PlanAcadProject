@@ -34,12 +34,12 @@ def DetallesProfesorCatedraView(request,seccion2_id):
 def DetalleProfesorCatedraDetailView(request, id):  
     detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)
     detalleProfesorCatedra.situacion = Situacion.objects.get(id=detalleProfesorCatedra.situacion_id)
-    detalleProfesorCatedra.categoria = Situacion.objects.get(id=detalleProfesorCatedra.categoria_id)
-    detalleProfesorCatedra.dedicacion = Situacion.objects.get(id=detalleProfesorCatedra.dedicacion_id)
-    tareasFunciones = TareasFunciones.objects.filter(detalleProfesorCatedra = detalleProfesorCatedra)
-    return render(request,'profesores/detail.html', {'detalleProfesorCatedra':detalleProfesorCatedra,
-                                                    'tareasfunciones':tareasFunciones})  
- 
+    detalleProfesorCatedra.categoria = Categoria.objects.get(id=detalleProfesorCatedra.categoria_id)
+    detalleProfesorCatedra.dedicacion = Dedicacion.objects.get(id=detalleProfesorCatedra.dedicacion_id)
+    tareasFunciones = TareasFunciones.objects.filter(detalleprofesorcatedra = detalleProfesorCatedra)
+    return render(request,'secciones/seccion2.html', {'detalleProfesorCatedra':detalleProfesorCatedra
+    ,'tareasfunciones':tareasFunciones})  
+
 def DetalleProfesorCatedraUpdate(request, id):  
     detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
     form = DetalleProfesorCatedraForm(request.POST, instance = detalleProfesorCatedra)  

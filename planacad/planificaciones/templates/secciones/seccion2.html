@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+
+{% if detalleProfesorCatedra %}
+<article>
+  <h2 class="py-4">{{detalleProfesorCatedra.categoria|default:""}}</h2>
+  <h2 class="py-4">{{detalleProfesorCatedra.dedicacion|default:""}}</h2>
+  <h2 class="py-4">{{detalleProfesorCatedra.situacion|default:""}}</h2>
+  <dl>
+    
+    <ul>
+      {% for tareafun in tareasfunciones %}
+      <li class="py-4">
+        <p>{{ tareafun.tareaFunciones }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    
+  </dl>
+</article>{% endif %}
+{% endblock %}

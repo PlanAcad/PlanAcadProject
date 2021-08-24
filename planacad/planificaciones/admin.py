@@ -9,6 +9,7 @@ from .modelos.modelCategoria import Categoria
 from .modelos.modelDedicacion import Dedicacion
 from .modelos.modelSituacion import Situacion
 from .modelos.modelTareasFunciones import TareasFunciones
+from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 
 
 
@@ -22,5 +23,6 @@ admin.site.register(Categoria)
 admin.site.register(Dedicacion)
 admin.site.register(Situacion)
 admin.site.register(TareasFunciones)
+admin.site.register(DetalleProfesorCatedra)
 
 
