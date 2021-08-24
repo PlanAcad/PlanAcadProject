@@ -6,6 +6,7 @@ from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorC
 from planificaciones.modelos.modelCategoria import Categoria
 from planificaciones.modelos.modelDedicacion import Dedicacion
 from planificaciones.modelos.modelSituacion import Situacion
+from planificaciones.modelos.modelProfesor import Profesor
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 
 ##Define request for Asignatura   
@@ -33,6 +34,7 @@ def DetallesProfesorCatedraView(request,seccion2_id):
     return
 def DetalleProfesorCatedraDetailView(request, id):  
     detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)
+    detalleProfesorCatedra.profesor = Profesor.objects.get(id=detalleProfesorCatedra.profesor_id)
     detalleProfesorCatedra.situacion = Situacion.objects.get(id=detalleProfesorCatedra.situacion_id)
     detalleProfesorCatedra.categoria = Categoria.objects.get(id=detalleProfesorCatedra.categoria_id)
     detalleProfesorCatedra.dedicacion = Dedicacion.objects.get(id=detalleProfesorCatedra.dedicacion_id)

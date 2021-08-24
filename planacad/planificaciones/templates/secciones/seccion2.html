@@ -2,6 +2,7 @@
 
 {% if detalleProfesorCatedra %}
 <article>
+  <h2 class="py-4">{{detalleProfesorCatedra.profesor.nombre|default:""}} {{detalleProfesorCatedra.profesor.apellido|default:""}}</h2>
   <h2 class="py-4">{{detalleProfesorCatedra.categoria|default:""}}</h2>
   <h2 class="py-4">{{detalleProfesorCatedra.dedicacion|default:""}}</h2>
   <h2 class="py-4">{{detalleProfesorCatedra.situacion|default:""}}</h2>
