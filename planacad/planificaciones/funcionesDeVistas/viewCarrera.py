@@ -19,11 +19,11 @@ def profesor(request):
 
 def CarrerasView(request):  
     carreras = Carrera.objects.all()  
-    return render(request,"profesores/index.html",{'carreras':carreras})  
+    return render(request,"",{'carreras':carreras})  
 
 def CarreraDetailView(request, id):  
     carrera = Carrera.objects.get(id=id)  
-    return render(request,'profesores/detail.html', {'carrera':carrera})  
+    return render(request,'', {'carrera':carrera})  
  
 def CarreraUpdate(request, id):  
     carrera = Carrera.objects.get(id=id)  

@@ -5,8 +5,9 @@ from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorC
 
 class TareasFunciones(models.Model): 
    id = models.AutoField(primary_key=True)
-   tareaFunciones = models.CharField(max_length=50) 
+   tarea_funcion = models.CharField(max_length=50) 
    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True, blank=True) 
-   detalleprofesorcatedra = models.ManyToManyField(DetalleProfesorCatedra)
+   detalle_profesor_catedra = models.ManyToManyField(DetalleProfesorCatedra)
+   
    def __str__(self) -> str:
-       return self.tareaFunciones
+       return self.tarea_funcion

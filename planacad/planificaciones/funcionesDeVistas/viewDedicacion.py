@@ -18,11 +18,11 @@ def NewDedicacion(request):
 
 def DedicacionesView(request):  
     dedicaciones = Dedicacion.objects.all()  
-    return render(request,"profesores/index.html",{'dedicaciones':dedicaciones})  
+    return render(request,"",{'dedicaciones':dedicaciones})  
 
 def DedicacionDetailView(request, id):  
     dedicacion = Dedicacion.objects.get(id=id)  
-    return render(request,'profesores/detail.html', {'dedicacion':dedicacion})  
+    return render(request,'', {'dedicacion':dedicacion})  
  
 def DedicacionUpdate(request, id):  
     dedicacion = Dedicacion.objects.get(id=id)  

@@ -23,11 +23,11 @@ def NewTareasFunciones(request,categoria_id):
 
 def TareasFuncionesView(request,categoria_id):  
     situaciones = TareasFunciones.objects.get(categoria_id=categoria_id)  
-    return render(request,"profesores/index.html",{'situaciones':situaciones})  
+    return render(request,"",{'situaciones':situaciones})  
 
 def SituacionDetailView(request, id):  
     situacion = TareasFunciones.objects.get(id=id)  
-    return render(request,'profesores/detail.html', {'situacion':situacion})  
+    return render(request,'', {'situacion':situacion})  
  
 def SituacionUpdate(request, id):  
     situacion = TareasFunciones.objects.get(id=id)  

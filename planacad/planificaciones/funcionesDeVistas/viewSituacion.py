@@ -18,11 +18,11 @@ def NewSituacion(request):
 
 def SituacionesView(request):  
     situaciones = Situacion.objects.all()  
-    return render(request,"profesores/index.html",{'situaciones':situaciones})  
+    return render(request,"",{'situaciones':situaciones})  
 
 def SituacionDetailView(request, id):  
     situacion = Situacion.objects.get(id=id)  
-    return render(request,'profesores/detail.html', {'situacion':situacion})  
+    return render(request,'', {'situacion':situacion})  
  
 def SituacionUpdate(request, id):  
     situacion = Situacion.objects.get(id=id)  

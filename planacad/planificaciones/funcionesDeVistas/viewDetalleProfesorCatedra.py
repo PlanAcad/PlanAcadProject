@@ -8,38 +8,33 @@ from planificaciones.modelos.modelDedicacion import Dedicacion
 from planificaciones.modelos.modelSituacion import Situacion
 from planificaciones.modelos.modelProfesor import Profesor
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
+from planificaciones.modelos.modelPlanificacion import Planificacion 
+
 
 ##Define request for Asignatura   
-def NewDetalleProfesorCatedra(request,categoria_id,dedicacion_id,situacion_id):  
+def NewDetalleProfesorCatedra(request,planificacion_id):  
     form = DetalleProfesorCatedra()  
     # check whether it's valid:
 
     print("form valid")
     # Asigno la asignatura y carrera, no hace falta ir a buscar el objeto
-    categoria = Categoria.objects.get(id=categoria_id)
-    form.categoria_id = categoria.id
-    dedicacion = Dedicacion.objects.get(id=dedicacion_id)
-    form.dedicacion_id = dedicacion.id
-    situacion = Situacion.objects.get(id=situacion_id)
-    form.situacion_id = situacion.id
+    planificacion = Planificacion.objects.get(id=planificacion_id)
+    form.planificacion_id = planificacion.id
     # Guardo el objeto definitivamente
     form.save()
     # redirect to a new URL:
     return  form
 
-def DetallesProfesorCatedraView(request,seccion2_id):
-    #seccion2 = Seccion2.objects.get(id=seccion2_id)  
-    #detallesProfesorCatedra = DetalleProfesorCatedra.objects.get(id=seccion2.detalleprofesorcatedra_id)  
-    #return render(request,"profesores/index.html",{'detallesProfesorCatedra':detallesProfesorCatedra})  
-    return
+def DetallesProfesorCatedraView(request,id):
+    planificacion = Planificacion.objects.get(id=id)  
+    detallesProfesorCatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+    return render(request,"secciones/detallesProfesorCatedra.html",{'detallesProfesorCatedra':detallesProfesorCatedra})  
+ 
+
 def DetalleProfesorCatedraDetailView(request, id):  
     detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)
-    detalleProfesorCatedra.profesor = Profesor.objects.get(id=detalleProfesorCatedra.profesor_id)
-    detalleProfesorCatedra.situacion = Situacion.objects.get(id=detalleProfesorCatedra.situacion_id)
-    detalleProfesorCatedra.categoria = Categoria.objects.get(id=detalleProfesorCatedra.categoria_id)
-    detalleProfesorCatedra.dedicacion = Dedicacion.objects.get(id=detalleProfesorCatedra.dedicacion_id)
     tareasFunciones = TareasFunciones.objects.filter(detalleprofesorcatedra = detalleProfesorCatedra)
-    return render(request,'secciones/seccion2.html', {'detalleProfesorCatedra':detalleProfesorCatedra
+    return render(request,'secciones/seccion2detail.html', {'detalleProfesorCatedra':detalleProfesorCatedra
     ,'tareasfunciones':tareasFunciones})  
 
 def DetalleProfesorCatedraUpdate(request, id):  

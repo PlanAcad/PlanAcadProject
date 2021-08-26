@@ -23,11 +23,11 @@ def NewSeccion1(asignatura_id, carrera_id):
 ##Este no se deberia usar pero bueno
 def Seccion1View(request):  
     secciones1 = Seccion1.objects.all()
-    return render(request,"profesores/index.html",{'secciones1':secciones1})  
+    return render(request,"",{'secciones1':secciones1})  
 
 def Seccion1DetailView(request, id):  
     seccion1 = Seccion1.objects.get(id=id)
-    return render(request,'profesores/detail.html', {'seccion1':seccion1})  
+    return render(request,'', {'seccion1':seccion1})  
  
 def Seccion1Update(request, id):  
     seccion1 = Seccion1.objects.get(id=id)  

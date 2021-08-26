@@ -18,11 +18,11 @@ def NewCategoria(request):
 
 def CategoriasView(request):  
     categorias = Categoria.objects.all()  
-    return render(request,"profesores/index.html",{'categorias':categorias})  
+    return render(request,"",{'categorias':categorias})  
 
 def CategoriaDetailView(request, id):  
     categoria = Categoria.objects.get(id=id)  
-    return render(request,'profesores/detail.html', {'categoria':categoria})  
+    return render(request,'', {'categoria':categoria})  
  
 def CategoriaUpdate(request, id):  
     categoria = Categoria.objects.get(id=id)  
