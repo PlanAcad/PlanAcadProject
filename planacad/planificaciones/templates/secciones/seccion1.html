@@ -21,8 +21,9 @@
         <tr>
           <td class="tg-dvpl"><label for="id_carrera">Carrera:</label></td>
           <td class="tg-0pky" colspan="3">
-            <input type="text" readonly value="{{seccion1.carrera|default:""}}"
-            name="carrera" id="id_carrera" />
+            <input type="text" hidden value="{{form.carrera.value|default:""}}"
+            name="carrera" id="id_carrera" /> <input type="text" readonly
+            value="{{seccion1.carrera|default:""}}" />
           </td>
         </tr>
 
@@ -63,9 +64,10 @@
             <label for="id_asignatura">Asignatura</label>
           </td>
           <td class="tg-0lax" colspan="3">
-            <input type="text" readonly
-            value="{{planificacion.asignatura|default:""}}" name="asignatura"
-            id="id_asignatura" maxlength="50" />
+            <input type="text" hidden
+            value="{{form.asignatura.value|default:""}}" name="asignatura"
+            id="id_asignatura" maxlength="50" /> <input type="text" readonly
+            value="{{planificacion.asignatura|default:""}}" maxlength="50" />
           </td>
         </tr>
         <tr>
@@ -143,7 +145,7 @@
         </tr>
       </tbody>
     </table>
-
+    {{form.errors}}
     <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
   </form>
 </div>

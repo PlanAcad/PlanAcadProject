@@ -25,14 +25,24 @@ def Seccion1New(asignatura_id, carrera_id):
 def Seccion1Update(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     seccion1 = Seccion1.objects.get(id=planificacion.seccion1_id)
-    form = Seccion1Form(request.POST, instance = seccion1)
     
     if request.method == 'POST':  
-        if form.is_valid():  
-            form.save()  
-            # Vuelvo a la misma página, parece que ambos funcionan
-            #return redirect('planificaciones:seccion1', id_planificacion)
-            return HttpResponseRedirect(reverse('planificaciones:seccion1', args=(id_planificacion,)))
+        form = Seccion1Form(request.POST)
+        if form.is_valid():
+            try:
+                form.save()  
+                # Vuelvo a la misma página
+                # TODO mensaje de éxito
+                print("ok")
+                return HttpResponseRedirect(reverse('planificaciones:seccion1', args=(id_planificacion,)))
+            except:
+                pass
+        else:
+            # TODO mensaje de error
+            print('error', form.errors)
+    else:
+        form = Seccion1Form(instance = seccion1)
+    
     return render(request, 'secciones/seccion1.html', {'planificacion': planificacion,'seccion1': seccion1, 'form': form}) 
 
 ## Estos de abajo no se usan
