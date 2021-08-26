@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from planificaciones.formularios.formSituacion import SituacionForm
 from planificaciones.modelos.modelSituacion import Situacion
 ##Define request for Asignatura   
-def NewSituacion(request):  
+def SituacionNew(request):  
     if request.method == "POST":  
         form = SituacionForm(request.POST)  
         if form.is_valid():  

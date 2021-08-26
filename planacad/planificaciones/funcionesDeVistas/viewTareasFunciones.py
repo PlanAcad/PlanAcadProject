@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from planificaciones.formularios.formTareasFunciones import TareasFuncionesForm
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 ##Define request for Asignatura   
-def NewTareasFunciones(request,categoria_id):
+def TareasFuncionesNew(request,categoria_id):
       form = TareasFuncionesForm(request.POST)
         # check whether it's valid:
       if form.is_valid():

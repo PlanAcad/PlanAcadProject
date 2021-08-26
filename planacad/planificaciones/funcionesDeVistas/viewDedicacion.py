@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from planificaciones.formularios.formDedicacion import DedicacionForm
 from planificaciones.modelos.modelDedicacion import Dedicacion
 ##Define request for Asignatura   
-def NewDedicacion(request):  
+def DedicacionNew(request):  
     if request.method == "POST":  
         form = DedicacionForm(request.POST)  
         if form.is_valid():  

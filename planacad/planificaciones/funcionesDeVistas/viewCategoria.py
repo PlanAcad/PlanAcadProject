@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from planificaciones.formularios.formCategoria import CategoriaForm
 from planificaciones.modelos.modelCategoria import Categoria
 ##Define request for Asignatura   
-def NewCategoria(request):  
+def CategoriaNew(request):  
     if request.method == "POST":  
         form = CategoriaForm(request.POST)  
         if form.is_valid():  

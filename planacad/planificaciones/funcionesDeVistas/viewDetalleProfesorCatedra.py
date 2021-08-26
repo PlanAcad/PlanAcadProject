@@ -3,10 +3,6 @@ from django.shortcuts import render, redirect
 ## import model and form
 from planificaciones.formularios.formDetalleProfesorCatedra import DetalleProfesorCatedraForm
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
-from planificaciones.modelos.modelCategoria import Categoria
-from planificaciones.modelos.modelDedicacion import Dedicacion
-from planificaciones.modelos.modelSituacion import Situacion
-from planificaciones.modelos.modelProfesor import Profesor
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 from planificaciones.modelos.modelPlanificacion import Planificacion 
 
@@ -27,25 +23,25 @@ def NewDetalleProfesorCatedra(request,planificacion_id):
 
 def DetallesProfesorCatedraView(request,id):
     planificacion = Planificacion.objects.get(id=id)  
-    detallesProfesorCatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
-    return render(request,"secciones/detallesProfesorCatedra.html",{'detallesProfesorCatedra':detallesProfesorCatedra})  
+    detalles_profesor_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+    return render(request,"secciones/detallesProfesorCatedra.html",{'detalles_profesor_catedra':detalles_profesor_catedra})  
  
 
 def DetalleProfesorCatedraDetailView(request, id):  
-    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)
-    tareasFunciones = TareasFunciones.objects.filter(detalleprofesorcatedra = detalleProfesorCatedra)
-    return render(request,'secciones/seccion2detail.html', {'detalleProfesorCatedra':detalleProfesorCatedra
-    ,'tareasfunciones':tareasFunciones})  
+    detalle_profesor_catedra = DetalleProfesorCatedra.objects.get(id=id)
+    tareas_funciones = TareasFunciones.objects.filter(detalle_profesor_catedra = detalle_profesor_catedra)
+    return render(request,'secciones/seccion2detail.html', {'detalle_profesor_catedra':detalle_profesor_catedra
+    ,'tareas_funciones':tareas_funciones})  
 
 def DetalleProfesorCatedraUpdate(request, id):  
-    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
-    form = DetalleProfesorCatedraForm(request.POST, instance = detalleProfesorCatedra)  
+    detalle_profesor_catedra = DetalleProfesorCatedra.objects.get(id=id)  
+    form = DetalleProfesorCatedraForm(request.POST, instance = detalle_profesor_catedra)  
     if form.is_valid():  
         form.save()  
         return redirect("/show")  
-    return render(request, 'edit.html', {'detalleProfesorCatedra': detalleProfesorCatedra})  
+    return render(request, 'edit.html', {'detalle_profesor_catedra': detalle_profesor_catedra})  
 
 def DetalleProfesorCatedraDestroy(request, id):  
-    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
-    detalleProfesorCatedra.delete()  
-    return detalleProfesorCatedra("/show") 
+    detalle_profesor_catedra = DetalleProfesorCatedra.objects.get(id=id)  
+    detalle_profesor_catedra.delete()  
+    return detalle_profesor_catedra("/show") 
