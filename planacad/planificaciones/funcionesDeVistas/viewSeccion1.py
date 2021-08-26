@@ -32,7 +32,7 @@ def Seccion1Update(request, id_planificacion):
             form.save()  
             # Vuelvo a la misma página, parece que ambos funcionan
             #return redirect('planificaciones:seccion1', id_planificacion)
-            return HttpResponseRedirect(request.path_info)
+            return HttpResponseRedirect(reverse('planificaciones:seccion1', args=(id_planificacion,)))
     return render(request, 'secciones/seccion1.html', {'planificacion': planificacion,'seccion1': seccion1, 'form': form}) 
 
 ## Estos de abajo no se usan
