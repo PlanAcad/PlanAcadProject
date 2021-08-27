@@ -23,7 +23,7 @@ def DetalleProfesorCatedraNew(request,planificacion_id):
 def DetallesProfesorCatedraView(request,id):
     planificacion = Planificacion.objects.get(id=id)  
     detallesprofesorcatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
-    return render(request,"secciones/detallesProfesorCatedra.html",{'detallesprofesorcatedra':detallesprofesorcatedra})  
+    return render(request,"secciones/detallesprofesorcatedra.html",{'detallesprofesorcatedra':detallesprofesorcatedra})  
  
 
 def DetalleProfesorCatedraDetailView(request, id):  
