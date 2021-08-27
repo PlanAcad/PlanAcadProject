@@ -8,7 +8,7 @@
   <form
     method="POST"
     class="mt-6"
-    action="{% url 'planificaciones:seccion3' planificacion.id %}"
+    action="{% url 'planificaciones:fundamentacion' planificacion.id %}"
   >
     {% csrf_token %} {{form.as_p}} {% if form.errors %}
     <div class="alert alert-error">{{form.errors}}</div>

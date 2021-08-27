@@ -32,7 +32,7 @@ def PlanificacionNew(request, asignatura_id):
             fundamentacion = viewFundamentacion.FundamentacionNew()
             
             # Vinculo los ids
-            instance.datosDescriptivos_id = datosDescriptivos.id
+            instance.datos_descriptivos_id = datosDescriptivos.id
             instance.fundamentacion_id = fundamentacion.id
             
             # Guardo el objeto definitivamente

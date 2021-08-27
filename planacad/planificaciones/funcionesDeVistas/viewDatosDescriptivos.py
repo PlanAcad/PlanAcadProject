@@ -24,13 +24,13 @@ def DatosDescriptivosNew(asignatura_id, carrera_id):
 # Si es un GET mando el form y los datos actuales
 def DatosDescriptivosUpdate(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    seccion1 = DatosDescriptivos.objects.get(id=planificacion.seccion1_id)
-    form = DatosDescriptivosForm(instance = seccion1)
+    datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
+    form = DatosDescriptivosForm(instance = datosDescriptivos)
     mensaje_exito = None
     mensaje_error = None
     
     if request.method == 'POST':  
-        form = DatosDescriptivosForm(request.POST,instance = seccion1)
+        form = DatosDescriptivosForm(request.POST,instance = datosDescriptivos)
         if form.is_valid():
             try:
                 form.save()                            
@@ -39,7 +39,7 @@ def DatosDescriptivosUpdate(request, id_planificacion):
             except:
                 mensaje_error = "No pudimos guardar los cambios."
     
-    return render(request, 'secciones/datosDescriptivos.html', {'planificacion': planificacion,'seccion1': seccion1, 'form': form, 'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error}) 
+    return render(request, 'secciones/datos-descriptivos.html', {'planificacion': planificacion,'datosDescriptivos': datosDescriptivos, 'form': form, 'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error}) 
 
 ## Estos de abajo no se usan
 def DatosDescriptivosView(request):  
