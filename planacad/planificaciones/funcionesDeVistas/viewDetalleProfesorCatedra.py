@@ -22,25 +22,25 @@ def DetalleProfesorCatedraNew(request,planificacion_id):
 
 def DetallesProfesorCatedraView(request,id):
     planificacion = Planificacion.objects.get(id=id)  
-    detallesprofesorcatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
-    return render(request,"secciones/detallesprofesorcatedra.html",{'detallesprofesorcatedra':detallesprofesorcatedra})  
+    detallesProfesorCatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+    return render(request,"secciones/detallesprofesorcatedra.html",{'detallesprofesorcatedra':detallesProfesorCatedra})  
  
 
 def DetalleProfesorCatedraDetailView(request, id):  
-    detalleprofesorcatedra = DetalleProfesorCatedra.objects.get(id=id)
-    tareasfunciones = TareasFunciones.objects.filter(detalle_profesor_catedra = detalleprofesorcatedra)
-    return render(request,'secciones/seccion2detail.html', {'detalle_profesor_catedra':detalleprofesorcatedra
+    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)
+    tareasfunciones = TareasFunciones.objects.filter(detalle_profesor_catedra = detalleProfesorCatedra)
+    return render(request,'secciones/seccion2detail.html', {'detalle_profesor_catedra':detalleProfesorCatedra
     ,'tareas_funciones':tareasfunciones})  
 
 def DetalleProfesorCatedraUpdate(request, id):  
-    detalleprofesorcatedra = DetalleProfesorCatedra.objects.get(id=id)  
-    form = DetalleProfesorCatedraForm(request.POST, instance = detalleprofesorcatedra)  
+    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
+    form = DetalleProfesorCatedraForm(request.POST, instance = detalleProfesorCatedra)  
     if form.is_valid():  
         form.save()  
         return redirect("/show")  
-    return render(request, 'edit.html', {'detalleprofesorcatedra': detalleprofesorcatedra})  
+    return render(request, 'edit.html', {'detalleProfesorCatedra': detalleProfesorCatedra})  
 
 def DetalleProfesorCatedraDestroy(request, id):  
-    detalleprofesorcatedra = DetalleProfesorCatedra.objects.get(id=id)  
-    detalleprofesorcatedra.delete()  
-    return detalleprofesorcatedra("/show") 
+    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
+    detalleProfesorCatedra.delete()  
+    return detalleProfesorCatedra("/show") 
