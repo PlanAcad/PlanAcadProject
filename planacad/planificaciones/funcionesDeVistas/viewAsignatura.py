@@ -9,7 +9,7 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
 
 ##Define request for Asignatura   
-def AsignaturaNew(request):  
+def asignatura(request):  
     if request.method == "POST":  
         form = AsignaturaForm(request.POST)  
         if form.is_valid():  

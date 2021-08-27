@@ -9,10 +9,9 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from planificaciones.funcionesDeVistas import viewSeccion1
-from planificaciones.funcionesDeVistas import viewSeccion3
 
 ##Define request for Planificacion   
-def PlanificacionNew(request, asignatura_id):  
+def NewPlanificacion(request, asignatura_id):  
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -25,16 +24,10 @@ def PlanificacionNew(request, asignatura_id):
             # Asigno la asignatura, no hace falta ir a buscar el objeto
             instance.asignatura_id = asignatura_id
             # Obtengo el id de carrera 
-            asignatura = Asignatura.objects.get(id=asignatura_id) 
-
-            # Creo secciones vacías           
-            seccion1 = viewSeccion1.Seccion1New(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
-            seccion3 = viewSeccion3.Seccion3New()
-            
-            # Vinculo los ids
+            asignatura = Asignatura.objects.get(id=asignatura_id)            
+            seccion1 = viewSeccion1.NewSeccion1(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
+            print("seccion", seccion1)
             instance.seccion1_id = seccion1.id
-            instance.seccion3_id = seccion3.id
-            
             # Guardo el objeto definitivamente
             instance.save()
             # redirect to a new URL:

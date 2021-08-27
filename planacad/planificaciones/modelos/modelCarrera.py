@@ -4,5 +4,5 @@ class Carrera(models.Model):
    id = models.AutoField(primary_key=True) 
    nombreCarrera = models.CharField(max_length=50)
 
-   def __str__(self):
+   def __str__(self) -> str:
        return self.nombreCarrera
