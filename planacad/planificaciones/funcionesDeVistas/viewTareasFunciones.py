@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect
 ## import model and form
 from planificaciones.formularios.formTareasFunciones import TareasFuncionesForm
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
+from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
+
 ##Define request for Asignatura   
-def TareasFuncionesNew(request,categoria_id):
+def TareasFuncionesNew(request,categoria_id,detalle_profesor_catedra_id):
       form = TareasFuncionesForm(request.POST)
         # check whether it's valid:
       if form.is_valid():
@@ -15,6 +17,8 @@ def TareasFuncionesNew(request,categoria_id):
             # Asigno la asignatura, no hace falta ir a buscar el objeto
             categoria = Categoria.objects.get(id=categoria_id)
             instance.categoria_id = categoria.id
+            detalleprofesorcatedra = DetalleProfesorCatedra.objects.get(id=detalle_profesor_catedra_id)
+            instance.detalle_profesor_catedra.add(detalleprofesorcatedra)
             # Guardo el objeto definitivamente
             instance.save()
       else:
