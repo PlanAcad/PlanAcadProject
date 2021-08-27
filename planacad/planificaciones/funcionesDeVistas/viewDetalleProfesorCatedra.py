@@ -8,10 +8,9 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 
 
 ##Define request for Asignatura   
-def NewDetalleProfesorCatedra(request,planificacion_id):  
+def DetalleProfesorCatedraNew(request,planificacion_id):  
     form = DetalleProfesorCatedra()  
     # check whether it's valid:
-
     print("form valid")
     # Asigno la asignatura y carrera, no hace falta ir a buscar el objeto
     planificacion = Planificacion.objects.get(id=planificacion_id)
