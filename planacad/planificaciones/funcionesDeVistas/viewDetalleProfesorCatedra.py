@@ -28,9 +28,9 @@ def DetallesProfesorCatedraView(request,id):
 
 def DetalleProfesorCatedraDetailView(request, id):  
     detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)
-    tareasfunciones = TareasFunciones.objects.filter(detalle_profesor_catedra = detalleProfesorCatedra)
+    tareasFunciones = TareasFunciones.objects.filter(detalle_profesor_catedra = detalleProfesorCatedra)
     return render(request,'secciones/seccion2detail.html', {'detalle_profesor_catedra':detalleProfesorCatedra
-    ,'tareas_funciones':tareasfunciones})  
+    ,'tareas_funciones':tareasFunciones})  
 
 def DetalleProfesorCatedraUpdate(request, id):  
     detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
