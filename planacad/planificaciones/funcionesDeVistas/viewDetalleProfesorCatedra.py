@@ -22,25 +22,25 @@ def DetalleProfesorCatedraNew(request,planificacion_id):
 
 def DetallesProfesorCatedraView(request,id):
     planificacion = Planificacion.objects.get(id=id)  
-    detalles_profesor_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
-    return render(request,"secciones/detallesProfesorCatedra.html",{'detalles_profesor_catedra':detalles_profesor_catedra})  
+    detallesprofesorcatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+    return render(request,"secciones/detallesProfesorCatedra.html",{'detallesprofesorcatedra':detallesprofesorcatedra})  
  
 
 def DetalleProfesorCatedraDetailView(request, id):  
-    detalle_profesor_catedra = DetalleProfesorCatedra.objects.get(id=id)
-    tareas_funciones = TareasFunciones.objects.filter(detalle_profesor_catedra = detalle_profesor_catedra)
-    return render(request,'secciones/seccion2detail.html', {'detalle_profesor_catedra':detalle_profesor_catedra
-    ,'tareas_funciones':tareas_funciones})  
+    detalleprofesorcatedra = DetalleProfesorCatedra.objects.get(id=id)
+    tareasfunciones = TareasFunciones.objects.filter(detalle_profesor_catedra = detalleprofesorcatedra)
+    return render(request,'secciones/seccion2detail.html', {'detalle_profesor_catedra':detalleprofesorcatedra
+    ,'tareas_funciones':tareasfunciones})  
 
 def DetalleProfesorCatedraUpdate(request, id):  
-    detalle_profesor_catedra = DetalleProfesorCatedra.objects.get(id=id)  
-    form = DetalleProfesorCatedraForm(request.POST, instance = detalle_profesor_catedra)  
+    detalleprofesorcatedra = DetalleProfesorCatedra.objects.get(id=id)  
+    form = DetalleProfesorCatedraForm(request.POST, instance = detalleprofesorcatedra)  
     if form.is_valid():  
         form.save()  
         return redirect("/show")  
-    return render(request, 'edit.html', {'detalle_profesor_catedra': detalle_profesor_catedra})  
+    return render(request, 'edit.html', {'detalleprofesorcatedra': detalleprofesorcatedra})  
 
 def DetalleProfesorCatedraDestroy(request, id):  
-    detalle_profesor_catedra = DetalleProfesorCatedra.objects.get(id=id)  
-    detalle_profesor_catedra.delete()  
-    return detalle_profesor_catedra("/show") 
+    detalleprofesorcatedra = DetalleProfesorCatedra.objects.get(id=id)  
+    detalleprofesorcatedra.delete()  
+    return detalleprofesorcatedra("/show") 

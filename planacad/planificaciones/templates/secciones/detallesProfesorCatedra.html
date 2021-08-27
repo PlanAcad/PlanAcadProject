@@ -1,18 +1,18 @@
 {% extends 'base.html' %} {% block content %}
 
-{% if detalles_profesor_catedra %}
+{% if detallesprofesorcatedra %}
 <article>
   
-  {% for detalle_profesor_catedra in detalles_profesor_catedra %}
-  <h2 class="py-4">{{detalle_profesor_catedra.profesor.nombre|default:""}} {{detalle_profesor_catedra.profesor.apellido|default:""}}</h2>
-  <h2 class="py-4">{{detalle_profesor_catedra.categoria|default:""}}</h2>
-  <h2 class="py-4">{{detalle_profesor_catedra.dedicacion|default:""}}</h2>
-  <h2 class="py-4">{{detalle_profesor_catedra.situacion|default:""}}</h2>
+  {% for detalleprofesorcatedra in detallesprofesorcatedra %}
+  <h2 class="py-4">{{detalleprofesorcatedra.profesor.nombre|default:""}} {{detalleprofesorcatedra.profesor.apellido|default:""}}</h2>
+  <h2 class="py-4">{{detalleprofesorcatedra.categoria|default:""}}</h2>
+  <h2 class="py-4">{{detalleprofesorcatedra.dedicacion|default:""}}</h2>
+  <h2 class="py-4">{{detalleprofesorcatedra.situacion|default:""}}</h2>
   <dl>
     <ul>
-      {% for tarea_funcion in detalle_profesor_catedra.tareasfunciones_set.all %}
+      {% for tareafuncion in detalleprofesorcatedra.tareasfunciones_set.all %}
       <li class="py-4">
-        <p>{{ tarea_funcion.tarea_funcion }}</p>
+        <p>{{ tareafuncion.tarea_funcion }}</p>
       </li>
       {% endfor %}
     </ul>
