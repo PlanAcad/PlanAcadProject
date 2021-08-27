@@ -12,10 +12,10 @@
 </ol>
 {% endif %} {% if asignatura %}
 
-<h2 class="py-4">{{ asignatura.nombreMateria }}</h2>
+<h2 class="py-4">{{ asignatura.nombre_materia }}</h2>
 <dl>
   <dt>Carrera:</dt>
-  <dd>{{ carrera.nombreCarrera }}</dd>
+  <dd>{{ carrera.nombre_carrera }}</dd>
 </dl>
 
 <form action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
@@ -30,8 +30,8 @@
 <ul>
   {% for planificacion in planificaciones %}
   <li class="py-4">
-    <a href="/planificacion/{{ planificacion.id }}/seccion1"
-      >{{planificacion.id}} {{ planificacion.fechaCreacion }}</a
+    <a href="/planificacion/{{ planificacion.id }}/datosDescriptivos"
+      >{{planificacion.id}} {{ planificacion.fecha_creacion }}</a
     >
   </li>
   {% endfor %}

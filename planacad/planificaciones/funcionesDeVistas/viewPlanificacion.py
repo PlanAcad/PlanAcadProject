@@ -8,8 +8,8 @@ from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
-from planificaciones.funcionesDeVistas import viewSeccion1
-from planificaciones.funcionesDeVistas import viewSeccion3
+from planificaciones.funcionesDeVistas import viewDatosDescriptivos
+from planificaciones.funcionesDeVistas import viewFundamentacion
 
 ##Define request for Planificacion   
 def PlanificacionNew(request, asignatura_id):  
@@ -28,12 +28,12 @@ def PlanificacionNew(request, asignatura_id):
             asignatura = Asignatura.objects.get(id=asignatura_id) 
 
             # Creo secciones vacías           
-            seccion1 = viewSeccion1.Seccion1New(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
-            seccion3 = viewSeccion3.Seccion3New()
+            datosDescriptivos = viewDatosDescriptivos.DatosDescriptivosNew(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
+            fundamentacion = viewFundamentacion.FundamentacionNew()
             
             # Vinculo los ids
-            instance.seccion1_id = seccion1.id
-            instance.seccion3_id = seccion3.id
+            instance.datosDescriptivos_id = datosDescriptivos.id
+            instance.fundamentacion_id = fundamentacion.id
             
             # Guardo el objeto definitivamente
             instance.save()
