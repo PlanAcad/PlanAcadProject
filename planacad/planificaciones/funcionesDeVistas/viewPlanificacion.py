@@ -25,10 +25,13 @@ def PlanificacionNew(request, asignatura_id):
             # Asigno la asignatura, no hace falta ir a buscar el objeto
             instance.asignatura_id = asignatura_id
             # Obtengo el id de carrera 
-            asignatura = Asignatura.objects.get(id=asignatura_id)            
+            asignatura = Asignatura.objects.get(id=asignatura_id) 
+
+            # Creo secciones vacías           
             seccion1 = viewSeccion1.Seccion1New(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
             seccion3 = viewSeccion3.Seccion3New()
             
+            # Vinculo los ids
             instance.seccion1_id = seccion1.id
             instance.seccion3_id = seccion3.id
             

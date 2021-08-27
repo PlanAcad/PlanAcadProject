@@ -2,13 +2,15 @@
 
 <h2 class="seccion__encabezado">Sección 1</h2>
 <div class="seccion__card">
+  {% if mensaje_exito %}
+  <div class="alert alert-success">{{mensaje_exito}}</div>
+  {% endif %}
   <form
     method="POST"
     class="mt-6"
     action="{% url 'planificaciones:seccion1' planificacion.id %}"
   >
-    {% csrf_token %}
-
+    {% csrf_token %} {{form.as_p}} {% comment %}
     <table class="seccion__table">
       <colgroup>
         <col style="width: 200px" />
@@ -145,7 +147,7 @@
         </tr>
       </tbody>
     </table>
-    {{form.errors}}
+    {% endcomment %} {{form.errors}}
     <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
   </form>
 </div>

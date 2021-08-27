@@ -9,5 +9,4 @@ class Seccion1Form(forms.ModelForm):
     ], widget=forms.RadioSelect())
     class Meta:  
         model = Seccion1  
-        fields = "__all__"
-        
+        exclude = ['carrera', 'asignatura']        

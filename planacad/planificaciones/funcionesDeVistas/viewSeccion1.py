@@ -25,25 +25,21 @@ def Seccion1New(asignatura_id, carrera_id):
 def Seccion1Update(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     seccion1 = Seccion1.objects.get(id=planificacion.seccion1_id)
+    form = Seccion1Form(instance = seccion1)
+    mensaje_exito = None
+    mensaje_error = None
     
     if request.method == 'POST':  
-        form = Seccion1Form(request.POST)
+        form = Seccion1Form(request.POST,instance = seccion1)
         if form.is_valid():
             try:
-                form.save()  
-                # Vuelvo a la misma página
-                # TODO mensaje de éxito
-                print("ok")
-                return HttpResponseRedirect(reverse('planificaciones:seccion1', args=(id_planificacion,)))
+                form.save()                            
+                mensaje_exito = "Guardamos los cambios correctamente."
+               
             except:
-                pass
-        else:
-            # TODO mensaje de error
-            print('error', form.errors)
-    else:
-        form = Seccion1Form(instance = seccion1)
+                mensaje_error = "No pudimos guardar los cambios."
     
-    return render(request, 'secciones/seccion1.html', {'planificacion': planificacion,'seccion1': seccion1, 'form': form}) 
+    return render(request, 'secciones/seccion1.html', {'planificacion': planificacion,'seccion1': seccion1, 'form': form, 'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error}) 
 
 ## Estos de abajo no se usan
 def Seccion1View(request):  
