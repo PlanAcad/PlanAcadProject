@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from planificaciones.formularios.formCarrera import CarreraForm
 from planificaciones.modelos.modelCarrera import Carrera
 ##Define request for Asignatura   
-def profesor(request):  
+def CarreraNew(request):  
     if request.method == "POST":  
         form = CarreraForm(request.POST)  
         if form.is_valid():  

@@ -1,0 +1,162 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado">Sección 1</h2>
+<div class="seccion__card">
+  {% if mensaje_exito %}
+  <div class="alert alert-success">{{mensaje_exito}}</div>
+  {% endif %}
+  <form
+    method="POST"
+    class="mt-6"
+    action="{% url 'planificaciones:seccion1' planificacion.id %}"
+  >
+    {% csrf_token %} {{form.as_p}} {% comment %}
+    <table class="seccion__table">
+      <colgroup>
+        <col style="width: 200px" />
+        <col style="width: 300px" />
+        <col style="width: 200px" />
+        <col style="width: 200px" />
+      </colgroup>
+
+      <tbody>
+        <tr>
+          <td class="tg-dvpl"><label for="id_carrera">Carrera:</label></td>
+          <td class="tg-0pky" colspan="3">
+            <input type="text" hidden value="{{form.carrera.value|default:""}}"
+            name="carrera" id="id_carrera" /> <input type="text" readonly
+            value="{{seccion1.carrera|default:""}}" />
+          </td>
+        </tr>
+
+        <tr>
+          <td class="tg-dvpl">
+            <label for="id_departamento">Departamento</label>
+          </td>
+          <td class="tg-0pky" colspan="3">
+            <input type="text" value="{{seccion1.departamento|default:""}}"
+            name="departamento" id="id_departamento" maxlength="50" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-dvpl" rowspan="2">
+            <label for="id_areaBloque">Área/Bloque</label>
+          </td>
+          <td class="tg-0pky" colspan="3">
+            <input type="text" value="{{seccion1.areaBloque|default:""}}"
+            name="areaBloque" id="id_areaBloque" maxlength="50" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-0pky" colspan="2">
+            <label for="id_porcentajeHorasenCarrera"
+              >Porcentaje de horas cátedra de la asignatura en la
+              carrera:</label
+            >
+          </td>
+          <td class="tg-0pky">
+            <input type="text"
+            value="{{seccion1.porcentajeHorasenCarrera|default:""}}"
+            name="porcentajeHorasenCarrera" id="id_porcentajeHorasenCarrera"
+            maxlength="50" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-lqy6" rowspan="2">
+            <label for="id_asignatura">Asignatura</label>
+          </td>
+          <td class="tg-0lax" colspan="3">
+            <input type="text" hidden
+            value="{{form.asignatura.value|default:""}}" name="asignatura"
+            id="id_asignatura" maxlength="50" /> <input type="text" readonly
+            value="{{planificacion.asignatura|default:""}}" maxlength="50" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-0lax" colspan="2">
+            <label for="id_porcentajeHorasenArea"
+              >Porcentaje de horas cátedra de la asignatura en el área:</label
+            >
+          </td>
+          <td class="tg-0lax">
+            <input type="text"
+            value="{{seccion1.porcentajeHorasenArea|default:""}}"
+            name="porcentajeHorasenArea" id="id_porcentajeHorasenArea"
+            maxlength="50" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-dvpl"><label for="id_nivel">Nivel:</label></td>
+          <td class="tg-0pky">
+            <input type="text" value="{{seccion1.nivel|default:""}}""
+            name="nivel" id="id_nivel" maxlength="50" />
+          </td>
+          <td class="tg-0pky">
+            <label for="id_cicloLectivo">Ciclo Lectivo</label>
+          </td>
+          <td class="tg-0pky">
+            <input type="number" value="{{seccion1.cicloLectivo|default:""}}""
+            name="cicloLectivo" id="id_cicloLectivo" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-dvpl">
+            <label for="id_cargaHorariaTotal">Carga horaria total:</label>
+          </td>
+          <td class="tg-0pky">
+            <input type="number"
+            value="{{seccion1.cargaHorariaTotal|default:""}}""
+            name="cargaHorariaTotal" id="id_cargaHorariaTotal" step="1" />
+          </td>
+          <td class="tg-0pky">
+            <label for="id_cargaHorariaSemanal">Carga horaria semanal:</label>
+          </td>
+          <td class="tg-0pky">
+            <input type="number"
+            value="{{seccion1.cargaHorariaSemanal|default:""}}"
+            name="cargaHorariaSemanal" id="id_cargaHorariaSemanal" step="1" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-dvpl"><label for="id_cursado">Cursado:</label></td>
+          <td class="tg-0pky" colspan="3">
+            <ul id="id_cursado">
+              <li>
+                <label for="id_cursado_0"
+                  ><input type="radio" name="cursado" value="A"
+                  id="id_cursado_0" required="" {% if seccion1.cursado == "A" %}
+                  checked {% endif %}> Anual</label
+                >
+              </li>
+              <li>
+                <label for="id_cursado_1"
+                  ><input type="radio" name="cursado" value="1"
+                  id="id_cursado_1" required="" {% if seccion1.cursado == "1" %}
+                  checked {% endif %}> 1er Cuatrimestre</label
+                >
+              </li>
+              <li>
+                <label for="id_cursado_2"
+                  ><input type="radio" name="cursado" value="2"
+                  id="id_cursado_2" required="" {% if seccion1.cursado == "2" %}
+                  checked {% endif %} > 2do Cuatrimestre</label
+                >
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    {% endcomment %} {% if form.errors %}
+    <div class="alert alert-error">{{form.errors}}</div>
+    {% endif %}
+    <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
+  </form>
+</div>
+
+<div class="py-4"></div>
+
+<h2 class="seccion__encabezado">Correcciones</h2>
+<div class="seccion__card">No posee correcciones.</div>
+
+{% endblock %}
