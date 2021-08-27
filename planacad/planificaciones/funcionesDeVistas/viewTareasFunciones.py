@@ -26,7 +26,7 @@ def TareasFuncionesNew(request,categoria_id,detalle_profesor_catedra_id):
       return render(request, 'planificacion/index.html', {'form': form})
 
 def TareasFuncionesView(request,categoria_id):  
-    situaciones = TareasFunciones.objects.get(categoria_id=categoria_id)  
+    situaciones = TareasFunciones.objects.filter(categoria_id=categoria_id)  
     return render(request,"",{'situaciones':situaciones})  
 
 def SituacionDetailView(request, id):  
