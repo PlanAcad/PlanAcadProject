@@ -1,6 +1,6 @@
 from django.db import models
 
-class Seccion3(models.Model): 
+class Fundamentacion(models.Model): 
    id = models.AutoField(primary_key=True) 
    fundamentos = models.CharField(max_length=6000)
 
