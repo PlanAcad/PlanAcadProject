@@ -147,7 +147,9 @@
         </tr>
       </tbody>
     </table>
-    {% endcomment %} {{form.errors}}
+    {% endcomment %} {% if form.errors %}
+    <div class="alert alert-error">{{form.errors}}</div>
+    {% endif %}
     <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
   </form>
 </div>
