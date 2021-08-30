@@ -10,7 +10,7 @@ from .modelos.modelDedicacion import Dedicacion
 from .modelos.modelSituacion import Situacion
 from .modelos.modelTareasFunciones import TareasFunciones
 from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
-
+from .modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizaje
 
 
 # Register your models here.
@@ -24,5 +24,7 @@ admin.site.register(Dedicacion)
 admin.site.register(Situacion)
 admin.site.register(TareasFunciones)
 admin.site.register(DetalleProfesorCatedra)
+admin.site.register(ResultadoDeAprendizaje)
+
 
 
