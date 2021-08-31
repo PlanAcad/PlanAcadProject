@@ -77,4 +77,5 @@ def SituacionDestroy(request, id):
     except:
          mensaje_error = ""  
       
-    return tareasFunciones("/show")  
+    return tareasFunciones("/show",{'mensaje_error': mensaje_error,
+    'mensaje_exito':mensaje_exito})  
