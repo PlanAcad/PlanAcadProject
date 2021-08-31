@@ -9,6 +9,7 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 
 ##Define request for Asignatura   
 def DetalleProfesorCatedraNew(request,planificacion_id):
+    mensaje_exito = None
     mensaje_error = None
     if request.method == "POST":  
         form = DetalleProfesorCatedraForm(request.POST)  
@@ -18,13 +19,15 @@ def DetalleProfesorCatedraNew(request,planificacion_id):
                 planificacion = Planificacion.objects.get(id=planificacion_id)
                 form.planificacion_id=planificacion.id
                 #Guardo
-                form.save()  
+                form.save()
+                mensaje_exito=""  
                 return redirect('/show')  
             except:  
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
         form = DetalleProfesorCatedraForm()  
-    return render(request,'index.html',{'form':form, 'mensaje_error': mensaje_error}) 
+    return render(request,'index.html',{'form':form, 'mensaje_error': mensaje_error,
+    'mensaje_exito':mensaje_exito}) 
   
 def DetallesProfesorCatedraView(request,id):
     mensaje_error = None
@@ -50,15 +53,17 @@ def DetalleProfesorCatedraDetailView(request, id):
 def DetalleProfesorCatedraUpdate(request, id):  
     mensaje_exito = None
     mensaje_error = None
-    detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
-    form = DetalleProfesorCatedraForm(request.POST, instance = detalleProfesorCatedra)  
-    if form.is_valid():  
-     try:
-         form.save()                            
-         mensaje_exito = "Guardamos los cambios correctamente."        
-     except:
-         mensaje_error = "No pudimos guardar los cambios."
- 
+    try:
+        detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
+        form = DetalleProfesorCatedraForm(request.POST, instance = detalleProfesorCatedra)  
+        if form.is_valid():  
+            try:
+                form.save()                            
+                mensaje_exito = "Guardamos los cambios correctamente."        
+            except:
+                mensaje_error = "No pudimos guardar los cambios."
+    except:
+        mensaje_error = ""
     return render(request, 'edit.html', {'detalleProfesorCatedra': detalleProfesorCatedra,'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error})  
 
 def DetalleProfesorCatedraDestroy(request, id):
