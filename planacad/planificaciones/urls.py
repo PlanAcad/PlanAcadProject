@@ -1,5 +1,5 @@
 from django.urls import path
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSeccion1,viewDetalleProfesorCatedra
+from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSeccion1,viewDetalleProfesorCatedra,viewResultadoDeAprendizaje
 from . import views
 
 app_name = 'planificaciones'
@@ -20,4 +20,8 @@ urlpatterns = [
     
     #Seccion2    
     path('detalles-profesor-catedra/<int:id>', viewDetalleProfesorCatedra.DetallesProfesorCatedraView, name='detallesprofesorcatedra'),
+
+    #Seccion4    
+    path('resultados-de-aprendizaje/<int:planificacion_id>', viewResultadoDeAprendizaje.ResultadoDeAprendizajeViewbyPlanificacion, name='resultadosDeAprendizajes'),
+
 ]

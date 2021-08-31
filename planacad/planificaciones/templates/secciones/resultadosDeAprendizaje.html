@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}
+
+{% if resultadosDeAprendizajes %}
+<article>
+  
+  <h2 class="py-4">RA</h2>
+  <dl>
+    <ul>
+      {% for item in resultadosDeAprendizajes %}
+        <li class="py-4">
+            <p>{{item.resultado|default:""}}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </dl>
+</article>{% endif %}
+{% endblock %}

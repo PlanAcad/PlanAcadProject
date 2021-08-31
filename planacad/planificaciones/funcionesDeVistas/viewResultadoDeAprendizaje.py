@@ -36,7 +36,7 @@ def ResultadoDeAprendizajeViewbyPlanificacion(request,planificacion_id):
          resultadosDeAprendizajes = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
     except:
          mensaje_error = "No pudimos obtener los datos correctamente"    
-    return render(request,"profesores/index.html",{'resultadosDeAprendizajes':resultadosDeAprendizajes, 'mensaje_error': mensaje_error})  
+    return render(request,"secciones/resultadosDeAprendizaje.html",{'resultadosDeAprendizajes':resultadosDeAprendizajes, 'mensaje_error': mensaje_error})  
 
 def ResultadoDeAprendizajeViewbyAsignatura(request, asignatura_id): 
     mensaje_error = None 
