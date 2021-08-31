@@ -1,4 +1,3 @@
-from planificaciones.funcionesDeVistas.viewCarrera import profesor
 from django.db import models
 from planificaciones.modelos.modelCategoria import Categoria
 from planificaciones.modelos.modelDedicacion import Dedicacion

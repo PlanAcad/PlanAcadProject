@@ -1,5 +1,5 @@
 from django.urls import path
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSeccion1,viewDetalleProfesorCatedra,viewResultadoDeAprendizaje
+from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra,viewResultadoDeAprendizaje
 from django.shortcuts import render
 from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewDatosDescriptivos, viewFundamentacion
 from . import views
