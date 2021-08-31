@@ -11,6 +11,9 @@ from .modelos.modelSituacion import Situacion
 from .modelos.modelTareasFunciones import TareasFunciones
 from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 from .modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizaje
+from .modelos.modelDatosDescriptivos import DatosDescriptivos
+from .modelos.modelFundamentacion import Fundamentacion
+
 
 
 # Register your models here.
@@ -27,4 +30,6 @@ admin.site.register(DetalleProfesorCatedra)
 admin.site.register(ResultadoDeAprendizaje)
 
 
+admin.site.register(DatosDescriptivos)
+admin.site.register(Fundamentacion)
 
