@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %}
+
+{% if libros %}
+<article>
+  
+  <dl>
+    <ul>
+      {% for item in libros %}
+      <li class="py-4">
+        <p>{{ item.autores}}</p>
+        <p>{{ item.año_de_publicacion}}</p>
+        <p>{{ item.capitulos}}</p>
+        <p>{{ item.editores}}</p>
+        <p>{{ item.titulo_libro}}</p>
+        <p>{{ item.ubicacion}}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </dl>
+</article>{% endif %}
+{% endblock %}

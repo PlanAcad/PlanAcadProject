@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+
+{% if librosWeb %}
+<article>
+  
+  <dl>
+    <ul>
+      {% for item in librosWeb %}
+      <li class="py-4">
+        <p>{{ item.autores}}</p>
+        <p>{{ item.fecha_de_publicacion}}</p>
+        <p>{{ item.titulo}}</p>
+        <p>{{ item.nombre_pagina}}</p>
+        <p>{{ item.url}}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </dl>
+</article>{% endif %}
+{% endblock %}

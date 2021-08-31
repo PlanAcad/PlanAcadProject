@@ -37,7 +37,7 @@ def LibroWebView(request,planificacion_id):
     except:
          mensaje_error = ""  
     
-    return render(request,"secciones/detallesprofesorcatedra.html",{'librosWeb':librosWeb,'mensaje_error': mensaje_error})  
+    return render(request,"secciones/webgrafia.html",{'librosWeb':librosWeb,'mensaje_error': mensaje_error})  
  
 
 def LibroWebDetailView(request, id):

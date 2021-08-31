@@ -29,7 +29,7 @@ def LibroNew(request,planificacion_id):
     return render(request,'index.html',{'form':form, 'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito}) 
   
-def LibroView(request,planificacion_id):
+def LibrosView(request,planificacion_id):
     mensaje_error = None
     try:
          planificacion = Planificacion.objects.get(id=planificacion_id)  
@@ -37,7 +37,7 @@ def LibroView(request,planificacion_id):
     except:
          mensaje_error = ""  
     
-    return render(request,"secciones/detallesprofesorcatedra.html",{'libros':libros,'mensaje_error': mensaje_error})  
+    return render(request,"secciones/bibliografia.html",{'libros':libros,'mensaje_error': mensaje_error})  
  
 
 def LibroDetailView(request, id):
