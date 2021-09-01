@@ -23,6 +23,6 @@ urlpatterns = [
     path('componentes', views.ComponentesView, name='componentes'),
 
     # Seccion 7.1 - Sistema de evaluacion
-    path('seccion-siete/<int:planificacion_id>', viewSeccionSiete.SeccionSieteView, name='seccionSiete'),
+    path('planificacion/<int:planificacion_id>/seccion-siete', viewSeccionSiete.SeccionSieteView, name='seccionSiete'),
 
 ]

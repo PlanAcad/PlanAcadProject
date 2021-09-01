@@ -13,4 +13,4 @@ def SeccionSieteView(request, planificacion_id):
         "actividades": actividades,
     }
 
-    return render(request,"secciones/seccion-ocho.html", context) 
+    return render(request,"secciones/seccion-siete.html", context) 

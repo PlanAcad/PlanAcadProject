@@ -7,7 +7,6 @@
     <title>Sección 7</title>
     <style>
       table {
-        font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
       }
@@ -15,55 +14,64 @@
       td,
       th {
         border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-      }
-
-      tr:nth-child(even) {
-        background-color: #dddddd;
+        text-align: center;
+        padding: 4px;
+        font-weight: 400;
+        font-size: small;
       }
     </style>
   </head>
   <body>
-    {% if planificacion %}
-    <h1>Planificación</h1>
-    <ul>
-      <li>id: {{ planificacion.id }}</li>
-      <li>Fecha creacion: {{ planificacion.fechaCreacion }}</li>
-      <li>Asignatura: <b>{{ planificacion.asignatura }}</b></li>
-    </ul>
-    {% endif %}
+    <h2 class="seccion__encabezado">Sección 7</h2>
+    <div class="seccion__card">
+      <table class="seccion__table">
+        <tbody>
+          {% if planificacion %}
+          <h4>Planificación</h4>
+          <ul>
+            <li>id: {{ planificacion.id }}</li>
+            <li>Fecha creacion: {{ planificacion.fechaCreacion }}</li>
+            <li>Asignatura: <b>{{ planificacion.asignatura }}</b></li>
+          </ul>
+          {% endif %} {% if actividades %}
+          <h4>Sistema de evaluación</h4>
+          <table>
+            <tr>
+              <th>Tipo</th>
+              <th>Actividades de evaluación</th>
+              <th>Unidad tematica</th>
+              <th>Lugar/plataformas</th>
+              <th>Indicadores de logro</th>
+              <th>RA</th>
+              <th>Tec. de Evaluacion</th>
+            </tr>
 
-    <h1>Sistema de evaluación 7.1</h1>
+            {% for actividad in actividades %}
+            <tr>
+              <td>
+                {{ actividad.tipo_de_evaluacion.get_tipo_display }}</p>
+              </td>
+              <th>{{ actividad.get_actividad_display }}</th>
+              <th>{{actividad.unidad_tematica}}</th>
+              <th>{{actividad.lugar}}</th>
+              <th>{{actividad.indicadores_de_logro}}</th>
+              <th>-</th>
+              <th>{{actividad.tecnicas_de_evaluacion}}</th>
+            </tr>
+            {% endfor %}
+          </table>
+          <br />
+          {% else %}
+          <p>No se encontraron tipos de evaluación.</p>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
 
-    {% if actividades %}
-    <table>
-      <tr>
-        <th>Tipo</th>
-        <th>Actividades de evaluación</th>
-        <th>Unidad tematica</th>
-        <th>Lugar/plataformas</th>
-        <th>Indicadores de logro</th>
-        <th>RA</th>
-        <th>Tec. de Evaluacion</th>
-      </tr>
+    <div class="py-4"></div>
 
-      {% for actividad in actividades %}
-      <tr>
-        <td>{{ actividad.tipo_de_evaluacion.get_tipo_display }}</td>
-        <th>{{ actividad.get_actividad_display }}</th>
-        <th>{{actividad.unidad_tematica}}</th>
-        <th>{{actividad.lugar}}</th>
-        <th>{{actividad.indicadores_de_logro}}</th>
-        <th>RA</th>
-        <th>{{actividad.tecnicas_de_evaluacion}}</th>
-      </tr>
-      {% endfor %}
-    </table>
-    <br />
-    {% else %}
-    <p>No se encontraron tipos de evaluación.</p>
-    {% endif %}
+    <h2 class="seccion__encabezado">Correcciones</h2>
+    <div class="seccion__card">No posee correcciones.</div>
   </body>
 </html>
 
