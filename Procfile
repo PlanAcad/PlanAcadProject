@@ -1,0 +1,1 @@
+web: gunicorn planacad.main.wsgi --log-file -
