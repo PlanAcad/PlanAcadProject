@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n%)qyk7n&3_uk+3zx&!z7ba1bykb1!9!0xhi$dw)n*v7kewn+9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['planacad.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
