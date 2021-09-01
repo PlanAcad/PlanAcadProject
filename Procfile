@@ -1,1 +1,1 @@
-web: gunicorn planacad.main.wsgi --log-file -
+web: gunicorn planacad.main.wsgi
