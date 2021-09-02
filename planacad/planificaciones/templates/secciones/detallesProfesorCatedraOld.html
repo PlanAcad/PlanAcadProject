@@ -1,0 +1,49 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+{% if detallesprofesorcatedra %}
+<table class="seccion__table">
+  <thead class="">  
+    <tr>  
+        <th>Nombre</th>  
+        <th>Categoría</th>  
+        <th>Dedicación</th>  
+        <th>Situación</th>  
+        <th>Tareas/Función</th>  
+    </tr>  
+    </thead>  
+    <tbody>{% for detalleprofesorcatedra in detallesprofesorcatedra %}
+ 
+      <tr>
+    
+       <td class="py-4">{{detalleprofesorcatedra.profesor.nombre|default:""}} {{detalleprofesorcatedra.profesor.apellido|default:""}}</h2>
+  <td class="py-4">{{detalleprofesorcatedra.categoria|default:""}}</h2>
+  <td class="py-4">{{detalleprofesorcatedra.dedicacion|default:""}}</h2>
+  <td class="py-4">{{detalleprofesorcatedra.situacion|default:""}}</h2>
+  <td>
+    <ul>
+      {% for tareafuncion in detalleprofesorcatedra.tareasfunciones_set.all %}
+      <li class="py-4">
+        <p>{{ tareafuncion.tarea_funcion }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </td>
+</tr>
+  {% endfor %}
+
+    </tbody>
+
+
+    
+
+</table>
+  
+  
+{% endif %}
+
+<h2>Agregar docente</h2>
+ <form action="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}">
+  {% csrf_token %} {{form.as_p}}
+</form> 
+
+{% endblock %}

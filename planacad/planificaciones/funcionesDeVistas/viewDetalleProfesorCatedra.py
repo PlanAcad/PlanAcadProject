@@ -12,23 +12,23 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     mensaje_exito = None
     mensaje_error = None
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    detallesProfesorCatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+    data = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
     if request.method == "POST":  
+        print(request.POST)
         form = DetalleProfesorCatedraForm(request.POST)  
         if form.is_valid():  
             try:  
-                #Obtengo la planificacion
-                
-                form.planificacion_id=planificacion.id
+                instance = form.save(commit=False)
+                instance.planificacion_id=planificacion.id
                 #Guardo
-                form.save()
-                mensaje_exito=""  
+                instance.save()
+                mensaje_exito="Añadimos el docente correctamente."  
                  
             except:  
-                 mensaje_error = "No pudimos crear correctamente"    
+                 mensaje_error = "No pudimos añadir el docente."    
     else:  
         form = DetalleProfesorCatedraForm()  
-    return render(request,'secciones/detallesprofesorcatedra.html',{'detallesprofesorcatedra':detallesProfesorCatedra,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/detallesprofesorcatedra.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 def DetallesProfesorCatedraView(request,id):
     mensaje_error = None

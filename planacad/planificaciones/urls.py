@@ -20,16 +20,16 @@ urlpatterns = [
     #Planificacion    
     path('planificacion/<int:id>', viewPlanificacion.PlanificacionDetailView, name='planificacionDetail'),
     
-    #Seccion2    
-    path('detalles-profesor-catedra/<int:id_planificacion>', viewDetalleProfesorCatedra.DetalleProfesorCatedraNew, name='detallesprofesorcatedra'),
 
-    #Seccion4    
-    path('resultados-de-aprendizaje/<int:id_planificacion>', viewResultadoDeAprendizaje.ResultadoDeAprendizajeViewbyPlanificacion, name='resultadosDeAprendizajes'),
-
-
-    #Secciones
+    ### Secciones ###
+    #Seccion 1
     path('planificacion/<int:id_planificacion>/datos-descriptivos', viewDatosDescriptivos.DatosDescriptivosUpdate, name='datos-descriptivos'),
+    #Seccion2    
+    path('planificacion/<int:id_planificacion>/detalles-profesor-catedra', viewDetalleProfesorCatedra.DetalleProfesorCatedraNew, name='detallesprofesorcatedra'),
+    #Seccion 3
     path('planificacion/<int:id_planificacion>/fundamentacion', viewFundamentacion.FundamentacionUpdate, name='fundamentacion'),
+    #Seccion4    
+    path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje', viewResultadoDeAprendizaje.ResultadoDeAprendizajeViewbyPlanificacion, name='resultadosDeAprendizajes'),
 
     #Componentes
     path('componentes', views.ComponentesView, name='componentes'),
