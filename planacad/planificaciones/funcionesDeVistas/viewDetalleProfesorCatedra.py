@@ -14,7 +14,6 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
     if request.method == "POST":  
-        print(request.POST)
         form = DetalleProfesorCatedraForm(request.POST)  
         if form.is_valid():  
             try:  
@@ -51,21 +50,29 @@ def DetalleProfesorCatedraDetailView(request, id):
     return render(request,'secciones/seccion2detail.html', {'detalle_profesor_catedra':detalleProfesorCatedra
     ,'tareas_funciones':tareasFunciones,'mensaje_error': mensaje_error})  
 
-def DetalleProfesorCatedraUpdate(request, id):  
+def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorcatedra):  
     mensaje_exito = None
     mensaje_error = None
-    try:
-        detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
-        form = DetalleProfesorCatedraForm(request.POST, instance = detalleProfesorCatedra)  
+    planificacion = Planificacion.objects.get(id=id_planificacion)
+    data = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)
+    if request.method == "POST":  
+        print(request.POST)
+        form = DetalleProfesorCatedraForm(request.POST)  
         if form.is_valid():  
-            try:
-                form.save()                            
-                mensaje_exito = "Guardamos los cambios correctamente."        
-            except:
-                mensaje_error = "No pudimos guardar los cambios."
-    except:
-        mensaje_error = ""
-    return render(request, 'edit.html', {'detalleProfesorCatedra': detalleProfesorCatedra,'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error})  
+            try:  
+                instance = form.save(commit=False)
+                instance.planificacion_id=planificacion.id
+                #Guardo
+                instance.save()
+                mensaje_exito="Guardamos los cambios correctamente."  
+                 
+            except:  
+                 mensaje_error = "No pudimos guardar los cambios."    
+    else:  
+        form = DetalleProfesorCatedraForm(instance=data)  
+    return render(request,'secciones/detallesProfesorCatedraUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+  
+    
 
 def DetalleProfesorCatedraDestroy(request, id):
     mensaje_exito = None
