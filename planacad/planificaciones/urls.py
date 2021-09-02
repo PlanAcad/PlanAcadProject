@@ -21,10 +21,10 @@ urlpatterns = [
     path('planificacion/<int:id>', viewPlanificacion.PlanificacionDetailView, name='planificacionDetail'),
     
     #Seccion2    
-    path('detalles-profesor-catedra/<int:id>', viewDetalleProfesorCatedra.DetallesProfesorCatedraView, name='detallesprofesorcatedra'),
+    path('detalles-profesor-catedra/<int:id_planificacion>', viewDetalleProfesorCatedra.DetalleProfesorCatedraNew, name='detallesprofesorcatedra'),
 
     #Seccion4    
-    path('resultados-de-aprendizaje/<int:planificacion_id>', viewResultadoDeAprendizaje.ResultadoDeAprendizajeViewbyPlanificacion, name='resultadosDeAprendizajes'),
+    path('resultados-de-aprendizaje/<int:id_planificacion>', viewResultadoDeAprendizaje.ResultadoDeAprendizajeViewbyPlanificacion, name='resultadosDeAprendizajes'),
 
 
     #Secciones

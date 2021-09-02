@@ -8,26 +8,27 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 
 
 ##Define request for Asignatura   
-def DetalleProfesorCatedraNew(request,planificacion_id):
+def DetalleProfesorCatedraNew(request, id_planificacion):
     mensaje_exito = None
     mensaje_error = None
+    planificacion = Planificacion.objects.get(id=id_planificacion)
+    detallesProfesorCatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
     if request.method == "POST":  
         form = DetalleProfesorCatedraForm(request.POST)  
         if form.is_valid():  
             try:  
                 #Obtengo la planificacion
-                planificacion = Planificacion.objects.get(id=planificacion_id)
+                
                 form.planificacion_id=planificacion.id
                 #Guardo
                 form.save()
                 mensaje_exito=""  
-                return redirect('/show')  
+                 
             except:  
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
         form = DetalleProfesorCatedraForm()  
-    return render(request,'index.html',{'form':form, 'mensaje_error': mensaje_error,
-    'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/detallesprofesorcatedra.html',{'detallesprofesorcatedra':detallesProfesorCatedra,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 def DetallesProfesorCatedraView(request,id):
     mensaje_error = None
