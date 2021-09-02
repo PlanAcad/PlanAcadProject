@@ -9,4 +9,4 @@ class Asignatura(models.Model):
    profesor = models.ManyToManyField(Profesor)
 
    def __str__(self):
-        return self.nombreMateria  
+        return self.nombre_materia  

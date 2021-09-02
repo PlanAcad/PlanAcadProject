@@ -13,5 +13,5 @@ class Planificacion(models.Model):
    
 
    def __str__(self):
-        return "%s, %s" % (self.asignatura,self.fechaCreacion)
+        return "%s, %s" % (self.asignatura,self.fecha_creacion)
    
