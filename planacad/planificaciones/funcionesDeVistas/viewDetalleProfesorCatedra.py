@@ -74,14 +74,14 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
   
     
 
-def DetalleProfesorCatedraDestroy(request, id):
+def DetalleProfesorCatedraDestroy(request, id_planificacion, id_detalleprofesorcatedra):
     mensaje_exito = None
     mensaje_error = None
     try:
-         detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)  
+         detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)  
          detalleProfesorCatedra.delete()
          mensaje_exito = "Se ha borrado correctamente."        
     except:
          mensaje_error = "No pudimos borrar correctamente"  
       
-    return detalleProfesorCatedra("/show",{'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error}) 
+    return redirect('/') 
