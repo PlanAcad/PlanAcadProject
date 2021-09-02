@@ -5,4 +5,4 @@ class Carrera(models.Model):
    nombre_carrera = models.CharField(max_length=50)
 
    def __str__(self):
-       return self.nombreCarrera
+       return self.nombre_carrera

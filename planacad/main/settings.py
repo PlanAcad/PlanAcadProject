@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ucqtzpai',
-        'USER': 'ucqtzpai',
-        'PASSWORD': '800ilu76bxQb5GAyKmPJzUL3my1CzMI9',
+        'NAME': 'ssrtmvzt',
+        'USER': 'ssrtmvzt',
+        'PASSWORD': 'n_c7YjoD3_deM1UAEtVcOp7UW7JotqC4',
         'HOST': 'chunee.db.elephantsql.com',
         'PORT': '',
     },
