@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .modelos.modelAsignatura import Asignatura
-from .modelos.modelCarrera import Carrera
-from .modelos.modelPlanificacion import Planificacion
-from .modelos.modelProfesor import Profesor
-from .modelos.modelDatosDescriptivos import DatosDescriptivos
-from .modelos.modelFundamentacion import Fundamentacion
+from planificaciones.modelos.modelAsignatura import Asignatura
+from planificaciones.modelos.modelCarrera import Carrera
+from planificaciones.modelos.modelPlanificacion import Planificacion
+from planificaciones.modelos.modelProfesor import Profesor
+from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
+from planificaciones.modelos.modelFundamentacion import Fundamentacion
 
 
 
