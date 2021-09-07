@@ -64,12 +64,14 @@ def SubCompetenciaDetailView(request, id):
     return render(request,'secciones/seccion2detail.html', {'subcompetencia':subcompetencia
     ,'mensaje_error': mensaje_error})  
 
-def SubCompetenciaUpdate(request, id):  
+def SubCompetenciaUpdate(request, id,competencia_id):  
     mensaje_exito = None
     mensaje_error = None
     subcompetencia = None
     try:
-        subcompetencia = SubCompetencia.objects.get(id=id)  
+        competecia = Competencia.objects.get(id=competencia_id)
+        subcompetencia = SubCompetencia.objects.get(id=id)
+        subcompetencia.competencia_id = competecia.id  
         form = SubCompetenciaForm(request.POST, instance = subcompetencia)  
         if form.is_valid():  
             try:
