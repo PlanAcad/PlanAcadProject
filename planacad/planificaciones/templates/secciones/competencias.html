@@ -9,16 +9,19 @@
     method="POST"
     class="mt-6" 
   >
-  {% if competencias %}
+  {% if subcompetencias %}
   <article>
-    
     <dl>
       <ul>
-        {% for item in competencias %}
-        <li class="py-4">
-          <p>{{ item.tipo_competencia}}</p>
-          <p>{{ item.competencia}}</p>
-        </li>
+        {% for item in subcompetencias %}
+        <p>Competencia</p>
+          <p>{{ item.competencia.tipo_competencia}}</p>
+          <p>{{ item.competencia.competencia}}</p>
+          
+          <p>Sub Competencia</p>
+            <li class="py-4">
+            <p>{{item.capacidad}}</p>
+            </li>
         {% endfor %}
       </ul>
     </dl>

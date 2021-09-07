@@ -38,7 +38,7 @@ def CompetenciaView(request,id_planificacion):
     except:
          mensaje_error = ""  
     
-    return render(request,"secciones/competencias.html",{'competencias':competencias,'mensaje_error': mensaje_error})  
+    return render(request,"secciones/",{'competencias':competencias,'mensaje_error': mensaje_error})  
 
 def CompetenciabyTypeView(request,planificacion_id,type):
     mensaje_error = None
