@@ -31,6 +31,7 @@ def LibroNew(request,planificacion_id):
   
 def LibrosView(request,planificacion_id):
     mensaje_error = None
+    libros = None
     try:
          planificacion = Planificacion.objects.get(id=planificacion_id)  
          libros = Libro.objects.filter(planificacion = planificacion)       
@@ -42,6 +43,7 @@ def LibrosView(request,planificacion_id):
 
 def LibroDetailView(request, id):
     mensaje_error = None
+    libro = None
     try:
          libro = Libro.objects.get(id=id)    
     except:
@@ -52,6 +54,7 @@ def LibroDetailView(request, id):
 def LibroUpdate(request, id):  
     mensaje_exito = None
     mensaje_error = None
+    libro = None
     try:
         libro = Libro.objects.get(id=id)  
         form = LibroForm(request.POST, instance = libro)  
