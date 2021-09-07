@@ -40,7 +40,7 @@ def ContenidoView(request,id_planificacion):
     except:
          mensaje_error = "errar"  
     
-    return render(request,"secciones/competencias.html",{'contenidos':contenidos,'mensaje_error': mensaje_error})  
+    return render(request,"secciones/unidades.html",{'contenidos':contenidos,'mensaje_error': mensaje_error})  
 
 def ContenidobyUnidadView(request,unidad_id):
     mensaje_error = None
