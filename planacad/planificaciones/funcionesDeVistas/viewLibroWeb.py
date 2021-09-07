@@ -71,6 +71,7 @@ def LibroWebUpdate(request, id):
 def LibroWebDestroy(request, id):
     mensaje_exito = None
     mensaje_error = None
+    libroWeb = None
     try:
          libroWeb = LibroWeb.objects.get(id=id)  
          libroWeb.delete()

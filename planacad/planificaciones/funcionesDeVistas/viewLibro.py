@@ -71,6 +71,7 @@ def LibroUpdate(request, id):
 def LibroDestroy(request, id):
     mensaje_exito = None
     mensaje_error = None
+    libro = None
     try:
          libro = Libro.objects.get(id=id)  
          libro.delete()
