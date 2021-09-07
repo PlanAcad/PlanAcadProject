@@ -1,6 +1,6 @@
 from django.urls import path
 from django.shortcuts import render
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewDatosDescriptivos, viewFundamentacion
+from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewDatosDescriptivos, viewFundamentacion, viewCompentencia
 from . import views
 
 app_name = 'planificaciones'
@@ -22,6 +22,7 @@ urlpatterns = [
     #Secciones
     path('planificacion/<int:id_planificacion>/datos-descriptivos', viewDatosDescriptivos.DatosDescriptivosUpdate, name='datos-descriptivos'),
     path('planificacion/<int:id_planificacion>/fundamentacion', viewFundamentacion.FundamentacionUpdate, name='fundamentacion'),
+    path('planificacion/<int:id_planificacion>/competencias', viewCompentencia.CompetenciaView, name='competencias'),
 
     #Componentes
     path('componentes', views.ComponentesView, name='componentes'),

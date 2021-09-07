@@ -29,16 +29,16 @@ def CompetenciaNew(request,planificacion_id):
     return render(request,'index.html',{'form':form, 'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito}) 
   
-def CompetenciaView(request,planificacion_id):
+def CompetenciaView(request,id_planificacion):
     mensaje_error = None
     competencias = None
     try:
-         planificacion = Planificacion.objects.get(id=planificacion_id)  
+         planificacion = Planificacion.objects.get(id=id_planificacion)  
          competencias = Competencia.objects.filter(planificacion = planificacion)       
     except:
          mensaje_error = ""  
     
-    return render(request,"secciones/",{'competencias':competencias,'mensaje_error': mensaje_error})  
+    return render(request,"secciones/competencias.html",{'competencias':competencias,'mensaje_error': mensaje_error})  
 
 def CompetenciabyTypeView(request,planificacion_id,type):
     mensaje_error = None

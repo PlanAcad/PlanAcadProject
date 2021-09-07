@@ -1,0 +1,36 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado">3. Competencias</h2>
+<div class="seccion__card">
+  {% if mensaje_exito %}
+  <div class="alert alert-success">{{mensaje_exito}}</div>
+  {% endif %}
+  <form
+    method="POST"
+    class="mt-6" 
+  >
+  {% if competencias %}
+  <article>
+    
+    <dl>
+      <ul>
+        {% for item in competencias %}
+        <li class="py-4">
+          <p>{{ item.tipo_competencia}}</p>
+          <p>{{ item.competencia}}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </dl>
+  </article>{% endif %}
+
+    <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
+  </form>
+</div>
+
+<div class="py-4"></div>
+
+<h2 class="seccion__encabezado">Correcciones</h2>
+<div class="seccion__card">No posee correcciones.</div>
+
+{% endblock %}
