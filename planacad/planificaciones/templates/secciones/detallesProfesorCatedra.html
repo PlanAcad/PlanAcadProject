@@ -20,7 +20,9 @@
     <tbody>
       {% if data %} {% for detalleprofesor in data %}
 
-      <tr>
+      <tr
+        onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"
+      >
         <td class="py-4">
           <a href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}"
             >{{detalleprofesor.profesor.nombre|default:""}}
