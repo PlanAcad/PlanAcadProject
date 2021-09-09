@@ -49,29 +49,42 @@ def ResultadoDeAprendizajeViewbyAsignatura(request, asignatura_id):
     except:
          mensaje_error = "No pudimos obtener los datos correctamente" 
     return render(request,'profesores/detail.html', {'asignatura':asignatura, 'resultadosDeAprendizajes':resultadosDeAprendizajes, 'mensaje_error': mensaje_error})  
- 
-def ResultadoDeAprendizajeUpdate(request, id):  
+
+
+def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprendizaje):  
     mensaje_exito = None
     mensaje_error = None
-    resultadoDeAprendizaje = ResultadoDeAprendizaje.objects.get(id=id)  
-    form = ResultadoDeAprendizajeForm(request.POST, instance = resultadoDeAprendizaje)  
-    if form.is_valid():
-     try:
-         form.save()                            
-         mensaje_exito = "Guardamos los cambios correctamente." 
-     except:
-         mensaje_error = "No pudimos guardar los cambios."
+    planificacion = Planificacion.objects.get(id=id_planificacion)
+    data = ResultadoDeAprendizaje.objects.get(id=id_resultadodeaprendizaje)
+    if request.method == "POST":  
+        form = ResultadoDeAprendizajeForm(request.POST, instance=data)  
+        if form.is_valid():  
+            try:  
+                instance = form.save(commit=False)
+                instance.planificacion_id=planificacion.id
+                #Guardo
+                instance.save()
+                mensaje_exito="Guardamos los cambios correctamente."
+                return redirect('planificaciones:resultadosDeAprendizajes', id_planificacion=id_planificacion)
+                 
+            except:  
+                 mensaje_error = "No pudimos guardar los cambios."    
+    else:  
+        form = ResultadoDeAprendizajeForm(instance=data)  
+    return render(request,'secciones/detallesProfesorCatedraUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+  
+    
 
-    return render(request, 'edit.html', {'resultadoDeAprendizaje': resultadoDeAprendizaje,'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error})  
-
-def ResultadoDeAprendizajeDestroy(request, id):
+def ResultadoDeAprendizajeDestroy(request, id_planificacion, id_resultadodeaprendizaje):
     mensaje_exito = None
-    mensaje_error = None  
-    resultadoDeAprendizaje = ResultadoDeAprendizaje.objects.get(id=id)
-    try:
-         resultadoDeAprendizaje.delete()                           
-         mensaje_exito = "Se ha borrado correctamente."   
-    except:
-         mensaje_error = "No pudimos borrar correctamente"  
-     
-    return resultadoDeAprendizaje("/show", {'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error})  
+    mensaje_error = None
+    if request.method == "POST":
+        try:
+            detalleProfesorCatedra = ResultadoDeAprendizaje.objects.get(id=id_resultadodeaprendizaje)  
+            detalleProfesorCatedra.delete()
+            mensaje_exito = "Se ha borrado correctamente."        
+        except:
+            mensaje_error = "No pudimos borrar correctamente"  
+        
+        return redirect('planificaciones:resultadosDeAprendizajes', id_planificacion=id_planificacion)
+                 
