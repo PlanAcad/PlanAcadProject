@@ -14,9 +14,14 @@
     {% csrf_token %} {{form.as_p}}
     <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
-  <a href="../delete/{{form.instance.id}}" class="btn btn-danger my-4"
-    >Eliminar</a
+  <form
+    method="POST"
+    action="{% url 'planificaciones:detallesprofesorcatedradestroy' planificacion.id data.id %}"
   >
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger my-4">Eliminar</button>
+  </form>
+
   {% if form.errors %}
   <div class="alert alert-error">{{form.errors}}</div>
   {% endif %}

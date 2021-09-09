@@ -1,5 +1,8 @@
 # Para usar los objetos y/o funciones de 'redirect'
 from django.shortcuts import render, redirect  
+from django.urls import reverse
+
+from django.http import HttpResponseRedirect
 ## import model and form
 from planificaciones.formularios.formDetalleProfesorCatedra import DetalleProfesorCatedraForm
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
@@ -8,9 +11,8 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 
 
 ##Define request for Asignatura   
-def DetalleProfesorCatedraNew(request, id_planificacion):
-    mensaje_exito = None
-    mensaje_error = None
+def DetalleProfesorCatedraNew(request, id_planificacion, mensaje_exito=None, mensaje_error=None):
+    
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
     if request.method == "POST":  
@@ -29,26 +31,6 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
         form = DetalleProfesorCatedraForm()  
     return render(request,'secciones/detallesprofesorcatedra.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
-def DetallesProfesorCatedraView(request,id):
-    mensaje_error = None
-    try:
-         planificacion = Planificacion.objects.get(id=id)  
-         detallesProfesorCatedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)       
-    except:
-         mensaje_error = ""  
-    
-    return render(request,"secciones/detallesprofesorcatedra.html",{'detallesprofesorcatedra':detallesProfesorCatedra,'mensaje_error': mensaje_error})  
- 
-
-def DetalleProfesorCatedraDetailView(request, id):
-    mensaje_error = None
-    try:
-         detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id)
-         tareasFunciones = TareasFunciones.objects.filter(detalle_profesor_catedra = detalleProfesorCatedra)       
-    except:
-         mensaje_error = ""   
-    return render(request,'secciones/seccion2detail.html', {'detalle_profesor_catedra':detalleProfesorCatedra
-    ,'tareas_funciones':tareasFunciones,'mensaje_error': mensaje_error})  
 
 def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorcatedra):  
     mensaje_exito = None
@@ -56,7 +38,6 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)
     if request.method == "POST":  
-        print(request.POST)
         form = DetalleProfesorCatedraForm(request.POST)  
         if form.is_valid():  
             try:  
@@ -64,7 +45,9 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
-                mensaje_exito="Guardamos los cambios correctamente."  
+                mensaje_exito="Guardamos los cambios correctamente."
+                #return HttpResponseRedirect(reverse('planificaciones:detallesprofesorcatedra', args=[id_planificacion]))
+                return redirect('planificaciones:detallesprofesorcatedra', id_planificacion=id_planificacion)
                  
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
@@ -77,11 +60,13 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
 def DetalleProfesorCatedraDestroy(request, id_planificacion, id_detalleprofesorcatedra):
     mensaje_exito = None
     mensaje_error = None
-    try:
-         detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)  
-         detalleProfesorCatedra.delete()
-         mensaje_exito = "Se ha borrado correctamente."        
-    except:
-         mensaje_error = "No pudimos borrar correctamente"  
-      
-    return redirect('/') 
+    if request.method == "POST":
+        try:
+            detalleProfesorCatedra = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)  
+            detalleProfesorCatedra.delete()
+            mensaje_exito = "Se ha borrado correctamente."        
+        except:
+            mensaje_error = "No pudimos borrar correctamente"  
+        
+        return redirect('planificaciones:detallesprofesorcatedra', id_planificacion=id_planificacion)
+                 
