@@ -11,7 +11,7 @@ function addFormControl() {
   }
   var selects = document.getElementsByTagName("select")
   for (var i = 0; i < selects.length; i++) {
-    selects[i].classList.add("form-control")
+    selects[i].classList.add("form-select")
   }
   var textareas = document.getElementsByTagName("textarea")
   for (var i = 0; i < textareas.length; i++) {
