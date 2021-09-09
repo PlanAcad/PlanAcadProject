@@ -6,26 +6,27 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizaje
 from planificaciones.formularios.formResultadoDeAprendizaje import  ResultadoDeAprendizajeForm
 ##Define request for Resultado de Aprendizaje   
-def ResultadoDeAprendizajeNew(request,planificacion_id,asignatura_id): 
-    mensaje_error = None 
+def ResultadoDeAprendizajeNew(request,id_planificacion): 
+    mensaje_exito=None
+    mensaje_error=None
+    
+    planificacion = Planificacion.objects.get(id=id_planificacion)
+    data = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
     if request.method == "POST":  
         form = ResultadoDeAprendizajeForm(request.POST)  
         if form.is_valid():  
             try:  
-                #Obtengo la planificacion
-                planificacion = Planificacion.objects.get(id=planificacion_id)
-                form.planificacion_id=planificacion.id
-                #Obtengo la asignatura
-                asignatura = Asignatura.objects.get(id=asignatura_id)
-                form.asignatura_id = asignatura.id
-                #Guardo
-                form.save()  
-                return redirect('/show')  
+                instance = form.save(commit=False)
+                instance.planificacion_id=planificacion.id
+                instance.save()
+                mensaje_exito="Añadimos el resultado de aprendizaje correctamente."  
+                 
             except:  
-                 mensaje_error = "No pudimos crear correctamente"    
+                 mensaje_error = "No pudimos añadir el resultado de aprendizaje."    
     else:  
         form = ResultadoDeAprendizajeForm()  
-    return render(request,'index.html',{'form':form, 'mensaje_error': mensaje_error}) 
+    return render(request,'secciones/resultadosDeAprendizaje.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+  
 
 def ResultadoDeAprendizajeViewbyPlanificacion(request,planificacion_id):
     mensaje_error = None

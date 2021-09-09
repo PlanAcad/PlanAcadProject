@@ -47,10 +47,29 @@
                 title="Estructura de la cátedra"
                 ><li>Estructura de la cátedra</li></a
               >
-
               <a
                 href="./fundamentacion"
-                class="{% if '/seccion3' in url %} active {% endif %}"
+                class="{% if '/fundamentacion' in url %} active {% endif %}"
+                title="Fundamentación"
+                ><li>
+                  <div class="text-truncate">Fundamentación</div>
+                </li></a
+              >
+
+              <a
+                href="./resultados-de-aprendizaje"
+                class="
+                  {%
+                  if
+                  '/resultados-de-aprendizaje'
+                  in
+                  url
+                  %}
+                  active
+                  {%
+                  endif
+                  %}
+                "
                 title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
                 ><li>
                   <div class="text-truncate">
