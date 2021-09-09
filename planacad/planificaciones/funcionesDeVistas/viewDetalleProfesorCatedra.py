@@ -11,7 +11,9 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 
 
 ##Define request for Asignatura   
-def DetalleProfesorCatedraNew(request, id_planificacion, mensaje_exito=None, mensaje_error=None):
+def DetalleProfesorCatedraNew(request, id_planificacion):
+    mensaje_exito=None
+    mensaje_error=None
     
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
