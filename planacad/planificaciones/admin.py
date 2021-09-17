@@ -13,8 +13,6 @@ from .modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizaje
 from .modelos.modelDatosDescriptivos import DatosDescriptivos
 from .modelos.modelFundamentacion import Fundamentacion
 
-
-
 # Register your models here.
 admin.site.register(Asignatura)
 admin.site.register(Carrera)
@@ -26,8 +24,6 @@ admin.site.register(Situacion)
 admin.site.register(TareasFunciones)
 admin.site.register(DetalleProfesorCatedra)
 admin.site.register(ResultadoDeAprendizaje)
-
-
 admin.site.register(DatosDescriptivos)
 admin.site.register(Fundamentacion)
 
