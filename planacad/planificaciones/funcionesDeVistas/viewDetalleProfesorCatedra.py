@@ -25,6 +25,13 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
+                form.save_m2m()
+
+               # selectedTareas = form.cleaned_data.get('tareas')
+                #for tarea in selectedTareas:
+                 #   tarea_obj = TareasFunciones.objects.get(id = tarea.id)
+                  #  instance.tareas.add(tarea_obj)
+                    
                 mensaje_exito="Añadimos el docente correctamente."  
                  
             except:  
@@ -47,6 +54,7 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
+                form.save_m2m()
                 mensaje_exito="Guardamos los cambios correctamente."
                 #return HttpResponseRedirect(reverse('planificaciones:detallesprofesorcatedra', args=[id_planificacion]))
                 return redirect('planificaciones:detallesprofesorcatedra', id_planificacion=id_planificacion)
