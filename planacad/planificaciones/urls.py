@@ -1,6 +1,6 @@
 from django.urls import path
 from django.shortcuts import render
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSeccionSiete 
+from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion, viewSistemaDeEvaluacion 
 from . import views
 
 app_name = 'planificaciones'
@@ -23,10 +23,10 @@ urlpatterns = [
     path('componentes', views.ComponentesView, name='componentes'),
 
     # Seccion 7.1 - Sistema de evaluacion
-    path('planificacion/<int:planificacion_id>/seccion-siete', viewSeccionSiete.SeccionSieteView, name='seccionSiete'),
-    path('planificacion/<int:planificacion_id>/crear-seccion-siete', viewSeccionSiete.NewSeccionSiete, name='newSeccionSiete'),
-    path('planificacion/<int:planificacion_id>/actualizar-seccion-siete/<str:actividad_id>', viewSeccionSiete.UpdateSeccionSiete, name='updateSeccionSiete'),
-    path('planificacion/<int:planificacion_id>/delete-seccion-siete/<str:actividad_id>', viewSeccionSiete.DeleteSeccionSiete, name='deleteSeccionSiete'),
+    path('planificacion/<int:planificacion_id>/sistema-de-evaluacion', viewSistemaDeEvaluacion.SistemaDeEvaluacion, name='sistemaDeEvaluacion'),
+    path('planificacion/<int:planificacion_id>/crear-actividad', viewSistemaDeEvaluacion.NewActividad, name='newActividad'),
+    path('planificacion/<int:planificacion_id>/actualizar-actividad/<str:actividad_id>', viewSistemaDeEvaluacion.UpdateActividad, name='updateActividad'),
+    path('planificacion/<int:planificacion_id>/eliminar-actividad/<str:actividad_id>', viewSistemaDeEvaluacion.DeleteActividad, name='deleteActividad'),
 
 
 

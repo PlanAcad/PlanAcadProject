@@ -2,10 +2,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelActividad import Actividad
-from planificaciones.formularios.formSeccionSiete import ActividadForm
+from planificaciones.formularios.formSistemaDeEvaluacion import ActividadForm
 
 
-def SeccionSieteView(request, planificacion_id): 
+def SistemaDeEvaluacion(request, planificacion_id): 
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividades = Actividad.objects.filter(planificacion=planificacion)  
 
@@ -14,10 +14,10 @@ def SeccionSieteView(request, planificacion_id):
         "actividades": actividades,
     }
 
-    return render(request,"secciones/seccion-siete.html", context) 
+    return render(request,"secciones/sistema-de-evaluacion/index.html", context) 
 
 
-def NewSeccionSiete(request, planificacion_id):
+def NewActividad(request, planificacion_id):
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividades = Actividad.objects.filter(planificacion=planificacion)    
 
@@ -31,7 +31,7 @@ def NewSeccionSiete(request, planificacion_id):
             new_form.save() 
             form.save_m2m() 
            
-            return redirect("/planificacion/%s/seccion-siete" % (planificacion_id))
+            return redirect("/planificacion/%s/sistema-de-evaluacion" % (planificacion_id))
 
         else:
             print('not valid')
@@ -43,10 +43,10 @@ def NewSeccionSiete(request, planificacion_id):
         "form": form
     }
 
-    return render(request, "secciones/crear-seccion-siete.html", context)
+    return render(request, "secciones/sistema-de-evaluacion/crear-actividad.html", context)
 
 
-def UpdateSeccionSiete(request, planificacion_id, actividad_id):
+def UpdateActividad(request, planificacion_id, actividad_id):
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividad = Actividad.objects.get(id=actividad_id)
     
@@ -62,7 +62,7 @@ def UpdateSeccionSiete(request, planificacion_id, actividad_id):
             new_form.save() 
             form.save_m2m() 
            
-            return redirect("/planificacion/%s/seccion-siete" % (planificacion_id))
+            return redirect("/planificacion/%s/sistema-de-evaluacion" % (planificacion_id))
 
         else:
             print('not valid')
@@ -74,22 +74,22 @@ def UpdateSeccionSiete(request, planificacion_id, actividad_id):
         "planificacion": planificacion,
         "form": form
     }
-    return render(request, "secciones/crear-seccion-siete.html", context)
+    return render(request, "secciones/sistema-de-evaluacion/crear-actividad.html", context)
 
 
-def DeleteSeccionSiete(request, planificacion_id, actividad_id):
+def DeleteActividad(request, planificacion_id, actividad_id):
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividad = Actividad.objects.get(id=actividad_id)
 
     if request.method == "POST":
         actividad.delete()
-        return redirect("/planificacion/%s/seccion-siete" % (planificacion_id))
+        return redirect("/planificacion/%s/sistema-de-evaluacion" % (planificacion_id))
 
     context = {
         "planificacion": planificacion,
         "actividad": actividad,
     }
-    return render(request,"secciones/eliminar-seccion-siete.html", context) 
+    return render(request,"secciones/sistema-de-evaluacion/eliminar-actividad.html", context) 
 
 
 

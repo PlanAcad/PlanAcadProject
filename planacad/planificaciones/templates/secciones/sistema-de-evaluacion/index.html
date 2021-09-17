@@ -60,8 +60,8 @@
               </th>
               <th>{{actividad.tecnicas_de_evaluacion}}</th>
               <th>
-                <a class="item" href="{% url 'planificaciones:updateSeccionSiete' planificacion.id actividad.id %}">Actualizar</a>
-                <a class="item" href="{% url 'planificaciones:deleteSeccionSiete' planificacion.id actividad.id %}" style="color: red;">Eliminar</a>
+                <a class="item" href="{% url 'planificaciones:updateActividad' planificacion.id actividad.id %}">Actualizar</a>
+                <a class="item" href="{% url 'planificaciones:deleteActividad' planificacion.id actividad.id %}" style="color: red;">Eliminar</a>
                   
               </th>
 
@@ -76,7 +76,7 @@
         </tbody>
       </table>
 
-      <a class="item" href="{% url 'planificaciones:newSeccionSiete' planificacion.id %}">
+      <a class="item" href="{% url 'planificaciones:newActividad' planificacion.id %}">
         <input type="submit" class="btn btn-primary" value="Agregar nueva" /> 
       </a>
     </div>
