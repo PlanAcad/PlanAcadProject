@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='ResultadoDeAprendizaje',
+            name='ResultadoDeAprendizajes',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('resultado', models.CharField(max_length=50)),
