@@ -19,6 +19,7 @@ def ResultadoDeAprendizajeNew(request,id_planificacion):
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
                 instance.save()
+                instance.save_m2m()
                 mensaje_exito="Añadimos el resultado de aprendizaje correctamente."  
                  
             except:  
@@ -64,6 +65,7 @@ def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprend
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
+                instance.save_m2m()
                 mensaje_exito="Guardamos los cambios correctamente."
                 return redirect('planificaciones:resultadosDeAprendizajes', id_planificacion=id_planificacion)
                  
