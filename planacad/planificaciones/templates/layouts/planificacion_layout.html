@@ -2,7 +2,7 @@
 
 <div class="layout d-flex flex-column min-vh-100">
   <header class="pt-4 pb-4 border-bottom">
-    <div class="container">
+    <div class="container-xl">
       <div class="row">
         <h1 class="col-md-3 h3">PlanAcad</h1>
         <h2 class="col-md-9 h5 d-flex align-items-center">
@@ -15,7 +15,7 @@
     </div>
   </header>
   <div class="bg-light flex-grow-1">
-    <div class="container">
+    <div class="container-xl">
       <button
         class="btn mt-2 collapseButton"
         type="button"
@@ -31,19 +31,19 @@
           class="layout__sidebar col-3 py-3 px-2 show collapse"
           id="collapseSidebar"
         >
-          <h2 class="sr-only">Secciones</h2>
+          <h2 class="visually-hidden">Secciones</h2>
 
           <nav>
             <ol>
-              <a href="#" class="active" title="Datos descriptivos"
+              <a href="./datos-descriptivos" class="active" title="Datos descriptivos"
                 ><li>Datos descriptivos</li></a
               >
-              <a href="#" class="" title="Estructura de la cátedra"
+              <a href="./seccion2" class="" title="Estructura de la cátedra"
                 ><li>Estructura de la cátedra</li></a
               >
 
               <a
-                href="#"
+                href="./fundamentacion"
                 class="{% if '/seccion3' in url %} active {% endif %}"
                 title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
                 ><li>

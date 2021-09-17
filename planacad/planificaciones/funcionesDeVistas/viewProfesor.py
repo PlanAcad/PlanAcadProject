@@ -6,7 +6,7 @@ from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelProfesor import Profesor
 from planificaciones.formularios.formProfesores import  ProfesorForm
 ##Define request for Asignatura   
-def profesor(request):  
+def ProfesorNew(request):  
     if request.method == "POST":  
         form = ProfesorForm(request.POST)  
         if form.is_valid():  
