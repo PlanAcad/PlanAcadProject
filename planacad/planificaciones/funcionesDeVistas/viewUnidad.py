@@ -13,10 +13,11 @@ def UnidadNew(request,planificacion_id):
     if request.method == "POST":  
         form = UnidadForm(request.POST)  
         if form.is_valid():  
-            try:  
+            try:
+                instance = form.save(commit=False)  
                 #Obtengo la planificacion
                 planificacion = Planificacion.objects.get(id=planificacion_id)
-                form.planificacion_id=planificacion.id
+                instance.planificacion_id=planificacion.id
                 #Guardo
                 form.save()
                 mensaje_exito=""  
@@ -60,6 +61,8 @@ def UnidadUpdate(request, id,planificacion_id):
         form = UnidadForm(request.POST, instance = unidad)  
         if form.is_valid():  
             try:
+                instance = form.save(commit=False)
+                instance.planificacion_id=planificacion.id
                 form.save()                            
                 mensaje_exito = "Guardamos los cambios correctamente."        
             except:

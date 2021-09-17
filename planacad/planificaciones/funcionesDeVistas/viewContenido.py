@@ -15,10 +15,11 @@ def ContenidoNew(request,unidad_id):
     if request.method == "POST":  
         form = ContenidoForm(request.POST)  
         if form.is_valid():  
-            try:  
+            try: 
+                instance = form.save(commit=False) 
                 #Obtengo la planificacion
-                planificacion = Unidad.objects.get(id=unidad_id)
-                form.planificacion_id=planificacion.id
+                unidad = Unidad.objects.get(id=unidad_id)
+                instance.unidad_id=unidad.id
                 #Guardo
                 form.save()
                 mensaje_exito=""  
@@ -75,6 +76,8 @@ def ContenidoUpdate(request, id,unidad_id):
         form = ContenidoForm(request.POST, instance = contenido)  
         if form.is_valid():  
             try:
+                instance = form.save(commit=False)
+                instance.unidad_id=unidad.id
                 form.save()                            
                 mensaje_exito = "Guardamos los cambios correctamente."        
             except:
