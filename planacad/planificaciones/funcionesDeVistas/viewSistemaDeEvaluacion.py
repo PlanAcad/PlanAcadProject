@@ -31,7 +31,7 @@ def NewActividad(request, planificacion_id):
             new_form.save() 
             form.save_m2m() 
            
-            return redirect("/planificacion/%s/sistema-de-evaluacion" % (planificacion_id))
+            return redirect('planificaciones:sistemaDeEvaluacion', planificacion_id=planificacion_id)
 
         else:
             print('not valid')
@@ -62,7 +62,8 @@ def UpdateActividad(request, planificacion_id, actividad_id):
             new_form.save() 
             form.save_m2m() 
            
-            return redirect("/planificacion/%s/sistema-de-evaluacion" % (planificacion_id))
+            return redirect('planificaciones:sistemaDeEvaluacion', planificacion_id=planificacion_id)
+
 
         else:
             print('not valid')
@@ -83,7 +84,9 @@ def DeleteActividad(request, planificacion_id, actividad_id):
 
     if request.method == "POST":
         actividad.delete()
-        return redirect("/planificacion/%s/sistema-de-evaluacion" % (planificacion_id))
+
+        return redirect('planificaciones:sistemaDeEvaluacion', planificacion_id=planificacion_id)
+
 
     context = {
         "planificacion": planificacion,
