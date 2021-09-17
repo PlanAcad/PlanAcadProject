@@ -4,7 +4,6 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Sección 7</title>
     <style>
       table {
         border-collapse: collapse;
@@ -22,18 +21,11 @@
     </style>
   </head>
   <body>
-    <h2 class="seccion__encabezado">Sección 7</h2>
+    <h2 class="seccion__encabezado">7. Sistema de Evaluación</h2>
     <div class="seccion__card">
       <table class="seccion__table">
         <tbody>
-          {% if planificacion %}
-          <h4>Planificación</h4>
-          <ul>
-            <li>id: {{ planificacion.id }}</li>
-            <li>Fecha creacion: {{ planificacion.fechaCreacion }}</li>
-            <li>Asignatura: <b>{{ planificacion.asignatura }}</b></li>
-          </ul>
-          {% endif %} {% if actividades %}
+          {% if actividades %}
           <h4>Sistema de evaluación</h4>
           <table>
             <tr>
@@ -44,6 +36,8 @@
               <th>Indicadores de logro</th>
               <th>RA</th>
               <th>Tec. de Evaluacion</th>
+              <th>Editar</th>
+
             </tr>
 
             {% for actividad in actividades %}
@@ -55,8 +49,23 @@
               <th>{{actividad.unidad_tematica}}</th>
               <th>{{actividad.lugar}}</th>
               <th>{{actividad.indicadores_de_logro}}</th>
-              <th>-</th>
+              <th>
+                {% if actividad.resultados_de_aprendizaje.all %}
+                  {% for resultado in actividad.resultados_de_aprendizaje.all %}
+                    <p><li>{{ resultado.descripcion }}</li></p>
+                  {% endfor %}
+                {% else %}
+                  <p>-</p>
+                {% endif %}
+              </th>
               <th>{{actividad.tecnicas_de_evaluacion}}</th>
+              <th>
+                <a class="item" href="{% url 'planificaciones:updateSeccionSiete' planificacion.id actividad.id %}">Actualizar</a>
+                <a class="item" href="{% url 'planificaciones:deleteSeccionSiete' planificacion.id actividad.id %}" style="color: red;">Eliminar</a>
+                  
+              </th>
+
+
             </tr>
             {% endfor %}
           </table>
@@ -66,6 +75,18 @@
           {% endif %}
         </tbody>
       </table>
+
+      <a class="item" href="{% url 'planificaciones:newSeccionSiete' planificacion.id %}">
+        <input type="submit" class="btn btn-primary" value="Agregar nueva" /> 
+      </a>
+    </div>
+
+    <div class="seccion__card" style="margin-top: 12px;">
+      <p style="font-size: 12px; margin: 0; padding: 0;">
+        Recuperar lo desarrollado en el Módulo 4 del Curso Formación por Competencias. Presentar al menos una rúbrica de evaluación para un Resultado de Aprendizaje.
+        Interpretar el concepto de “Indicadores de Logro” en relación a lo desarrollado en el Módulo 4 del Curso Formación por Competencias al trabajar el tema: Rúbrica.
+        Se sugiere consultar la bibliografía recomendada en el Módulo 4 del Curso Formación por Competencias.
+      </p>
     </div>
 
     <div class="py-4"></div>

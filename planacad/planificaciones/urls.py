@@ -24,5 +24,11 @@ urlpatterns = [
 
     # Seccion 7.1 - Sistema de evaluacion
     path('planificacion/<int:planificacion_id>/seccion-siete', viewSeccionSiete.SeccionSieteView, name='seccionSiete'),
+    path('planificacion/<int:planificacion_id>/crear-seccion-siete', viewSeccionSiete.NewSeccionSiete, name='newSeccionSiete'),
+    path('planificacion/<int:planificacion_id>/actualizar-seccion-siete/<str:actividad_id>', viewSeccionSiete.UpdateSeccionSiete, name='updateSeccionSiete'),
+    path('planificacion/<int:planificacion_id>/delete-seccion-siete/<str:actividad_id>', viewSeccionSiete.DeleteSeccionSiete, name='deleteSeccionSiete'),
+
+
+
 
 ]

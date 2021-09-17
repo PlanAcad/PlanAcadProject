@@ -1,0 +1,17 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<form action="" method="POST">
+  {% csrf_token %} {{form.as_p}}
+
+  <br />
+  <a href="{% url 'planificaciones:seccionSiete' planificacion.id %}">
+    <input
+      class="btn btn-secondary"
+      value="Volver"
+      style="cursor: pointer; max-width: 80px"
+    />
+  </a>
+  <input type="submit" name="Submit" class="btn btn-primary" value="Guardar" />
+</form>
+
+{% endblock %}

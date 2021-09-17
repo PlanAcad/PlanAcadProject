@@ -1,4 +1,5 @@
 # planacad/planificaciones/modelos/modelActividad.py
+from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelTipoDeEvaluacion import TipoDeEvaluacion
 from django.db import models
@@ -15,6 +16,8 @@ class Actividad(models.Model):
      # Relations 
     planificacion = models.ForeignKey(Planificacion, on_delete=models.CASCADE)
     tipo_de_evaluacion = models.ForeignKey(TipoDeEvaluacion, on_delete=models.CASCADE)
+    resultados_de_aprendizaje = models.ManyToManyField(ResultadoDeAprendizaje, null=True)
+
 
     def __str__(self):
        return "id: %s, actividad: %s" % (self.id, self.get_actividad_display())
