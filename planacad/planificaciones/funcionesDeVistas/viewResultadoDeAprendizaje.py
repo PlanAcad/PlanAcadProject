@@ -73,7 +73,7 @@ def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprend
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = ResultadoDeAprendizajeForm(instance=data)  
-    return render(request,'secciones/detallesProfesorCatedraUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
 
