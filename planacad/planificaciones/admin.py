@@ -9,7 +9,7 @@ from .modelos.modelDedicacion import Dedicacion
 from .modelos.modelSituacion import Situacion
 from .modelos.modelTareasFunciones import TareasFunciones
 from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
-from .modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizaje
+from .modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizajes
 from .modelos.modelDatosDescriptivos import DatosDescriptivos
 from .modelos.modelFundamentacion import Fundamentacion
 
@@ -23,7 +23,7 @@ admin.site.register(Dedicacion)
 admin.site.register(Situacion)
 admin.site.register(TareasFunciones)
 admin.site.register(DetalleProfesorCatedra)
-admin.site.register(ResultadoDeAprendizaje)
+admin.site.register(ResultadoDeAprendizajes)
 admin.site.register(DatosDescriptivos)
 admin.site.register(Fundamentacion)
 
