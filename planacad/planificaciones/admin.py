@@ -4,14 +4,17 @@ from .modelos.modelAsignatura import Asignatura
 from .modelos.modelCarrera import Carrera
 from .modelos.modelPlanificacion import Planificacion
 from .modelos.modelProfesor import Profesor
+from .modelos.modelDatosDescriptivos import DatosDescriptivos
+from .modelos.modelFundamentacion import Fundamentacion
+from .modelos.modelTipoDeEvaluacion import TipoDeEvaluacion
+from .modelos.modelActividad import Actividad
+from .modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
 from .modelos.modelCategoria import Categoria
 from .modelos.modelDedicacion import Dedicacion
 from .modelos.modelSituacion import Situacion
 from .modelos.modelTareasFunciones import TareasFunciones
 from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 from .modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizajes
-from .modelos.modelDatosDescriptivos import DatosDescriptivos
-from .modelos.modelFundamentacion import Fundamentacion
 
 # Register your models here.
 admin.site.register(Asignatura)
@@ -26,4 +29,8 @@ admin.site.register(DetalleProfesorCatedra)
 admin.site.register(ResultadoDeAprendizajes)
 admin.site.register(DatosDescriptivos)
 admin.site.register(Fundamentacion)
+admin.site.register(TipoDeEvaluacion)
+admin.site.register(Actividad)
+admin.site.register(ResultadoDeAprendizaje)
+
 
