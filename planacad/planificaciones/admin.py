@@ -15,6 +15,8 @@ from .modelos.modelSituacion import Situacion
 from .modelos.modelTareasFunciones import TareasFunciones
 from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 from .modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizajes
+from .modelos.modelCondicion import CondicionAprobacionDirecta, CondicionAprobacionCursada
+
 
 # Register your models here.
 admin.site.register(Asignatura)
@@ -32,5 +34,8 @@ admin.site.register(Fundamentacion)
 admin.site.register(TipoDeEvaluacion)
 admin.site.register(Actividad)
 admin.site.register(ResultadoDeAprendizaje)
+admin.site.register(CondicionAprobacionDirecta)
+admin.site.register(CondicionAprobacionCursada)
+
 
 

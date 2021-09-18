@@ -86,11 +86,27 @@
               <a
                 href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
                 class=""
-                title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
+                title=""
                 ><li>
                   <div class="text-truncate">Sistema de evaluación</div>
-                </li></a
-              >
+                  <ol>
+                    <a
+                      href="{% url 'planificaciones:aprobacionDirecta' planificacion.id %}"
+                      class=""
+                      title=""
+                    >
+                      <li>Condición aprobación directa</li>
+                    </a>
+                    <a
+                      href="{% url 'planificaciones:aprobacionCursada' planificacion.id %}"
+                      class=""
+                      title=""
+                    >
+                      <li>Condición aprobación cursada</li>
+                    </a>
+                  </ol>
+                </li>
+              </a>
             </ol>
           </nav>
         </aside>
