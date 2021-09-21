@@ -32,7 +32,7 @@
   <li class="py-4">
     <a href="/planificacion/{{ planificacion.id }}/datos-descriptivos"
       >{{planificacion.id}} {{ planificacion.fecha_creacion }}</a
-    >
+    >   <a href="/planificacion/{{ planificacion.id }}/eliminar-planificacion" style="color: red;">Eliminar</a>
   </li>
   {% endfor %}
 </ul>
