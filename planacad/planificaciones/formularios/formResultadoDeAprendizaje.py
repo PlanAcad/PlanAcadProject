@@ -1,8 +1,8 @@
 from django import forms  
-from planificaciones.modelos.modelResultadoDeAprendizaje import ResultadoDeAprendizajes
+from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
 
 class ResultadoDeAprendizajeForm(forms.ModelForm):  
     resultado = forms.CharField(widget=forms.Textarea())
     class Meta:  
-        model = ResultadoDeAprendizajes  
+        model = ResultadoDeAprendizaje  
         exclude = ['planificacion']
