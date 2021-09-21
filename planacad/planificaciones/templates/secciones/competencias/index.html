@@ -23,7 +23,7 @@
                 class="position-relative"
             >
                 <td class="py-4">
-                    {{competencia.tipo_competencia|default:""}}
+                    {{competencia.get_tipo_competencia_display|default:""}}
                 </td>
                 <td class="py-4">
                     <a
@@ -34,7 +34,13 @@
                 </td>
 
                 <td>
-                    <ul></ul>
+                    <ul>
+                        {% for subcompetencia in competencia.subcompetencia_set.all %}
+                        <li class="py-4">
+                            <p>{{ subcompetencia.descripcion }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </td>
             </tr>
             {% endfor %} {% else %}

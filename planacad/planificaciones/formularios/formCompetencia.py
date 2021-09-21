@@ -4,4 +4,7 @@ from planificaciones.modelos.modelCompetencia import Competencia
 class CompetenciaForm(forms.ModelForm):  
     class Meta:  
         model = Competencia  
-        fields = "__all__"
+        exclude = ['planificacion']
+        widgets = {
+            'descripcion': forms.Textarea()
+        }
