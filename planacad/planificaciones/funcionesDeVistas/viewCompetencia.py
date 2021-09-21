@@ -7,27 +7,26 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 
 
 
-##Define request for Asignatura   
-def CompetenciaNew(request,planificacion_id):
+def CompetenciaNew(request,id_planificacion):
     mensaje_exito = None
     mensaje_error = None
+    planificacion = Planificacion.objects.get(id=id_planificacion)
+    data = Competencia.objects.filter(planificacion = planificacion)
     if request.method == "POST":  
         form = CompetenciaForm(request.POST)  
         if form.is_valid():  
             try:  
-                #Obtengo la planificacion
-                planificacion = Planificacion.objects.get(id=planificacion_id)
-                form.planificacion_id=planificacion.id
+                instance = form.save(commit=False)
+                instance.planificacion_id=planificacion.id
                 #Guardo
-                form.save()
-                mensaje_exito=""  
-                return redirect('/show')  
+                instance.save()
+                form.save_m2m()  
             except:  
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
         form = CompetenciaForm()  
-    return render(request,'index.html',{'form':form, 'mensaje_error': mensaje_error,
-    'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/competencias/index.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+  
   
 def CompetenciaView(request,id_planificacion):
     mensaje_error = None
