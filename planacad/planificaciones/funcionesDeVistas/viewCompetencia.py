@@ -61,32 +61,40 @@ def CompetenciaDetailView(request, id):
     return render(request,'secciones/seccion2detail.html', {'competencia':competencia
     ,'mensaje_error': mensaje_error})  
 
-def CompetenciaUpdate(request, id):  
+def CompetenciaUpdate(request, id_planificacion, id_competencia):  
     mensaje_exito = None
     mensaje_error = None
-    competencia = None
-    try:
-        competencia = Competencia.objects.get(id=id)  
-        form = CompetenciaForm(request.POST, instance = competencia)  
+    planificacion = Planificacion.objects.get(id=id_planificacion)
+    data = Competencia.objects.get(id=id_competencia)
+    if request.method == "POST":  
+        form = CompetenciaForm(request.POST, instance=data)  
         if form.is_valid():  
-            try:
-                form.save()                            
-                mensaje_exito = "Guardamos los cambios correctamente."        
-            except:
-                mensaje_error = "No pudimos guardar los cambios."
-    except:
-        mensaje_error = ""
-    return render(request, 'edit.html', {'competencia': competencia,'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error})  
+            try:  
+                instance = form.save(commit=False)
+                instance.planificacion_id=planificacion.id
+                #Guardo
+                instance.save()
+                mensaje_exito="Guardamos los cambios correctamente."
+                #return HttpResponseRedirect(reverse('planificaciones:detallesprofesorcatedra', args=[id_planificacion]))
+                return redirect('planificaciones:competencias', id_planificacion=id_planificacion)
+                 
+            except:  
+                 mensaje_error = "No pudimos guardar los cambios."    
+    else:  
+        form = CompetenciaForm(instance=data)  
+    return render(request,'secciones/competencias/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+  
 
-def CompetenciaDestroy(request, id):
+def CompetenciaDestroy(request, id_planificacion, id_competencia):
     mensaje_exito = None
     mensaje_error = None
-    competencia = None
-    try:
-         competencia = Competencia.objects.get(id=id)  
-         competencia.delete()
-         mensaje_exito = "Se ha borrado correctamente."        
-    except:
-         mensaje_error = "No pudimos borrar correctamente"  
-      
-    return competencia("/show",{'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error}) 
+    if request.method == "POST":
+        try:
+            competencia = Competencia.objects.get(id=id_competencia)  
+            competencia.delete()
+            mensaje_exito = "Se ha borrado correctamente."        
+        except:
+            mensaje_error = "No pudimos borrar correctamente"  
+        
+        return redirect('planificaciones:competencias', id_planificacion=id_planificacion)
+                 
