@@ -35,16 +35,41 @@
 
           <nav>
             <ol>
-              <a href="./datos-descriptivos" class="active" title="Datos descriptivos"
+              <a
+                href="./datos-descriptivos"
+                class="active"
+                title="Datos descriptivos"
                 ><li>Datos descriptivos</li></a
               >
-              <a href="./seccion2" class="" title="Estructura de la cátedra"
+              <a
+                href="./estructura-de-la-catedra"
+                class=""
+                title="Estructura de la cátedra"
                 ><li>Estructura de la cátedra</li></a
+              >
+              <a
+                href="./fundamentacion"
+                class="{% if '/fundamentacion' in url %} active {% endif %}"
+                title="Fundamentación"
+                ><li>
+                  <div class="text-truncate">Fundamentación</div>
+                </li></a
               >
 
               <a
-                href="./fundamentacion"
-                class="{% if '/seccion3' in url %} active {% endif %}"
+                href="./resultados-de-aprendizaje"
+                class="
+                  {%
+                  if
+                  '/resultados-de-aprendizaje'
+                  in
+                  url
+                  %}
+                  active
+                  {%
+                  endif
+                  %}
+                "
                 title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
                 ><li>
                   <div class="text-truncate">
@@ -54,6 +79,34 @@
                   </div>
                 </li></a
               >
+
+              <a href="#" class="" title="-"><li>-</li></a>
+              <a href="#" class="" title="-"><li>-</li></a>
+
+              <a
+                href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
+                class=""
+                title=""
+                ><li>
+                  <div class="text-truncate">Sistema de evaluación</div>
+                  <ol>
+                    <a
+                      href="{% url 'planificaciones:aprobacionDirecta' planificacion.id %}"
+                      class=""
+                      title=""
+                    >
+                      <li>Condición aprobación directa</li>
+                    </a>
+                    <a
+                      href="{% url 'planificaciones:aprobacionCursada' planificacion.id %}"
+                      class=""
+                      title=""
+                    >
+                      <li>Condición aprobación cursada</li>
+                    </a>
+                  </ol>
+                </li>
+              </a>
             </ol>
           </nav>
         </aside>

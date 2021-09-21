@@ -1,0 +1,73 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 4px;
+    font-weight: 400;
+    font-size: small;
+  }
+</style>
+
+
+<form action="" method="POST">
+  {% csrf_token %}
+
+  <p><b>Deseas eliminar?</b></p>
+
+  {% if actividad %}
+    <table>
+        <tr>
+            <th>Tipo</th>
+            <th>Actividades de evaluación</th>
+            <th>Unidad tematica</th>
+            <th>Lugar/plataformas</th>
+            <th>Indicadores de logro</th>
+            <th>RA</th>
+            <th>Tec. de Evaluacion</th>
+        </tr>
+
+        <tr>
+            <td>
+            {{ actividad.tipo_de_evaluacion.get_tipo_display }}
+            </td>
+            <th>{{ actividad.get_actividad_display }}</th>
+            <th>{{actividad.unidad_tematica}}</th>
+            <th>{{actividad.lugar}}</th>
+            <th>{{actividad.indicadores_de_logro}}</th>
+            <th>
+            {% if actividad.resultados_de_aprendizaje.all %}
+                {% for resultado in actividad.resultados_de_aprendizaje.all %}
+                <p><li>{{ resultado.resultado }}</li></p>
+                {% endfor %}
+            {% else %}
+                <p>-</p>
+            {% endif %}
+            </th>
+            <th>{{actividad.tecnicas_de_evaluacion}}</th>
+        </tr>
+      </table>
+    {% endif %}
+
+  <br />
+  <a href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}">
+    <input
+      class="btn btn-secondary"
+      value="Volver"
+      style="cursor: pointer; max-width: 80px"
+    />
+  </a>
+  <input type="submit" name="Submit" class="btn btn-danger" value="Eliminar" />
+</form>
+
+{% endblock %}
+
+
+
