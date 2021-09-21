@@ -7,7 +7,7 @@ class Competencia(models.Model):
    tipo_competencia = models.CharField(
         max_length=50,
         choices=[('T', 'Tecnológicas'),('E', 'Específicas'),('S', 'Sociales, políticas y actitudinales')],)
-   descripcion = models.CharField(max_length=400)
+   descripcion = models.CharField(max_length=400, blank=True, null=True)
    subcompetencias = models.ManyToManyField(SubCompetencia, blank=True)
    planificacion = models.ForeignKey(Planificacion, on_delete=models.CASCADE)
 
