@@ -1,10 +1,14 @@
 from planificaciones.modelos.modelPlanificacion import Planificacion
+from planificaciones.modelos.modelSubCompetencia import SubCompetencia
 from django.db import models
 
 class Competencia(models.Model): 
    id = models.AutoField(primary_key=True) 
-   tipo_competencia = models.CharField(max_length=50)
-   competencia = models.CharField(max_length=50)
+   tipo_competencia = models.CharField(
+        max_length=50,
+        choices=[('T', 'Tecnológicas'),('E', 'Específicas'),('S', 'Sociales, políticas y actitudinales')],)
+   descripcion = models.CharField(max_length=400)
+   subcompetencias = models.ManyToManyField(SubCompetencia, blank=True)
    planificacion = models.ForeignKey(Planificacion, on_delete=models.CASCADE)
 
    def __str__(self):
