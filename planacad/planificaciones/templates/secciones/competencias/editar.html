@@ -12,6 +12,9 @@
     action="{% url 'planificaciones:competenciaUpdate' planificacion.id data.id %}"
   >
     {% csrf_token %} {{form.as_p}}
+    <a href="{% url 'planificaciones:subcompetencias' planificacion.id data.id %}" class="btn btn-outline-primary">
+        Añadir subcompetencias
+    </a>
     <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
   <form
@@ -23,7 +26,7 @@
   </form>
 
   {% if form.errors %}
-  <div class="alert alert-error">{{form.errors}}</div>
+  <div class="alert alert-danger">{{form.errors}}</div>
   {% endif %}
 </div>
 {% endblock %}

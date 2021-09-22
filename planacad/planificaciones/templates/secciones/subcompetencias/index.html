@@ -1,0 +1,27 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado">3. Competencias</h2>
+<div class="seccion__card">
+    {% if mensaje_exito %}
+    <div class="alert alert-success">{{mensaje_exito}}</div>
+    {% endif %}
+
+    <h3 class="mt-4">Agregar sub-competencia para la competencia {{competencia.descripcion}}</h3>
+
+    <form
+        method="POST"
+        action="{% url 'planificaciones:subcompetencias' planificacion.id competencia.id %}"
+    >
+        {% csrf_token %} {{form.as_p}}
+        <button type="submit" class="btn btn-primary">Añadir</button>
+    </form>
+    {% if form.errors %}
+    <div class="alert alert-danger">{{form.errors}}</div>
+    {% endif %}
+    {% if mensaje_error %}
+    <div class="alert alert-danger">{{mensaje_error}}</div>
+    {% endif %}
+</div>
+
+
+{% endblock %}

@@ -1,8 +1,10 @@
 # Para usar los objetos y/o funciones de 'redirect'
+
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.formularios.formCompetencia import CompetenciaForm
-from planificaciones.modelos.modelCompetencia import Competencia 
+from planificaciones.modelos.modelCompetencia import Competencia
+from planificaciones.modelos.modelSubCompetencia import SubCompetencia
 from planificaciones.modelos.modelPlanificacion import Planificacion 
 
 
@@ -20,7 +22,7 @@ def CompetenciaNew(request,id_planificacion):
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
-                form.save_m2m()  
+                return redirect('planificaciones:competencias', id_planificacion=id_planificacion)
             except:  
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
@@ -66,6 +68,7 @@ def CompetenciaUpdate(request, id_planificacion, id_competencia):
     mensaje_error = None
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = Competencia.objects.get(id=id_competencia)
+    subcompetencias = SubCompetencia.objects.filter(competencia = data)
     if request.method == "POST":  
         form = CompetenciaForm(request.POST, instance=data)  
         if form.is_valid():  
@@ -82,7 +85,7 @@ def CompetenciaUpdate(request, id_planificacion, id_competencia):
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = CompetenciaForm(instance=data)  
-    return render(request,'secciones/competencias/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/competencias/editar.html',{'data':data, 'subcompetencias': subcompetencias,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 
 def CompetenciaDestroy(request, id_planificacion, id_competencia):
