@@ -17,7 +17,11 @@
     <ul>
       {% for subcompetencia in subcompetencias %}
       <li class="py-4">
-          <p>{{ subcompetencia.descripcion }}</p>
+          <p>{{ subcompetencia.descripcion }}
+            <a href="{% url 'planificaciones:subcompetenciasUpdate' planificacion.id data.id subcompetencia.id %}" class="link-primary pl-2">
+              Editar
+          </a>
+          </p>
       </li>
       {% endfor %}
     </ul>
