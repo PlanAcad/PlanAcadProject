@@ -5,18 +5,19 @@
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
   {% endif %}
-  <h3>Modificar docente</h3>
+  <h3>Modificar subcompetencia</h3>
 
   <form
     method="POST"
-    action="{% url 'planificaciones:detallesprofesorcatedraupdate' planificacion.id data.id %}"
+    action="{% url 'planificaciones:subcompetenciasUpdate' planificacion.id competencia.id data.id %}"
   >
     {% csrf_token %} {{form.as_p}}
+    
     <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
   <form
     method="POST"
-    action="{% url 'planificaciones:detallesprofesorcatedradestroy' planificacion.id data.id %}"
+    action="{% url 'planificaciones:subcompetenciasDestroy' planificacion.id competencia.id data.id %}"
   >
     {% csrf_token %}
     <button type="submit" class="btn btn-danger my-4">Eliminar</button>

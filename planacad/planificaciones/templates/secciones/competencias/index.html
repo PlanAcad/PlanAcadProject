@@ -1,0 +1,73 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado">3. Competencias</h2>
+<div class="seccion__card">
+    {% if mensaje_exito %}
+    <div class="alert alert-success">{{mensaje_exito}}</div>
+    {% endif %}
+
+    <table class="seccion__table">
+        <thead class="">
+            <tr>
+                <th>Tipo de competencia</th>
+                <th>Competencias</th>
+                <th>Sub-competencias (Capacidades)</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% if data %} {% for competencia in data %}
+
+            <tr
+                onclick="location.href='competencias/edit/{{competencia.id}}'"
+                class="position-relative"
+            >
+                <td class="py-4">
+                    {{competencia.get_tipo_competencia_display|default:""}}
+                </td>
+                <td class="py-4">
+                    <a
+                        class="stretched-link"
+                        href="competencias/edit/{{competencia.id}}"
+                        >{{competencia.descripcion|default:""}}</a
+                    >
+                </td>
+
+                <td>
+                    <ul>
+                        {% for subcompetencia in competencia.subcompetencia_set.all %}
+                        <li class="py-4">
+                            <p>{{ subcompetencia.descripcion }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %} {% else %}
+            <tr>
+                <td colspan="5">No hay datos para mostrar</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <h3 class="mt-4">Agregar competencia</h3>
+
+    <form
+        method="POST"
+        action="{% url 'planificaciones:competencias' planificacion.id %}"
+    >
+        {% csrf_token %} {{form.as_p}}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+    {% if form.errors %}
+    <div class="alert alert-danger">{{form.errors}}</div>
+    {% endif %}
+</div>
+
+<div class="py-4"></div>
+
+<h2 class="seccion__encabezado">Correcciones</h2>
+<div class="seccion__card">No posee correcciones.</div>
+
+{% endblock %}

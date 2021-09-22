@@ -2,65 +2,66 @@
 
 <h2 class="seccion__encabezado">2. Estructura de la cátedra</h2>
 <div class="seccion__card">
-  {% if mensaje_exito %}
-  <div class="alert alert-success">{{mensaje_exito}}</div>
-  {% endif %}
+    {% if mensaje_exito %}
+    <div class="alert alert-success">{{mensaje_exito}}</div>
+    {% endif %}
 
-  <table class="seccion__table">
-    <thead class="">
-      <tr>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Dedicación</th>
-        <th>Situación</th>
-        <th>Tareas/Función a desarrollar</th>
-      </tr>
-    </thead>
+    <table class="seccion__table">
+        <thead class="">
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Dedicación</th>
+                <th>Situación</th>
+                <th>Tareas/Función a desarrollar</th>
+            </tr>
+        </thead>
 
-    <tbody>
-      {% if data %} {% for detalleprofesor in data %}
+        <tbody>
+            {% if data %} {% for detalleprofesor in data %}
 
-      <tr
-        onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"
-      >
-        <td class="py-4">
-          <a href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}"
-            >{{detalleprofesor.profesor.nombre|default:""}}
-            {{detalleprofesor.profesor.apellido|default:""}}</a
-          >
-        </td>
-        <td class="py-4">{{detalleprofesor.categoria|default:""}}</td>
-        <td class="py-4">{{detalleprofesor.dedicacion|default:""}}</td>
-        <td class="py-4">{{detalleprofesor.situacion|default:""}}</td>
-        <td>
-          <ul>
-            {% for tarea in detalleprofesor.tareas.all %}
-            <li class="py-4">
-              <p>{{ tarea.tarea_funcion }}</p>
-            </li>
-            {% endfor %}
-          </ul>
-        </td>
-      </tr>
-      {% endfor %}{% else %}
-      <tr>
-        <td colspan="5">No hay datos para mostrar</td>
-      </tr>
-      {% endif %}
-    </tbody>
-  </table>
+            <tr
+                onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"
+            >
+                <td class="py-4">
+                    <a
+                        href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}"
+                        >{{detalleprofesor.profesor.nombre|default:""}}
+                        {{detalleprofesor.profesor.apellido|default:""}}</a
+                    >
+                </td>
+                <td class="py-4">{{detalleprofesor.categoria|default:""}}</td>
+                <td class="py-4">{{detalleprofesor.dedicacion|default:""}}</td>
+                <td class="py-4">{{detalleprofesor.situacion|default:""}}</td>
+                <td>
+                    <ul>
+                        {% for tarea in detalleprofesor.tareas.all %}
+                        <li class="py-4">
+                            <p>{{ tarea.tarea_funcion }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}{% else %}
+            <tr>
+                <td colspan="5">No hay datos para mostrar</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
 
-  <h3 class="mt-4">Agregar docente</h3>
+    <h3 class="mt-4">Agregar docente</h3>
 
-  <form
-    method="POST"
-    action="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
-  >
-    {% csrf_token %} {{form.as_p}}
-    <button type="submit" class="btn btn-primary">Guardar</button>
-  </form>
-  {% if form.errors %}
-  <div class="alert alert-error">{{form.errors}}</div>
-  {% endif %}
+    <form
+        method="POST"
+        action="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
+    >
+        {% csrf_token %} {{form.as_p}}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+    {% if form.errors %}
+    <div class="alert alert-danger">{{form.errors}}</div>
+    {% endif %}
 </div>
 {% endblock %}
