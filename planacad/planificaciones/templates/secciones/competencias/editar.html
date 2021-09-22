@@ -12,9 +12,19 @@
     action="{% url 'planificaciones:competenciaUpdate' planificacion.id data.id %}"
   >
     {% csrf_token %} {{form.as_p}}
+    <div class="card p-4 my-4">
+    <h3>Subcompetencias</h3>
+    <ul>
+      {% for subcompetencia in subcompetencias %}
+      <li class="py-4">
+          <p>{{ subcompetencia.descripcion }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+   
     <a href="{% url 'planificaciones:subcompetencias' planificacion.id data.id %}" class="btn btn-outline-primary">
-        Añadir subcompetencias
-    </a>
+        Añadir subcompetencia
+    </a> </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
   <form
