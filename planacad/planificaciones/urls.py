@@ -13,6 +13,7 @@ urlpatterns = [
     path('asignaturas', viewAsignatura.AsignaturasView, name='asignaturas'),
     path('asignaturas/<int:id>', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:asignatura_id>/nueva-planificacion', viewPlanificacion.PlanificacionNew, name='nueva'),
+    path('planificacion/<int:id>/eliminar-planificacion', viewPlanificacion.PlanificacionLogicDestroy, name='eliminar'),
 
     #Profesor
     path('profesores/<int:id>', viewProfesor.ProfesorDetailView, name='profesorDetail'),
