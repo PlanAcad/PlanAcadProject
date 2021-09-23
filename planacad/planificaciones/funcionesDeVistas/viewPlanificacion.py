@@ -65,15 +65,14 @@ def PlanificacionUpdate(request, id):
 
 def PlanificacionLogicDestroy(request, id):  
     mensaje_error = None
-    planificacion = Planificacion.objects.get(id=id)
-    planificacion.eliminada = True  
-    form = PlanificacionForm(request.POST, instance = planificacion)  
-    if form.is_valid():  
-        form.save()  
+    try:
+        planificacion = Planificacion.objects.get(id=id)
+        planificacion.eliminada = True
+        planificacion.save(update_fields=['eliminada'])
         return HttpResponseRedirect('/asignaturas/'+str(planificacion.asignatura.id)  )
-    else:
+    except:
         mensaje_error="No se pudo eliminar la planificacion"
-    return render(request, 'eliminar-planificacion.html', {'mensaje_error': mensaje_error})  
+        return render(request, '/asignaturas/'+str(planificacion.asignatura.id), {'mensaje_error': mensaje_error})  
 
 
 def PlanificacionDestroy(request, id):  
