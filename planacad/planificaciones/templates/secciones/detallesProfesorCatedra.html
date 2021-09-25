@@ -24,44 +24,46 @@
 
 
     <table class="seccion__table">
-    <tbody>
-      <table>
-        <tr>
-            <th>Nombre</th>
-            <th>Categoría</th>
-            <th>Dedicación</th>
-            <th>Situación</th>
-            <th>Tareas/Función a desarrollar</th>
-        </tr>
+        <tbody>
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Dedicación</th>
+                    <th>Situación</th>
+                    <th>Tareas/Función a desarrollar</th>
+                </tr>
 
-        {% if data %} {% for detalleprofesor in data %}
-        <tr
-            onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"
-        >
-            <td class="py-4">
-                <a
-                    href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}"
-                    >{{detalleprofesor.profesor.nombre|default:""}}
-                    {{detalleprofesor.profesor.apellido|default:""}}</a
+                {% if data %} {% for detalleprofesor in data %}
+                <tr
+                    onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"
                 >
-            </td>
-            <td class="py-4">{{detalleprofesor.categoria|default:""}}</td>
-            <td class="py-4">{{detalleprofesor.dedicacion|default:""}}</td>
-            <td class="py-4">{{detalleprofesor.situacion|default:""}}</td>
-            <td>
-                <ul>
-                    {% for tarea in detalleprofesor.tareas.all %}
-                        <p><li>{{ tarea.tarea_funcion }}</li></p>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        {% endfor %}{% else %}
-        <tr>
-            <td colspan="5">No hay datos para mostrar</td>
-        </tr>
-        {% endif %}
-      </table>
+                    <td class="py-4">
+                        <a
+                            href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}"
+                            >{{detalleprofesor.profesor.nombre|default:""}}
+                            {{detalleprofesor.profesor.apellido|default:""}}</a
+                        >
+                    </td>
+                    <td class="py-4">{{detalleprofesor.categoria|default:""}}</td>
+                    <td class="py-4">{{detalleprofesor.dedicacion|default:""}}</td>
+                    <td class="py-4">{{detalleprofesor.situacion|default:""}}</td>
+                    <td>
+                        <ul>
+                            {% for tarea in detalleprofesor.tareas.all %}
+                                <p><li>{{ tarea.tarea_funcion }}</li></p>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}{% else %}
+                <tr>
+                    <td colspan="5">No hay datos para mostrar</td>
+                </tr>
+                {% endif %}
+            </table>
+        </tbody>
+    </table>
 
     <h3 class="mt-4">Agregar docente</h3>
 
