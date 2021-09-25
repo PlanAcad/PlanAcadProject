@@ -12,7 +12,6 @@ def JustificacionOrdenanza(request, id_planificacion):
     mensaje_exito = None
     mensaje_error = None
     
-    print(planificacion.justificacion_ordenanza)
     if request.method == 'POST':  
         form = JustificacionOrdenanzaForm(request.POST,instance = planificacion)
         if form.is_valid():
