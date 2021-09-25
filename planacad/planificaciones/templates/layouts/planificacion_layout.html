@@ -4,7 +4,11 @@
   <header class="pt-4 pb-4 border-bottom">
     <div class="container-xl">
       <div class="row">
-        <h1 class="col-md-3 h3">PlanAcad</h1>
+        <h1 class="col-md-3 h3">
+          <a class="item" href="{% url 'planificaciones:index' %}" style="text-decoration: none; color: inherit;">
+            PlanAcad
+          </a>
+        </h1>
         <h2 class="col-md-9 h5 d-flex align-items-center">
           <span class="text-truncate">
             Universidad Tecnológica Nacional - Complejidad y Técnicas de diseño
@@ -110,6 +114,22 @@
                   </ol>
                 </li>
               </a>
+
+              <a href="#" class="" title="-"><li>-</li></a>
+              <a href="#" class="" title="-"><li>-</li></a>
+              <a href="#" class="" title="-"><li>-</li></a>
+              <a href="#" class="" title="-"><li>-</li></a>
+              <a href="#" class="" title="-"><li>-</li></a>
+
+
+               <a
+                href="{% url 'planificaciones:justificacionOrdenanza' planificacion.id %}"
+                class=""
+                title="Justificacion ordenanza"
+                ><li>
+                  <div class="text-truncate">Justificación ordenanza 604</div>
+                </li></a
+              >
             </ol>
           </nav>
         </aside>

@@ -15,6 +15,7 @@ class Planificacion(models.Model):
    fundamentacion = models.ForeignKey(Fundamentacion, on_delete=models.CASCADE, null=True, blank=True)
    condicion_aprobacion_directa = models.ForeignKey(CondicionAprobacionDirecta, on_delete=models.CASCADE, null=True, blank=True)
    condicion_aprobacion_cursada = models.ForeignKey(CondicionAprobacionCursada, on_delete=models.CASCADE, null=True, blank=True)
+   justificacion_ordenanza = models.CharField(max_length=3000, null=True, blank=True)
 
    def __str__(self):
         return "%s, %s" % (self.asignatura,self.fecha_creacion)

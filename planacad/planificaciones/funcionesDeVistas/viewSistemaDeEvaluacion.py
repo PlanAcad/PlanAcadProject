@@ -24,7 +24,6 @@ def NewActividad(request, planificacion_id):
     form = ActividadForm()
     if request.method == 'POST':
         form = ActividadForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             new_form = form.save(commit=False) 
             new_form.planificacion = planificacion 
@@ -54,9 +53,6 @@ def UpdateActividad(request, planificacion_id, actividad_id):
     if request.method == 'POST':
         form = ActividadForm(request.POST, instance=actividad)
         if form.is_valid():
-            print('valid')
-
-            print(request.POST)
             new_form = form.save(commit=False) 
             new_form.planificacion = planificacion 
             new_form.save() 

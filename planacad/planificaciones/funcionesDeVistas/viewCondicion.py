@@ -32,16 +32,12 @@ def AprobacionDirecta(request, id_planificacion):
         'mensaje_error': mensaje_error
     }
 
-    print('form')
-    print(form)
-
     return render(request, "secciones/condicion/aprobacion-directa.html", context)  
 
 
 
 def AprobacionCursada(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    print(planificacion.condicion_aprobacion_cursada)
     condicion_aprobacion_cursada = CondicionAprobacionCursada.objects.get(id=planificacion.condicion_aprobacion_cursada.id)
     form = CondicionAprobacionCursadaForm(instance = condicion_aprobacion_cursada)
     mensaje_exito = None
@@ -65,9 +61,6 @@ def AprobacionCursada(request, id_planificacion):
         'mensaje_exito': mensaje_exito, 
         'mensaje_error': mensaje_error
     }
-
-    print('form')
-    print(form)
 
     return render(request, "secciones/condicion/aprobacion-cursada.html", context)  
 

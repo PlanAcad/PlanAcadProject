@@ -1,7 +1,11 @@
 from django.urls import path
 from django.shortcuts import render
 from . import views
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje, viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
+from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
+from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
+from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza
+
+
 
 
 app_name = 'planificaciones'
@@ -61,6 +65,10 @@ urlpatterns = [
 
     # Seccion 7.2 - Condicion de Aprobacion Cursada
     path('planificacion/<int:id_planificacion>/condicion-aprobacion-cursada', viewCondicion.AprobacionCursada, name='aprobacionCursada'),
+
+
+    # Seccion 13 - Justificacion (Ordenanza 604)
+    path('planificacion/<int:id_planificacion>/justificacion-ordenanza', viewJustificacionOrdenanza.JustificacionOrdenanza, name='justificacionOrdenanza'),
 
 
 ]
