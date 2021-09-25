@@ -5,10 +5,11 @@
 .layout__sidebar {
 }
 .layout__sidebar a {
+  text-decoration: none;
   color: var(--gray-dark);
   display: block;
-  font-weight: 600;
-  font-size: 1.2em;
+  font-weight: 500;
+  font-size: 0.9em;
   padding: 0.5em 0;
 }
 .layout__sidebar a:hover {

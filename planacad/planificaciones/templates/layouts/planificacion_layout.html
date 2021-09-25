@@ -43,20 +43,21 @@
                 href="./datos-descriptivos"
                 class="active"
                 title="Datos descriptivos"
-                ><li>Datos descriptivos</li></a
+                ><li class="section__title">Datos descriptivos</li></a
               >
               <a
                 href="./estructura-de-la-catedra"
                 class=""
                 title="Estructura de la cátedra"
-                ><li>Estructura de la cátedra</li></a
+                class="section__title"
+                ><li >Estructura de la cátedra</li></a
               >
               <a
                 href="./fundamentacion"
                 class="{% if '/fundamentacion' in url %} active {% endif %}"
                 title="Fundamentación"
-                ><li>
-                  <div class="text-truncate">Fundamentación</div>
+                ><li class="section__title">
+                  Fundamentación
                 </li></a
               >
 
@@ -75,38 +76,34 @@
                   %}
                 "
                 title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
-                ><li>
-                  <div class="text-truncate">
-                    Resultados de aprendizaje prprevios para iniciar/continuar
-                    el desarrollo de los RA de la asignatura en relacion con el
-                    nivel de aporte a las sub-competencias y competencias
-                  </div>
+                ><li class="section-title">
+                    Resultados de aprendizaje previos
                 </li></a
               >
 
-              <a href="#" class="" title="Competencias y capacidades vinculadas con la asignatura"><li>
-                <div class="text-truncate">
-                  Competencias y capacidades vinculadas con la asignatura
-                </div></li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
+              <a href="#" class="" title="Competencias y capacidades vinculadas con la asignatura">
+                <li>
+                  Competencias y capacidades
+                </li></a>
+              <a href="#" class="" title="-"><li>Propuestas para el desarrollo</li></a>
 
               <a
                 href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
                 class=""
                 title=""
                 ><li>
-                  <div class="text-truncate">Sistema de evaluación</div>
+                  Sistema de evaluación
                   <ol>
                     <a
                       href="{% url 'planificaciones:aprobacionDirecta' planificacion.id %}"
-                      class=""
+                      class="p-1 pt-0"
                       title=""
                     >
                       <li>Condición aprobación directa</li>
                     </a>
                     <a
                       href="{% url 'planificaciones:aprobacionCursada' planificacion.id %}"
-                      class=""
+                      class="p-1"
                       title=""
                     >
                       <li>Condición aprobación cursada</li>
@@ -115,11 +112,11 @@
                 </li>
               </a>
 
-              <a href="#" class="" title="-"><li>-</li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
+              <a href="#" class="" title="-"><li>Cronograma</li></a>
+              <a href="#" class="" title="-"><li>Biliografia</li></a>
+              <a href="#" class="" title="-"><li>Webgrafia</li></a>
+              <a href="#" class="" title="-"><li>Contenido</li></a>
+              <a href="#" class="" title="-"><li>Distribución de tareas</li></a>
 
 
                <a
@@ -127,7 +124,7 @@
                 class=""
                 title="Justificacion ordenanza"
                 ><li>
-                  <div class="text-truncate">Justificación ordenanza 604</div>
+                  Justificación ordenanza 604
                 </li></a
               >
             </ol>
