@@ -58,33 +58,6 @@
         </tbody>
     </table>
 
-  <!-- <table class="seccion__table">
-    <thead class="">
-      <tr>
-        <th>Asignatura aprobada y/o regularizadas</th>
-        <th>Resultados de aprendizaje alcanzados</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {% if data %} {% for fila in data %}
-
-      <tr onclick="location.href='resultados-de-aprendizaje/edit/{{fila.id}}'">
-        <td class="py-4">
-          <a href="resultados-de-aprendizaje/edit/{{fila.id}}"
-            >{{fila.asignatura|default:""}}
-          </a>
-        </td>
-        <td class="py-4">{{fila.resultado|default:""}}</td>
-      </tr>
-      {% endfor %}{% else %}
-      <tr>
-        <td colspan="5">No hay datos para mostrar</td>
-      </tr>
-      {% endif %}
-    </tbody>
-  </table> -->
-
   <h3 class="mt-4">Agregar Resultado de aprendizaje</h3>
 
   <form
