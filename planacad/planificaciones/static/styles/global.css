@@ -38,6 +38,15 @@
   margin-bottom: 0;
 }
 
+.seccion__card .indications__footer__mesage{
+  font-size: 12px; 
+  margin: 0; 
+  margin-top: 20px; 
+  padding: 0;
+}
+
+
+
 .seccion__table {
   table-layout: auto;
   width: 100%;
