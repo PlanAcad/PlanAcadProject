@@ -1,95 +1,107 @@
 * {
-  /* outline: 1px solid red; */
+    /* outline: 1px solid red; */
 }
 
 .layout__sidebar {
 }
 .layout__sidebar a {
-  text-decoration: none;
-  color: var(--gray-dark);
-  display: block;
-  font-weight: 500;
-  font-size: 0.9em;
-  padding: 0.5em 0;
+    text-decoration: none;
+    color: var(--gray-dark);
+    display: block;
+    font-weight: 500;
+    font-size: 0.9em;
+    padding: 0.5em 0;
 }
 .layout__sidebar a:hover {
-  color: var(--blue);
+    color: var(--blue);
 }
 
 .seccion {
-  padding-bottom: 2em;
+    padding-bottom: 2em;
 }
 .seccion__encabezado {
-  margin: 0.5em 0 0.75em;
-  font-size: 1.45em;
-  font-weight: 600;
+    margin: 0.5em 0 0.75em;
+    font-size: 1.45em;
+    font-weight: 600;
 }
 .seccion__card {
-  background-color: var(--false-white);
-  border-radius: 5px;
-  box-shadow: 0px 4px 10px rgba(170, 170, 170, 0.25);
-  padding: 1em 1.2em;
-  margin: 0.5em 0;
+    background-color: var(--false-white);
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(170, 170, 170, 0.25);
+    padding: 1em 1.2em;
+    margin: 0.5em 0;
 }
 
-.seccion__card .subtitle__message{
-  color: #9CA3AF;
-  margin-top: 14px;
-  margin-bottom: 0;
+.seccion__card .subtitle__message {
+    color: #9ca3af;
+    margin-top: 14px;
+    margin-bottom: 0;
 }
 
-.seccion__card .indications__footer__mesage{
-  font-size: 12px; 
-  margin: 0; 
-  margin-top: 20px; 
-  padding: 0;
+.seccion__card .indications__footer__mesage {
+    font-size: 12px;
+    margin: 0;
+    margin-top: 20px;
+    padding: 0;
 }
-
-
 
 .seccion__table {
-  table-layout: auto;
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  font-family: Arial, Helvetica, sans-serif;
+    table-layout: auto;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .seccion__table td {
-  border: 1px solid black;
+    border: 1px solid black;
 }
 .seccion__table td label {
-  display: block;
-  padding: 0.2em 0.3em;
-  font-weight: bold;
-  text-align: right;
+    display: block;
+    padding: 0.2em 0.3em;
+    font-weight: bold;
+    text-align: right;
 }
 
 .seccion__table td input:not([type="radio"]) {
-  width: 100%;
-  min-height: 2em;
-  padding: 0.2em 0.3em;
-  border: 1px solid transparent;
+    width: 100%;
+    min-height: 2em;
+    padding: 0.2em 0.3em;
+    border: 1px solid transparent;
 }
 
 .seccion__table
-  td
-  input:not([type="radio"]):not([type="checkbox"]):not([readonly]):hover,
+    td
+    input:not([type="radio"]):not([type="checkbox"]):not([readonly]):hover,
 .seccion__table
-  td
-  input:not([type="radio"]):not([type="checkbox"]):not([readonly]):focus {
-  border: 1px solid var(--blue);
-  box-shadow: 0 0 6px var(--blue);
-  outline: 0;
+    td
+    input:not([type="radio"]):not([type="checkbox"]):not([readonly]):focus {
+    border: 1px solid var(--blue);
+    box-shadow: 0 0 6px var(--blue);
+    outline: 0;
 }
 
 .seccion__table ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0.2em 0.5em;
-  margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.2em 0.5em;
+    margin: 0;
 }
 .seccion__table ul li label {
-  font-weight: normal;
+    font-weight: normal;
+}
+
+/* Link con lecha */
+.link-arrow {
+    display: block;
+    text-decoration-line: none;
+    font-weight: bold;
+}
+.link-arrow span {
+    padding-bottom: 0.2em;
+    border-bottom: 2px solid;
+}
+.link-arrow svg {
+    margin: 0 0.2em;
 }
