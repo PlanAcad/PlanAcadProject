@@ -29,8 +29,8 @@
   <div class="py-5"></div>
 
   <h2>Link con flecha</h2>
-  <a href="#" class="link-arrow"><span>Link con flecha</span>{% include "iconos/chevron-right.html" %}</a>
-  <a href="#" class="link-arrow">{% include "iconos/chevron-left.html" %}<span>Link con flecha</span></a>
+  <a href="#" class="link-arrow my-2"><span>Link con flecha</span>{% include "iconos/chevron-right.html" %}</a>
+  <a href="#" class="link-arrow my-2">{% include "iconos/chevron-left.html" %}<span>Link con flecha</span></a>
 
   <div class="py-5"></div>
 
@@ -44,7 +44,48 @@
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
   </div>
 
+  <div class="py-5"></div> 
 
+  <h2>Formularios</h2>
+  <div class="my-3">
+    <label for="exampleFormControlInput1" class="form-label">Campo de texto</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+  </div> 
+
+  <div class="my-3">
+    <label for="validationServer03" class="form-label">Campo de texto con error</label>
+    <input type="text" class="form-control is-invalid" id="validationServer03" aria-describedby="validationServer03Feedback" required>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid city.
+    </div>
+  </div> 
+
+  <div class="row">
+    <div class="col-md-6">
+      <label for="exampleFormControlTextarea1" class="form-label">Textarea</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+    <div class="col-md-6">
+      <label for="exampleFormControlTextarea1invalid" class="form-label">Textarea con error</label>
+      <textarea class="form-control is-invalid" id="exampleFormControlTextarea1invalid" rows="3"></textarea>
+    </div>
+  </div>
+
+  <div class="py-5"></div>
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+  <label class="form-check-label" for="flexRadioDefault1">
+    Default radio
+  </label>
+  </div>
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+  <label class="form-check-label" for="flexRadioDefault2">
+    Default checked radio
+  </label>
+  </div>
+
+  <div class="py-5"></div>
 
 </div>
  {% endblock %}
