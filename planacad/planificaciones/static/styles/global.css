@@ -105,3 +105,17 @@
 .link-arrow svg {
     margin: 0 0.2em;
 }
+
+/* Botón solo ícono */
+.btn-icon {
+    width: 2.75em;
+    height: 2.75em;
+    padding: 0;
+    display: inline-flex;
+}
+.btn-icon svg {
+    margin: auto;
+}
+.btn-icon:hover {
+    box-shadow: 0px 4px 10px rgba(170, 170, 170, 0.25);
+}

@@ -5127,10 +5127,10 @@ fieldset:disabled .btn {
 
 .alert {
     position: relative;
-    padding: 1rem 1rem;
+    padding: 1rem 1.125rem;
     margin-bottom: 1rem;
     border: 1px solid transparent;
-    border-radius: 0.25rem;
+    border-radius: 6px;
 }
 
 .alert-heading {
@@ -5171,9 +5171,9 @@ fieldset:disabled .btn {
 }
 
 .alert-success {
-    color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc;
+    color: #76ca5a;
+    background-color: rgba(118, 202, 90, 0.1);
+    border-color: #76ca5a;
 }
 .alert-success .alert-link {
     color: #0c4128;
@@ -5198,9 +5198,9 @@ fieldset:disabled .btn {
 }
 
 .alert-danger {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
+    color: #cc0505;
+    background-color: rgba(204, 5, 5, 0.1);
+    border-color: #cc0505;
 }
 .alert-danger .alert-link {
     color: #6a1a21;
