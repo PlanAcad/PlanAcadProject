@@ -1,9 +1,6 @@
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
 from planificaciones.modelos.modelFundamentacion import Fundamentacion
-from planificaciones.modelos.modelCondicion import CondicionAprobacionDirecta, CondicionAprobacionCursada
-
-
 from django.db import models
 
 class Planificacion(models.Model): 
@@ -13,8 +10,8 @@ class Planificacion(models.Model):
    eliminada = models.BooleanField(default=False, null=True)
    datos_descriptivos = models.ForeignKey(DatosDescriptivos, on_delete=models.CASCADE, null=True, blank=True)
    fundamentacion = models.ForeignKey(Fundamentacion, on_delete=models.CASCADE, null=True, blank=True)
-   condicion_aprobacion_directa = models.ForeignKey(CondicionAprobacionDirecta, on_delete=models.CASCADE, null=True, blank=True)
-   condicion_aprobacion_cursada = models.ForeignKey(CondicionAprobacionCursada, on_delete=models.CASCADE, null=True, blank=True)
+   condicion_aprobacion_directa = models.CharField(max_length=6000, null=True, blank=True)
+   condicion_aprobacion_cursada = models.CharField(max_length=6000, null=True, blank=True)
    justificacion_ordenanza = models.CharField(max_length=3000, null=True, blank=True)
 
    def __str__(self):
