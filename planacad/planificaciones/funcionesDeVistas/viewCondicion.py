@@ -3,18 +3,16 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.modelos.modelPlanificacion import Planificacion
-from planificaciones.modelos.modelCondicion import CondicionAprobacionDirecta, CondicionAprobacionCursada
 from planificaciones.formularios.formCondicion import  CondicionAprobacionDirectaForm, CondicionAprobacionCursadaForm
 
 def AprobacionDirecta(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    condicion_aprobacion_directa = CondicionAprobacionDirecta.objects.get(id=planificacion.condicion_aprobacion_directa.id)
-    form = CondicionAprobacionDirectaForm(instance = condicion_aprobacion_directa)
+    form = CondicionAprobacionDirectaForm(instance = planificacion)
     mensaje_exito = None
     mensaje_error = None
     
     if request.method == 'POST':  
-        form = CondicionAprobacionDirectaForm(request.POST,instance = condicion_aprobacion_directa)
+        form = CondicionAprobacionDirectaForm(request.POST,instance = planificacion)
         if form.is_valid():
             try:
                 form.save()                            
@@ -26,7 +24,6 @@ def AprobacionDirecta(request, id_planificacion):
 
     context = {
         'planificacion': planificacion,
-        'condicion_aprobacion_directa': condicion_aprobacion_directa, 
         'form': form, 
         'mensaje_exito': mensaje_exito, 
         'mensaje_error': mensaje_error
@@ -38,13 +35,12 @@ def AprobacionDirecta(request, id_planificacion):
 
 def AprobacionCursada(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    condicion_aprobacion_cursada = CondicionAprobacionCursada.objects.get(id=planificacion.condicion_aprobacion_cursada.id)
-    form = CondicionAprobacionCursadaForm(instance = condicion_aprobacion_cursada)
+    form = CondicionAprobacionCursadaForm(instance = planificacion)
     mensaje_exito = None
     mensaje_error = None
     
     if request.method == 'POST':  
-        form = CondicionAprobacionCursadaForm(request.POST,instance = condicion_aprobacion_cursada)
+        form = CondicionAprobacionCursadaForm(request.POST,instance = planificacion)
         if form.is_valid():
             try:
                 form.save()                            
@@ -56,7 +52,6 @@ def AprobacionCursada(request, id_planificacion):
 
     context = {
         'planificacion': planificacion,
-        'condicion_aprobacion_cursada': condicion_aprobacion_cursada, 
         'form': form, 
         'mensaje_exito': mensaje_exito, 
         'mensaje_error': mensaje_error
