@@ -1,0 +1,29 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado">2. Estructura de la cátedra</h2>
+<div class="seccion__card">
+  {% if mensaje_exito %}
+  <div class="alert alert-success">{{mensaje_exito}}</div>
+  {% endif %}
+  <h3>Modificar Resultado de Aprendizaje</h3>
+
+  <form
+    method="POST"
+    action="{% url 'planificaciones:resultadosDeAprendizajesUpdate' planificacion.id data.id %}"
+  >
+    {% csrf_token %} {{form.as_p}}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+  <form
+    method="POST"
+    action="{% url 'planificaciones:resultadosDeAprendizajesDestroy' planificacion.id data.id %}"
+  >
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger my-4">Eliminar</button>
+  </form>
+
+  {% if form.errors %}
+  <div class="alert alert-danger">{{form.errors}}</div>
+  {% endif %}
+</div>
+{% endblock %}

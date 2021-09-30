@@ -9,7 +9,7 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
 
 ##Define request for Asignatura   
-def asignatura(request):  
+def AsignaturaNew(request):  
     if request.method == "POST":  
         form = AsignaturaForm(request.POST)  
         if form.is_valid():  
@@ -29,7 +29,7 @@ def AsignaturaDetailView(request, id):
     # Obtengo el nombre de la carrera
     carrera = Carrera.objects.get(id=asignatura.carrera_id)
     # Obtener planificaciones existentes
-    planificaciones = Planificacion.objects.filter(asignatura=asignatura)
+    planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('-fecha_creacion')
     # Mandarle el form para crear planificaciones
     form = PlanificacionForm()  
     return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form})  

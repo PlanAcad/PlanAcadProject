@@ -18,12 +18,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='seccion1',
             name='cargaHorariaSemanal',
-            field=models.FloatField(max_length=50),
+            field=models.FloatField(),
         ),
         migrations.AlterField(
             model_name='seccion1',
             name='cargaHorariaTotal',
-            field=models.FloatField(max_length=50),
+            field=models.FloatField(),
         ),
         migrations.AlterField(
             model_name='seccion1',

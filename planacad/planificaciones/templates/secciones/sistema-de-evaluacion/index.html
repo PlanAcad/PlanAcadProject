@@ -1,0 +1,91 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 4px;
+    font-weight: 400;
+    font-size: small;
+  }
+</style>
+
+<h2 class="seccion__encabezado">7. Sistema de Evaluación</h2>
+<div class="seccion__card">
+  <table class="seccion__table">
+    <tbody>
+      {% if actividades %}
+      <table>
+        <tr>
+          <th>Tipo</th>
+          <th>Actividades de evaluación</th>
+          <th>Unidad tematica</th>
+          <th>Lugar/plataformas</th>
+          <th>Indicadores de logro</th>
+          <th>RA</th>
+          <th>Tec. de Evaluacion</th>
+          <th>Editar</th>
+
+        </tr>
+
+        {% for actividad in actividades %}
+        <tr>
+          <td>
+            {{ actividad.tipo_de_evaluacion.get_tipo_display }}
+          </td>
+          <th>{{ actividad.get_actividad_display }}</th>
+          <th>{{actividad.unidad_tematica}}</th>
+          <th>{{actividad.lugar}}</th>
+          <th>{{actividad.indicadores_de_logro}}</th>
+          <th>
+            {% if actividad.resultados_de_aprendizaje.all %}
+              {% for resultado in actividad.resultados_de_aprendizaje.all %}
+                <p><li>{{ resultado.resultado }}</li></p>
+              {% endfor %}
+            {% else %}
+              <p>-</p>
+            {% endif %}
+          </th>
+          <th>{{actividad.tecnicas_de_evaluacion}}</th>
+          <th>
+            <a class="item" href="{% url 'planificaciones:updateActividad' planificacion.id actividad.id %}">Actualizar</a>
+            <a class="item" href="{% url 'planificaciones:deleteActividad' planificacion.id actividad.id %}" style="color: red;">Eliminar</a>
+              
+          </th>
+
+
+        </tr>
+        {% endfor %}
+      </table>
+      <br />
+      {% else %}
+      <p>No se encontraron tipos de evaluación.</p>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <a class="item" href="{% url 'planificaciones:newActividad' planificacion.id %}">
+    <input type="submit" class="btn btn-primary" value="Agregar nueva" /> 
+  </a>
+
+  <p class="indications__footer__mesage">
+    Recuperar lo desarrollado en el Módulo 4 del Curso Formación por Competencias. Presentar al menos una rúbrica de evaluación para un Resultado de Aprendizaje.
+    Interpretar el concepto de “Indicadores de Logro” en relación a lo desarrollado en el Módulo 4 del Curso Formación por Competencias al trabajar el tema: Rúbrica.
+    Se sugiere consultar la bibliografía recomendada en el Módulo 4 del Curso Formación por Competencias.
+  </p>
+</div>
+
+<div class="py-4"></div>
+
+<h2 class="seccion__encabezado">Correcciones</h2>
+<div class="seccion__card">No posee correcciones.</div>
+
+
+
+{% endblock %}

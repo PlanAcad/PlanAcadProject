@@ -1,0 +1,46 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado"></h2>
+<div class="seccion__card">
+  {% if mensaje_exito %}
+  <div class="alert alert-success">{{mensaje_exito}}</div>
+  {% endif %}
+  <h3>Modificar competencia</h3>
+
+  <form
+    method="POST"
+    action="{% url 'planificaciones:competenciaUpdate' planificacion.id data.id %}"
+  >
+    {% csrf_token %} {{form.as_p}}
+    <div class="card p-4 my-4">
+    <h3>Subcompetencias</h3>
+    <ul>
+      {% for subcompetencia in subcompetencias %}
+      <li class="py-4">
+          <p>{{ subcompetencia.descripcion }}
+            <a href="{% url 'planificaciones:subcompetenciasUpdate' planificacion.id data.id subcompetencia.id %}" class="link-primary pl-2">
+              Editar
+          </a>
+          </p>
+      </li>
+      {% endfor %}
+    </ul>
+   
+    <a href="{% url 'planificaciones:subcompetencias' planificacion.id data.id %}" class="btn btn-outline-primary">
+        Añadir subcompetencia
+    </a> </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+  <form
+    method="POST"
+    action="{% url 'planificaciones:competenciaDestroy' planificacion.id data.id %}"
+  >
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger my-4">Eliminar</button>
+  </form>
+
+  {% if form.errors %}
+  <div class="alert alert-danger">{{form.errors}}</div>
+  {% endif %}
+</div>
+{% endblock %}
