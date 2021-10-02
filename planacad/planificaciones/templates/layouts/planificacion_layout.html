@@ -115,11 +115,21 @@
                 </li>
               </a>
 
-              <a href="#" class="" title="-"><li>-</li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
-              <a href="#" class="" title="-"><li>-</li></a>
+              <a href="#" class="" title="-"><li>Cronograma</li></a>
+              <a href="{% url 'planificaciones:bibliografia' planificacion.id %}"
+                class=""
+                title="Bibliografia"><li>Biliografia</li>
+              </a>
+              <a href="{% url 'planificaciones:webgrafia' planificacion.id %}"
+                class=""
+                title="Webgrafia"><li>Webgrafia</li>
+              </a>
+              <a href="#" class="" title="-"><li>Contenido</li></a>
+               <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
+                class=""
+                title="Distribución de Tareas">
+                <li>Distribución de tareas</li>
+              </a>
 
 
                <a

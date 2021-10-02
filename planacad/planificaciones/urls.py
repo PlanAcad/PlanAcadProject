@@ -3,7 +3,7 @@ from django.shortcuts import render
 from . import views
 from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
-from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza
+from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewDistribucionDeTareas
 
 
 
@@ -66,6 +66,12 @@ urlpatterns = [
     # Seccion 7.2 - Condicion de Aprobacion Cursada
     path('planificacion/<int:id_planificacion>/condicion-aprobacion-cursada', viewCondicion.AprobacionCursada, name='aprobacionCursada'),
 
+
+     # Seccion 12 - Distribución de tareas
+    path('planificacion/<int:id_planificacion>/distribucion-de-tareas', viewDistribucionDeTareas.DistribucionDeTareas, name='distribucionDeTareas'),
+    path('planificacion/<int:id_planificacion>/distribucion-de-tareas/edit/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.UpdateDistribucionDeTareas, name='updateDistribucionDeTareas'),
+    path('planificacion/<int:id_planificacion>/distribucion-de-tareas/delete/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.DeleteDistribucionDeTareas, name='deleteDistribucionDeTareas'),
+    
 
     # Seccion 13 - Justificacion (Ordenanza 604)
     path('planificacion/<int:id_planificacion>/justificacion-ordenanza', viewJustificacionOrdenanza.JustificacionOrdenanza, name='justificacionOrdenanza'),
