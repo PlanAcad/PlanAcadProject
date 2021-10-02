@@ -13,6 +13,9 @@ class Planificacion(models.Model):
    condicion_aprobacion_directa = models.CharField(max_length=6000, null=True, blank=True)
    condicion_aprobacion_cursada = models.CharField(max_length=6000, null=True, blank=True)
    justificacion_ordenanza = models.CharField(max_length=3000, null=True, blank=True)
+   numero_comisiones = models.IntegerField(null=True, blank=True, default=1)
+   numero_estudiantes_comision = models.IntegerField(null=True, blank=True)
+
 
    def __str__(self):
         return "%s, %s" % (self.asignatura,self.fecha_creacion)

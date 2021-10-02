@@ -1,0 +1,212 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 4px;
+    font-weight: 400;
+    font-size: small;
+  }
+  td {
+      cursor: pointer;
+  }
+
+  /* The Modal (background) */
+.modal {
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(179,206,226,0.6); /* Black w/ opacity */
+}
+
+
+
+
+</style>
+
+<h2 class="seccion__encabezado">12. Distribución de Tareas</h2>
+<div class="seccion__card">
+    <div class="form-group">
+        <label class="mt-3">Número de comisiones</label>
+        <input type="number" class="form-control" value="{{planificacion.numero_comisiones}}">
+    </div>
+    <div class="form-group">
+        <label class="mt-3">Número de estudiantes (aprox) por comisión</label>
+        <input type="number" class="form-control" value="{{planificacion.numero_estudiantes_comision}}">
+    </div>
+
+    <p class="mt-3 mb-0">Nómina de profesores:</p>
+    {% if profesores %}
+    <table class="seccion__table">
+        <tbody>
+            <table>
+                <thead class="">
+                    <tr>
+                        <th><b>Nombre y apellido del docente</b></th>
+                        <th><b>Categoria</b></th>
+                        <th><b>Situación de Revista y/o condición</b></th>
+                        <th><b>Designación</b></th>
+                        <th><b>Actividad que cumple y comisión</b></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                     {% for detalleprofesor in profesores %}
+                        <tr 
+
+                        onclick="location.href=`{% url 'planificaciones:updateDistribucionDeTareas' planificacion.id detalleprofesor.id %}`" 
+                        > 
+                            <td>
+                                {{detalleprofesor.profesor.nombre|default:""}}
+                                {{detalleprofesor.profesor.apellido|default:""}}
+                            </td>
+                            <td>{{detalleprofesor.categoria|default:""}}</td>
+                            <td>{{detalleprofesor.situacion|default:""}}</td>
+                            <td>{{detalleprofesor.dedicacion|default:""}}</td>
+                            <td style="text-align: left;">
+                                {{ detalleprofesor.actividades | default:""}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </tbody>
+    </table>
+    {% else %}
+        <div class="seccion__card" style="background-color: gainsboro;">
+            Aún no se asignaron profesores.
+        </div>
+    {% endif %}
+
+    <p class="mt-3 mb-0">Nómina de auxiliares:</p>
+    {% if profesores_auxiliares %}
+        <table class="seccion__table">
+            <tbody>
+                <table>
+                    <thead class="">
+                        <tr>
+                            <th><b>Nombre y apellido del docente</b></th>
+                            <th><b>Categoria</b></th>
+                            <th><b>Situación de Revista y/o condición</b></th>
+                            <th><b>Designación</b></th>
+                            <th><b>Actividad que cumple y comisión</b></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for detalleprofesor in profesores_auxiliares %}
+                            <tr onclick="location.href=`{% url 'planificaciones:updateDistribucionDeTareas' planificacion.id detalleprofesor.id %}`" > 
+                                <td>
+                                    {{detalleprofesor.profesor.nombre|default:""}}
+                                    {{detalleprofesor.profesor.apellido|default:""}}
+                                </td>
+                                <td>{{detalleprofesor.categoria|default:""}}</td>
+                                <td>{{detalleprofesor.situacion|default:""}}</td>
+                                <td>{{detalleprofesor.dedicacion|default:""}}</td>
+                                <td style="text-align: left;">
+                                    {{ detalleprofesor.actividades | default:""}}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+            </tbody>
+        </table>
+    {% else %}
+        <div class="seccion__card" style="background-color: gainsboro;">
+            Aún no se asignaron profesores auxiliares.
+        </div>
+    {% endif %}
+    <input type="submit" id="añadir-docente-button" class="btn btn-primary mt-4" value="Añadir docente" />
+    {% if mensaje_exito %}
+      <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
+    {% endif %}
+    {% if mensaje_error %}
+      <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
+    {% endif %}
+</div>
+
+
+<div class="py-4"></div>
+
+<h2 class="seccion__encabezado">Correcciones</h2>
+<div class="seccion__card">No posee correcciones.</div>
+
+
+<div class="modal" id="modal-docente" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Añadir docente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+        method="POST"
+        action="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
+        >
+            {% csrf_token %} {{form}}
+        
+            {% if form.errors %}
+            <div class="alert alert-danger">{{form.errors}}</div>
+            {% endif %}
+        
+            <div class="modal-footer">
+                <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Añadir docente</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const modal = document.getElementById("modal-docente");
+const addButton = document.getElementById("añadir-docente-button");
+const closeSpan = document.getElementsByClassName("close")[0];
+const closeButton = document.getElementById("cerrar-modal");
+
+
+// When the user clicks on the button, open the modal 
+addButton.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+closeSpan.onclick = function() {
+  modal.style.display = "none";
+}
+
+closeButton.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Delete messages after 5 seconds
+const mensajeExito = document.getElementById("mensaje_exito");
+const mensajeError = document.getElementById("mensaje_error");
+setTimeout(function(){ 
+  mensajeExito.style.display = "none";
+  mensajeError.style.display = "none";
+}, 5000);
+
+</script>
+
+
+
+{% endblock %}
