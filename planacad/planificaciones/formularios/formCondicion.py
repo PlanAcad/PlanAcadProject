@@ -1,14 +1,14 @@
 from django import forms  
-from planificaciones.modelos.modelCondicion import CondicionAprobacionDirecta, CondicionAprobacionCursada
+from planificaciones.modelos.modelPlanificacion import Planificacion
 
 class CondicionAprobacionDirectaForm(forms.ModelForm):  
-    descripcion = forms.CharField(widget=forms.Textarea())
+    condicion_aprobacion_directa = forms.CharField(widget=forms.Textarea())
     class Meta:  
-        model = CondicionAprobacionDirecta
-        fields = "__all__"
+        model = Planificacion
+        fields = ['condicion_aprobacion_directa']
 
 class CondicionAprobacionCursadaForm(forms.ModelForm):  
-    descripcion = forms.CharField(widget=forms.Textarea())
+    condicion_aprobacion_cursada = forms.CharField(widget=forms.Textarea())
     class Meta:  
-        model = CondicionAprobacionCursada
-        fields = "__all__"
+        model = Planificacion
+        fields = ['condicion_aprobacion_cursada']

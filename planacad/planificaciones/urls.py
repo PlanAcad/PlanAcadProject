@@ -66,6 +66,11 @@ urlpatterns = [
     # Seccion 7.2 - Condicion de Aprobacion Cursada
     path('planificacion/<int:id_planificacion>/condicion-aprobacion-cursada', viewCondicion.AprobacionCursada, name='aprobacionCursada'),
 
+    # Seccion 9 - Bibliografia
+    path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.Bibliografia, name='bibliografia'),
+
+    # Seccion 10 - Webgrafia
+    path('planificacion/<int:id_planificacion>/webgrafia', viewWebgrafia.Webgrafia, name='webgrafia'),
 
      # Seccion 12 - Distribución de tareas
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas', viewDistribucionDeTareas.DistribucionDeTareas, name='distribucionDeTareas'),

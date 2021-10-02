@@ -5,10 +5,11 @@
 .layout__sidebar {
 }
 .layout__sidebar a {
+  text-decoration: none;
   color: var(--gray-dark);
   display: block;
-  font-weight: 600;
-  font-size: 1.2em;
+  font-weight: 500;
+  font-size: 0.9em;
   padding: 0.5em 0;
 }
 .layout__sidebar a:hover {
@@ -30,6 +31,21 @@
   padding: 1em 1.2em;
   margin: 0.5em 0;
 }
+
+.seccion__card .subtitle__message{
+  color: #9CA3AF;
+  margin-top: 14px;
+  margin-bottom: 0;
+}
+
+.seccion__card .indications__footer__mesage{
+  font-size: 12px; 
+  margin: 0; 
+  margin-top: 20px; 
+  padding: 0;
+}
+
+
 
 .seccion__table {
   table-layout: auto;
