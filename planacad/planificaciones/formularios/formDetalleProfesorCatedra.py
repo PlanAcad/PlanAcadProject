@@ -2,9 +2,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 
-class DetalleProfesorCatedraForm(forms.ModelForm): 
-
-    actividades = forms.CharField(widget=forms.Textarea()) 
+class DetalleProfesorCatedraForm(forms.ModelForm):  
     class Meta:  
         model = DetalleProfesorCatedra         
         fields = ['profesor', 'categoria', 'situacion', 'dedicacion', 'tareas']
