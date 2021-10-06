@@ -11,9 +11,9 @@ def ResultadoDeAprendizajeNew(request,id_planificacion):
     mensaje_error=None
     
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    data = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
+    data = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion)
     if request.method == "POST":  
-        form = ResultadoDeAprendizajeForm(request.POST)  
+        form = ResultadoDeAprendizajeForm(request.POST)
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)
@@ -21,11 +21,11 @@ def ResultadoDeAprendizajeNew(request,id_planificacion):
                 instance.save()
                 instance.save_m2m()
                 mensaje_exito="Añadimos el resultado de aprendizaje correctamente."  
-                 
             except:  
                  mensaje_error = "No pudimos añadir el resultado de aprendizaje."    
     else:  
-        form = ResultadoDeAprendizajeForm()  
+        form = ResultadoDeAprendizajeForm()
+        form.fields['asignatura'].queryset = Asignatura.objects.exclude(id = planificacion.asignatura_id)  
     return render(request,'secciones/resultadosDeAprendizaje.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 
@@ -58,9 +58,9 @@ def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprend
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = ResultadoDeAprendizaje.objects.get(id=id_resultadodeaprendizaje)
     if request.method == "POST":  
-        form = ResultadoDeAprendizajeForm(request.POST, instance=data)  
+        form = ResultadoDeAprendizajeForm(request.POST, instance = data)  
         if form.is_valid():  
-            try:  
+            try: 
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
                 #Guardo
