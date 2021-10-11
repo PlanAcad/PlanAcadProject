@@ -9,6 +9,7 @@ from .modelos.modelFundamentacion import Fundamentacion
 from .modelos.modelTipoDeEvaluacion import TipoDeEvaluacion
 from .modelos.modelActividad import Actividad
 from .modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
+from .modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior
 from .modelos.modelCategoria import Categoria
 from .modelos.modelDedicacion import Dedicacion
 from .modelos.modelSituacion import Situacion
@@ -31,6 +32,8 @@ admin.site.register(Fundamentacion)
 admin.site.register(TipoDeEvaluacion)
 admin.site.register(Actividad)
 admin.site.register(ResultadoDeAprendizaje)
+admin.site.register(ResultadoDeAprendizajeAnterior)
+
 
 
 
