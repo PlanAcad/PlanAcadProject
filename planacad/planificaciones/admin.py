@@ -14,6 +14,8 @@ from .modelos.modelDedicacion import Dedicacion
 from .modelos.modelSituacion import Situacion
 from .modelos.modelTareasFunciones import TareasFunciones
 from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
+from .modelos.modelBibliografia import Bibliografia
+
 
 
 # Register your models here.
@@ -31,6 +33,8 @@ admin.site.register(Fundamentacion)
 admin.site.register(TipoDeEvaluacion)
 admin.site.register(Actividad)
 admin.site.register(ResultadoDeAprendizaje)
+admin.site.register(Bibliografia)
+
 
 
 

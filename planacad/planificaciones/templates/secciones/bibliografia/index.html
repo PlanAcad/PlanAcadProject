@@ -1,14 +1,164 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    /* border: 1px solid #dddddd; */
+    text-align: center;
+    padding: 4px;
+    font-weight: 400;
+    font-size: small;
+  }
+
+  .icon{
+      margin: 4px;
+      text-decoration: none;
+  }
+</style>
+
 <h2 class="seccion__encabezado">9. Bibliografia</h2>
 <div class="seccion__card p-5">
-    <h5 class="text-center subtitle__message">Todavia no tiene bibliografia cargada.</h5>
-    <input type="submit" class="btn btn-primary mt-4" value="Añadir bibliografia" />
+    <table class="seccion__table">
+    <tbody>
+      {% if bibliografias %}
+      <table>
+        {% for bibliografia in bibliografias %}
+        <tr>
+            <td style="text-align: left;">
+                <li>
+                    {% if bibliografia.autor|length > 1 %}
+                        {{ bibliografia.autor }},
+                    {% endif %}
+
+                    {% if bibliografia.titulo_libro|length > 1 %}
+                        {{ bibliografia.titulo_libro }},
+                    {% endif %}
+
+                    {% if bibliografia.editor|length > 1 %}
+                        {{ bibliografia.editor }},
+                    {% endif %}
+
+                    {% if bibliografia.año_publicacion|length > 1 %}
+                        {{ bibliografia.año_publicacion }},
+                    {% endif %}
+
+                    {% if bibliografia.nombre_capitulo|length > 1 %}
+                        {{ bibliografia.nombre_capitulo }},
+                    {% endif %}
+
+                    {% if bibliografia.ubicacion|length > 1 %}
+                        {{ bibliografia.ubicacion }},
+                    {% endif %}
+                </li>
+            </td>
+            <th>
+                <!-- <a class="item icon" href="" style="color: red;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                </a> -->
+                <a class="item icon" href="{% url 'planificaciones:updateBibliografia' planificacion.id bibliografia.id %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                </a> 
+            </th>
+        </tr>
+        {% endfor %}
+      </table>
+      <br />
+      {% else %}
+      <h5 class="text-center subtitle__message">Todavia no tiene bibliografia cargada.</h5>
+      {% endif %}
+    </tbody>
+  </table>
+
+    
+    <input type="submit" id="añadir-bibliografia-button" class="btn btn-primary mt-4" value="Añadir bibliografia" />
 </div>
 
 <div class="py-4"></div>
 
 <h2 class="seccion__encabezado">Correcciones</h2>
 <div class="seccion__card">No posee correcciones.</div>
+
+
+
+<div class="modal" id="modal-bibliografia" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Añadir bibliografía</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+        method="POST"
+        action="{% url 'planificaciones:bibliografia' planificacion.id %}"
+        >
+            {% csrf_token %} {{form.as_p}}
+        
+            {% if form.errors %}
+            <div class="alert alert-danger">{{form.errors}}</div>
+            {% endif %}
+        
+            <div class="modal-footer">
+                <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Añadir bibliografía</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+const modal = document.getElementById("modal-bibliografia");
+const addButton = document.getElementById("añadir-bibliografia-button");
+const closeSpan = document.getElementsByClassName("close")[0];
+const closeButton = document.getElementById("cerrar-modal");
+
+
+// When the user clicks on the button, open the modal 
+addButton.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+closeSpan.onclick = function() {
+  modal.style.display = "none";
+}
+
+closeButton.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Delete messages after 5 seconds
+const mensajeExito = document.getElementById("mensaje_exito");
+const mensajeError = document.getElementById("mensaje_error");
+setTimeout(function(){ 
+  mensajeExito.style.display = "none";
+  mensajeError.style.display = "none";
+}, 5000);
+
+</script>
 
 {% endblock %}

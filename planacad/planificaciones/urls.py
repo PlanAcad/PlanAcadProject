@@ -67,7 +67,11 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/condicion-aprobacion-cursada', viewCondicion.AprobacionCursada, name='aprobacionCursada'),
 
     # Seccion 9 - Bibliografia
-    path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.Bibliografia, name='bibliografia'),
+    path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.IndexBibliografia, name='bibliografia'),
+    path('planificacion/<int:id_planificacion>/bibliografia/edit/<int:id_bibliografia>', viewBibliografia.UpdateBibliografia, name='updateBibliografia'),
+    path('planificacion/<int:id_planificacion>/bibliografia/delete/<int:id_bibliografia>', viewBibliografia.Deletebibliografia, name='deleteBibliografia'),
+
+
 
     # Seccion 10 - Webgrafia
     path('planificacion/<int:id_planificacion>/webgrafia', viewWebgrafia.Webgrafia, name='webgrafia'),
