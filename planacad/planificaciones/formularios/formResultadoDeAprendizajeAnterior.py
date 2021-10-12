@@ -1,7 +1,11 @@
 from django import forms  
 from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior
+from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
+
 
 class ResultadoDeAprendizajeAnteriorForm(forms.ModelForm):  
     class Meta:  
         model = ResultadoDeAprendizajeAnterior
-        fields = "__all__"  
+        exclude = ['planificacion']
+    
+  

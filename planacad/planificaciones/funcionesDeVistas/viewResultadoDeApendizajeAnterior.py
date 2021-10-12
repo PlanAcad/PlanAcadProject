@@ -1,14 +1,18 @@
 # Para usar los objetos y/o funciones de 'redirect'
-from django.shortcuts import render, redirect  
+from django.shortcuts import render, redirect
+from planificaciones.modelos.modelAsignatura import Asignatura  
 ## import model and form
 from planificaciones.modelos.modelPlanificacion import Planificacion
+from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
 from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior
 from planificaciones.formularios.formResultadoDeAprendizajeAnterior import  ResultadoDeAprendizajeAnteriorForm
+from django.db.models import F
+
 ##Define request for Resultado de Aprendizaje   
 def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion): 
     mensaje_exito=None
     mensaje_error=None
-    
+    resultados=None
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
     if request.method == "POST":  
@@ -23,8 +27,12 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
                  mensaje_error = "No pudimos añadir el resultado de aprendizaje."    
     else:  
         form = ResultadoDeAprendizajeAnteriorForm()
-        form.fields['planificacion'].queryset = Planificacion.objects.exclude(id = planificacion.asignatura_id)  
-    return render(request,'secciones/resultadosDeAprendizaje.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+        form.fields['asignatura'].queryset = Asignatura.objects.exclude(id = planificacion.asignatura_id)
+        ##if(form.has_changed()):
+        ##    form.fields['resultado'].queryset = ResultadoDeAprendizaje.objects.filter(asignatura =F('asignatura'))
+        resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=request.GET.get('asignatura'))
+        form.fields['resultado'].queryset = ResultadoDeAprendizaje.objects.filter(asignatura_id=request.GET.get('asignatura'))
+    return render(request,'secciones/resultadosDeAprendizaje.html',{'data':data,'resultados':resultados,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 
 def ResultadoDeAprendizajeAnteriorViewbyPlanificacion(request,planificacion_id):
