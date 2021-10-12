@@ -201,8 +201,8 @@ window.onclick = function(event) {
 const mensajeExito = document.getElementById("mensaje_exito");
 const mensajeError = document.getElementById("mensaje_error");
 setTimeout(function(){ 
-  mensajeExito.style.display = "none";
-  mensajeError.style.display = "none";
+  if(mensajeExito) mensajeExito.style.display = "none";
+  if(mensajeError) mensajeError.style.display = "none";
 }, 5000);
 
 </script>
