@@ -82,6 +82,13 @@
 
     
     <input type="submit" id="añadir-bibliografia-button" class="btn btn-primary mt-4" value="Añadir bibliografia" />
+
+    {% if mensaje_exito %}
+      <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
+    {% endif %}
+    {% if mensaje_error %}
+      <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
+    {% endif %}
 </div>
 
 <div class="py-4"></div>
