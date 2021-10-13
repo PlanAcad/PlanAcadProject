@@ -11,7 +11,24 @@
     method="POST"
     action="{% url 'planificaciones:detallesprofesorcatedraupdate' planificacion.id data.id %}"
   >
-    {% csrf_token %} {{form.as_p}}
+    {% csrf_token %} 
+    <label>Profesor/a:</label>
+    <p>{{form.profesor}}</p>
+    
+    <label>Situación y/o condición:</label>
+    <p>{{form.situacion}}</p>
+
+    <label>Categoría:</label>
+    <p>{{form.categoria}}</p>
+
+    <label>Designación:</label>
+    <p>{{form.dedicacion}}</p>
+
+    <label>Funciones a desarrollar:</label>
+    <p>{{form.tareas}}</p>
+
+    <label>Actividades:</label>
+    <p>{{form.actividades}}</p>
     <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
   <form
