@@ -49,9 +49,9 @@
                     <td class="py-4">{{detalleprofesor.dedicacion|default:""}}</td>
                     <td class="py-4">{{detalleprofesor.situacion|default:""}}</td>
                     <td>
-                        <ul>
+                        <ul style="text-align: left;">
                             {% for tarea in detalleprofesor.tareas.all %}
-                                <p><li>{{ tarea.tarea_funcion }}</li></p>
+                                <li>{{ tarea.tarea_funcion }}</li>
                             {% endfor %}
                         </ul>
                     </td>
@@ -71,7 +71,27 @@
         method="POST"
         action="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
     >
-        {% csrf_token %} {{form.as_p}}
+        {% csrf_token %} 
+
+        <label>Profesor/a:</label>
+        <p>{{form.profesor}}</p>
+        
+        <label>Situación y/o condición:</label>
+        <p>{{form.situacion}}</p>
+
+        <label>Categoría:</label>
+        <p>{{form.categoria}}</p>
+
+        <label>Designación:</label>
+        <p>{{form.dedicacion}}</p>
+
+        <label>Funciones a desarrollar:</label>
+        <p>{{form.tareas}}</p>
+
+        <label>Actividades:</label>
+        <p>{{form.actividades}}</p>
+
+
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
     {% if form.errors %}
