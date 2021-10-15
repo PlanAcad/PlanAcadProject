@@ -124,7 +124,7 @@
                 class=""
                 title="Webgrafia"><li>Webgrafia</li>
               </a>
-              <a href="#" class="" title="-"><li>Contenido</li></a>
+              <a href="{% url 'planificaciones:contenido' planificacion.id %}" class="" title="-"><li>Contenido</li></a>
                <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
                 class=""
                 title="Distribución de Tareas">

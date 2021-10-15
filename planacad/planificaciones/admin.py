@@ -16,6 +16,8 @@ from .modelos.modelTareasFunciones import TareasFunciones
 from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 from .modelos.modelBibliografia import Bibliografia
 from .modelos.modelWebgrafia import Webgrafia
+from .modelos.modelContenido import Contenido
+
 
 
 
@@ -37,6 +39,8 @@ admin.site.register(Actividad)
 admin.site.register(ResultadoDeAprendizaje)
 admin.site.register(Bibliografia)
 admin.site.register(Webgrafia)
+admin.site.register(Contenido)
+
 
 
 

@@ -1,0 +1,169 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    /* border: 1px solid #dddddd; */
+    text-align: center;
+    padding: 4px;
+    font-weight: 400;
+    font-size: small;
+  }
+
+  .icon{
+      margin: 4px;
+      text-decoration: none;
+  }
+
+  .card{
+    margin-top: 6px;
+  }
+
+  .card-header{
+    padding: 14px;
+  }
+  .title-card-collapse{
+    cursor: pointer;
+  }
+</style>
+
+<h2 class="seccion__encabezado">11. Contenido</h2>
+<div class="seccion__card p-5">
+  {% if contenidos %}
+    {% for contenido in contenidos %}
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="heading{{contenido.numero_unidad}}">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h5  class="mb-0 title-card-collapse" data-toggle="collapse" data-target="#collapseheading{{contenido.numero_unidad}}" aria-expanded="true" aria-controls="collapseheading{{contenido.numero_unidad}}">
+                  <b><u>UNIDAD {{ contenido.numero_unidad }}:</u> {{ contenido.titulo_unidad }}</b>
+              </h5>
+              <a class="item icon" href="{% url 'planificaciones:updateContenido' planificacion.id contenido.id %}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                      </svg>
+              </a>
+            </div>
+          </div>
+
+          <div id="collapseheading{{contenido.numero_unidad}}" class="collapse show" aria-labelledby="headingheading{{contenido.numero_unidad}}" data-parent="#accordion">
+            <div class="card-body">
+              <label><b>Objetivos:</b></label>
+              <p>{{ contenido.objetivos }}</p>
+
+              <label><b>Contenido:</b></label>
+              <p>{{ contenido.contenido }}</p>
+
+              <p><b>Carga horaria:</b> {{ contenido.carga_horaria }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  <br />
+  {% else %}
+  <h5 class="text-center subtitle__message">Todavia no tiene contenidos agregados.</h5>
+  {% endif %}
+
+  <input type="submit" id='añadir-contenido-button' class="btn btn-primary mt-4" value="Añadir contenido" />
+
+  {% if mensaje_exito %}
+    <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
+  {% endif %}
+  {% if mensaje_error %}
+    <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
+  {% endif %}
+
+
+
+
+
+  
+
+  
+</div>
+
+<div class="py-4"></div>
+
+<h2 class="seccion__encabezado">Correcciones</h2>
+<div class="seccion__card">No posee correcciones.</div>
+
+
+
+<div class="modal" id="modal-contenido" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Añadir contenido</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+        method="POST"
+        action="{% url 'planificaciones:contenido' planificacion.id %}"
+        >
+            {% csrf_token %} {{form.as_p}}
+        
+            {% if form.errors %}
+            <div class="alert alert-danger">{{form.errors}}</div>
+            {% endif %}
+        
+            <div class="modal-footer">
+                <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Añadir contenido</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+const modal = document.getElementById("modal-contenido");
+const addButton = document.getElementById("añadir-contenido-button");
+const closeSpan = document.getElementsByClassName("close")[0];
+const closeButton = document.getElementById("cerrar-modal");
+
+
+// When the user clicks on the button, open the modal 
+addButton.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+closeSpan.onclick = function() {
+  modal.style.display = "none";
+}
+
+closeButton.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Delete messages after 5 seconds
+const mensajeExito = document.getElementById("mensaje_exito");
+const mensajeError = document.getElementById("mensaje_error");
+setTimeout(function(){ 
+  if(mensajeExito) mensajeExito.style.display = "none";
+  if(mensajeError) mensajeError.style.display = "none";
+}, 5000);
+
+</script>
+
+{% endblock %}
