@@ -8,28 +8,10 @@
 </style>
 
 <form action="" method="POST">
-  {% csrf_token %} 
-  
-  <label>Profesor/a:</label>
-  <p>{{form.profesor}}</p>
-  
-  <label>Categoría:</label>
-  <p>{{form.categoria}}</p>
-
-  <label>Situación y/o condición:</label>
-  <p>{{form.situacion}}</p>
-
-  <label>Designación y/o dedicación:</label>
-  <p>{{form.dedicacion}}</p>
-
-  <label>Tareas:</label>
-  <p>{{form.tareas}}</p>
-
-  <label>Actividades:</label>
-  <p>{{form.actividades}}</p>
+  {% csrf_token %} {{form.as_p}}
 
   <br />
-  <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}">
+  <a href="{% url 'planificaciones:bibliografia' planificacion.id %}">
     <button type="submit" class="btn btn-secondary">Volver</button>
   </a>
   <button type="submit" class="btn btn-primary">Guardar</button>
@@ -49,11 +31,13 @@
         </button>
       </div>
       <div class="modal-body" style="text-align: center;">
-        <form method="POST" action="{% url 'planificaciones:deleteDistribucionDeTareas' planificacion.id data.id %}">
+        <form method="POST" action="{% url 'planificaciones:deleteBibliografia' planificacion.id bibliografia.id %}">
             {% csrf_token %}
             
-            <p>Estás por eliminar al profesor: {{data.profesor.nombre}} {{data.profesor.apellido}} </p>
-            <p><b>Desea eliminar la fila correspondiente?</b> </p>
+            <p>Estás por eliminar la siguiente bibliografía: <br />
+                {{bibliografia.autor}}, {{bibliografia.titulo_libro}}
+            </p>
+            <p><b>Desea eliminar la bibliografía correspondiente?</b> </p>
 
             {% if form.errors %}
             <div class="alert alert-danger">{{form.errors}}</div>

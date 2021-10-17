@@ -152,7 +152,29 @@
         method="POST"
         action="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
         >
-            {% csrf_token %} {{form}}
+            {% csrf_token %} 
+            
+            <label>Nombre del profesor/a:</label>
+            <p>{{form.nombre_profesor}}</p>
+
+            <label>Apellido del profesor/a:</label>
+            <p>{{form.apellido_profesor}}</p>
+            
+            <label>Categoría:</label>
+            <p>{{form.categoria}}</p>
+
+            <label>Situación y/o condición:</label>
+            <p>{{form.situacion}}</p>
+
+            <label>Designación y/o dedicación:</label>
+            <p>{{form.dedicacion}}</p>
+
+            <label>Tareas:</label>
+            <p>{{form.tareas}}</p>
+
+            <label>Actividades:</label>
+            <p>{{form.actividades}}</p>
+
         
             {% if form.errors %}
             <div class="alert alert-danger">{{form.errors}}</div>
@@ -201,8 +223,8 @@ window.onclick = function(event) {
 const mensajeExito = document.getElementById("mensaje_exito");
 const mensajeError = document.getElementById("mensaje_error");
 setTimeout(function(){ 
-  mensajeExito.style.display = "none";
-  mensajeError.style.display = "none";
+  if(mensajeExito) mensajeExito.style.display = "none";
+  if(mensajeError) mensajeError.style.display = "none";
 }, 5000);
 
 </script>

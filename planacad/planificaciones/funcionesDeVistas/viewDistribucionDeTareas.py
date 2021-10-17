@@ -1,9 +1,9 @@
 # Para usar los objetos y/o funciones de 'redirect'
 from django.shortcuts import render, redirect
+from planificaciones.modelos.modelProfesor import Profesor
 from planificaciones.formularios.formDetalleProfesorCatedra import DetalleProfesorCatedraForm
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra  
 from planificaciones.modelos.modelPlanificacion import Planificacion
-from planificaciones.modelos.modelCategoria import Categoria
 
 # To show and to add new one
 def DistribucionDeTareas(request, id_planificacion):   
@@ -21,9 +21,19 @@ def DistribucionDeTareas(request, id_planificacion):
         form = DetalleProfesorCatedraForm(request.POST)
         if form.is_valid():
             try:  
-                instance = form.save(commit=False)
-                instance.planificacion_id=planificacion.id
-                instance.save()
+                nombre_profesor = form.cleaned_data["nombre_profesor"]
+                apellido_profesor = form.cleaned_data["apellido_profesor"]
+                profesor = Profesor.objects.filter(nombre__iexact=nombre_profesor).filter(apellido__iexact=apellido_profesor).first()
+
+                if not profesor:
+                    profesor = Profesor.objects.create(nombre=nombre_profesor, apellido=apellido_profesor)
+
+                distribucion_de_tareas = form.save(commit=False)
+                distribucion_de_tareas.planificacion_id = planificacion.id
+                distribucion_de_tareas.profesor = profesor
+                distribucion_de_tareas.save()
+                form.save_m2m()
+
                     
                 mensaje_exito="Añadimos el docente correctamente."  
                  
@@ -65,7 +75,7 @@ def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcate
                 return redirect('planificaciones:distribucionDeTareas', id_planificacion=id_planificacion)
                  
             except:  
-                 mensaje_error = "No pudimos guardar los cambios."    
+                mensaje_error = "No pudimos guardar los cambios."  
     
     context = {
         'data':data,

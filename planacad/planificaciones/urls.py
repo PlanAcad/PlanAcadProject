@@ -3,7 +3,7 @@ from django.shortcuts import render
 from . import views
 from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
-from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewDistribucionDeTareas
+from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewDistribucionDeTareas, viewContenido
 
 
 
@@ -67,12 +67,21 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/condicion-aprobacion-cursada', viewCondicion.AprobacionCursada, name='aprobacionCursada'),
 
     # Seccion 9 - Bibliografia
-    path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.Bibliografia, name='bibliografia'),
+    path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.IndexBibliografia, name='bibliografia'),
+    path('planificacion/<int:id_planificacion>/bibliografia/edit/<int:id_bibliografia>', viewBibliografia.UpdateBibliografia, name='updateBibliografia'),
+    path('planificacion/<int:id_planificacion>/bibliografia/delete/<int:id_bibliografia>', viewBibliografia.Deletebibliografia, name='deleteBibliografia'),
 
     # Seccion 10 - Webgrafia
-    path('planificacion/<int:id_planificacion>/webgrafia', viewWebgrafia.Webgrafia, name='webgrafia'),
+    path('planificacion/<int:id_planificacion>/webgrafia', viewWebgrafia.IndexWebgrafia, name='webgrafia'),
+    path('planificacion/<int:id_planificacion>/webgrafia/edit/<int:id_webgrafia>', viewWebgrafia.UpdateWebgrafia, name='updateWebgrafia'),
+    path('planificacion/<int:id_planificacion>/webgrafia/delete/<int:id_webgrafia>', viewWebgrafia.DeleteWebgrafia, name='deleteWebgrafia'),
 
-     # Seccion 12 - Distribución de tareas
+    # Seccion 11 - Contenido
+    path('planificacion/<int:id_planificacion>/contenido', viewContenido.IndexContenido, name='contenido'),
+    path('planificacion/<int:id_planificacion>/contenido/edit/<int:id_contenido>', viewContenido.UpdateContenido, name='updateContenido'),
+    path('planificacion/<int:id_planificacion>/contenido/delete/<int:id_contenido>', viewContenido.DeleteContenido, name='deleteContenido'),
+
+    # Seccion 12 - Distribución de tareas
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas', viewDistribucionDeTareas.DistribucionDeTareas, name='distribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/edit/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.UpdateDistribucionDeTareas, name='updateDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/delete/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.DeleteDistribucionDeTareas, name='deleteDistribucionDeTareas'),
