@@ -89,5 +89,59 @@
 
   <div class="py-5"></div>
 
+  <h2>Modales</h2>
+  <p class="my-2">Importante que coincidan los id del modal y del data-target del botón para abrir el modal. También cuidado de no repetir el mismo id en una misma página, en el caso de tener más de un modal.</p>
+  <!-- Abrir modal grande -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#iddelmodal1">
+    Abrir modal grande
+  </button>
+
+  <!-- Modal grande -->
+  <div class="modal fade" id="iddelmodal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">        
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            Acá va el contenido del modal, formulario, etc.
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Agregar o aceptar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Abrir modal pequeño -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#iddelmodal2">
+    Abrir modal pequeño
+  </button>
+
+  <!-- Modal grande -->
+  <div class="modal fade" id="iddelmodal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">        
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            Acá va el contenido del modal, formulario, etc.
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Agregar o aceptar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
  {% endblock %}
