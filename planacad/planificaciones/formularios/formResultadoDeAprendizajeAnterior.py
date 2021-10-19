@@ -7,5 +7,5 @@ class ResultadoDeAprendizajeAnteriorForm(forms.ModelForm):
     class Meta:  
         model = ResultadoDeAprendizajeAnterior
         exclude = ['planificacion']
-    
+        fields = "__all__"
   

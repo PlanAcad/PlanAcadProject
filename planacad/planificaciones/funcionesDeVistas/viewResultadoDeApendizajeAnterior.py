@@ -28,12 +28,13 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
     else:  
         form = ResultadoDeAprendizajeAnteriorForm()
         form.fields['asignatura'].queryset = Asignatura.objects.exclude(id = planificacion.asignatura_id)
-        ##if(form.has_changed()):
-        ##    form.fields['resultado'].queryset = ResultadoDeAprendizaje.objects.filter(asignatura =F('asignatura'))
-        resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=request.GET.get('asignatura'))
-        form.fields['resultado'].queryset = ResultadoDeAprendizaje.objects.filter(asignatura_id=request.GET.get('asignatura'))
+        ##form.fields['resultado'].queryset = ResultadoDeAprendizaje.objects.filter(asignatura_id=request.GET.get('asignatura')).order_by('resultado')
     return render(request,'secciones/resultadosDeAprendizaje.html',{'data':data,'resultados':resultados,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
+def ResultadosDeAprendizajePorAsignatura(request):
+    asignatura_id=request.GET.get('asignatura')
+    resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).order_by('resultado')
+    return render(request, 'secciones/resultado-de-aprendizaje-anterior/dropdown-ra-anteriores-options.html', {'resultados': resultados})
 
 def ResultadoDeAprendizajeAnteriorViewbyPlanificacion(request,planificacion_id):
     mensaje_error = None
