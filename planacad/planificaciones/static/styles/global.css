@@ -2,6 +2,21 @@
     /* outline: 1px solid red; */
 }
 
+.flex__between__center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-subnavbar {
+    font-weight: 500;
+    padding: 0 15px 0 15px;
+}
+
+.item-subnavbar:hover {
+    color: var(--blue);
+}
+
 .layout__sidebar {
 }
 .layout__sidebar a {
