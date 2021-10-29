@@ -3,7 +3,7 @@ from django.shortcuts import render
 from . import views
 from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
-from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewDistribucionDeTareas, viewContenido
+from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
 
 
 
@@ -37,10 +37,11 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/fundamentacion', viewFundamentacion.FundamentacionUpdate, name='fundamentacion'),
 
     #Seccion4    
-    path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje', viewResultadoDeAprendizaje.ResultadoDeAprendizajeNew, name='resultadosDeAprendizajes'),
+    path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeAnteriorNew, name='resultadosDeAprendizajes'),
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje/edit/<int:id_resultadodeaprendizaje>', viewResultadoDeAprendizaje.ResultadoDeAprendizajeUpdate, name='resultadosDeAprendizajesUpdate'),
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje/delete/<int:id_resultadodeaprendizaje>', viewResultadoDeAprendizaje.ResultadoDeAprendizajeDestroy, name='resultadosDeAprendizajesDestroy'),
-
+    path('ajax/load-resultados/', viewResultadoDeApendizajeAnterior.ResultadosDeAprendizajePorAsignatura, name='ajax_load_resultados'),  # <-- this one here
+    
     #Seccion5 - Competencias y capacidades vinculadas con la asignatura    
     path('planificacion/<int:id_planificacion>/competencias', viewCompetencia.CompetenciaNew, name='competencias'),
     path('planificacion/<int:id_planificacion>/competencias/edit/<int:id_competencia>', viewCompetencia.CompetenciaUpdate, name='competenciaUpdate'),
