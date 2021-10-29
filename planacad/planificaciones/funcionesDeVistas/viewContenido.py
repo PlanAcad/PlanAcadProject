@@ -1,102 +1,102 @@
 # Para usar los objetos y/o funciones de 'redirect'
 from django.shortcuts import render, redirect
 from planificaciones.modelos.modelPlanificacion import Planificacion
-from planificaciones.modelos.modelWebgrafia import Webgrafia
-from planificaciones.formularios.formWebgrafia import WebgrafiaForm
+from planificaciones.modelos.modelContenido import Contenido
+from planificaciones.formularios.formContenido import ContenidoForm
 
 
 # To show and to add new one
-def IndexWebgrafia(request, id_planificacion):   
+def IndexContenido(request, id_planificacion):   
     planificacion = Planificacion.objects.get(id=id_planificacion)  
-    webgrafias = Webgrafia.objects.filter(planificacion=planificacion)  
+    contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('numero_unidad')  
     mensaje_exito = None
     mensaje_error = None
     
-    form = WebgrafiaForm()
+    form = ContenidoForm()
     if request.method == 'POST':
-        form = WebgrafiaForm(request.POST)
+        form = ContenidoForm(request.POST)
         if form.is_valid():
             try:  
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
                 instance.save()
                     
-                mensaje_exito="Añadimos la webgrafía correctamente."  
+                mensaje_exito="Añadimos el contenido correctamente."  
                  
             except:  
-                mensaje_error = "No pudimos añadir la webgrafía." 
+                mensaje_error = "No pudimos añadir el contenido." 
                 print(form.errors)
 
 
         else:
-            mensaje_error = "No pudimos añadir la webgrafía." 
+            mensaje_error = "No pudimos añadir el contenido." 
             print(form.errors)
 
 
     context = {
         'planificacion': planificacion,
-        'webgrafias': webgrafias,
+        'contenidos': contenidos,
         "form": form,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }
 
-    return render(request,"secciones/webgrafia/index.html", context) 
+    return render(request,"secciones/contenido/index.html", context) 
 
 
 
 # To show and to add new one
-def UpdateWebgrafia(request, id_planificacion, id_webgrafia):   
+def UpdateContenido(request, id_planificacion, id_contenido):   
     planificacion = Planificacion.objects.get(id=id_planificacion) 
-    webgrafia = Webgrafia.objects.get(id=id_webgrafia)  
-    form = WebgrafiaForm(instance=webgrafia)
+    contenido = Contenido.objects.get(id=id_contenido)  
+    form = ContenidoForm(instance=contenido)
     mensaje_exito = None
     mensaje_error = None
     
     if request.method == 'POST':
-        form = WebgrafiaForm(request.POST, instance=webgrafia)  
+        form = ContenidoForm(request.POST, instance=contenido)  
         if form.is_valid():
             try:  
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
                 instance.save()
-                mensaje_exito="Añadimos la webgrafía correctamente." 
+                mensaje_exito="Añadimos el contenido correctamente." 
 
-                return redirect('planificaciones:webgrafia', id_planificacion=id_planificacion)
+                return redirect('planificaciones:contenido', id_planificacion=id_planificacion)
 
                  
             except:  
-                mensaje_error = "No pudimos añadir la webgrafía." 
+                mensaje_error = "No pudimos añadir el contenido." 
                 print(form.errors)
 
 
         else:
-            mensaje_error = "No pudimos añadir la webgrafía." 
+            mensaje_error = "No pudimos añadir el contenido." 
             print(form.errors)
 
 
     context = {
         'planificacion': planificacion,
-        'webgrafia': webgrafia,
+        'contenido': contenido,
         "form": form,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }
 
-    return render(request,"secciones/webgrafia/update.html", context) 
+    return render(request,"secciones/contenido/update.html", context) 
 
 
 
-def DeleteWebgrafia(request, id_planificacion, id_webgrafia):
+def DeleteContenido(request, id_planificacion, id_contenido):
     mensaje_exito = None
     mensaje_error = None
 
     if request.method == "POST":
         try:
-            webgrafia = Webgrafia.objects.get(id=id_webgrafia)  
-            webgrafia.delete()
+            contenido = Contenido.objects.get(id=id_contenido)  
+            contenido.delete()
             mensaje_exito = "Se ha borrado correctamente."        
         except:
             mensaje_error = "No pudimos borrar correctamente"  
         
-        return redirect('planificaciones:webgrafia', id_planificacion=id_planificacion)
+        return redirect('planificaciones:contenido', id_planificacion=id_planificacion)

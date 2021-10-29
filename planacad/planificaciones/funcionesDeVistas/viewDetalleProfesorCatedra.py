@@ -25,6 +25,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
+                form.save_m2m()
 
                # selectedTareas = form.cleaned_data.get('tareas')
                 #for tarea in selectedTareas:
