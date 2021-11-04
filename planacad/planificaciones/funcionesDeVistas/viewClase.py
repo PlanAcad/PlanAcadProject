@@ -45,7 +45,7 @@ def ClasesView(request,planificacion_id):
          clases = Clase.objects.filter(planificacion=planificacion) 
     except:
          mensaje_error = "No pudimos obtener los datos correctamente"    
-    return render(request,"secciones/resultadosDeAprendizaje.html",{'clases':clases, 'mensaje_error': mensaje_error})  
+    return render(request,"secciones/cronograma/.html",{'clases':clases, 'mensaje_error': mensaje_error})  
 
 def ClaseViewDetail(request,clase_id): 
     mensaje_error = None 
@@ -54,14 +54,14 @@ def ClaseViewDetail(request,clase_id):
          clase = Clase.objects.get(id=clase_id)
     except:
          mensaje_error = "No pudimos obtener los datos correctamente" 
-    return render(request,'profesores/detail.html', {'clase':clase, 'mensaje_error': mensaje_error})  
+    return render(request,'secciones/cronograma/.html', {'clase':clase, 'mensaje_error': mensaje_error})  
 
 
 def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprendizaje):  
     mensaje_exito = None
     mensaje_error = None
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    data = ResultadoDeAprendizaje.objects.get(id=id_resultadodeaprendizaje)
+    data = Clase.objects.filter(planificacion=planificacion)
     if request.method == "POST":  
         form = ClaseForm(request.POST, instance = data)  
         if form.is_valid():  
@@ -70,15 +70,17 @@ def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprend
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
-                instance.save_m2m()
                 mensaje_exito="Guardamos los cambios correctamente."
-                return redirect('planificaciones:resultadosDeAprendizajes', id_planificacion=id_planificacion)
+                return redirect('planificaciones:', id_planificacion=id_planificacion)
                  
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
-        form = ClaseForm(instance=data)  
-    return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+        form = ClaseForm(instance=data)
+        form.fields['profesor_a_cargo'].queryset = Profesor.objects.filter(asignatura__id = planificacion.asignatura_id)
+        form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
+        form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)  
+    return render(request,'secciones/cronograma/.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
 
