@@ -195,10 +195,12 @@
                                     </ol>
                                 </li>
                             </a>
-
-                            <a href="#" class="" title="-"
-                                ><li>Cronograma</li></a
-                            >
+                            <a
+                            href="{% url 'planificaciones:cronograma' planificacion.id %}"
+                            class=""
+                            title="Webgrafia"
+                            ><li>Cronograma</li>
+                            </a>
                             <a
                                 href="{% url 'planificaciones:bibliografia' planificacion.id %}"
                                 class=""

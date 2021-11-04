@@ -1,0 +1,55 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado">9. Cronograma</h2>
+<div class="seccion__card">
+  {% if mensaje_exito %}
+  <div class="alert alert-success">{{mensaje_exito}}</div>
+  {% endif %}
+  <table class="seccion__table">
+    <tbody>
+        <table>
+            <thead class="">
+              <tr>
+                <th>Profesor</th>
+                <th>Lugar de desarrollo de clase</th>
+                <th>Fecha de clase</th>
+                <th>Numero de clase o semana</th>
+                <th>Unidad tematica o tema</th>
+                <th>RA</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% if data %} {% for fila in data %}
+
+              <tr>
+                <td class="py-4">{{fila.profesor_a_cargo|default:""}}</td>
+                <td class="py-4">{{fila.lugar_desarrollo_de_clase|default:""}}</td>
+                <td class="py-4">{{fila.fecha_clase|date:'Y-m-d'|default:""}}</td>
+                <td class="py-4">{{fila.numero_de_clase_o_semena|default:""}}</td>
+                <td class="py-4">{{fila.unidad_tematica_o_tema|default:""}}</td>
+                <td class="py-4">{{fila.resultado_de_aprendizaje|default:""}}</td>
+              </tr>
+              {% endfor %}{% else %}
+              <tr>
+                <td colspan="5">No hay datos para mostrar</td>
+              </tr>
+              {% endif %}
+            </tbody>
+            
+        </table>
+    </tbody>
+</table>
+  <form
+    method="POST"
+    action="{% url 'planificaciones:cronograma' planificacion.id %}"
+  >
+    {% csrf_token %} {{form.as_p}}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+
+  {% if form.errors %}
+  <div class="alert alert-danger">{{form.errors}}</div>
+  {% endif %}
+</div>
+{% endblock %}
