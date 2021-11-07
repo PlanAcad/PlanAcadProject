@@ -11,7 +11,7 @@ class DetalleProfesorCatedraForm(forms.ModelForm):
         fields = ['nombre_profesor', 'apellido_profesor', 'profesor', 'categoria', 'situacion', 'dedicacion', 'tareas']
         exclude = ['planificacion']
         widgets = {
-            'tareas': forms.CheckboxSelectMultiple()
+            'tareas': forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'}),
         }
         labels = {
             'profesor': _('Profesor'),

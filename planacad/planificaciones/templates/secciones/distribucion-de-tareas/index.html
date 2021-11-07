@@ -43,7 +43,6 @@
     {% if profesores %}
     <table class="seccion__table">
         <tbody>
-            <table>
                 <thead class="">
                     <tr>
                         <th><b>Nombre y apellido del docente</b></th>
@@ -75,7 +74,6 @@
                 </tbody>
             </table>
         </tbody>
-    </table>
     {% else %}
         <div class="seccion__card" style="background-color: gainsboro;">
             Aún no se asignaron profesores.
@@ -86,7 +84,6 @@
     {% if profesores_auxiliares %}
         <table class="seccion__table">
             <tbody>
-                <table>
                     <thead class="">
                         <tr>
                             <th><b>Nombre y apellido del docente</b></th>
@@ -113,8 +110,6 @@
                             </tr>
                         {% endfor %}
                     </tbody>
-                    
-                </table>
             </tbody>
         </table>
     {% else %}

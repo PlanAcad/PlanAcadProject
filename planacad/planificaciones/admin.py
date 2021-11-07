@@ -18,7 +18,7 @@ from .modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 from .modelos.modelBibliografia import Bibliografia
 from .modelos.modelWebgrafia import Webgrafia
 from .modelos.modelContenido import Contenido
-
+from .modelos.modelClase import Clase
 
 
 
@@ -42,7 +42,7 @@ admin.site.register(ResultadoDeAprendizajeAnterior)
 admin.site.register(Bibliografia)
 admin.site.register(Webgrafia)
 admin.site.register(Contenido)
-
+admin.site.register(Clase)
 
 
 
