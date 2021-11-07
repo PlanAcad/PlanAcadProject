@@ -76,6 +76,11 @@
     font-size: 0.875em;
 }
 
+.seccion__table a {
+    text-decoration: none;
+    color: black;
+}
+
 .seccion__table th {
     font-weight: 600;
     font-size: 0.9em;
@@ -87,6 +92,14 @@
     padding: 0.5em 0.3em;
     border: 1px solid black;
 }
+
+.seccion__table tbody tr {
+    position: relative;
+}
+.seccion__table tbody tr:hover {
+    background-color: rgba(179, 206, 226, 0.15);
+}
+
 .seccion__table td label {
     display: block;
     padding: 0.2em 0.3em;

@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from planificaciones.modelos.modelProfesor import Profesor
 from planificaciones.modelos.modelContenido import Contenido
@@ -15,7 +16,7 @@ class Clase(models.Model):
    planificacion =models.ForeignKey(Planificacion, on_delete=models.CASCADE)
    profesor_a_cargo = models.ManyToManyField(Profesor, blank=True)
    lugar_desarrollo_de_clase = models.CharField(max_length=400, blank=True, null=True)
-   fecha_clase = models.DateField(blank=True, null=True)
+   fecha_clase = models.DateField(blank=True, null=True, default=datetime.date.today())
    es_examen = models.CharField(max_length=50, blank=True, null=True, choices=TIPO_EXAMEN)
    numero_de_clase_o_semana = models.IntegerField(default=0, blank=True, null=True)
    cantidad_tareas = models.IntegerField(default=0, blank=True, null=True)

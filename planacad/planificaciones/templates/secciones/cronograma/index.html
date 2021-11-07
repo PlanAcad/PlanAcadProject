@@ -24,36 +24,45 @@
               <tr>
                 <td class="py-4">
                   <ul>
-                    {% for profesor in fila.profesor_a_cargo_set.all %}
-                    <p><li>{{ profesor }}</li></p>
+                    {% for profesor in fila.profesor_a_cargo.all %}
+                    <p><li>{{ profesor.nombre }} {{profesor.apellido}}</li></p>
                     {% endfor %}
                   </ul>
                 </td>
                 <td class="py-4">{{fila.lugar_desarrollo_de_clase|default:""}}</td>
                 <td class="py-4">
+                  <a
+                                class="stretched-link"
+                                href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}"
+                                >
                   {{fila.fecha_clase|default:""}}
                   {% if fila.numero_de_clase_o_semana %}
                       <span class="">{{ fila.numero_de_clase_o_semana }}</span>
-                  {% endif %}
+                  {% endif %}</a
+                            >
                 </td>
-                <td class="py-4">{{fila.numero_de_clase_o_semena|default:""}}</td>
+                <td class="py-4">{{fila.numero_de_clase_o_semana|default:""}}</td>
                 <td class="py-4">
                   <ul>
-                    {% for unidad in fila.unidad_tematica_o_tema_set.all %}
-                    <p><li>
-                      {{ unidad }}
-                      {% if fila.es_examen != 'NA' %}
-                      <br /><span class="badge badge-pill badge-success">{{ fila.es_examen }}</span>
-                      {% endif %}
-                    </li></p>
+                    {% for unidad in fila.unidad_tematica_o_tema.all %}
+                    <li>
+                      {{ unidad.numero_unidad }}                      
+                    </li>
                     {% endfor %}
+                    {% if fila.es_examen != 'NA' %}
+                      <br /><span class="badge badge-pill badge-success">{{ fila.get_es_examen_display }}</span>
+                    {% endif %}
                   </ul>
                 </td>
                 <td class="py-4">
                   <ul>
-                    {% for ra in fila.resultado_de_aprendizaje_set.all %}
-                    <p><li>{{ ra }}</li></p>
-                    {% endfor %}
+                    {% if fila.resultado_de_aprendizaje.all %}
+                     {% for resultado in fila.resultado_de_aprendizaje.all %}
+                      <p><li title="{{resultado.resultado}}">{{ resultado.id }}</li></p>
+                     {% endfor %}
+                     {% else %}
+                      <p>-</p>
+                     {% endif %}
                   </ul>
                 </td>
               </tr>

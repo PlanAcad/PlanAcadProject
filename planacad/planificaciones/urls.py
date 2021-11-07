@@ -70,6 +70,8 @@ urlpatterns = [
 
     # Seccion 9 - Cronogramas
     path('planificacion/<int:id_planificacion>/cronograma', viewClase.ClaseNew, name='cronograma'),
+    path('planificacion/<int:id_planificacion>/cronograma/edit/<int:id_clase>', viewClase.ClaseUpdate, name='cronogramaUpdate'),
+    path('planificacion/<int:id_planificacion>/cronograma/delete/<int:id_clase>', viewClase.ClaseDestroy, name='cronogramaDestroy'),
     
     # Seccion 9(EsTA MAL) - Bibliografia
     path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.IndexBibliografia, name='bibliografia'),

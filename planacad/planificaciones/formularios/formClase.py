@@ -3,8 +3,8 @@ from django.forms import widgets
 from planificaciones.modelos.modelClase import Clase
 
 LUGARES = [
-    ('D', 'Dentro del aula'),
-    ('F', 'Fuera del aula')
+    ('Dentro del aula', 'Dentro del aula'),
+    ('Fuera del aula', 'Fuera del aula')
 ]
 
 MONTHS = {
@@ -35,8 +35,13 @@ class ClaseForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         choices=LUGARES,
     )
-    fecha_clase = forms.DateField(widget=forms.SelectDateWidget(months=MONTHS, attrs={'class': 'form-fecha'}))
+    #fecha_clase = forms.DateField(input_formats=['%d/%m/%Y'])
     es_examen = forms.CharField(widget=forms.RadioSelect(choices=TIPO_EXAMEN))
+
+    def __init__(self, *args, **kwargs):
+        super(ClaseForm, self).__init__(*args, **kwargs)
+        #self.fields['fecha_clase'].widget = forms.SelectDateWidget(months=MONTHS, attrs={'class': 'form-fecha'})
+
     class Meta:  
         model = Clase
         fields = ['profesor_a_cargo','lugar_desarrollo_de_clase', 'fecha_clase', 'es_examen', 'unidad_tematica_o_tema', 'cantidad_tareas','resultado_de_aprendizaje']
