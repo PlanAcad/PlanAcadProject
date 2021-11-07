@@ -22,27 +22,26 @@
               {% if data %} {% for fila in data %}
 
               <tr>
-                <td class="py-4">
+                <td class="">
                   <ul>
                     {% for profesor in fila.profesor_a_cargo.all %}
                     <p><li>{{ profesor.nombre }} {{profesor.apellido}}</li></p>
                     {% endfor %}
                   </ul>
                 </td>
-                <td class="py-4">{{fila.lugar_desarrollo_de_clase|default:""}}</td>
-                <td class="py-4">
+                <td class="">{{fila.lugar_desarrollo_de_clase|default:""}}</td>
+                <td class="">
                   <a
                                 class="stretched-link"
                                 href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}"
                                 >
                   {{fila.fecha_clase|default:""}}
                   {% if fila.numero_de_clase_o_semana %}
-                      <span class="">{{ fila.numero_de_clase_o_semana }}</span>
+                      <span class="">Semana {{ fila.numero_de_clase_o_semana }}</span>
                   {% endif %}</a
                             >
                 </td>
-                <td class="py-4">{{fila.numero_de_clase_o_semana|default:""}}</td>
-                <td class="py-4">
+                <td class="">
                   <ul>
                     {% for unidad in fila.unidad_tematica_o_tema.all %}
                     <li>
@@ -54,11 +53,14 @@
                     {% endif %}
                   </ul>
                 </td>
+                <td>
+                  {{fila.cantidad_tareas}}
+                </td>
                 <td class="py-4">
                   <ul>
                     {% if fila.resultado_de_aprendizaje.all %}
                      {% for resultado in fila.resultado_de_aprendizaje.all %}
-                      <p><li title="{{resultado.resultado}}">{{ resultado.id }}</li></p>
+                      <a title="{{resultado.resultado}}">{{ resultado.id }}, </a>
                      {% endfor %}
                      {% else %}
                       <p>-</p>
