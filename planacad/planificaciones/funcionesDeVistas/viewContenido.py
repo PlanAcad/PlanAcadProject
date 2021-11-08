@@ -8,7 +8,7 @@ from planificaciones.formularios.formContenido import ContenidoForm
 # To show and to add new one
 def IndexContenido(request, id_planificacion):   
     planificacion = Planificacion.objects.get(id=id_planificacion)  
-    contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('numero_unidad')  
+    contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')  
     mensaje_exito = None
     mensaje_error = None
     
