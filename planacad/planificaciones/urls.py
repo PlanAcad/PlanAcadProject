@@ -4,6 +4,7 @@ from . import views
 from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
+from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo
 
 
 
@@ -50,6 +51,16 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/competencias/<int:id_competencia>/subcompetencias', viewSubCompetencia.SubCompetenciaNew, name='subcompetencias'),
     path('planificacion/<int:id_planificacion>/competencias/<int:id_competencia>/subcompetencias/edit/<int:id_subcompetencia>', viewSubCompetencia.SubCompetenciaUpdate, name='subcompetenciasUpdate'),
     path('planificacion/<int:id_planificacion>/competencias/<int:id_competencia>/subcompetencias/delete/<int:id_subcompetencia>', viewSubCompetencia.SubCompetenciaDestroy, name='subcompetenciasDestroy'),
+
+    # Seccion 6 - Propuestas para el desarrollo
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo', viewPropuestaDesarrollo.IndexPropuestaDesarrollo, name='propuestaDesarrollo'),
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo/edit/resultado-aprendizaje/<int:id_resultado_aprendizaje>', viewPropuestaDesarrollo.UpdateResultadoAprendizaje, name='updatePDResultadoAprendizaje'),
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo/delete/resultado-aprendizaje/<int:id_resultado_aprendizaje>', viewPropuestaDesarrollo.DeleteResultadoAprendizaje, name='deletePDResultadoAprendizaje'),
+
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo/edit/<int:id_propuesta_desarrollo>', viewPropuestaDesarrollo.UpdatePropuestaDesarrollo, name='updatePropuestaDesarrollo'),
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo/delete/<int:id_propuesta_desarrollo>', viewPropuestaDesarrollo.DeletePropuestaDesarrollo, name='deletePropuestaDesarrollo'),
+
+
 
 
     #Componentes

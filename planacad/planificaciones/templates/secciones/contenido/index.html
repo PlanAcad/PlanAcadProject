@@ -41,7 +41,7 @@
           <div class="card-header" id="heading{{contenido.numero_unidad}}">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <h5  class="mb-0 title-card-collapse" data-toggle="collapse" data-target="#collapseheading{{contenido.numero_unidad}}" aria-expanded="true" aria-controls="collapseheading{{contenido.numero_unidad}}">
-                  <b><u>UNIDAD {{ contenido.numero_unidad }}:</u> {{ contenido.titulo_unidad }}</b>
+                  <b><u>UNIDAD {{ contenido.unidad.numero }}:</u> {{ contenido.unidad.titulo }}</b>
               </h5>
               <a class="item icon" href="{% url 'planificaciones:updateContenido' planificacion.id contenido.id %}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

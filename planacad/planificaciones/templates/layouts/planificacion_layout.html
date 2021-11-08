@@ -163,10 +163,14 @@
                             >
                                 <li>Competencias y capacidades</li></a
                             >
-                            <a href="#" class="" title="-"
-                                ><li>Propuestas para el desarrollo</li></a
-                            >
 
+                            <a
+                                href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}"
+                                class=""
+                                title="Propuestas para el desarrollo"
+                            >
+                                <li>Propuestas para el desarrollo</li></a
+                            >
                             <a
                                 href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
                                 class=""
