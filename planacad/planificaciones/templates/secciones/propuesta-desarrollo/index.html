@@ -315,8 +315,7 @@
 
                     <div class="my-3">
                         <label for="" class="form-label">Subcompetencias asociadas</label>
-                        <!-- {{ form_propuesta_desarrollo.subcompetencias }} -->
-                        {% if form_propuesta_desarrollo.subcompetencias %}
+                        {% if form_propuesta_desarrollo.subcompetencias|length > 0 %}
                             {{ form_propuesta_desarrollo.subcompetencias }}
                         {% else %}
                             <input disabled></input>
@@ -330,7 +329,7 @@
 
                     <div class="my-3">
                         <label for="" class="form-label">Resultados de aprendizaje</label>
-                        {% if form_propuesta_desarrollo.resultados_de_aprendizaje %}
+                        {% if form_propuesta_desarrollo.resultados_de_aprendizaje|length > 0 %}
                             {{ form_propuesta_desarrollo.resultados_de_aprendizaje }} 
                         {% else %}
                             <input disabled></input>
@@ -341,7 +340,7 @@
                     <div class="my-3">
                         <label for="" class="form-label">Unidades tematicas</label>
 
-                        {% if form_propuesta_desarrollo.unidades %}
+                        {% if form_propuesta_desarrollo.unidades|length > 0 %}
                             {{ form_propuesta_desarrollo.unidades }}
                         
                         {% else %}
@@ -381,10 +380,10 @@
 
                     <div class="my-3">
                         <label for="" class="form-label">Bibliografia</label>
-                        {% if form_propuesta_desarrollo.bibliografias %}
+                        {% if form_propuesta_desarrollo.bibliografias|length > 0 %}
                             {{ form_propuesta_desarrollo.bibliografias }}
                         {% else %}
-                            <select disabled></select>
+                            <input disabled></input>
                             <span>No posee bibliografias agregadas. 
                                 <a href="{% url 'planificaciones:bibliografia' planificacion.id %}" class="link-primary">
                                 Ir a sección 9: Bibliografia</a>
