@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('planificaciones', '0018_resultadodeaprendizajeanterior_asignatura'),
-        ('planificaciones', '0025_contenido'),
+        ('planificaciones', '0025_contenido_estrategiasens_propuestadesarrollo_unidad_webgrafia'),
     ]
 
     operations = [
