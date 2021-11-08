@@ -13,4 +13,4 @@ class Contenido(models.Model):
    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE, null=True)
 
    def __str__(self):
-        return "%s, %s" %(self.contenido)
+        return "%s, %s" %(self.unidad.numero, self.unidad.titulo)
