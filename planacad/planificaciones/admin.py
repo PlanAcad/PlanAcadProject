@@ -23,6 +23,7 @@ from .modelos.modelSubCompetencia import SubCompetencia
 from .modelos.modelPropuestaDesarrollo import PropuestaDesarrollo
 from .modelos.modelPropuestaDesarrollo import EstrategiasEns
 from .modelos.modelUnidad import Unidad
+from .modelos.modelClase import Clase
 
 
 
@@ -51,11 +52,7 @@ admin.site.register(SubCompetencia)
 admin.site.register(PropuestaDesarrollo)
 admin.site.register(EstrategiasEns)
 admin.site.register(Unidad)
-
-
-
-
-
+admin.site.register(Clase)
 
 
 

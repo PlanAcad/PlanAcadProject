@@ -3,6 +3,7 @@ from django.shortcuts import render
 from . import views
 from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
+from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
 from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo
 
@@ -78,7 +79,12 @@ urlpatterns = [
     # Seccion 7.2 - Condicion de Aprobacion Cursada
     path('planificacion/<int:id_planificacion>/condicion-aprobacion-cursada', viewCondicion.AprobacionCursada, name='aprobacionCursada'),
 
-    # Seccion 9 - Bibliografia
+    # Seccion 9 - Cronogramas
+    path('planificacion/<int:id_planificacion>/cronograma', viewClase.ClaseNew, name='cronograma'),
+    path('planificacion/<int:id_planificacion>/cronograma/edit/<int:id_clase>', viewClase.ClaseUpdate, name='cronogramaUpdate'),
+    path('planificacion/<int:id_planificacion>/cronograma/delete/<int:id_clase>', viewClase.ClaseDestroy, name='cronogramaDestroy'),
+    
+    # Seccion 9(EsTA MAL) - Bibliografia
     path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.IndexBibliografia, name='bibliografia'),
     path('planificacion/<int:id_planificacion>/bibliografia/edit/<int:id_bibliografia>', viewBibliografia.UpdateBibliografia, name='updateBibliografia'),
     path('planificacion/<int:id_planificacion>/bibliografia/delete/<int:id_bibliografia>', viewBibliografia.Deletebibliografia, name='deleteBibliografia'),

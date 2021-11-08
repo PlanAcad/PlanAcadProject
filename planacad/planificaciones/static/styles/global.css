@@ -50,7 +50,7 @@
     background-color: var(--false-white);
     border-radius: 5px;
     box-shadow: 0px 4px 10px rgba(170, 170, 170, 0.25);
-    padding: 1em 1.2em;
+    padding: 1.6em 1.9em;
     margin: 0.5em 0;
 }
 
@@ -73,10 +73,33 @@
     border-collapse: collapse;
     border-spacing: 0;
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.875em;
 }
+
+.seccion__table a {
+    text-decoration: none;
+    color: black;
+}
+
+.seccion__table th {
+    font-weight: 600;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.seccion__table th,
 .seccion__table td {
+    padding: 0.5em 0.3em;
     border: 1px solid black;
 }
+
+.seccion__table tbody tr {
+    position: relative;
+}
+.seccion__table tbody tr:hover {
+    background-color: rgba(179, 206, 226, 0.15);
+}
+
 .seccion__table td label {
     display: block;
     padding: 0.2em 0.3em;
@@ -112,6 +135,12 @@
 }
 .seccion__table ul li label {
     font-weight: normal;
+}
+
+.seccion_disclaimer {
+    margin: 2em 0 0.8em;
+    font-size: 0.8em;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Link con lecha */
