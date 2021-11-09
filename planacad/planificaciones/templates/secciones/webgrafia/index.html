@@ -74,15 +74,24 @@
     </tbody>
   </table>
 
-    
-    <input type="submit" id='añadir-webgrafia-button' class="btn btn-primary mt-4" value="Añadir webgrafia" />
+  {% if mensaje_exito %}
+    <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
+  {% endif %}
+  {% if mensaje_error %}
+    <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
+  {% endif %}
 
-    {% if mensaje_exito %}
-      <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
-    {% endif %}
-    {% if mensaje_error %}
-      <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
-    {% endif %}
+  <!-- Abrir modal webgrafia-->
+  <button
+      type="button"
+      class="btn btn-primary mt-4"
+      data-toggle="modal"
+      data-target="#modal-webgrafia"
+  >
+      Añadir webgrafia
+  </button>
+
+    
 </div>
 
 <div class="py-4"></div>
@@ -92,37 +101,58 @@
 
 
 
-<div class="modal" id="modal-webgrafia" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Añadir bibliografía</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form
-        method="POST"
-        action="{% url 'planificaciones:webgrafia' planificacion.id %}"
-        >
-            {% csrf_token %} {{form.as_p}}
-        
-            {% if form.errors %}
-            <div class="alert alert-danger">{{form.errors}}</div>
-            {% endif %}
-        
-            <div class="modal-footer">
-                <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Añadir webgrafia</button>
+
+<!-- Modal webgrafia -->
+<div
+    class="modal fade"
+    id="modal-webgrafia"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir webgrafia
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
             </div>
-        </form>
-      </div>
+            <div class="modal-body">
+
+                <form
+                method="POST"
+                action="{% url 'planificaciones:webgrafia' planificacion.id %}"
+                >
+                    {% csrf_token %} {{form.as_p}}
+                
+                    {% if form.errors %}
+                    <div class="alert alert-danger">{{form.errors}}</div>
+                    {% endif %}
+                
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-
-
 
 <script>
 const modal = document.getElementById("modal-webgrafia");
