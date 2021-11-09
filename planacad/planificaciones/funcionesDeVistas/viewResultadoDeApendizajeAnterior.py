@@ -73,7 +73,7 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
   
     
 
-def ResultadoDeAprendizajeDestroy(request, id_planificacion, id_resultadodeaprendizaje):
+def ResultadoDeAprendizajeAnteriorDestroy(request, id_planificacion, id_resultadodeaprendizaje):
     mensaje_exito = None
     mensaje_error = None
     if request.method == "POST":
