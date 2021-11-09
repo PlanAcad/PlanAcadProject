@@ -2,23 +2,31 @@
 
 <style>
   table {
-    border-collapse: collapse;
-    width: 100%;
+      border-collapse: collapse;
+      width: 100%;
   }
 
   td,
   th {
-    border: 1px solid #dddddd;
-    text-align: center;
-    padding: 4px;
-    font-weight: 400;
-    font-size: small;
+      border: 1px solid #dddddd;
+      text-align: center;
+      padding: 4px;
+      font-weight: 400;
+      font-size: small;
+  }
+
+  td {
+      cursor: pointer;
+  }
+
+  th {
+      font-weight: 500;
   }
 </style>
 
 <h2 class="seccion__encabezado">7. Sistema de Evaluación</h2>
 <div class="seccion__card">
-  <table class="seccion__table">
+  <table class="">
     <tbody>
       {% if actividades %}
         <tr>
@@ -29,20 +37,18 @@
           <th>Indicadores de logro</th>
           <th>RA</th>
           <th>Tec. de Evaluacion</th>
-          <th>Editar</th>
-
         </tr>
 
         {% for actividad in actividades %}
-        <tr>
+        <tr onclick="location.href=`{% url 'planificaciones:updateActividad' planificacion.id actividad.id %}`">
           <td>
             {{ actividad.tipo_de_evaluacion.get_tipo_display }}
           </td>
-          <th>{{ actividad.get_actividad_display }}</th>
-          <th>{{actividad.unidad_tematica}}</th>
-          <th>{{actividad.lugar}}</th>
-          <th>{{actividad.indicadores_de_logro}}</th>
-          <th>
+          <td>{{ actividad.get_actividad_display }}</td>
+          <td>{{actividad.unidad_tematica}}</td>
+          <td>{{actividad.lugar}}</td>
+          <td>{{actividad.indicadores_de_logro}}</td>
+          <td>
             {% if actividad.resultados_de_aprendizaje.all %}
               {% for resultado in actividad.resultados_de_aprendizaje.all %}
                 <p><li>{{ resultado.resultado }}</li></p>
@@ -50,15 +56,8 @@
             {% else %}
               <p>-</p>
             {% endif %}
-          </th>
-          <th>{{actividad.tecnicas_de_evaluacion}}</th>
-          <th>
-            <a class="item" href="{% url 'planificaciones:updateActividad' planificacion.id actividad.id %}">Actualizar</a>
-            <a class="item" href="{% url 'planificaciones:deleteActividad' planificacion.id actividad.id %}" style="color: red;">Eliminar</a>
-              
-          </th>
-
-
+          </td>
+          <td>{{actividad.tecnicas_de_evaluacion}}</td>
         </tr>
         {% endfor %}
       <br />
@@ -68,9 +67,15 @@
     </tbody>
   </table>
 
-  <a class="item" href="{% url 'planificaciones:newActividad' planificacion.id %}">
-    <input type="submit" class="btn btn-primary" value="Agregar nueva" /> 
-  </a>
+  <!-- Abrir modal sistema de evaluacion -->
+  <button
+      type="button"
+      class="btn btn-primary mt-4"
+      data-toggle="modal"
+      data-target="#modal-sistema-evaluacion"
+  >
+      Añadir nueva
+  </button>
 
   <p class="indications__footer__mesage">
     Recuperar lo desarrollado en el Módulo 4 del Curso Formación por Competencias. Presentar al menos una rúbrica de evaluación para un Resultado de Aprendizaje.
@@ -83,6 +88,81 @@
 
 <h2 class="seccion__encabezado">Correcciones</h2>
 <div class="seccion__card">No posee correcciones.</div>
+
+
+<!-- Modal sistema de evaluacion -->
+<div
+    class="modal fade"
+    id="modal-sistema-evaluacion"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir sistema de de evaluación
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="POST">
+                {% csrf_token %} {{form.as_p}}
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        data-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Guardar
+                    </button>
+                </div>
+              </form>
+                <!-- <form
+                    method="POST"
+                    action="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}"
+                >
+                    {% csrf_token %}
+                    <input type="hidden" name="form_name" value="resultado_aprendizaje"/>
+
+
+                    <label>Descripción</label>
+                    <p>{{form_resultado_aprendizaje.resultado}}</p>
+
+                    {% if form_resultado_aprendizaje.errors %}
+                    <div class="alert alert-danger">
+                        {{form_resultado_aprendizaje.errors}}
+                    </div>
+                    {% endif %}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form> -->
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

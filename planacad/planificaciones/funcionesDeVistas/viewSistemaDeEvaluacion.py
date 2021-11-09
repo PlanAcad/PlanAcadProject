@@ -9,18 +9,6 @@ def SistemaDeEvaluacion(request, planificacion_id):
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividades = Actividad.objects.filter(planificacion=planificacion)  
 
-    context = {
-        "planificacion": planificacion,
-        "actividades": actividades,
-    }
-
-    return render(request,"secciones/sistema-de-evaluacion/index.html", context) 
-
-
-def NewActividad(request, planificacion_id):
-    planificacion = Planificacion.objects.get(id=planificacion_id)    
-    actividades = Actividad.objects.filter(planificacion=planificacion)    
-
     form = ActividadForm()
     if request.method == 'POST':
         form = ActividadForm(request.POST)
@@ -42,7 +30,7 @@ def NewActividad(request, planificacion_id):
         "form": form
     }
 
-    return render(request, "secciones/sistema-de-evaluacion/crear-actividad.html", context)
+    return render(request,"secciones/sistema-de-evaluacion/index.html", context) 
 
 
 def UpdateActividad(request, planificacion_id, actividad_id):
@@ -69,9 +57,10 @@ def UpdateActividad(request, planificacion_id, actividad_id):
 
     context = {
         "planificacion": planificacion,
-        "form": form
+        "form": form,
+        "actividad": actividad,
     }
-    return render(request, "secciones/sistema-de-evaluacion/crear-actividad.html", context)
+    return render(request, "secciones/sistema-de-evaluacion/update-actividad.html", context)
 
 
 def DeleteActividad(request, planificacion_id, actividad_id):

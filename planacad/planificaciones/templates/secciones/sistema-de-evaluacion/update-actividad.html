@@ -1,0 +1,119 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<a
+    href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
+    class="link-arrow my-2 mb-5"
+    >{% include "iconos/chevron-left.html" %}<span>Volver</span></a
+>
+
+<h4>Modificar sistema de evaluación </h4>
+
+
+<form id="sistema-evaluacion-form" action="" method="POST">
+  {% csrf_token %} {{form.as_p}}
+</form>
+
+<div id="buttons-footer" style="display: flex; justify-content: space-between">
+    <button
+        type="button"
+        class="btn btn-danger my-4"
+        data-toggle="modal"
+        data-target="#modal-delete"
+    >
+        Eliminar
+    </button>
+
+    <div id="right-buttons">
+        <a
+            href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
+            style="text-decoration: none"
+        >
+            <button class="btn btn-outline-primary my-4">Cancelar</button>
+        </a>
+        <button
+            class="btn btn-primary my-4"
+            onclick="document.getElementById('sistema-evaluacion-form').submit()"
+        >
+            Guardar
+        </button>
+    </div>
+</div>
+
+<!-- Modal eliminar resultado de aprendizaje -->
+<div
+    class="modal fade"
+    id="modal-delete"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Eliminar sistema de evaluación
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    method="POST"
+                    action="{% url 'planificaciones:deleteActividad' planificacion.id actividad.id %}"
+                >
+                    {% csrf_token %}
+
+                    <p>Estás por eliminar:</p>
+
+                    <ul>
+                      <li>Tipo: {{ actividad.tipo_de_evaluacion.get_tipo_display }}</li>
+                      <li>Actividades de evaluación: {{ actividad.get_actividad_display }}</li>
+                      <li>Unidad tematica: {{actividad.unidad_tematica}}</li>
+                      <li>Lugar/plataformas: {{actividad.lugar}}</li>
+                      <li>Indicadores de logro: {{actividad.indicadores_de_logro}}</li>
+                      <li>RA: <br/>
+                        {% if actividad.resultados_de_aprendizaje.all %}
+                          {% for resultado in actividad.resultados_de_aprendizaje.all %}
+                          <span>- {{ resultado.resultado }}</span><br/>
+                          {% endfor %}
+                        {% else %}
+                            <p>-</p>
+                        {% endif %}
+                      </li>
+                      <li>Tec. de Evaluacion: {{actividad.tecnicas_de_evaluacion}}</li>
+                    </ul>
+
+                    <p><b>Desea eliminar la fila correspondiente?</b></p>
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">{{form.errors}}</div>
+                    {% endif %}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            id="delete-button"
+                            type="submit"
+                            class="btn btn-danger my-4"
+                        >
+                            Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
