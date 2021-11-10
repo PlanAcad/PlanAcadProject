@@ -14,6 +14,14 @@
         font-weight: 400;
         font-size: small;
     }
+
+    td {
+        cursor: pointer;
+    }
+
+    th {
+        font-weight: 500;
+    }
 </style>
 
 <h2 class="seccion__encabezado">
@@ -39,14 +47,8 @@
                 <tbody>
                     {% if data %} {% for fila in data %}
 
-                    <tr
-                        onclick="location.href='resultados-de-aprendizaje/edit/{{fila.id}}'"
-                    >
-                        <td class="py-4">
-                            <a href="resultados-de-aprendizaje/edit/{{fila.id}}"
-                                >{{fila.asignatura|default:""}}
-                            </a>
-                        </td>
+                    <tr onclick="location.href=`{% url 'planificaciones:resultadosDeAprendizajesUpdate' planificacion.id fila.id %}`">
+                        <td class="py-4">{{fila.asignatura|default:""}}</td>
                         <td class="py-4">{{fila.resultado|default:""}}</td>
                     </tr>
                     {% endfor %}{% else %}
@@ -59,21 +61,69 @@
         </tbody>
     </table>
 
-    <h3 class="mt-4">Agregar Resultado de aprendizaje</h3>
-
-    <form
-        data-resultados-url="{% url 'planificaciones:ajax_load_resultados' %}"
-        novalidate
-        method="POST"
-        id="resultadoDeAprendizajeAnteriorForm"
-        action="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
+    <!-- Abrir modal  -->
+    <button
+        type="button"
+        class="btn btn-primary mt-4"
+        data-toggle="modal"
+        data-target="#modal-resultado-aprendizaje-previo"
     >
-        {% csrf_token %} {{form.as_p}}
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </form>
+        Añadir resultado de aprendizaje
+    </button>
+
     {% if form.errors %}
     <div class="alert alert-danger">{{form.errors}}</div>
     {% endif %}
+</div>
+
+<!-- Modal resultado de aprendizaje previo -->
+<div
+    class="modal fade"
+    id="modal-resultado-aprendizaje-previo"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir resultado de aprendizaje previo
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    data-resultados-url="{% url 'planificaciones:ajax_load_resultados' %}"
+                    novalidate
+                    method="POST"
+                    id="resultadoDeAprendizajeAnteriorForm"
+                    action="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
+                >
+                    {% csrf_token %} {{form.as_p}}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
