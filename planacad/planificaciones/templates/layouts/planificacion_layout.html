@@ -102,7 +102,7 @@
                     <nav>
                         <ol>
                             <a
-                                href="./datos-descriptivos"
+                                href="{% url 'planificaciones:datos-descriptivos' planificacion.id %}"
                                 class="active"
                                 title="Datos descriptivos"
                                 ><li class="section__title">
@@ -110,14 +110,14 @@
                                 </li></a
                             >
                             <a
-                                href="./estructura-de-la-catedra"
+                                href="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
                                 class=""
                                 title="Estructura de la cátedra"
                                 class="section__title"
                                 ><li>Estructura de la cátedra</li></a
                             >
                             <a
-                                href="./fundamentacion"
+                                href="{% url 'planificaciones:fundamentacion' planificacion.id %}"
                                 class="
                                     {%
                                     if
@@ -137,7 +137,7 @@
                             >
 
                             <a
-                                href="./resultados-de-aprendizaje"
+                                href="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
                                 class="
                                     {%
                                     if
