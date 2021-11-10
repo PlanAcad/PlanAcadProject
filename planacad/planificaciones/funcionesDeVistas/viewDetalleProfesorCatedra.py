@@ -38,7 +38,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
                  mensaje_error = "No pudimos añadir el docente."    
     else:  
         form = DetalleProfesorCatedraForm()  
-    return render(request,'secciones/detallesprofesorcatedra.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/detalles-profesor-catedra.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 
 def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorcatedra):  
@@ -56,14 +56,13 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
                 instance.save()
                 form.save_m2m()
                 mensaje_exito="Guardamos los cambios correctamente."
-                #return HttpResponseRedirect(reverse('planificaciones:detallesprofesorcatedra', args=[id_planificacion]))
                 return redirect('planificaciones:detallesprofesorcatedra', id_planificacion=id_planificacion)
                  
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = DetalleProfesorCatedraForm(instance=data)  
-    return render(request,'secciones/detallesProfesorCatedraUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/detalles-profesor-catedra-update.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
 

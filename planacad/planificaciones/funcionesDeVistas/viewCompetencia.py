@@ -78,7 +78,6 @@ def CompetenciaUpdate(request, id_planificacion, id_competencia):
                 #Guardo
                 instance.save()
                 mensaje_exito="Guardamos los cambios correctamente."
-                #return HttpResponseRedirect(reverse('planificaciones:detallesprofesorcatedra', args=[id_planificacion]))
                 return redirect('planificaciones:competencias', id_planificacion=id_planificacion)
                  
             except:  
