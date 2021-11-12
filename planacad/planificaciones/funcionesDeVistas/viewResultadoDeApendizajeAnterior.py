@@ -68,12 +68,13 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
-        form = ResultadoDeAprendizajeAnteriorForm(instance=data)  
+        form = ResultadoDeAprendizajeAnteriorForm()
+        form.fields['asignatura'].queryset = Asignatura.objects.exclude(id = planificacion.asignatura_id) 
     return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
 
-def ResultadoDeAprendizajeDestroy(request, id_planificacion, id_resultadodeaprendizaje):
+def ResultadoDeAprendizajeAnteriorDestroy(request, id_planificacion, id_resultadodeaprendizaje):
     mensaje_exito = None
     mensaje_error = None
     if request.method == "POST":
