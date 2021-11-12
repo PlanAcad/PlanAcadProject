@@ -8,4 +8,5 @@ class SubCompetencia(models.Model):
    competencia = models.ForeignKey(Competencia, on_delete=models.CASCADE)
 
    def __str__(self):
-        return "%s" % (self.descripcion)
+      #   return "%s" % (self.descripcion)
+        return "%s - %s" % (self.competencia.tipo_competencia, self.descripcion)

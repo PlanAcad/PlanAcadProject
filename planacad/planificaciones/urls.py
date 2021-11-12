@@ -5,6 +5,7 @@ from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, view
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
+from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo
 
 
 
@@ -52,13 +53,22 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/competencias/<int:id_competencia>/subcompetencias/edit/<int:id_subcompetencia>', viewSubCompetencia.SubCompetenciaUpdate, name='subcompetenciasUpdate'),
     path('planificacion/<int:id_planificacion>/competencias/<int:id_competencia>/subcompetencias/delete/<int:id_subcompetencia>', viewSubCompetencia.SubCompetenciaDestroy, name='subcompetenciasDestroy'),
 
+    # Seccion 6 - Propuestas para el desarrollo
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo', viewPropuestaDesarrollo.IndexPropuestaDesarrollo, name='propuestaDesarrollo'),
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo/edit/resultado-aprendizaje/<int:id_resultado_aprendizaje>', viewPropuestaDesarrollo.UpdateResultadoAprendizaje, name='updatePDResultadoAprendizaje'),
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo/delete/resultado-aprendizaje/<int:id_resultado_aprendizaje>', viewPropuestaDesarrollo.DeleteResultadoAprendizaje, name='deletePDResultadoAprendizaje'),
+
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo/edit/<int:id_propuesta_desarrollo>', viewPropuestaDesarrollo.UpdatePropuestaDesarrollo, name='updatePropuestaDesarrollo'),
+    path('planificacion/<int:id_planificacion>/propuesta-desarrollo/delete/<int:id_propuesta_desarrollo>', viewPropuestaDesarrollo.DeletePropuestaDesarrollo, name='deletePropuestaDesarrollo'),
+
+
+
 
     #Componentes
     path('componentes', views.ComponentesView, name='componentes'),
 
     # Seccion 7 - Sistema de evaluacion
     path('planificacion/<int:planificacion_id>/sistema-de-evaluacion', viewSistemaDeEvaluacion.SistemaDeEvaluacion, name='sistemaDeEvaluacion'),
-    path('planificacion/<int:planificacion_id>/crear-actividad', viewSistemaDeEvaluacion.NewActividad, name='newActividad'),
     path('planificacion/<int:planificacion_id>/actualizar-actividad/<str:actividad_id>', viewSistemaDeEvaluacion.UpdateActividad, name='updateActividad'),
     path('planificacion/<int:planificacion_id>/eliminar-actividad/<str:actividad_id>', viewSistemaDeEvaluacion.DeleteActividad, name='deleteActividad'),
 
@@ -70,6 +80,8 @@ urlpatterns = [
 
     # Seccion 9 - Cronogramas
     path('planificacion/<int:id_planificacion>/cronograma', viewClase.ClaseNew, name='cronograma'),
+    path('planificacion/<int:id_planificacion>/cronograma/edit/<int:id_clase>', viewClase.ClaseUpdate, name='cronogramaUpdate'),
+    path('planificacion/<int:id_planificacion>/cronograma/delete/<int:id_clase>', viewClase.ClaseDestroy, name='cronogramaDestroy'),
     
     # Seccion 9(EsTA MAL) - Bibliografia
     path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.IndexBibliografia, name='bibliografia'),

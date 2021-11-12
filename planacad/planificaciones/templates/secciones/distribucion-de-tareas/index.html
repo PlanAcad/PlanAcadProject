@@ -43,7 +43,6 @@
     {% if profesores %}
     <table class="seccion__table">
         <tbody>
-            <table>
                 <thead class="">
                     <tr>
                         <th><b>Nombre y apellido del docente</b></th>
@@ -75,7 +74,6 @@
                 </tbody>
             </table>
         </tbody>
-    </table>
     {% else %}
         <div class="seccion__card" style="background-color: gainsboro;">
             Aún no se asignaron profesores.
@@ -86,7 +84,6 @@
     {% if profesores_auxiliares %}
         <table class="seccion__table">
             <tbody>
-                <table>
                     <thead class="">
                         <tr>
                             <th><b>Nombre y apellido del docente</b></th>
@@ -113,8 +110,6 @@
                             </tr>
                         {% endfor %}
                     </tbody>
-                    
-                </table>
             </tbody>
         </table>
     {% else %}
@@ -122,13 +117,23 @@
             Aún no se asignaron profesores auxiliares.
         </div>
     {% endif %}
-    <input type="submit" id="añadir-docente-button" class="btn btn-primary mt-4" value="Añadir docente" />
+
     {% if mensaje_exito %}
       <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
     {% endif %}
     {% if mensaje_error %}
       <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
     {% endif %}
+
+    <!-- Abrir modal docente -->
+    <button
+        type="button"
+        class="btn btn-primary mt-4"
+        data-toggle="modal"
+        data-target="#modal-docente"
+    >
+        Añadir docente
+    </button>
 </div>
 
 
@@ -136,6 +141,82 @@
 
 <h2 class="seccion__encabezado">Correcciones</h2>
 <div class="seccion__card">No posee correcciones.</div>
+
+
+
+
+<!-- Modal docente -->
+<div
+    class="modal fade"
+    id="modal-docente"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir docente
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+              <form
+              method="POST"
+              action="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
+              >
+                  {% csrf_token %} 
+                  
+                  <label>Nombre del profesor/a:</label>
+                  <p>{{form.nombre_profesor}}</p>
+
+                  <label>Apellido del profesor/a:</label>
+                  <p>{{form.apellido_profesor}}</p>
+                  
+                  <label>Categoría:</label>
+                  <p>{{form.categoria}}</p>
+
+                  <label>Situación y/o condición:</label>
+                  <p>{{form.situacion}}</p>
+
+                  <label>Designación y/o dedicación:</label>
+                  <p>{{form.dedicacion}}</p>
+
+                  <label>Tareas:</label>
+                  <p>{{form.tareas}}</p>
+
+                  <label>Actividades:</label>
+                  <p>{{form.actividades}}</p>
+
+              
+                  {% if form.errors %}
+                  <div class="alert alert-danger">{{form.errors}}</div>
+                  {% endif %}
+              
+                  <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="modal" id="modal-docente" tabindex="-1" role="dialog">

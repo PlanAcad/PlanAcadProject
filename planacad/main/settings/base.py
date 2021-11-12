@@ -68,30 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'main.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ssrtmvzt',
-        'USER': 'ssrtmvzt',
-        'PASSWORD': 'n_c7YjoD3_deM1UAEtVcOp7UW7JotqC4',
-        'HOST': 'chunee.db.elephantsql.com',
-        'PORT': '',
-    },
-}  
-"""""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'planacad',
-    }
-}
-"""
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -116,11 +92,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Buenos_Aires'
+
+DATE_FORMAT = 'd/m/Y'
+
+DATE_INPUT_FORMATS = ['%d/%m/%Y']
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 

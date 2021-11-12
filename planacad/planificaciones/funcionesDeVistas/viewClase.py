@@ -24,6 +24,7 @@ def ClaseNew(request,id_planificacion):
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
                 instance.save()
+                form.save_m2m()
                 mensaje_exito="Añadimos la clase correctamente."  
             except:  
                  mensaje_error = "No pudimos añadir la clase."    
@@ -57,11 +58,12 @@ def ClaseViewDetail(request,clase_id):
     return render(request,'secciones/cronograma/.html', {'clase':clase, 'mensaje_error': mensaje_error})  
 
 
-def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprendizaje):  
+def ClaseUpdate(request, id_planificacion, id_clase):  
     mensaje_exito = None
     mensaje_error = None
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    data = Clase.objects.filter(planificacion=planificacion)
+    data = Clase.objects.get(id=id_clase)
+    form = ClaseForm(instance=data)
     if request.method == "POST":  
         form = ClaseForm(request.POST, instance = data)  
         if form.is_valid():  
@@ -70,8 +72,9 @@ def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprend
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
+                form.save_m2m()
                 mensaje_exito="Guardamos los cambios correctamente."
-                return redirect('planificaciones:', id_planificacion=id_planificacion)
+                return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
                  
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
@@ -80,20 +83,20 @@ def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprend
         form.fields['profesor_a_cargo'].queryset = Profesor.objects.filter(asignatura__id = planificacion.asignatura_id)
         form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)  
-    return render(request,'secciones/cronograma/.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/cronograma/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
 
-def ClaseDestroy(request,id_planificacion ,clase_id):
+def ClaseDestroy(request,id_planificacion,id_clase):
     mensaje_exito = None
     mensaje_error = None
     if request.method == "POST":
         try:
-            clase = Clase.objects.get(id=clase_id)  
+            clase = Clase.objects.get(id=id_clase)  
             clase.delete()
             mensaje_exito = "Se ha borrado correctamente."        
         except:
             mensaje_error = "No pudimos borrar correctamente"  
         
-        return redirect('planificaciones:', id_planificacion=id_planificacion)
+        return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
                  

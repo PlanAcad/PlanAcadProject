@@ -60,7 +60,7 @@
                     <span class="item-subnavbar">
                         <a
                             class=""
-                            href="https://i.ibb.co/rmgJGWy/calendario-academico.jpg"
+                            href="https://cetfrre.com.ar/2020/03/09/calendario-academico-2020-2021/"
                             target="_blank"
                             style="text-decoration: none; color: inherit"
                         >
@@ -102,7 +102,7 @@
                     <nav>
                         <ol>
                             <a
-                                href="./datos-descriptivos"
+                                href="{% url 'planificaciones:datos-descriptivos' planificacion.id %}"
                                 class="active"
                                 title="Datos descriptivos"
                                 ><li class="section__title">
@@ -110,14 +110,14 @@
                                 </li></a
                             >
                             <a
-                                href="./estructura-de-la-catedra"
+                                href="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
                                 class=""
                                 title="Estructura de la cátedra"
                                 class="section__title"
                                 ><li>Estructura de la cátedra</li></a
                             >
                             <a
-                                href="./fundamentacion"
+                                href="{% url 'planificaciones:fundamentacion' planificacion.id %}"
                                 class="
                                     {%
                                     if
@@ -137,7 +137,7 @@
                             >
 
                             <a
-                                href="./resultados-de-aprendizaje"
+                                href="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
                                 class="
                                     {%
                                     if
@@ -163,10 +163,14 @@
                             >
                                 <li>Competencias y capacidades</li></a
                             >
-                            <a href="#" class="" title="-"
-                                ><li>Propuestas para el desarrollo</li></a
-                            >
 
+                            <a
+                                href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}"
+                                class=""
+                                title="Propuestas para el desarrollo"
+                            >
+                                <li>Propuestas para el desarrollo</li></a
+                            >
                             <a
                                 href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
                                 class=""
@@ -196,10 +200,10 @@
                                 </li>
                             </a>
                             <a
-                            href="{% url 'planificaciones:cronograma' planificacion.id %}"
-                            class=""
-                            title="Webgrafia"
-                            ><li>Cronograma</li>
+                                href="{% url 'planificaciones:cronograma' planificacion.id %}"
+                                class=""
+                                title="Webgrafia"
+                                ><li>Cronograma</li>
                             </a>
                             <a
                                 href="{% url 'planificaciones:bibliografia' planificacion.id %}"

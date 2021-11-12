@@ -1,31 +1,123 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
-<h2 class="seccion__encabezado">2. Estructura de la cátedra</h2>
+<a
+    href="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
+    class="link-arrow my-2 mb-5"
+    >{% include "iconos/chevron-left.html" %}<span>Volver</span></a
+>
+
 <div class="seccion__card">
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
   {% endif %}
-  <h3>Modificar Resultado de Aprendizaje</h3>
 
+  <h3>Modificar Resultado de Aprendizaje</h3>
   <form
     data-resultados-url="{% url 'planificaciones:ajax_load_resultados' %}" novalidate
     method="POST" id="resultadoDeAprendizajeAnteriorForm"
     action="{% url 'planificaciones:resultadosDeAprendizajesUpdate' planificacion.id data.id %}"
   >
-    {% csrf_token %} {{form.as_p}}
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    {% csrf_token %} 
+    
+    <label>Asignatura:</label>
+    <p>{{form.asignatura}}</p>
+
+    <label>Resultado:</label>
+    <p>{{form.resultado}}</p>
   </form>
-  <form
-    method="POST"
-    action="{% url 'planificaciones:resultadosDeAprendizajesDestroy' planificacion.id data.id %}"
-  >
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger my-4">Eliminar</button>
-  </form>
+
+  <div id="buttons-footer" style="display: flex; justify-content: space-between">
+    <button
+        type="button"
+        class="btn btn-danger my-4"
+        data-toggle="modal"
+        data-target="#modal-delete"
+    >
+        Eliminar
+    </button>
+
+    <div id="right-buttons">
+        <a
+          href="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
+          style="text-decoration: none"
+        >
+            <button class="btn btn-outline-primary my-4">Cancelar</button>
+        </a>
+        <button
+            class="btn btn-primary my-4"
+            onclick="document.getElementById('resultado-aprendizaje-previo-form').submit()"
+        >
+            Guardar
+        </button>
+    </div>
+  </div>
 
   {% if form.errors %}
   <div class="alert alert-danger">{{form.errors}}</div>
   {% endif %}
+</div>
+
+
+
+<!-- Modal eliminar resultado de aprendizaje previo -->
+<div
+    class="modal fade"
+    id="modal-delete"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Eliminar resultado de aprendizaje previo
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    method="POST"
+                    action="{% url 'planificaciones:resultadosDeAprendizajesDestroy' planificacion.id data.id %}"
+                >
+                    {% csrf_token %}
+
+                    <p>Estás por eliminar el resultado de aprendizaje previo:</p>
+                    <ul>
+                      <li>Asignatura: {{data.asignatura|default:"-"}}</li>
+                      <li>Resultado: {{data.resultado}}</li>
+                    </ul>
+                    <p><b>Desea eliminar la fila correspondiente?</b></p>
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">{{form.errors}}</div>
+                    {% endif %}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            id="delete-button"
+                            type="submit"
+                            class="btn btn-danger my-4"
+                        >Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
   $("#id_asignatura").change(function () {

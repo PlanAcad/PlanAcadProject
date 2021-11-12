@@ -5,7 +5,7 @@ from planificaciones.modelos.modelWebgrafia import Webgrafia
 class WebgrafiaForm(forms.ModelForm):  
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['fecha_publicacion'].widget.attrs.update({'placeholder': 'AAAA-MM-DD'})
+        self.fields['fecha_publicacion'].widget.attrs.update({'placeholder': 'DD/MM/AAAA'})
 
     class Meta:  
         model = Webgrafia  
