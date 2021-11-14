@@ -81,6 +81,10 @@
     color: black;
 }
 
+.seccion__table p {
+    white-space: break-spaces;
+}
+
 .seccion__table th {
     font-weight: 600;
     font-size: 0.9em;

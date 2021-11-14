@@ -28,7 +28,6 @@
 
     <table class="seccion__table">
         <tbody>
-            <table>
                 <thead class="">
                     <tr>
                         <th>Tipo de competencia</th>
@@ -40,14 +39,11 @@
                 <tbody>
                     {% if data %} {% for competencia in data %}
 
-                    <tr
-                        onclick="location.href='competencias/edit/{{competencia.id}}'"
-                        class="position-relative"
-                    >
-                        <td class="py-4">
+                    <tr>
+                        <td>
                             {{competencia.get_tipo_competencia_display|default:""}}
                         </td>
-                        <td class="py-4">
+                        <td>
                             <a
                                 class="stretched-link"
                                 href="competencias/edit/{{competencia.id}}"
@@ -55,12 +51,9 @@
                             >
                         </td>
 
-                        <td>
-                            <ul>
-                                {% for subcompetencia in competencia.subcompetencia_set.all %}
-                                <p><li>{{ subcompetencia.descripcion }}</li></p>
-                                {% endfor %}
-                            </ul>
+                        <td>                            
+                                <p>{{ competencia.subcompetencias|default:"-" }}</p>
+                               
                         </td>
                     </tr>
                     {% endfor %} {% else %}
@@ -69,8 +62,6 @@
                     </tr>
                     {% endif %}
                 </tbody>
-                
-            </table>
         </tbody>
     </table>
 

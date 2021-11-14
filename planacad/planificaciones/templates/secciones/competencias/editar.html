@@ -19,25 +19,8 @@
     method="POST"
     action="{% url 'planificaciones:competenciaUpdate' planificacion.id data.id %}"
   >
-    {% csrf_token %} {{form.as_p}}
-    <div class="card p-4 my-4">
-    <h3>Subcompetencias</h3>
-    <ul>
-      {% for subcompetencia in subcompetencias %}
-      <li class="py-4">
-          <p>{{ subcompetencia.descripcion }}
-            <a href="{% url 'planificaciones:subcompetenciasUpdate' planificacion.id data.id subcompetencia.id %}" class="link-primary pl-2">
-              Editar
-          </a>
-          </p>
-      </li>
-      {% endfor %}
-    </ul>
-   
-    <a href="{% url 'planificaciones:subcompetencias' planificacion.id data.id %}" class="btn btn-outline-primary">
-        Añadir subcompetencia
-    </a> </div>
-  </form>
+    {% csrf_token %} {{form.as_p}}    
+  
   <div id="buttons-footer" style="display: flex; justify-content: space-between">
     <button
         type="button"
@@ -57,11 +40,12 @@
         </a>
         <button
             class="btn btn-primary my-4"
-            onclick="document.getElementById('competencia-form').submit()"
+           type="submit"
         >
             Guardar
         </button>
     </div>
+  </form>
 </div>
 
   {% if form.errors %}
@@ -103,7 +87,7 @@
                       <li>Tipo de competencia: {{data.get_tipo_competencia_display}}</li>
                       <li>Descripción: {{data.descripcion}}</li>
                     </ul>
-                    <p><b>Desea eliminar la fila correspondiente?</b></p>
+                    <p><b>¿Desea eliminar la fila correspondiente?</b></p>
 
                     {% if form.errors %}
                     <div class="alert alert-danger">{{form.errors}}</div>

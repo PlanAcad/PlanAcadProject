@@ -6,5 +6,6 @@ class CompetenciaForm(forms.ModelForm):
         model = Competencia  
         exclude = ['planificacion']
         widgets = {
-            'descripcion': forms.Textarea()
+            'descripcion': forms.Textarea(),
+            'subcompetencias': forms.Textarea(),
         }

@@ -7,6 +7,7 @@ class Competencia(models.Model):
         max_length=50,
         choices=[('T', 'Tecnológicas'),('E', 'Específicas'),('S', 'Sociales, políticas y actitudinales')],)
    descripcion = models.CharField(max_length=400, blank=True, null=True)
+   subcompetencias = models.TextField(max_length=700,blank=True, null=True)
    planificacion = models.ForeignKey(Planificacion, on_delete=models.CASCADE)
 
    def __str__(self):
