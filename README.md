@@ -2,8 +2,11 @@
 
 ## Instrucciones para Windows para ejecutar
 
+ATENCION: Desinstalar todas la versiones de python que tengan y solo instalar la 3.5.
+
 1. Descomprimir **env.zip**
-2. En la ventana de comandos ejecutar
+2. Corregir la ruta( al proyecto) del env dentro del activate.bat
+3. En la ventana de comandos ejecutar
     ```
     env\Scripts\activate.bat
     ```
@@ -13,7 +16,7 @@
     ```
     python manage.py runserver
     ```
-3. La aplicación estará corriendo en **http://127.0.0.1:8000/**
+4. La aplicación estará corriendo en **http://127.0.0.1:8000/**
 
 
 ## Instrucciones para Windows para crear un modelo nuevo
