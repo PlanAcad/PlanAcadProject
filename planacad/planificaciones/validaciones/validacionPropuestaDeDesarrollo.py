@@ -126,6 +126,6 @@ def ValidarSeccion(id_planificacion):
                         validacion_bad=True
                         errores.append("materiales_equipamiento en la propuesta "+str(propuestaDeDesarrollo.id))
                    
-                                    
+    return [validacion_ok,validacion_bad,errores]                               
                                    
                         

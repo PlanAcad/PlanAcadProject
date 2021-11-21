@@ -63,7 +63,7 @@ urlpatterns = [
 
     path('planificacion/<int:id_planificacion>/propuesta-desarrollo/edit/<int:id_propuesta_desarrollo>', viewPropuestaDesarrollo.UpdatePropuestaDesarrollo, name='updatePropuestaDesarrollo'),
     path('planificacion/<int:id_planificacion>/propuesta-desarrollo/delete/<int:id_propuesta_desarrollo>', viewPropuestaDesarrollo.DeletePropuestaDesarrollo, name='deletePropuestaDesarrollo'),
-    
+
     # Seccion 7 - Sistema de evaluacion
     path('planificacion/<int:planificacion_id>/sistema-de-evaluacion', viewSistemaDeEvaluacion.SistemaDeEvaluacion, name='sistemaDeEvaluacion'),
     path('planificacion/<int:planificacion_id>/actualizar-actividad/<str:actividad_id>', viewSistemaDeEvaluacion.UpdateActividad, name='updateActividad'),
@@ -105,6 +105,6 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/justificacion-ordenanza', viewJustificacionOrdenanza.JustificacionOrdenanza, name='justificacionOrdenanza'),
 
    #Validacion
-    path('planificacion/<int:id_planificacion>/validacion', validacionSecciones.Validacion, name='validacionSeccion1')
+    path('planificacion/<int:id_planificacion>/validacion', validacionSecciones.ValidacionIndex, name='validacionSeccion1')
 
 ]
