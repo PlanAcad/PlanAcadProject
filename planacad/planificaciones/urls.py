@@ -6,7 +6,7 @@ from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundame
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
 from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo
-
+from planificaciones.validaciones import validacionSecciones
 
 
 
@@ -14,6 +14,9 @@ app_name = 'planificaciones'
 urlpatterns = [
     path('', views.IndexView, name='index'),
     path('login', viewLogin.LoginView, name='login'),
+
+    #Componentes
+    path('componentes', views.ComponentesView, name='componentes'),
 
     #Asignaturas
     path('asignaturas', viewAsignatura.AsignaturasView, name='asignaturas'),
@@ -60,13 +63,7 @@ urlpatterns = [
 
     path('planificacion/<int:id_planificacion>/propuesta-desarrollo/edit/<int:id_propuesta_desarrollo>', viewPropuestaDesarrollo.UpdatePropuestaDesarrollo, name='updatePropuestaDesarrollo'),
     path('planificacion/<int:id_planificacion>/propuesta-desarrollo/delete/<int:id_propuesta_desarrollo>', viewPropuestaDesarrollo.DeletePropuestaDesarrollo, name='deletePropuestaDesarrollo'),
-
-
-
-
-    #Componentes
-    path('componentes', views.ComponentesView, name='componentes'),
-
+    
     # Seccion 7 - Sistema de evaluacion
     path('planificacion/<int:planificacion_id>/sistema-de-evaluacion', viewSistemaDeEvaluacion.SistemaDeEvaluacion, name='sistemaDeEvaluacion'),
     path('planificacion/<int:planificacion_id>/actualizar-actividad/<str:actividad_id>', viewSistemaDeEvaluacion.UpdateActividad, name='updateActividad'),
@@ -78,12 +75,12 @@ urlpatterns = [
     # Seccion 7.2 - Condicion de Aprobacion Cursada
     path('planificacion/<int:id_planificacion>/condicion-aprobacion-cursada', viewCondicion.AprobacionCursada, name='aprobacionCursada'),
 
-    # Seccion 9 - Cronogramas
+    # Seccion 8 - Cronogramas
     path('planificacion/<int:id_planificacion>/cronograma', viewClase.ClaseNew, name='cronograma'),
     path('planificacion/<int:id_planificacion>/cronograma/edit/<int:id_clase>', viewClase.ClaseUpdate, name='cronogramaUpdate'),
     path('planificacion/<int:id_planificacion>/cronograma/delete/<int:id_clase>', viewClase.ClaseDestroy, name='cronogramaDestroy'),
     
-    # Seccion 9(EsTA MAL) - Bibliografia
+    # Seccion 9 - Bibliografia
     path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.IndexBibliografia, name='bibliografia'),
     path('planificacion/<int:id_planificacion>/bibliografia/edit/<int:id_bibliografia>', viewBibliografia.UpdateBibliografia, name='updateBibliografia'),
     path('planificacion/<int:id_planificacion>/bibliografia/delete/<int:id_bibliografia>', viewBibliografia.Deletebibliografia, name='deleteBibliografia'),
@@ -103,9 +100,11 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/edit/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.UpdateDistribucionDeTareas, name='updateDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/delete/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.DeleteDistribucionDeTareas, name='deleteDistribucionDeTareas'),
     
-
+ 
     # Seccion 13 - Justificacion (Ordenanza 604)
     path('planificacion/<int:id_planificacion>/justificacion-ordenanza', viewJustificacionOrdenanza.JustificacionOrdenanza, name='justificacionOrdenanza'),
 
+   #Validacion
+    path('planificacion/<int:id_planificacion>/validacion', validacionSecciones.Validacion, name='validacionSeccion1')
 
 ]

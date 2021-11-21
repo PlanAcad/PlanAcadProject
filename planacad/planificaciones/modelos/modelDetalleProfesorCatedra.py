@@ -14,6 +14,7 @@ class DetalleProfesorCatedra(models.Model):
    profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE, null=True, blank=True)
    tareas = models.ManyToManyField(TareasFunciones, blank=True)
    planificacion = models.ForeignKey(Planificacion,on_delete=models.CASCADE, null=True, blank=True)
+   
    actividades = models.CharField(max_length=3000, null=True, blank=True)
     
 def __str__(self):
