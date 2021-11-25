@@ -29,7 +29,7 @@ def AsignaturaDetailView(request, id):
     # Obtengo el nombre de la carrera
     carrera = Carrera.objects.get(id=asignatura.carrera_id)
     # Obtener planificaciones existentes
-    planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('-fecha_creacion')
+    planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('id')
     # Mandarle el form para crear planificaciones
     form = PlanificacionForm()  
     return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form})  
