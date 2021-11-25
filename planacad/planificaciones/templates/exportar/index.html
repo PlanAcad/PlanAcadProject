@@ -1,0 +1,23 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado">Exportar planificación</h2>
+
+<div class="seccion__card">
+    <form
+        method="POST"
+        action="{% url 'planificaciones:printPdf' planificacion.id %}"
+        target="_blank"
+    >
+        {% csrf_token %}
+        <button
+            type="button"
+            class="btn btn-primary mt-4"
+            onclick="location.href=`{% url 'planificaciones:downloadPdf' planificacion.id %}`"
+        >
+            Exportar PDF
+        </button>
+        <button type="submit" class="btn btn-primary mt-4">Imprimir PDF</button>
+    </form>
+</div>
+
+{% endblock %}
