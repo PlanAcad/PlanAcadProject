@@ -1,17 +1,12 @@
-{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+{% extends 'layouts/planificacion_layout_edicion.html' %} {% block seccion %}
 
-<a
-    href="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
-    class="link-arrow my-2 mb-5"
-    >{% include "iconos/chevron-left.html" %}<span>Volver</span></a
->
+{% url 'planificaciones:detallesprofesorcatedra' planificacion.id as url %}
+{% include 'componentes/seccion_cabecera.html' with seccion_url=url titulo="Modificar docente" %}
 
-<h2 class="seccion__encabezado"></h2>
-<div class="seccion__card">
+<div class="seccion__card seccion__card--edicion">
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
   {% endif %}
-  <h3>Modificar docente</h3>
 
   <form
     id="docente-form"
