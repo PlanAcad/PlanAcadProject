@@ -7,6 +7,10 @@
     color: var(--blue);
 }
 
+/**************
+*** SIDEBAR ***
+***************/
+
 .layout__sidebar {
 }
 .layout__sidebar a {
@@ -20,6 +24,10 @@
 .layout__sidebar a:hover {
     color: var(--blue);
 }
+
+/**************
+*** SECCION ***
+***************/
 
 .seccion {
     padding-bottom: 2em;
@@ -60,6 +68,10 @@
     margin-top: 20px;
     padding: 0;
 }
+
+/**************
+*** SECCION TABLE ***
+***************/
 
 .seccion__table {
     table-layout: auto;
@@ -137,7 +149,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Link con lecha */
+/**************
+*** LINK CON FLECHA ***
+***************/
+
 .link-arrow {
     display: block;
     text-decoration-line: none;
@@ -151,7 +166,9 @@
     margin: 0 0.2em;
 }
 
-/* Botón solo ícono */
+/**************
+*** BOTON SOLO ICONO ***
+***************/
 .btn-icon {
     width: 2.75em;
     height: 2.75em;
@@ -173,4 +190,38 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/**************
+*** MULTIPLE SELECT LIST ***
+***************/
+ul.multiple-select-list {
+    width: 100%;
+    padding: 0;
+    border: 1px solid #9ca3af;
+    border-radius: 5px;
+    background-color: white;
+    overflow-y: auto;
+    max-height: 22em;
+}
+
+.multiple-select-list li {
+    list-style: none;
+}
+
+.multiple-select-list li label {
+    padding: 0.8em;
+    width: 100%;
+}
+
+.multiple-select-list li:hover {
+    background-color: rgba(17, 106, 204, 0.2);
+}
+
+.multiple-select-list input {
+    width: 1.1em;
+    height: 1.1em;
+    position: relative;
+    top: 0.15em;
+    margin-right: 0.5em;
 }
