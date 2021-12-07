@@ -6,6 +6,13 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
+    --gris-negro: #121111;
+    --gris-1: #252e3c;
+    --gris-2: #485262;
+    --gris-3: #9ca3af;
+    --gris-4: #d1d5db;
+    --gris-5: #f3f4f6;
+    --gris-blanco: #fcfdff;
     --blue: #116acc;
     --bs-blue: #116acc;
     --bs-indigo: #6610f2;
@@ -696,13 +703,15 @@ progress {
     }
 }
 @media (min-width: 1400px) {
-    .container-xxl,
     .container-xl,
     .container-lg,
     .container-md,
     .container-sm,
     .container {
         max-width: 1320px;
+    }
+    .container-xxl {
+        max-width: 1440px;
     }
 }
 .row {
