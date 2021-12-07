@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Calendario Academico Año </h1>
+{% if mensaje_exito %}
+<div class="alert alert-success">{{mensaje_exito}}</div>
+{% endif %}
+{% if form.errors %}
+<div class="alert alert-danger">{{form.errors}}</div>
+{% endif %}
+{% if calendario %}
+    <ul>
+    {% for fecha in calendario %}
+    <li class="py-4">
+            {{ fecha.fecha }}
+    </li>
+    {% endfor %}
+    </ul>
+{% else %}
+<form
+    method="POST"
+    action="{% url 'planificaciones:calendarioacademico' 2021 %}">
+    {% csrf_token %} 
+            <button type="submit" class="btn btn-primary">
+                Crear Cronograma
+            </button>
+    </form>
+    <p>No existe calendario</p>
+{% endif %} 
+
+{% endblock %}

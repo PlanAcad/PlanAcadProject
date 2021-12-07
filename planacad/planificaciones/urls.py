@@ -5,8 +5,9 @@ from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, view
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
-from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo
+from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo, viewFechaCalendarioAcademico
 from planificaciones.validaciones import validacionSecciones
+
 
 
 
@@ -29,6 +30,9 @@ urlpatterns = [
 
     #Planificacion    
     path('planificacion/<int:id>', viewPlanificacion.PlanificacionDetailView, name='planificacionDetail'),
+
+    #Calendario Academico    
+    path('caledarioAcademico/<int:año>', viewFechaCalendarioAcademico.CalendarioAcademicoIndex, name='calendarioacademico'),
     
 
     ### Secciones ###
