@@ -35,11 +35,11 @@ def CalendarioAcademicoIndex(request, año):
                 mensaje_exito="Se cargo el calendario correctamente"
             else:
                 mensaje_error="ya hay un calendario con esa fecha"
-            calendario =FechaCalendarioAcademico.objects.filter(fecha__year = año)                 
+            calendario =FechaCalendarioAcademico.objects.filter(fecha__year = año).exclude(actividad='DN').order_by('fecha')                 
         except:  
             mensaje_error="no se cargo nada de nada"  
     else:  
-        calendario = FechaCalendarioAcademico.objects.filter(fecha__year = año) 
+        calendario = FechaCalendarioAcademico.objects.filter(fecha__year = año).exclude(actividad='DN').order_by('fecha')  
     return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'año':año,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito}) 
 
@@ -100,6 +100,6 @@ def CerrarCalendarioAcademico(request, año):
         except:  
             mensaje_error="no se cargo nada de nada"  
     else:  
-        calendario = FechaCalendarioAcademico.objects.filter(fecha__year = año) 
+        calendario = FechaCalendarioAcademico.objects.filter(fecha__year = año).exclude(actividad='DN').order_by('fecha')
     return render(request,'calendario/calendario-academico-cerrar.html',{'calendario':calendario,'año':año,'mensaje_error': mensaje_error,
 'mensaje_exito':mensaje_exito}) 
