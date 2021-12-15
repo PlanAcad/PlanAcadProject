@@ -18,6 +18,7 @@ class FechaCalendarioAcademico(models.Model):
     nombre_dia = models.CharField(max_length=100,null=True)
     descripcion = models.CharField(max_length=100,null=True)
     hay_clase = models.BooleanField(null=True)
+    editable = models.BooleanField(null=True)
     actividad = models.CharField( max_length=2, blank=True, null=True, choices=ESTADO)
 
 
