@@ -17,22 +17,74 @@ def CalendarioAcademicoIndex(request, año):
     calendario = None
     if request.method == "POST":
         try:
-            for i in range(366): 
-                instance = FechaCalendarioAcademico()
-                instance.fecha = fecha
-                instance.hay_clase= True
-                instance.actividad = 'DN'
-                instance.nombre_mes = fecha.strftime('%B')
-                instance.nombre_dia = fecha.strftime('%A')
-                instance.save()
-                fecha = fecha + timedelta(days=1)
-                print(fecha)
-                print(fecha.strftime('%B'))
-            calendario =FechaCalendarioAcademico.objects.filter(fecha__year = año) 
-            mensaje_exito="Se cargo el calendario correctamente"  
+            if(FechaCalendarioAcademico.objects.filter(fecha__year = año).exists()==False):
+                for i in range(366): 
+                    instance = FechaCalendarioAcademico()
+                    instance.fecha = fecha
+                    instance.actividad = 'DN'
+                    instance.nombre_mes = fecha.strftime('%B')
+                    instance.nombre_dia = fecha.strftime('%A')
+                    if(instance.nombre_dia=="domingo" or fecha.strftime('%A').startswith("s") ):
+                        instance.hay_clase= False
+                    else: 
+                        instance.hay_clase= True
+                    
+                    instance.save()
+                    fecha = fecha + timedelta(days=1)
+                    print(fecha)
+                    print(fecha.strftime('%B'))
+                calendario =FechaCalendarioAcademico.objects.filter(fecha__year = año) 
+                mensaje_exito="Se cargo el calendario correctamente"
+            else:
+                mensaje_error="ya hay un calendario con esa fecha"                
         except:  
             mensaje_error="no se cargo nada de nada"  
     else:  
         calendario = FechaCalendarioAcademico.objects.filter(fecha__year = año) 
     return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'año':año,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito}) 
+
+
+    
+def UpdateFechaCalendarioAcademico(request, year_fecha_desde,month_fecha_desde,day_fecha_desde,year_fecha_hasta,month_fecha_hasta,day_fecha_hasta,actividad):  
+    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    mensaje_exito = None
+    mensaje_error = None
+    fecha_desde = datetime.datetime(year_fecha_desde, month_fecha_desde, day_fecha_desde)
+    fecha_hasta= datetime.datetime(year_fecha_hasta, month_fecha_hasta, day_fecha_hasta)
+    data = FechaCalendarioAcademico.objects.filter(fecha__range=[fecha_desde,fecha_hasta])
+    print(fecha_desde)
+    print(fecha_hasta)
+    print(actividad)
+    print(data)
+    
+    if request.method == "POST":
+        try:  
+            for i in data:  
+                form = FechaCalendarioAcademicoForm(request.POST, instance=i)  
+                print(form)
+                if form.is_valid():  
+                        instance = form.save(commit=False)
+                        instance.actividad = actividad
+                        print(instance.actividad)
+                        if(actividad == 'EF' or actividad == 'F' or actividad == 'RI'):
+                            instance.hay_clase=False
+                        instance.save()
+            mensaje_exito="Guardamos los cambios correctamente."
+        except:  
+            mensaje_error = "No pudimos guardar los cambios."  
+    
+    context = {
+        'data':data, 
+        'mensaje_error': mensaje_error,
+        'mensaje_exito':mensaje_exito,
+        'year_fecha_desde':year_fecha_desde,
+        'month_fecha_desde':month_fecha_desde,
+        'day_fecha_desde':day_fecha_desde,
+        'year_fecha_hasta':year_fecha_hasta,
+        'month_fecha_hasta':month_fecha_hasta,
+        'day_fecha_hasta':day_fecha_hasta,
+        'actividad':actividad
+    }
+
+    return render(request,'calendario/calendario-academico-edit.html', context)

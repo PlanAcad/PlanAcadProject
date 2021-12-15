@@ -1,10 +1,14 @@
 from django.db import models
 
 ESTADO = [
+    ('IC1', 'Inicio de clases 1er cuatrimestre'),
+    ('FC1', 'Fin de clases 1er cuatrimestre'),
+    ('IC2', 'Inicio de clases 2do cuatrimestre'),
+    ('FC2', 'Fin de clases 2do cuatrimestre'),
+    ('EF', 'Examen final con suspencion de clase'),
+    ('EF', 'Examen final sin suspencion de clase'),
+    ('RI', 'Receso de invierno'),
     ('F', 'Feriado'),
-    ('EF', 'Examen Final'),
-    ('RI', 'Receso Invernal'),
-    ('IF', 'Inicio/Fin Clase'),
     ('DN', 'Dia Normal')
     ]
 

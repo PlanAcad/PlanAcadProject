@@ -33,6 +33,7 @@ urlpatterns = [
 
     #Calendario Academico    
     path('caledarioAcademico/<int:año>', viewFechaCalendarioAcademico.CalendarioAcademicoIndex, name='calendarioacademico'),
+    path('caledarioAcademico/edit/<int:year_fecha_desde>/<int:month_fecha_desde>/<int:day_fecha_desde>/<int:year_fecha_hasta>/<int:month_fecha_hasta>/<int:day_fecha_hasta>/<str:actividad>', viewFechaCalendarioAcademico.UpdateFechaCalendarioAcademico, name='updatecalendarioacademico'),
     
 
     ### Secciones ###
