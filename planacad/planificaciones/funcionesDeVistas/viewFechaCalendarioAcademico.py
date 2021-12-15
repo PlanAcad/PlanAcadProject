@@ -55,15 +55,11 @@ def UpdateFechaCalendarioAcademico(request, year_fecha_desde,month_fecha_desde,d
     if request.method == "POST":
         try:  
             for i in data:  
-                form = FechaCalendarioAcademicoForm(request.POST, instance=i)  
-                print(form)
-                if form.is_valid():  
-                        instance = form.save(commit=False)
-                        instance.actividad = actividad
-                        print(instance.actividad)
-                        if(actividad == 'EF' or actividad == 'F' or actividad == 'RI'):
-                            instance.hay_clase=False
-                        instance.save()
+                instance = i
+                instance.actividad = actividad
+                if(actividad == 'EF' or actividad == 'F' or actividad == 'RI'):
+                    instance.hay_clase=False
+                instance.save()
             mensaje_exito="Guardamos los cambios correctamente."
         except:  
             mensaje_error = "No pudimos guardar los cambios."  
