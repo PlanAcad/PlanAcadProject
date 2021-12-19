@@ -1,0 +1,88 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="layout layout--calendario d-flex flex-column min-vh-100">
+    <header class="pt-1 pb-1 border-bottom">
+        <div class="container-xxl">
+            <div class="flex__between__center m-1">
+                <h1 class="col-md-3 h3 mb-0">
+                    <a
+                        class="item"
+                        href="{% url 'planificaciones:index' %}"
+                        style="text-decoration: none; color: inherit"
+                    >
+                        PlanAcad
+                    </a>
+                </h1>
+                <div class="flex__between__center">
+                    <h6 class="mb-0 px-2">Profesor Apellido</h6>
+                    <a class="item icon" href="">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-box-arrow-right"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+                            />
+                            <path
+                                fill-rule="evenodd"
+                                d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                            />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="pt-2 pb-2 border-bottom">
+            <div class="container-xxl">
+                <div class="flex__between__center">
+                    <div>
+                        <span class="item-subnavbar">
+                            <a
+                                class=""
+                                href=""
+                                style="text-decoration: none; color: inherit"
+                            >
+                                Libro Rojo
+                            </a>
+                        </span>
+                        <span class="item-subnavbar">
+                            <a
+                                class=""
+                                href="https://cetfrre.com.ar/2020/03/09/calendario-academico-2020-2021/"
+                                target="_blank"
+                                style="text-decoration: none; color: inherit"
+                            >
+                                Calendario Academico
+                            </a>
+                        </span>
+                        <span class="item-subnavbar">
+                            <a
+                                class=""
+                                href=""
+                                style="text-decoration: none; color: inherit"
+                            >
+                                Verbos de la taxonomia de Bloom
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="bg-gris-5 flex-grow-1">
+        <div class="container-xl pt-4">
+            <div class="">                
+                <main class="col seccion px-4">                    
+                    {% block calendario %} replace me {% endblock %}
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
