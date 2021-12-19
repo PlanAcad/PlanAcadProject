@@ -52,11 +52,11 @@
           method="POST"
           {% comment %} action="{% url 'planificaciones:updatecalendarioacademico' 2021 03 01 2021 03 30 F %}" {% endcomment %}
           >
-              {% csrf_token %} {% comment %} {{form.as_p}} {% endcomment %}
+              {% csrf_token %}  {{form.as_p}} 
           
-              {% comment %} {% if form.errors %}
+               {% if form.errors %}
               <div class="alert alert-danger">{{form.errors}}</div>
-              {% endif %} {% endcomment %}
+              {% endif %} 
           
               <div class="modal-footer">
                   <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

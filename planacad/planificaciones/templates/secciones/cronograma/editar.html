@@ -1,4 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+{% load l10n %}
 
 <a
     href="{% url 'planificaciones:cronograma' planificacion.id %}"
@@ -12,7 +13,7 @@
   <div class="alert alert-success">{{mensaje_exito}}</div>
   {% endif %}
   <h3>Modificar fecha</h3>
-
+  {% localize off %}
   <form
     id="cronograma-form"
     method="POST"
@@ -20,6 +21,7 @@
   >
     {% csrf_token %} {{form.as_p}}
   </form>
+  {% endlocalize %}
   <form
     method="POST"
     action="{% url 'planificaciones:cronogramaDestroy' planificacion.id data.id %}"
@@ -134,5 +136,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $("#id_fecha_clase").datepicker();
+    });
+    
+</script>
 
 {% endblock %}
