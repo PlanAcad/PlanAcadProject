@@ -6,6 +6,8 @@ import locale
 from datetime import timedelta
 from django.http import HttpResponseRedirect
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademicoForm
+from planificaciones.formularios.formFechaCalendarioUpdate import FechaCalendarioAcademicoUpdateForm
+
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
 from django.utils.translation import get_language, activate
 
@@ -47,12 +49,13 @@ def CalendarioAcademicoIndex(request, año):
 
 
     
-def UpdateFechaCalendarioAcademico(request, year_fecha_desde,month_fecha_desde,day_fecha_desde,year_fecha_hasta,month_fecha_hasta,day_fecha_hasta,actividad):  
+def UpdateFechaCalendarioAcademico(request,actividad):  
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     mensaje_exito = None
     mensaje_error = None
-    fecha_desde = datetime.datetime(year_fecha_desde, month_fecha_desde, day_fecha_desde)
-    fecha_hasta= datetime.datetime(year_fecha_hasta, month_fecha_hasta, day_fecha_hasta)
+    form = FechaCalendarioAcademicoUpdateForm(request.POST)
+    fecha_desde = datetime.datetime(form.year_fecha_desde, form.month_fecha_desde, form.day_fecha_desde)
+    fecha_hasta= datetime.datetime(form.year_fecha_hasta, form.month_fecha_hasta, form.day_fecha_hasta)
     data = FechaCalendarioAcademico.objects.filter(fecha__range=[fecha_desde,fecha_hasta])
     if request.method == "POST":
         try:  
@@ -70,12 +73,7 @@ def UpdateFechaCalendarioAcademico(request, year_fecha_desde,month_fecha_desde,d
         'data':data, 
         'mensaje_error': mensaje_error,
         'mensaje_exito':mensaje_exito,
-        'year_fecha_desde':year_fecha_desde,
-        'month_fecha_desde':month_fecha_desde,
-        'day_fecha_desde':day_fecha_desde,
-        'year_fecha_hasta':year_fecha_hasta,
-        'month_fecha_hasta':month_fecha_hasta,
-        'day_fecha_hasta':day_fecha_hasta,
+        'form':form,
         'actividad':actividad
     }
 
