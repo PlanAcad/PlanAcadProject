@@ -143,5 +143,37 @@
     </div>
   </div>
 
+  <div class="py-5"></div>
+
+  <h2>Multiple Select List</h2>
+  <p>Este componente funciona como un reemplazo al input select multiple que renderiza Django para campos ManyToMany. Para integrarlo, añadir en el FormModel correspondiente una línea así para modificar el widget por defecto.</p>
+  <pre><code>widgets = {
+    'profesor_a_cargo': forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'})
+}</code></pre>
+<ul id="id_resultado_de_aprendizaje" class="multiple-select-list">
+  <li><label for="id_resultado_de_aprendizaje_0"><input type="checkbox" name="resultado_de_aprendizaje" value="14" class="multiple-select-list" id="id_resultado_de_aprendizaje_0">
+Los RA alcanzados requeridos para continuar con el desarrollo de los RA de Sistemas de Gestión deberían corresponderse con Administración d</label>
+</li>
+  <li><label for="id_resultado_de_aprendizaje_1"><input type="checkbox" name="resultado_de_aprendizaje" value="7" class="multiple-select-list" id="id_resultado_de_aprendizaje_1" checked="">
+Los RA alcanzados requeridos para continuar con el
+desarrollo de los RA de Ingeniería del Software deberían
+corresponderse con Análisis de Sistemas y/o Diseño de
+Sistemas.</label>
+</li>
+  <li><label for="id_resultado_de_aprendizaje_3"><input type="checkbox" name="resultado_de_aprendizaje" value="16" class="multiple-select-list" id="id_resultado_de_aprendizaje_3">
+Resultados de aprendizajes alcanzados durante el cursado de recursos</label>
+</li>
+  <li><label for="id_resultado_de_aprendizaje_4"><input type="checkbox" name="resultado_de_aprendizaje" value="17" class="multiple-select-list" id="id_resultado_de_aprendizaje_4" checked="">
+RA aprendidos durante el cursado de la materia</label>
+</li>
+  <li><label for="id_resultado_de_aprendizaje_5"><input type="checkbox" name="resultado_de_aprendizaje" value="24" class="multiple-select-list" id="id_resultado_de_aprendizaje_5">
+Resolver situaciones problemáticas básicas, aplicando operaciones con
+vectores y matrices para que el alumno contextualice futuros campos de
+acción.</label>
+</li>
+</ul>
+
+  <div class="py-5"></div>
+
 </div>
  {% endblock %}
