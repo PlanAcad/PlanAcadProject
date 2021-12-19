@@ -6,6 +6,7 @@ from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundame
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
 from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo, viewFechaCalendarioAcademico
+#from planificaciones.funcionesDeVistas import viewExportar
 from planificaciones.validaciones import validacionSecciones
 
 
@@ -110,7 +111,13 @@ urlpatterns = [
     # Seccion 13 - Justificacion (Ordenanza 604)
     path('planificacion/<int:id_planificacion>/justificacion-ordenanza', viewJustificacionOrdenanza.JustificacionOrdenanza, name='justificacionOrdenanza'),
 
-   #Validacion
+    # EXPORTAR PLANIFICACION
+    #path('planificacion/<int:id_planificacion>/exportar', viewExportar.Exportar, name='exportar'),
+    #path('planificacion/<int:id_planificacion>/descargar-pdf', viewExportar.DownloadPDF, name='downloadPdf'),
+    #path('planificacion/<int:id_planificacion>/imprimir-pdf', viewExportar.PrintPDF, name='printPdf'),
+
+
+   # VALIDACION
     path('planificacion/<int:id_planificacion>/validacion', validacionSecciones.ValidacionIndex, name='validacionSeccion1')
 
 ]

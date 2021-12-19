@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import widgets
+from django.forms.widgets import DateInput
 from planificaciones.modelos.modelClase import Clase
 
 LUGARES = [
@@ -35,7 +35,6 @@ class ClaseForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         choices=LUGARES,
     )
-    #fecha_clase = forms.DateField(input_formats=['%d/%m/%Y'])
     es_examen = forms.CharField(widget=forms.RadioSelect(choices=TIPO_EXAMEN))
 
     def __init__(self, *args, **kwargs):
@@ -58,4 +57,5 @@ class ClaseForm(forms.ModelForm):
             'profesor_a_cargo': forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'}),
             'unidad_tematica_o_tema': forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'}),
             'resultado_de_aprendizaje': forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'}),
+            'fecha_examen': forms.DateInput(attrs={'class': 'date-picker'}),
         }
