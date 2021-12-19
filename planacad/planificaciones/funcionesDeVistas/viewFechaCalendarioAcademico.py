@@ -15,6 +15,7 @@ def CalendarioAcademicoIndex(request, año):
     mensaje_error = None  
     fecha = datetime.datetime(año, 3, 1)
     calendario = None
+    existe_calendario = None
     if request.method == "POST":
         try:
             if(FechaCalendarioAcademico.objects.filter(fecha__year = año).exists()==False):
@@ -39,8 +40,9 @@ def CalendarioAcademicoIndex(request, año):
         except:  
             mensaje_error="no se cargo nada de nada"  
     else:  
-        calendario = FechaCalendarioAcademico.objects.filter(fecha__year = año).exclude(actividad='DN').order_by('fecha')  
-    return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'año':año,'mensaje_error': mensaje_error,
+        calendario = FechaCalendarioAcademico.objects.filter(fecha__year = año).exclude(actividad='DN').order_by('fecha')
+    existe_calendario = FechaCalendarioAcademico.objects.filter(fecha__year = año).exists()  
+    return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'existe_calendario':existe_calendario,'año':año,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito}) 
 
 

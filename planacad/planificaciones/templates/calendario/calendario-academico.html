@@ -7,6 +7,10 @@
 {% if form.errors %}
 <div class="alert alert-danger">{{form.errors}}</div>
 {% endif %}
+{% if existe_calendario %}
+<p>El calendario ya existe</p>
+{% else %}
+
 {% if calendario %}
 <form
     method="GET"
@@ -34,5 +38,7 @@
     </form>
     <p>No existe calendario</p>
 {% endif %} 
+
+{% endif %}
 
 {% endblock %}
