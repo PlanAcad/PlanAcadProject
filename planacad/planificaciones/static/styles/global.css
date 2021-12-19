@@ -225,3 +225,44 @@ ul.multiple-select-list {
     top: 0.15em;
     margin-right: 0.5em;
 }
+
+/**************
+*** CALENDARIO ***
+***************/
+.layout--calendario header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: white;
+}
+.calendario__columns {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+.calendario__almanaque {
+    width: 70%;
+}
+.calendario__almanaque__mes {
+    height: 100vh;
+    width: 100%;
+    background-color: white;
+}
+.calendario__eventos {
+    width: 30%;
+    position: sticky;
+    top: 5.75em;
+    height: calc(100vh - 5.75em);
+    padding: 2.25em;
+    display: flex;
+}
+.calendario__eventos__card {
+    background-color: white;
+    padding: 1.5em 2em;
+    border-radius: 8px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.calendario__eventos__card h2 {
+    font-size: 1.5em;
+}

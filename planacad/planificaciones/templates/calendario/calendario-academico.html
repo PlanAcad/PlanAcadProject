@@ -1,6 +1,6 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'layouts/calendario_layout.html' %} {% block calendario %}
 
-<h1>Calendario Academico Año </h1>
+
 {% if mensaje_exito %}
 <div class="alert alert-success">{{mensaje_exito}}</div>
 {% endif %}
@@ -8,8 +8,70 @@
 <div class="alert alert-danger">{{form.errors}}</div>
 {% endif %}
 {% if existe_calendario %}
-<p>El calendario ya existe</p>
+
+<div class="calendario__columns">
+    <div class="calendario__almanaque">
+        <h1>{{ano}}</h1>
+        <div class="calendario__almanaque__mes">
+        </div>
+        <div class="calendario__almanaque__mes">
+        </div>
+        <div class="calendario__almanaque__mes">
+        </div>
+        <div class="calendario__almanaque__mes">
+        </div>
+        <div class="calendario__almanaque__mes">
+        </div>
+    </div>
+    <div class="calendario__eventos">
+        <div class="calendario__eventos__card">
+          <h2>Eventos</h2>
+          <button
+          type="button"
+          class="btn btn-outline-primary mt-4"
+          style="margin:auto"
+          data-toggle="modal"
+          data-target="#modal-evento"
+      >
+          Añadir evento
+      </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-evento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Añadir evento</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form
+          method="POST"
+          {% comment %} action="{% url 'planificaciones:updatecalendarioacademico' 2021 03 01 2021 03 30 F %}" {% endcomment %}
+          >
+              {% csrf_token %} {% comment %} {{form.as_p}} {% endcomment %}
+          
+              {% comment %} {% if form.errors %}
+              <div class="alert alert-danger">{{form.errors}}</div>
+              {% endif %} {% endcomment %}
+          
+              <div class="modal-footer">
+                  <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Añadir evento</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 {% else %}
+
+<h1>Calendario Academico Año {{ano}}</h1>
 
 {% if calendario %}
 <form
