@@ -2,7 +2,6 @@
 from django.shortcuts import render, redirect  
 from django.urls import reverse
 import datetime
-import unicodedata
 import locale
 from datetime import timedelta
 from django.http import HttpResponseRedirect
@@ -13,7 +12,6 @@ from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalend
 from django.utils.translation import get_language, activate
 
 def CalendarioAcademicoIndex(request, ano):
-    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     mensaje_exito = None
     mensaje_error = None  
     fecha = datetime.datetime(ano, 3, 1)
@@ -29,8 +27,8 @@ def CalendarioAcademicoIndex(request, ano):
                     instance.actividad = 'DN'
                     instance.nombre_mes = fecha.strftime('%B')
                     
-                    instance.nombre_dia = strip_accents(fecha.strftime('%A'))
-                    if(instance.nombre_dia=="domingo" or instance.nombre_dia=="sAbado" ):
+                    instance.nombre_dia = fecha.strftime('%A')
+                    if(instance.nombre_dia=="Saturday" or instance.nombre_dia=="Sunday" ):
                         instance.hay_clase= False
                     else: 
                         instance.hay_clase= True
@@ -50,13 +48,6 @@ def CalendarioAcademicoIndex(request, ano):
     return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'existe_calendario':existe_calendario,'ano':ano,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito, 'form':form}) 
 
-def strip_accents(text):
-    text = unicodedata.normalize('NFD', text)
-    text = text.encode('ascii', 'ignore')
-    text = text.decode("utf-8")
-    return str(text)
-
-    
 def UpdateFechaCalendarioAcademico(request,ano):  
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     mensaje_exito = None
@@ -81,9 +72,7 @@ def UpdateFechaCalendarioAcademico(request,ano):
                 print(instance.actividad)
                 if(actividad == 'EF' or actividad == 'F' or actividad == 'RI'):
                     instance.hay_clase=False
-                    instance.save()
-                else:
-                    instance.save()
+                instance.save()
                 
             mensaje_exito="Guardamos los cambios correctamente."
         except:  
