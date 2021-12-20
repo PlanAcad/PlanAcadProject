@@ -35,6 +35,16 @@
       >
           Añadir evento
       </button>
+      <ul>
+        {% if calendario %}
+        {% for fecha in calendario %}
+        <li class="py-4">
+                {{ fecha.fecha }}
+                <b>{{fecha.get_actividad_display}}</b>
+        </li>
+        {% endfor %}
+        {% endif %}
+        </ul>
         </div>
     </div>
 </div>
@@ -50,7 +60,7 @@
         <div class="modal-body">
           <form
           method="POST"
-          {% comment %} action="{% url 'planificaciones:updatecalendarioacademico' 2021 03 01 2021 03 30 F %}" {% endcomment %}
+           action="{% url 'planificaciones:updatecalendarioacademico' ano %}" 
           >
               {% csrf_token %}  {{form.as_p}} 
           
@@ -60,7 +70,7 @@
           
               <div class="modal-footer">
                   <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Añadir evento</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
               </div>
           </form>
         </div>
@@ -82,13 +92,7 @@
                 Cerrar Cronograma
             </button>
     </form>
-    <ul>
-    {% for fecha in calendario %}
-    <li class="py-4">
-            {{ fecha.fecha }}
-    </li>
-    {% endfor %}
-    </ul>
+    
 {% else %}
 <form
     method="POST"

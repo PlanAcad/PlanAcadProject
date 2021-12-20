@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='fechacalendarioacademico',
             name='actividad',
-            field=models.CharField(blank=True, choices=[('IC1', 'Inicio de clases 1er cuatrimestre'), ('FC1', 'Fin de clases 1er cuatrimestre'), ('IC2', 'Inicio de clases 2do cuatrimestre'), ('FC2', 'Fin de clases 2do cuatrimestre'), ('EF', 'Examen final con suspencion de clase'), ('EF', 'Examen final sin suspencion de clase'), ('RI', 'Receso de invierno'), ('F', 'Feriado'), ('DN', 'Dia Normal')], max_length=2, null=True),
+            field=models.CharField(blank=True, choices=[('IC1', 'Inicio de clases 1er cuatrimestre'), ('FC1', 'Fin de clases 1er cuatrimestre'), ('IC2', 'Inicio de clases 2do cuatrimestre'), ('FC2', 'Fin de clases 2do cuatrimestre'), ('EF', 'Examen final con suspensión de clase'), ('EF', 'Examen final sin suspensión de clase'), ('RI', 'Receso de invierno'), ('F', 'Feriado'), ('DN', 'Dia Normal')], max_length=2, null=True),
         ),
     ]

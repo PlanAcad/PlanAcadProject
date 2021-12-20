@@ -33,9 +33,9 @@ urlpatterns = [
     path('planificacion/<int:id>', viewPlanificacion.PlanificacionDetailView, name='planificacionDetail'),
 
     #Calendario Academico    
-    path('caledarioAcademico/<int:año>', viewFechaCalendarioAcademico.CalendarioAcademicoIndex, name='calendarioacademico'),
-    path('caledarioAcademico/edit/<int:year_fecha_desde>/<int:month_fecha_desde>/<int:day_fecha_desde>/<int:year_fecha_hasta>/<int:month_fecha_hasta>/<int:day_fecha_hasta>/<str:actividad>', viewFechaCalendarioAcademico.UpdateFechaCalendarioAcademico, name='updatecalendarioacademico'),
-    path('caledarioAcademico/cerrar/<int:año>', viewFechaCalendarioAcademico.CerrarCalendarioAcademico, name='cerrarcalendarioacademico'),
+    path('calendario-academico/<int:ano>', viewFechaCalendarioAcademico.CalendarioAcademicoIndex, name='calendarioacademico'),
+    path('calendario-academico/edit/<int:ano>', viewFechaCalendarioAcademico.UpdateFechaCalendarioAcademico, name='updatecalendarioacademico'),
+    path('calendario-academico/cerrar/<int:ano>', viewFechaCalendarioAcademico.CerrarCalendarioAcademico, name='cerrarcalendarioacademico'),
     
 
     ### Secciones ###

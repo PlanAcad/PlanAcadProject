@@ -241,7 +241,7 @@ ul.multiple-select-list {
     margin-bottom: 1em;
 }
 .calendario__almanaque {
-    width: 70%;
+    width: 60%;
 }
 .calendario__almanaque__mes {
     height: 100vh;
@@ -249,7 +249,7 @@ ul.multiple-select-list {
     background-color: white;
 }
 .calendario__eventos {
-    width: 30%;
+    width: 40%;
     position: sticky;
     top: 5.75em;
     height: calc(100vh - 5.75em);
