@@ -15,14 +15,19 @@ def CalendarioAcademicoIndex(request, ano):
     mensaje_exito = None
     mensaje_error = None  
     fecha = datetime.datetime(ano, 3, 1)
+    fecha_inicio = fecha
+    fecha_fin = datetime.datetime(ano+1,3,31)
+    cantidad_de_dias = (fecha_fin - fecha_inicio).days 
+    print(cantidad_de_dias)
     calendario = None
     existe_calendario = None
     if request.method == "POST":
         try:
-            if(FechaCalendarioAcademico.objects.filter(fecha__year = ano).exists()==False):
-                for i in range(366): 
+            if(FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exists()==False):
+                for i in range(cantidad_de_dias+1): 
                     instance = FechaCalendarioAcademico()
                     instance.fecha = fecha
+                    instance.ciclo_lectivo = ano
                     instance.editable = True
                     instance.actividad = 'DN'
                     instance.nombre_mes = fecha.strftime('%B')
@@ -32,19 +37,18 @@ def CalendarioAcademicoIndex(request, ano):
                         instance.hay_clase= False
                     else: 
                         instance.hay_clase= True
-                    
                     instance.save()
                     fecha = fecha + timedelta(days=1)
                 mensaje_exito="Se cargo el calendario correctamente"
             else:
                 mensaje_error="ya hay un calendario con esa fecha"
-            calendario =FechaCalendarioAcademico.objects.filter(fecha__year = ano).exclude(actividad='DN').order_by('fecha')                 
+            calendario =FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')                 
         except:  
             mensaje_error="no se cargo nada de nada"  
     else:  
-        calendario = FechaCalendarioAcademico.objects.filter(fecha__year = ano).exclude(actividad='DN').order_by('fecha')
+        calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')
     form = FechaCalendarioAcademicoUpdateForm()
-    existe_calendario = FechaCalendarioAcademico.objects.filter(fecha__year = ano).exists()  
+    existe_calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exists()  
     return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'existe_calendario':existe_calendario,'ano':ano,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito, 'form':form}) 
 
@@ -95,8 +99,8 @@ def CerrarCalendarioAcademico(request, ano):
     calendario = None
     if request.method == "POST":
         try:
-            if(FechaCalendarioAcademico.objects.filter(fecha__year = ano).exists()):
-                calendario = FechaCalendarioAcademico.objects.filter(fecha__year = ano)
+            if(FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exists()):
+                calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano)
                 for i in calendario:
                         instance = i
                         instance.editable = False
@@ -109,6 +113,6 @@ def CerrarCalendarioAcademico(request, ano):
         except:  
             mensaje_error="no se cargo nada de nada"  
     else:  
-        calendario = FechaCalendarioAcademico.objects.filter(fecha__year = ano).exclude(actividad='DN').order_by('fecha')
+        calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')
     return render(request,'calendario/calendario-academico-cerrar.html',{'calendario':calendario,'año':ano,'mensaje_error': mensaje_error,
 'mensaje_exito':mensaje_exito}) 
