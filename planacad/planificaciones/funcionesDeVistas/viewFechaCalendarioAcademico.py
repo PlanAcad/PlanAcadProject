@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect  
 from django.urls import reverse
 import datetime
+import unicodedata
 import locale
 from datetime import timedelta
 from django.http import HttpResponseRedirect
@@ -27,8 +28,9 @@ def CalendarioAcademicoIndex(request, ano):
                     instance.editable = True
                     instance.actividad = 'DN'
                     instance.nombre_mes = fecha.strftime('%B')
-                    instance.nombre_dia = fecha.strftime('%A')
-                    if(instance.nombre_dia=="domingo" or fecha.strftime('%A').startswith("s") ):
+                    
+                    instance.nombre_dia = strip_accents(fecha.strftime('%A'))
+                    if(instance.nombre_dia=="domingo" or instance.nombre_dia=="sAbado" ):
                         instance.hay_clase= False
                     else: 
                         instance.hay_clase= True
@@ -42,12 +44,17 @@ def CalendarioAcademicoIndex(request, ano):
         except:  
             mensaje_error="no se cargo nada de nada"  
     else:  
-        form = FechaCalendarioAcademicoUpdateForm()
         calendario = FechaCalendarioAcademico.objects.filter(fecha__year = ano).exclude(actividad='DN').order_by('fecha')
+    form = FechaCalendarioAcademicoUpdateForm()
     existe_calendario = FechaCalendarioAcademico.objects.filter(fecha__year = ano).exists()  
     return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'existe_calendario':existe_calendario,'ano':ano,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito, 'form':form}) 
 
+def strip_accents(text):
+    text = unicodedata.normalize('NFD', text)
+    text = text.encode('ascii', 'ignore')
+    text = text.decode("utf-8")
+    return str(text)
 
     
 def UpdateFechaCalendarioAcademico(request,ano):  
@@ -63,6 +70,7 @@ def UpdateFechaCalendarioAcademico(request,ano):
     else:
         fecha_hasta = datetime.datetime.strptime(fecha_hasta, '%d/%m/%Y')
     actividad = request.POST.get('actividad')
+    print(actividad)
     data = FechaCalendarioAcademico.objects.filter(fecha__range=[fecha_desde,fecha_hasta])
     if request.method == "POST":
         try:  
@@ -70,9 +78,13 @@ def UpdateFechaCalendarioAcademico(request,ano):
                 instance = i
                 instance.actividad = actividad
                 instance.descripcion = request.POST.get('descripcion')
+                print(instance.actividad)
                 if(actividad == 'EF' or actividad == 'F' or actividad == 'RI'):
                     instance.hay_clase=False
-                instance.save()
+                    instance.save()
+                else:
+                    instance.save()
+                
             mensaje_exito="Guardamos los cambios correctamente."
         except:  
             mensaje_error = "No pudimos guardar los cambios."  
