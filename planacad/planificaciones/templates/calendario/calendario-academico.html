@@ -7,6 +7,8 @@
 {% if form.errors %}
 <div class="alert alert-danger">{{form.errors}}</div>
 {% endif %}
+
+
 {% if existe_calendario %}
 
 <div class="calendario__columns">
@@ -26,20 +28,28 @@
     <div class="calendario__eventos">
         <div class="calendario__eventos__card">
           <h2>Eventos</h2>
+          {% if cerrado %}
+<div class="alert alert-info">Calendario cerrado.</div>
+          {% else %}
           <button
           type="button"
-          class="btn btn-outline-primary mt-4"
-          style="margin:auto"
+          class="btn btn-outline-primary my-4"          
           data-toggle="modal"
           data-target="#modal-evento"
       >
           Añadir evento
       </button>
+      
+            <button type="submit" class="btn btn-outline-primary ml-2 my-4" data-toggle="modal"
+            data-target="#modal-cerrar">
+                Cerrar calendario
+            </button>
+            {% endif %}
       <ul>
         {% if calendario %}
         {% for fecha in calendario %}
-        <li class="py-4">
-                {{ fecha.fecha }}
+        <li class="py-2">
+                {{ fecha.fecha|date:'d/m' }}<br>
                 <b>{{fecha.get_actividad_display}}</b>
         </li>
         {% endfor %}
@@ -78,33 +88,73 @@
     </div>
   </div>
 
+  <div
+  class="modal fade"
+  id="modal-cerrar"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                  
+              </h5>
+              <button
+                  type="button"
+                  class="btn-close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+              ></button>
+          </div>
+          <div class="modal-body">
+              <form
+                  method="POST"
+                  action="{% url 'planificaciones:cerrarcalendarioacademico' ano %}"
+              >
+                  {% csrf_token %}
+
+                  <p>Esta por cerrar el calendario académico.</p>
+                 
+                  <div class="modal-footer">
+                      <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          data-dismiss="modal"
+                      >
+                          Cancelar
+                      </button>
+                      <button
+                          id="delete-button"
+                          type="submit"
+                          class="btn btn-danger my-4"
+                      >Cerrar calendario académico
+                      </button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
 
 {% else %}
 
 <h1>Calendario Academico Año {{ano}}</h1>
-
-{% if calendario %}
-<form
-    method="GET"
-    action="{% url 'planificaciones:cerrarcalendarioacademico' 2021 %}">
-    {% csrf_token %} 
-            <button type="submit" class="btn btn-primary">
-                Cerrar Cronograma
-            </button>
-    </form>
     
-{% else %}
 <form
     method="POST"
-    action="{% url 'planificaciones:calendarioacademico' 2021 %}">
+    action="{% url 'planificaciones:calendarioacademico' ano %}">
     {% csrf_token %} 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary my-2">
                 Crear Cronograma
             </button>
     </form>
-    <p>No existe calendario</p>
-{% endif %} 
+    <p class="my-2">No existe calendario</p>
 
-{% endif %}
+{% endif %} 
 
 {% endblock %}
