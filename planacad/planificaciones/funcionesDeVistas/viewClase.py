@@ -100,11 +100,11 @@ def ClaseDestroy(request,id_planificacion,id_clase):
         
         return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
 
-def CronogramaCreate(request,planificacion_id):
+def CronogramaCreate(request,id_planificacion):
     mensaje_error = None
     try:
          #Obtengo la planificacion
-         planificacion = Planificacion.objects.get(id=planificacion_id)
+         planificacion = Planificacion.objects.get(id=id_planificacion)
          datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
          cronograma = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo)
          dias = request.POST.get('dias')
@@ -122,6 +122,7 @@ def CronogramaCreate(request,planificacion_id):
             fin= cronograma.get(actividad='FC2')
          cronograma = cronograma.filter(fecha__range=[inicio,fin])
          dias_cronograma = []
+         print(dias_cronograma)
          if(dias.__contains__('L')):
              dias_cronograma.extend(cronograma.filter(nombre_dia="Monday").filter(hay_clase=True))
          if (dias.__contains__('M')):
@@ -147,4 +148,4 @@ def CronogramaCreate(request,planificacion_id):
     except:
          mensaje_error = "No pudimos obtener los datos correctamente"
     form_create = CronogramaCreateForm()    
-    return render(request,"secciones/cronograma/.html",{'mensaje_error': mensaje_error,'form_create':form_create})  
+    return render(request,"secciones/cronograma/index.html",{'mensaje_error': mensaje_error,'form_create':form_create})  
