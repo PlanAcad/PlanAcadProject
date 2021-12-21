@@ -1,5 +1,6 @@
 {% extends 'layouts/calendario_layout.html' %} {% block calendario %}
 
+{% load static %}
 
 {% if mensaje_exito %}
 <div class="alert alert-success">{{mensaje_exito}}</div>
@@ -14,16 +15,7 @@
 <div class="calendario__columns">
     <div class="calendario__almanaque">
         <h1>{{ano}}</h1>
-        <div class="calendario__almanaque__mes">
-        </div>
-        <div class="calendario__almanaque__mes">
-        </div>
-        <div class="calendario__almanaque__mes">
-        </div>
-        <div class="calendario__almanaque__mes">
-        </div>
-        <div class="calendario__almanaque__mes">
-        </div>
+        <div id="calendario"></div>
     </div>
     <div class="calendario__eventos">
         <div class="calendario__eventos__card">
@@ -79,7 +71,7 @@
               {% endif %} 
           
               <div class="modal-footer">
-                  <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                   <button type="submit" class="btn btn-primary">Guardar</button>
               </div>
           </form>
@@ -140,6 +132,63 @@
 </div>
 
 
+<script src="{% static 'javascript/zabuto_calendar.min.js' %}"></script>
+<script type="application/javascript">
+  const eventos = [
+    {% for fecha in calendario %}
+    {
+      "date": "{{ fecha.fecha|date:'Y-m-d' }}",
+      "badge": true,
+      "title": "{{fecha.get_actividad_display}}",
+      "body": "<p class=\"lead\">Party<\/p><p>Like it's 1999.<\/p>",
+      "footer":"At Paisley Park",
+      "classname":"purple-event"
+    },
+    {% endfor %}
+  ]
+
+    $(document).ready(function () {
+        $("#calendario").zabuto_calendar({
+          year: {{ano}},
+          language: "es",
+          month: 3,
+          show_previous: false,
+          show_next: 12,
+          nav_icon: {
+            prev: '<',
+            next: '>'
+          },
+          data: eventos,
+          action: function () {
+            return myDateFunction(this.id, false);
+          },
+          action_nav: function () {
+            return myNavFunction(this.id);
+          },
+        });
+    });
+
+    function myDateFunction(id, fromModal) {
+      $("#modal-evento").hide();
+      if (fromModal) {
+          $("#" + id + "_modal").modal("hide");
+      }
+      var date = $("#" + id).data("date");
+      var fecha = moment(date, 'YYYY-MM-DD').format('DD/MM/YYYY')
+      /*$("#date-popover-content").html('You clicked on date ' + date);*/
+      $("#id_fecha_desde").val(fecha);
+      $("#id_fecha_hasta").val(fecha);
+      $("#modal-evento").modal('show');
+      return true;
+  }
+
+  function myNavFunction(id) {
+      $("#date-popover").hide();
+      var nav = $("#" + id).data("navigation");
+      var to = $("#" + id).data("to");
+      console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+  }
+</script>
 
 {% else %}
 
