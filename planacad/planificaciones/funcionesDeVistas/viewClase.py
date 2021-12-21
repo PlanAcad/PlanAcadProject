@@ -45,10 +45,14 @@ def ClasesView(request,planificacion_id):
          #Obtengo la planificacion
          planificacion = Planificacion.objects.get(id=planificacion_id)
          #Obtengo los resultados de aprendizaje
-         clases = Clase.objects.filter(planificacion=planificacion) 
+         clases = Clase.objects.filter(planificacion=planificacion)
+         datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
+         existe_calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo).exists()
+         cronograma_sintonizado = planificacion.sincronizado_calendario_academico
     except:
          mensaje_error = "No pudimos obtener los datos correctamente"    
-    return render(request,"secciones/cronograma/.html",{'clases':clases, 'mensaje_error': mensaje_error})  
+    return render(request,"secciones/cronograma/.html",{'clases':clases, 'mensaje_error': mensaje_error,'existe_calendario':existe_calendario,
+    'cronograma_sintonizado':cronograma_sintonizado})  
 def ClaseViewDetail(request,clase_id): 
     mensaje_error = None 
     try:
@@ -96,7 +100,7 @@ def ClaseDestroy(request,id_planificacion,id_clase):
         
         return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
 
-def CreateCronograma(request,planificacion_id):
+def CronogramaCreate(request,planificacion_id):
     mensaje_error = None
     try:
          #Obtengo la planificacion
@@ -136,11 +140,11 @@ def CreateCronograma(request,planificacion_id):
                 instance = ClaseForm()
                 instance.planificacion_id=planificacion.id
                 instance.save()
-                mensaje_exito="Añadimos la clase correctamente."
+            planificacion.sincronizado_calendario_academico = True
+            planificacion.save()
+            mensaje_exito="Añadimos la clase correctamente."
          except:  
-            mensaje_error = "No pudimos guardar los cambios."  
-         #Obtengo los resultados de aprendizaje
-         clases = Clase.objects.filter(planificacion=planificacion) 
+            mensaje_error = "No pudimos guardar los cambios."
     except:
          mensaje_error = "No pudimos obtener los datos correctamente"    
-    return render(request,"secciones/cronograma/.html",{'clases':clases, 'mensaje_error': mensaje_error})  
+    return render(request,"secciones/cronograma/.html",{'mensaje_error': mensaje_error})  

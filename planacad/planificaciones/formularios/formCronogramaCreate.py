@@ -5,11 +5,11 @@ DIAS = [
     ('M', 'Martes'),
     ('MI', 'Miercoles'),
     ('J', 'Jueves'),
-    ('V', 'Viernes')
+    ('V', 'Viernes'),
     ('S', 'Sabado')
     
     ]
 
 class CronogramaCreateForm(forms.Form):
-        dias = forms.CheckboxSelectMultiple(initial='L',max_length=2,widget=forms.Select(choices=DIAS))
+        dias = forms.MultipleChoiceField(initial='L',widget=forms.Select(choices=DIAS))
         
