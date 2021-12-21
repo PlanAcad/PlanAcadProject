@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Calendario Academico Cerrar </h1>
+{% if mensaje_exito %}
+<div class="alert alert-success">{{mensaje_exito}}</div>
+{% endif %}
+{% if form.errors %}
+<div class="alert alert-danger">{{form.errors}}</div>
+{% endif %}
+<form
+    method="POST"
+    action="{% url 'planificaciones:cerrarcalendarioacademico' 2021 %}">
+    {% csrf_token %} 
+            <button type="submit" class="btn btn-primary">
+                Cerrar Cronograma
+            </button>
+    </form>
+{% if calendario %}
+    <ul>
+    {% for fecha in calendario %}
+    <li class="py-4">
+            {{ fecha.fecha }} {{ fecha.editable }}
+    </li>
+    {% endfor %}
+    </ul>
+{% endif %} 
+
+
+
+{% endblock %}

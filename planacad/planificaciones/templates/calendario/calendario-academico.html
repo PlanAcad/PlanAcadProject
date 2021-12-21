@@ -1,0 +1,110 @@
+{% extends 'layouts/calendario_layout.html' %} {% block calendario %}
+
+
+{% if mensaje_exito %}
+<div class="alert alert-success">{{mensaje_exito}}</div>
+{% endif %}
+{% if form.errors %}
+<div class="alert alert-danger">{{form.errors}}</div>
+{% endif %}
+{% if existe_calendario %}
+
+<div class="calendario__columns">
+    <div class="calendario__almanaque">
+        <h1>{{ano}}</h1>
+        <div class="calendario__almanaque__mes">
+        </div>
+        <div class="calendario__almanaque__mes">
+        </div>
+        <div class="calendario__almanaque__mes">
+        </div>
+        <div class="calendario__almanaque__mes">
+        </div>
+        <div class="calendario__almanaque__mes">
+        </div>
+    </div>
+    <div class="calendario__eventos">
+        <div class="calendario__eventos__card">
+          <h2>Eventos</h2>
+          <button
+          type="button"
+          class="btn btn-outline-primary mt-4"
+          style="margin:auto"
+          data-toggle="modal"
+          data-target="#modal-evento"
+      >
+          Añadir evento
+      </button>
+      <ul>
+        {% if calendario %}
+        {% for fecha in calendario %}
+        <li class="py-4">
+                {{ fecha.fecha }}
+                <b>{{fecha.get_actividad_display}}</b>
+        </li>
+        {% endfor %}
+        {% endif %}
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-evento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Añadir evento</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form
+          method="POST"
+           action="{% url 'planificaciones:updatecalendarioacademico' ano %}" 
+          >
+              {% csrf_token %}  {{form.as_p}} 
+          
+               {% if form.errors %}
+              <div class="alert alert-danger">{{form.errors}}</div>
+              {% endif %} 
+          
+              <div class="modal-footer">
+                  <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% else %}
+
+<h1>Calendario Academico Año {{ano}}</h1>
+
+{% if calendario %}
+<form
+    method="GET"
+    action="{% url 'planificaciones:cerrarcalendarioacademico' 2021 %}">
+    {% csrf_token %} 
+            <button type="submit" class="btn btn-primary">
+                Cerrar Cronograma
+            </button>
+    </form>
+    
+{% else %}
+<form
+    method="POST"
+    action="{% url 'planificaciones:calendarioacademico' 2021 %}">
+    {% csrf_token %} 
+            <button type="submit" class="btn btn-primary">
+                Crear Cronograma
+            </button>
+    </form>
+    <p>No existe calendario</p>
+{% endif %} 
+
+{% endif %}
+
+{% endblock %}

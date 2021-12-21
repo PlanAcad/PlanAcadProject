@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from .modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico
+
 from .modelos.modelAsignatura import Asignatura
 from .modelos.modelCarrera import Carrera
 from .modelos.modelPlanificacion import Planificacion
@@ -53,6 +55,7 @@ admin.site.register(PropuestaDesarrollo)
 admin.site.register(EstrategiasEns)
 admin.site.register(Unidad)
 admin.site.register(Clase)
+admin.site.register(FechaCalendarioAcademico)
 
 
 
