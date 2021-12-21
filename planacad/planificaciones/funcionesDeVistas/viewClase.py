@@ -107,7 +107,6 @@ def CronogramaCreate(request,planificacion_id):
          planificacion = Planificacion.objects.get(id=planificacion_id)
          datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
          cronograma = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo)
-         form = CronogramaCreateForm(request.POST)
          dias = request.POST.get('dias')
          print(dias)
          inicio = None
@@ -146,5 +145,6 @@ def CronogramaCreate(request,planificacion_id):
          except:  
             mensaje_error = "No pudimos guardar los cambios."
     except:
-         mensaje_error = "No pudimos obtener los datos correctamente"    
-    return render(request,"secciones/cronograma/.html",{'mensaje_error': mensaje_error})  
+         mensaje_error = "No pudimos obtener los datos correctamente"
+    form_create = CronogramaCreateForm()    
+    return render(request,"secciones/cronograma/.html",{'mensaje_error': mensaje_error,'form_create':form_create})  

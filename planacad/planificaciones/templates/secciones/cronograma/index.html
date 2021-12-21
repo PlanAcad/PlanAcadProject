@@ -1,6 +1,9 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
 <h2 class="seccion__encabezado">9. Cronograma</h2>
+<button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modal-cronograma-create">
+  Sincronizar cronograma
+</button>
 <div class="seccion__card">
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
@@ -117,6 +120,33 @@ Se sugiere consultar lo trabajado en el Módulo 3 del Curso Formación por Compe
 </div>
   
 
+<div class="modal fade" id="modal-cronograma-create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Dias Seleccionados</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <form
+        method="POST"
+        action="{% url 'planificaciones:cronogramaCreate' planificacion.id %}"
+        >
+            {% csrf_token %} {{form_create.as_p}}
+        
+            {% if form_create.errors %}
+            <div class="alert alert-danger">{{form_create.errors}}</div>
+            {% endif %}
+        
+            <div class="modal-footer">
+                <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Sincronizar</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
   {% if form.errors %}
   <div class="alert alert-danger">{{form.errors}}</div>
   {% endif %}

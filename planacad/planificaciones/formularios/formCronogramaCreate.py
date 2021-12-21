@@ -8,8 +8,12 @@ DIAS = [
     ('V', 'Viernes'),
     ('S', 'Sabado')
     
-    ]
+]
 
 class CronogramaCreateForm(forms.Form):
-        dias = forms.MultipleChoiceField(initial='L',widget=forms.Select(choices=DIAS))
+        dias = forms.MultipleChoiceField(
+            required=False,
+            widget=forms.CheckboxSelectMultiple,
+            choices=DIAS,
+            )
         
