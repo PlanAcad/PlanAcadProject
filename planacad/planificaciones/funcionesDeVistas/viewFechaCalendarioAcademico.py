@@ -49,8 +49,9 @@ def CalendarioAcademicoIndex(request, ano):
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')
     form = FechaCalendarioAcademicoUpdateForm()
     existe_calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exists()  
+    cerrado = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).filter(editable = False).exists()
     return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'existe_calendario':existe_calendario,'ano':ano,'mensaje_error': mensaje_error,
-    'mensaje_exito':mensaje_exito, 'form':form}) 
+    'mensaje_exito':mensaje_exito, 'form':form, 'cerrado': cerrado}) 
 
 def UpdateFechaCalendarioAcademico(request,ano):  
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
@@ -114,5 +115,4 @@ def CerrarCalendarioAcademico(request, ano):
             mensaje_error="no se cargo nada de nada"  
     else:  
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')
-    return render(request,'calendario/calendario-academico-cerrar.html',{'calendario':calendario,'año':ano,'mensaje_error': mensaje_error,
-'mensaje_exito':mensaje_exito}) 
+    return redirect('planificaciones:calendarioacademico', ano=ano)
