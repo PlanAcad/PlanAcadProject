@@ -16,6 +16,7 @@ class Planificacion(models.Model):
    justificacion_ordenanza = models.CharField(max_length=3000, null=True, blank=True)
    numero_comisiones = models.IntegerField(null=True, blank=True, default=1)
    numero_estudiantes_comision = models.IntegerField(null=True, blank=True)
+   sincronizado_calendario_academico = models.BooleanField(default=False, null=True)
 
 
    def __str__(self):
