@@ -1,28 +1,76 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Perfil del profesor</h1>
-{% if profesor %}
+<div class="layout d-flex flex-column min-vh-100">
+    <!-- Add navbar -->
+    {% include "layouts/navbar.html" %}
+    <div class="bg-light flex-grow-1">
+        <div class="container-xl">
+            <div class="row">
+                <main class="col seccion px-4 py-3">
+                    {% if profesor %}
+                    <h2 style="margin-bottom: 0">
+                        Bienvenido {{ profesor.nombre }} {{profesor.apellido}}
+                    </h2>
+                    <span>Asignaturas</span>
 
-<article>
-  <h2 class="py-4">{{ profesor.nombre }} {{profesor.apellido}}</h2>
-  <dl>
-    <dt>Situación:</dt>
-    <dd>{{ profesor.situacion }}</dd>
-  </dl>
-</article>
-{% if asignaturas %}
-<ul>
-  {% for asignatura in asignaturas %}
-  <li class="py-4">
-    <a href="/asignaturas/{{ asignatura.id }}"
-      >{{ asignatura.nombre_materia }}</a
-    >
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No existen asignaturas.</p>
-{% endif %} {% else %}
-<p>No existe el usuario profesor.</p>
+                    {% if asignaturas %} {% for asignatura in asignaturas %}
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                                <a
+                                    href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
+                                    style="text-decoration: none"
+                                >
+                                    <div class="card card-subject p-3 mb-2">
+                                        <div class="">
+                                            <h5 class="card-subject-title">
+                                                {{ asignatura.nombre_materia }}
+                                            </h5>
+                                            <p class="card-subject-subtitle mb-2 text-muted">
+                                                <b>Año:</b> {{ asignatura.año }}
+                                            </p>
+                                            <p class="card-subject-subtitle mb-2 text-muted">
+                                                <b>Comisión:</b> {{ asignatura.comision }}
+                                            </p>
+                                            <p class="card-subject-subtitle mb-2 text-muted">
+                                                <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            
+                        </div>
+                    </div>
+                    {% endfor %} {% else %}
+                    <h2>No existen asignaturas.</h2>
+                    {% endif %} {% else %}
+                    <h2>No existe el usuario profesor.</h2>
+                    {% endif %}
+                </main>
+                <aside
+                    class="layout__sidebar col-3 py-3 px-2 show collapse"
+                    id="collapseSidebar"
 
-{% endif %} {% endblock %}
+                >
+                    <h2 class="visually-hidden">Secciones</h2>
+
+                    <nav  style="background-color: #fff; border-radius: 0.45rem;">
+                        <div style="text-align: center;">
+                            <h5 class="p-2">Calendario</h5>
+                        </div>
+                        <ul>
+                            <li><p>16. Primer examen parcial</p></li>
+                            <li><p>21. Mesa de examenes finales</p></li>
+                            <li><p>22. Mesa de examenes finales</p></li>
+                            <li><p>23. Primer examen parcial</p></li>
+                            <li><p>24. Primer examen parcial</p></li>
+                            <li><p>30. Feriado nacional</p></li>
+                        </ul>
+                    </nav>
+                </aside>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

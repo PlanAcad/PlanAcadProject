@@ -1,44 +1,112 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Detalle de asignatura</h1>
+<div class="layout d-flex flex-column min-vh-100">
+    <!-- Add navbar -->
+    {% include "layouts/navbar.html" %}
+    <div class="bg-light flex-grow-1">
+        <div class="container-xl">
+            <div class="row">
+                <main class="col seccion px-4 py-3">
+                    {% if error_message %}
+                    <p><strong>{{ error_message }}</strong></p>
+                    {% endif %} {% if form.subject.errors %}
+                    <ol>
+                      {% for error in form.subject.errors %}
+                      <li><strong>{{ error|escape }}</strong></li>
+                      {% endfor %}
+                    </ol>
+                    {% endif %} 
 
-{% if error_message %}
-<p><strong>{{ error_message }}</strong></p>
-{% endif %} {% if form.subject.errors %}
-<ol>
-  {% for error in form.subject.errors %}
-  <li><strong>{{ error|escape }}</strong></li>
-  {% endfor %}
-</ol>
-{% endif %} {% if asignatura %}
+                    <!-- <h2 style="margin-bottom: 0">
+                        Bienvenido profesor_name
+                    </h2> -->
+                    
 
-<h2 class="py-4">{{ asignatura.nombre_materia }}</h2>
-<dl>
-  <dt>Carrera:</dt>
-  <dd>{{ carrera.nombre_carrera }}</dd>
-</dl>
+                    {% if asignatura %}
+                    <span>Asignaturas / {{ asignatura.nombre_materia }}</span>
 
-<form action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
-  {% csrf_token %} {{ form }}
-  <input
-    type="submit"
-    class="btn btn-primary my-5"
-    value="Nueva planificación"
-  />
-</form>
-{% if planificaciones %}
-<ul>
-  {% for planificacion in planificaciones %}
-  <li class="py-4">
-    <a href="/planificacion/{{ planificacion.id }}/datos-descriptivos"
-      >{{planificacion.id}} {{ planificacion.fecha_creacion }}</a
-    >   <a href="/planificacion/{{ planificacion.id }}/eliminar-planificacion" style="color: red;">Eliminar</a>
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No se encontraron planificaciones.</p>
-{% endif %} {% else %}
-<p>No existe la asignatura.</p>
+                  
 
-{% endif %} {% endblock %}
+                    <form id="nueva-planificacion-form" action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
+                      {% csrf_token %} {{ form }}
+                    </form>
+
+
+                    {% if planificaciones %}
+                      <div class="row mt-4">
+                        <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">
+                          <div class="card card-subject p-0 mb-5">
+                            <div class="p-3 text-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                              </svg>
+                            </div>
+                            <div class="card-footer p-2 m-0">
+                                <p class="m-0">Crear planificación vacia</p>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {% for planificacion in planificaciones %}
+                          <div class="col-md-4">
+                            <a
+                                href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
+                                style="text-decoration: none"
+                            >
+                                <div class="card card-subject p-0 mb-5">
+                                  <div class="planif-state-card float-right">
+                                    <p>En proceso</p>
+                                  </div>
+                                  <div class="p-3">
+                                    <h5 class="card-subject-title">
+                                        {{ planificacion.asignatura.nombre_materia }} - {{ planificacion.fecha_creacion.year }}
+                                    </h5>
+                                    <p class="card-subject-subtitle mb-2 text-muted">
+                                        <b>Ultima modificación:</b> {{ planificacion.fecha_modificacion.date }}
+                                    </p>
+                                  </div>
+                                  <div class="card-footer p-2 m-0">
+                                    <p class="m-0">Ir a la planificación</p>
+                                  </div>
+                                </div>
+
+                            </a>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                    <p>No se encontraron planificaciones.</p>
+                    {% endif %}
+
+                    {% else %}
+                    <h2>No existe la asignatura.</h2>
+                    {% endif %} 
+                </main>
+                <aside
+                    class="layout__sidebar col-3 py-3 px-2 show collapse"
+                    id="collapseSidebar"
+
+                >
+                    <h2 class="visually-hidden">Secciones</h2>
+
+                    <nav  style="background-color: #fff; border-radius: 0.45rem;">
+                        <div style="text-align: center;">
+                            <h5 class="p-2">Calendario</h5>
+                        </div>
+                        <ul>
+                            <li><p>16. Primer examen parcial</p></li>
+                            <li><p>21. Mesa de examenes finales</p></li>
+                            <li><p>22. Mesa de examenes finales</p></li>
+                            <li><p>23. Primer examen parcial</p></li>
+                            <li><p>24. Primer examen parcial</p></li>
+                            <li><p>30. Feriado nacional</p></li>
+                        </ul>
+                    </nav>
+                </aside>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

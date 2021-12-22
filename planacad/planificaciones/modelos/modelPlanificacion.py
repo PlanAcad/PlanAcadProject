@@ -6,6 +6,7 @@ from django.db import models
 class Planificacion(models.Model): 
    id = models.AutoField(primary_key=True) 
    fecha_creacion = models.DateTimeField(max_length=50, auto_now=True)
+   fecha_modificacion = models.DateTimeField(auto_now=True)
    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE)
    eliminada = models.BooleanField(default=False, null=True)
    datos_descriptivos = models.ForeignKey(DatosDescriptivos, on_delete=models.CASCADE, null=True, blank=True)
