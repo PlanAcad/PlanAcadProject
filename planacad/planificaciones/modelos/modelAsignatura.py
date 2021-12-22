@@ -7,6 +7,9 @@ class Asignatura(models.Model):
    nombre_materia = models.CharField(max_length=50)
    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
    profesor = models.ManyToManyField(Profesor)
+   ano = models.CharField(max_length=1, blank=True, null=True)
+   comision = models.CharField(max_length=1, blank=True, null=True)
+
 
    def __str__(self):
         return self.nombre_materia  

@@ -44,7 +44,8 @@
                 <div>
                     <span>Comision: ---</span><br />
                     <span>
-                        <b>Materia:</b> {{planificacion.asignatura|default:""}}
+                        <b>Asignatura:</b>
+                        {{planificacion.asignatura|default:""}}
                     </span>
                 </div>
             </div>
@@ -52,8 +53,8 @@
     </header>
     <div class="bg-gris-5 flex-grow-1">
         <div class="container-xl pt-4">
-            <div class="">                
-                <main class="col seccion px-4">                    
+            <div class="">
+                <main class="col seccion px-4">
                     {% block seccion %} replace me {% endblock %}
                 </main>
             </div>

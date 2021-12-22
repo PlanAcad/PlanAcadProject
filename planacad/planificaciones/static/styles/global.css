@@ -224,6 +224,63 @@ ul.multiple-select-list {
     position: relative;
     top: 0.15em;
     margin-right: 0.5em;
+    /* // Medium devices (tablets, 768px and up) */
+    @media (max-width: 768px) {
+        #sub-navbar {
+            display: none;
+        }
+    }
+}
+
+/** CARD **/
+.card-subject {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.45rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.card-subject:hover {
+    border-color: #1a94ff;
+}
+
+.card-subject-title {
+    margin-bottom: 1.8rem;
+    color: #000000;
+}
+
+.card-subject-subtitle {
+    margin-top: -0.25rem;
+    margin-bottom: 0;
+}
+
+.card-footer {
+    text-align: center;
+    background-color: #485262;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.45rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.card-footer p {
+    color: #fff;
+    font-size: 0.75rem;
+}
+
+.planif-state-card {
+    background-color: #A0C3FF;
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    border-radius: 0.45rem;
+    padding: 0.20rem 0.70rem ;
+    text-align: center;
+}
+
+.planif-state-card p {
+    color: white;
+    font-size: 0.75rem;
+    margin: 0;
 }
 
 /**************
