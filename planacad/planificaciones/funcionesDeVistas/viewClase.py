@@ -101,42 +101,51 @@ def CronogramaCreate(request,id_planificacion):
          #Obtengo la planificacion
          print(id_planificacion)
          planificacion = Planificacion.objects.get(id=id_planificacion)
-         print(planificacion)
-         print(planificacion.id)
          datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
+         print(datosDescriptivos)
+         print(datosDescriptivos.ciclo_lectivo)
          cronograma = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo)
+         print(cronograma)
          dias = request.POST.get('dias')
          print(dias)
          inicio = None
          fin = None
-         if (datosDescriptivos.cursado_posible=='A'):
+         print(datosDescriptivos.cursado)
+         if (datosDescriptivos.cursado=='A'):
             inicio= cronograma.get(actividad='IC1')
             fin= cronograma.get(actividad='FC2')
-         elif (datosDescriptivos.cursado_posible=='1'):
+         elif (datosDescriptivos.cursado=='1'):
             inicio= cronograma.get(actividad='IC1')
             fin= cronograma.get(actividad='FC1')
-         elif (datosDescriptivos.cursado_posible=='2'):
+         elif (datosDescriptivos.cursado=='2'):
             inicio= cronograma.get(actividad='IC2')
             fin= cronograma.get(actividad='FC2')
-         cronograma = cronograma.filter(fecha__range=[inicio,fin])
+         print(inicio)
+         print(fin)
+         cronograma = cronograma.filter(fecha__range=[inicio.fecha,fin.fecha])
+         print(cronograma)
          dias_cronograma = []
          print(dias_cronograma)
-         if(dias.__contains__('L')):
+         if('L' in dias):
+             print('Lunes')
              dias_cronograma.extend(cronograma.filter(nombre_dia="Monday").filter(hay_clase=True))
-         if (dias.__contains__('M')):
+         if ('M' in dias):
              dias_cronograma.extend(cronograma.filter(nombre_dia="Tuesday").filter(hay_clase=True))
-         if (dias.__contains__('MI')):
+         if ('MI' in dias):
              dias_cronograma.extend(cronograma.filter(nombre_dia="Wednesday").filter(hay_clase=True))
-         if (dias.__contains__('J')):
+         if ('J' in dias):
              dias_cronograma.extend(cronograma.filter(nombre_dia="Thursday").filter(hay_clase=True))
-         if (dias.__contains__('V')):
+         if ('V' in dias):
              dias_cronograma.extend(cronograma.filter(nombre_dia="Friday").filter(hay_clase=True))
-         if (dias.__contains__('S')):
+         if ('S' in dias):
              dias_cronograma.extend(cronograma.filter(nombre_dia="Saturday").filter(hay_clase=True))
+         print(len(dias_cronograma))
          try:  
-            for i in dias_cronograma:  
-                instance = ClaseForm()
-                instance.planificacion_id=planificacion.id
+            for i in dias_cronograma:
+                print("hola")  
+                instance = Clase()
+                instance.planificacion_id=id_planificacion
+                instance.fecha_clase=i.fecha
                 instance.save()
             planificacion.sincronizado_calendario_academico = True
             planificacion.save()
