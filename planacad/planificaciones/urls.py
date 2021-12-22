@@ -83,7 +83,7 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/condicion-aprobacion-cursada', viewCondicion.AprobacionCursada, name='aprobacionCursada'),
 
     # Seccion 8 - Cronogramas
-    path('planificacion/<int:id_planificacion>/cronograma', viewClase.ClaseNew, name='cronograma'),
+    path('planificacion/<int:id_planificacion>/cronograma', viewClase.ClasesView, name='cronograma'),
     path('planificacion/<int:id_planificacion>/cronograma/edit/<int:id_clase>', viewClase.ClaseUpdate, name='cronogramaUpdate'),
     path('planificacion/<int:id_planificacion>/cronograma/delete/<int:id_clase>', viewClase.ClaseDestroy, name='cronogramaDestroy'),
     path('planificacion/<int:id_planificacion>/cronograma/create', viewClase.CronogramaCreate, name='cronogramaCreate'),

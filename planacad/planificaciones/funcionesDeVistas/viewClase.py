@@ -16,7 +16,7 @@ from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
 from planificaciones.formularios.formCronogramaCreate import  CronogramaCreateForm
 
 ##Define request for Resultado de Aprendizaje   
-def ClaseNew(request,id_planificacion): 
+def ClasesView(request,id_planificacion): 
     mensaje_exito=None
     mensaje_error=None
     planificacion = Planificacion.objects.get(id=id_planificacion)
@@ -33,26 +33,19 @@ def ClaseNew(request,id_planificacion):
             except:  
                  mensaje_error = "No pudimos añadir la clase."    
     else:  
-        form = ClaseForm()
-        form.fields['profesor_a_cargo'].queryset = Profesor.objects.filter(asignatura__id = planificacion.asignatura_id)
-        form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
-        form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
-         
-    return render(request,'secciones/cronograma/index.html',{'planificacion':planificacion,'data':data,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
-def ClasesView(request,planificacion_id):
-    mensaje_error = None
-    try:
-         #Obtengo la planificacion
-         planificacion = Planificacion.objects.get(id=planificacion_id)
-         #Obtengo los resultados de aprendizaje
-         clases = Clase.objects.filter(planificacion=planificacion)
-         datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
-         existe_calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo).exists()
-         cronograma_sintonizado = planificacion.sincronizado_calendario_academico
-    except:
-         mensaje_error = "No pudimos obtener los datos correctamente"    
-    return render(request,"secciones/cronograma/.html",{'clases':clases, 'mensaje_error': mensaje_error,'existe_calendario':existe_calendario,
-    'cronograma_sintonizado':cronograma_sintonizado})  
+        try:
+            form = ClaseForm()
+            form.fields['profesor_a_cargo'].queryset = Profesor.objects.filter(asignatura__id = planificacion.asignatura_id)
+            form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
+            form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
+            form_create = CronogramaCreateForm()    
+            datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
+            existe_calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo).exists()
+            cronograma_sintonizado = planificacion.sincronizado_calendario_academico
+        except:
+            mensaje_error = "No pudimos obtener los datos correctamente."
+    return render(request,'secciones/cronograma/index.html',{'planificacion':planificacion,'data':data,'form':form,'form_create': form_create, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito, 'cronograma_sintonizado':cronograma_sintonizado, 'existe_calendario':existe_calendario})  
+
 def ClaseViewDetail(request,clase_id): 
     mensaje_error = None 
     try:
@@ -60,7 +53,8 @@ def ClaseViewDetail(request,clase_id):
          clase = Clase.objects.get(id=clase_id)
     except:
          mensaje_error = "No pudimos obtener los datos correctamente" 
-    return render(request,'secciones/cronograma/.html', {'clase':clase, 'mensaje_error': mensaje_error})  
+    return render(request,'secciones/cronograma/index.html', {'clase':clase, 'mensaje_error': mensaje_error})  
+
 def ClaseUpdate(request, id_planificacion, id_clase):  
     mensaje_exito = None
     mensaje_error = None
@@ -87,6 +81,7 @@ def ClaseUpdate(request, id_planificacion, id_clase):
         form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)  
     return render(request,'secciones/cronograma/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+
 def ClaseDestroy(request,id_planificacion,id_clase):
     mensaje_exito = None
     mensaje_error = None
@@ -149,6 +144,5 @@ def CronogramaCreate(request,id_planificacion):
          except:  
             mensaje_error = "No pudimos guardar los cambios."
     except:
-         mensaje_error = "No pudimos obtener los datos correctamente"
-    form_create = CronogramaCreateForm()    
-    return render(request,"secciones/cronograma/index.html",{'mensaje_error': mensaje_error,'form_create':form_create})  
+         mensaje_error = "No pudimos obtener los datos correctamente" 
+    return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
