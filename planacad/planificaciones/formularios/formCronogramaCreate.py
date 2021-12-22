@@ -3,10 +3,10 @@ from django import forms
 DIAS = [
     ('L', 'Lunes'),
     ('M', 'Martes'),
-    ('MI', 'Miercoles'),
+    ('MI', 'Miércoles'),
     ('J', 'Jueves'),
     ('V', 'Viernes'),
-    ('S', 'Sabado')
+    ('S', 'Sábado')
     
 ]
 
