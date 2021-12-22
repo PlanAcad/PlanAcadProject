@@ -104,7 +104,10 @@ def CronogramaCreate(request,id_planificacion):
     mensaje_error = None
     try:
          #Obtengo la planificacion
+         print(id_planificacion)
          planificacion = Planificacion.objects.get(id=id_planificacion)
+         print(planificacion)
+         print(planificacion.id)
          datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
          cronograma = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo)
          dias = request.POST.get('dias')
