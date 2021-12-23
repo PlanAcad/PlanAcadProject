@@ -13,34 +13,35 @@
                     </h2>
                     <span>Asignaturas</span>
 
-                    {% if asignaturas %} {% for asignatura in asignaturas %}
-                    <div class="row mt-4">
-                        <div class="col-md-4">
-                                <a
-                                    href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
-                                    style="text-decoration: none"
-                                >
-                                    <div class="card card-subject p-3 mb-2">
-                                        <div class="">
-                                            <h5 class="card-subject-title">
-                                                {{ asignatura.nombre_materia }}
-                                            </h5>
-                                            <p class="card-subject-subtitle mb-2 text-muted">
-                                                <b>Año:</b> {{ asignatura.ano }}
-                                            </p>
-                                            <p class="card-subject-subtitle mb-2 text-muted">
-                                                <b>Comisión:</b> {{ asignatura.comision }}
-                                            </p>
-                                            <p class="card-subject-subtitle mb-2 text-muted">
-                                                <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </a>
-                            
+                    {% if asignaturas %} 
+                        <div class="row mt-4">
+                            {% for asignatura in asignaturas %}
+                                <div class="col-md-4">
+                                        <a
+                                            href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
+                                            style="text-decoration: none"
+                                        >
+                                            <div class="card card-subject p-3 mb-4">
+                                                <div class="">
+                                                    <h5 class="card-subject-title">
+                                                        {{ asignatura.nombre_materia }}
+                                                    </h5>
+                                                    <p class="card-subject-subtitle mb-2 text-muted">
+                                                        <b>Año:</b> {{ asignatura.ano }}
+                                                    </p>
+                                                    <p class="card-subject-subtitle mb-2 text-muted">
+                                                        <b>Comisión:</b> {{ asignatura.comision }}
+                                                    </p>
+                                                    <p class="card-subject-subtitle mb-2 text-muted">
+                                                        <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                </div>
+                            {% endfor %} 
                         </div>
-                    </div>
-                    {% endfor %} {% else %}
+                    {% else %}
                     <h2>No existen asignaturas.</h2>
                     {% endif %} {% else %}
                     <h2>No existe el usuario profesor.</h2>
