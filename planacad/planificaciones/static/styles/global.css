@@ -328,6 +328,7 @@ ul.multiple-select-list {
     top: 5.75em;
     height: calc(100vh - 5.75em);
     padding: 2.25em;
+    padding-right: 0;
     display: flex;
 }
 .calendario__eventos__card {

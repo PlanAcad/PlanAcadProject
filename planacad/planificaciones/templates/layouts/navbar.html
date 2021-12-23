@@ -59,9 +59,10 @@
                     </a>
                 </span>
                 <span class="item-subnavbar">
+                    {% now "Y" as current_year %}
                     <a
                         class=""
-                        href="{% url 'planificaciones:calendarioacademico' ano %}"
+                        href="{% if ano %}{% url 'planificaciones:calendarioacademico' ano %}{% else %}{% url 'planificaciones:calendarioacademico' current_year %}{% endif %}"
                         style="text-decoration: none; color: inherit"
                     >
                         Calendario Académico
