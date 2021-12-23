@@ -1,8 +1,8 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
 <h2 class="seccion__encabezado">9. Cronograma</h2>
-<button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modal-cronograma-create">
-  Sincronizar cronograma
+<button type="button" class="link mt-2 mb-2 mr-2" style="float:right" data-toggle="modal" data-target="#modal-cronograma-create">
+  Sincronizar con calendario académico
 </button>
 <div class="seccion__card">
   {% if mensaje_exito %}
@@ -32,7 +32,9 @@
                     {% endfor %}
                   </ul>
                 </td>
-                <td class="">{{fila.lugar_desarrollo_de_clase|default:""}}</td>
+                <td class="">                  
+                  {{fila.lugar_desarrollo_de_clase|default:""}}
+                </td>
                 <td class="">
                   <a
                                 class="stretched-link"
@@ -44,15 +46,20 @@
                   {% endif %}</a
                             >
                 </td>
+                
+                {% if fila.es_examen == None %}
+                      <td colspan="3"><span class="seccion__table__link">Añadir detalle de clase</span></td>
+                {% else %}
+                      
                 <td class="">
                   <ul>
                     {% for unidad in fila.unidad_tematica_o_tema.all %}
                     <li>
-                      {{ unidad.numero_unidad }}                      
+                      {{ unidad.unidad.numero }}                      
                     </li>
                     {% endfor %}
                     {% if fila.es_examen != 'NA' %}
-                      <br /><span class="">{{ fila.get_es_examen_display }}</span>
+                      <br /><span class="">{{ fila.get_es_examen_display|default:'' }}</span>
                     {% endif %}
                   </ul>
                 </td>
@@ -70,10 +77,13 @@
                      {% endif %}
                   </ul>
                 </td>
+
+                {% endif %}
+
               </tr>
               {% endfor %}{% else %}
               <tr>
-                <td colspan="5">No hay datos para mostrar</td>
+                
               </tr>
               {% endif %}
             </tbody>
@@ -95,7 +105,7 @@ Se sugiere consultar lo trabajado en el Módulo 3 del Curso Formación por Compe
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Añadir propuesta para el desarrollo</h5>
+        <h5 class="modal-title">Añadir clase</h5>
         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
@@ -124,10 +134,11 @@ Se sugiere consultar lo trabajado en el Módulo 3 del Curso Formación por Compe
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Días Seleccionados</h5>
+        <h5 class="modal-title">Días de clases</h5>
         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
+        <p>Seleccione los días que dicta clases.</p>
         <form
         method="POST"
         action="{% url 'planificaciones:cronogramaCreate' planificacion.id %}"

@@ -30,11 +30,7 @@ TIPO_EXAMEN = [
 ]
 
 class ClaseForm(forms.ModelForm):  
-    lugar_desarrollo_de_clase = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=LUGARES,
-    )
+    lugar_desarrollo_de_clase = forms.ChoiceField(choices=LUGARES)
     es_examen = forms.CharField(widget=forms.RadioSelect(choices=TIPO_EXAMEN))
 
     def __init__(self, *args, **kwargs):

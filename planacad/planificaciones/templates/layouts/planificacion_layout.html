@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="layout d-flex flex-column min-vh-100">
-    {% include "layouts/navbar.html" %}
+    {% include "layouts/navbar.html" with ano=planificacion.fecha_creacion.year %}
     <div class="bg-light flex-grow-1">
         <div class="container-xl">
             <button
@@ -162,7 +162,7 @@
                         </ol>
 
                         <hr >
-                       <a
+                       {% comment %} <a
                         href="{% url 'planificaciones:exportar' planificacion.id %}"
                         class=""
                         title="EXPORTAR PLANIFICACION"
@@ -174,7 +174,7 @@
                             </svg>
                             EXPORTAR PLANIFICACION
                         </div>
-                        </a>                
+                        </a> {% endcomment %}                
                     </nav>
                 </aside>
                 <main class="col seccion px-4">
