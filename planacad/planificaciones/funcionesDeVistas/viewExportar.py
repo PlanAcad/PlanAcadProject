@@ -261,8 +261,10 @@ def print_propuesta_desarrollo(Story, resultados_aprendizaje, propuestas_desarro
         for estrategia in propuesta.estrategias_ens.all():
             p_estrategia = Paragraph(estrategia.estrategia, style, bulletText='-')
             p_estrategias_ens.append(p_estrategia)
+        
 
-        new_row = [p_subcompetencias, p_resultados_aprendizaje, p_unidades, Paragraph(propuesta.actividad_dentro_aula, style), Paragraph(propuesta.actividad_fuera_aula, style), Paragraph(propuesta.tiempo_dentro_aula, style), Paragraph(propuesta.tiempo_fuera_aula, style), p_bibliografias, p_estrategias_ens, Paragraph(propuesta.modo_agrupamiento, style), Paragraph(propuesta.materiales_equipamiento, style)]
+
+        new_row = [p_subcompetencias, p_resultados_aprendizaje, p_unidades, Paragraph(propuesta.actividad_dentro_aula, style), Paragraph(propuesta.actividad_fuera_aula, style), Paragraph(propuesta.tiempo_dentro_aula, style), Paragraph(propuesta.tiempo_fuera_aula, style), p_bibliografias, p_estrategias_ens, Paragraph(propuesta.modo_agrupamiento or "", style), Paragraph(propuesta.materiales_equipamiento or "", style)]
         data.append(new_row)
 
     t = Table(data, colWidths=40)
