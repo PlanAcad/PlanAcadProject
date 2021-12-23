@@ -133,7 +133,7 @@
 
 .seccion__table ul {
     list-style: none;
-    display: flex;
+
     justify-content: space-between;
     width: 100%;
     padding: 0.2em 0.5em;
@@ -141,6 +141,15 @@
 }
 .seccion__table ul li label {
     font-weight: normal;
+}
+.seccion__table__link {
+    color: #116acc;
+    font-family: "Ubuntu";
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.8em 0;
 }
 
 .seccion_disclaimer {
@@ -152,6 +161,14 @@
 /**************
 *** LINK CON FLECHA ***
 ***************/
+
+.link {
+    font-weight: bold;
+    color: #116acc;
+    appearance: none;
+    border: 0;
+    background: transparent;
+}
 
 .link-arrow {
     display: block;
@@ -268,12 +285,12 @@ ul.multiple-select-list {
 }
 
 .planif-state-card {
-    background-color: #A0C3FF;
+    background-color: #a0c3ff;
     position: absolute;
     top: -12px;
     right: 20px;
     border-radius: 0.45rem;
-    padding: 0.20rem 0.70rem ;
+    padding: 0.2rem 0.7rem;
     text-align: center;
 }
 
