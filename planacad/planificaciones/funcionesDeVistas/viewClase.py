@@ -20,7 +20,7 @@ def ClasesView(request,id_planificacion):
     mensaje_exito=None
     mensaje_error=None
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    data = Clase.objects.filter(planificacion=planificacion)
+    data = Clase.objects.filter(planificacion=planificacion).order_by('fecha_clase')
     if request.method == "POST":  
         form = ClaseForm(request.POST)
         if form.is_valid():  

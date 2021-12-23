@@ -55,11 +55,11 @@
                   <ul>
                     {% for unidad in fila.unidad_tematica_o_tema.all %}
                     <li>
-                      {{ unidad.unidad.numero }}                      
+                      Unidad {{ unidad.unidad.numero }}                      
                     </li>
                     {% endfor %}
                     {% if fila.es_examen != 'NA' %}
-                      <br /><span class="">{{ fila.get_es_examen_display|default:'' }}</span>
+                      <br /><span class="" style="font-weight:bold">{{ fila.get_es_examen_display|default:'' }}</span>
                     {% endif %}
                   </ul>
                 </td>
@@ -70,7 +70,7 @@
                   <ul>
                     {% if fila.resultado_de_aprendizaje.all %}
                      {% for resultado in fila.resultado_de_aprendizaje.all %}
-                      <a title="{{resultado.resultado}}">{{ resultado.id }}, </a>
+                      <a title="{{resultado.resultado}}" style="z-index:3;position:relative">{{ resultado.id }}, </a>
                      {% endfor %}
                      {% else %}
                       <p>-</p>
