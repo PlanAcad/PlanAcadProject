@@ -35,7 +35,7 @@
                 <td class="">                  
                   {{fila.lugar_desarrollo_de_clase|default:""}}
                 </td>
-                <td class="">
+                <td class="text-center">
                   <a
                                 class="stretched-link"
                                 href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}"
@@ -63,7 +63,7 @@
                     {% endif %}
                   </ul>
                 </td>
-                <td>
+                <td class="text-center">
                   {{fila.cantidad_tareas}}
                 </td>
                 <td class="py-4">
