@@ -39,7 +39,7 @@ def CalendarioAcademicoIndex(request, ano):
                         instance.hay_clase= True
                     instance.save()
                     fecha = fecha + timedelta(days=1)
-                mensaje_exito="Se cargo el calendario correctamente"
+                mensaje_exito="Creamos el calendario correctamente"
             else:
                 mensaje_error="ya hay un calendario con esa fecha"
             calendario =FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')                 
@@ -106,7 +106,7 @@ def CerrarCalendarioAcademico(request, ano):
                         instance = i
                         instance.editable = False
                         instance.save()
-                mensaje_exito="Se cargo el calendario correctamente"
+                mensaje_exito="Creamos el calendario correctamente"
                 return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'año':ano,'mensaje_error': mensaje_error,
 'mensaje_exito':mensaje_exito}) 
             else:
