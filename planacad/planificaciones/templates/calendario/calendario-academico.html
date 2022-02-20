@@ -14,20 +14,25 @@
 
 <div class="calendario__columns">
     <div class="calendario__almanaque">
-        <h1>{{ano}}</h1>
-        <div id="marzo"></div>
-        <div id="abril"></div>
-        <div id="mayo"></div>
-        <div id="junio"></div>
-        <div id="julio"></div>
-        <div id="agosto"></div>
-        <div id="septiembre"></div>
-        <div id="octubre"></div>
-        <div id="noviembre"></div>
-        <div id="diciembre"></div>
-        <div id="enero"></div>
-        <div id="febrero"></div>
-        <div id="marzo2"></div>
+      <div class="calendario__cabecera">
+        <h2>{{ano}}</h2>
+      </div>
+        <div id="marzo" class="calendario__almanaque__mes"></div>
+        <div id="abril" class="calendario__almanaque__mes"></div>
+        <div id="mayo" class="calendario__almanaque__mes"></div>
+        <div id="junio" class="calendario__almanaque__mes"></div>
+        <div id="julio" class="calendario__almanaque__mes"></div>
+        <div id="agosto" class="calendario__almanaque__mes"></div>
+        <div id="septiembre" class="calendario__almanaque__mes"></div>
+        <div id="octubre" class="calendario__almanaque__mes"></div>
+        <div id="noviembre" class="calendario__almanaque__mes"></div>
+        <div id="diciembre" class="calendario__almanaque__mes"></div>
+        <div id="enero" class="calendario__almanaque__mes"></div>
+        <div id="febrero" class="calendario__almanaque__mes"></div>
+        <div class="calendario__cabecera">
+          <h2>{{ano|add:1}}</h2>
+        </div>
+        <div id="marzo2" class="calendario__almanaque__mes"></div>
 
     </div>
     <div class="calendario__eventos">
@@ -168,12 +173,6 @@
           year: {{ano}},
           language: "es",
           month: (index + 3),
-          show_previous: false,
-          show_next: false,
-          nav_icon: {
-            prev: '<',
-            next: '>'
-          },
           data: eventos,
           action: function () {
             return myDateFunction(this.id, false);
