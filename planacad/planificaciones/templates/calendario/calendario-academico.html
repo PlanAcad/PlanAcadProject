@@ -14,8 +14,26 @@
 
 <div class="calendario__columns">
     <div class="calendario__almanaque">
-        <h1>{{ano}}</h1>
-        <div id="calendario"></div>
+      <div class="calendario__cabecera">
+        <h2>{{ano}}</h2>
+      </div>
+        <div id="marzo" class="calendario__almanaque__mes"></div>
+        <div id="abril" class="calendario__almanaque__mes"></div>
+        <div id="mayo" class="calendario__almanaque__mes"></div>
+        <div id="junio" class="calendario__almanaque__mes"></div>
+        <div id="julio" class="calendario__almanaque__mes"></div>
+        <div id="agosto" class="calendario__almanaque__mes"></div>
+        <div id="septiembre" class="calendario__almanaque__mes"></div>
+        <div id="octubre" class="calendario__almanaque__mes"></div>
+        <div id="noviembre" class="calendario__almanaque__mes"></div>
+        <div id="diciembre" class="calendario__almanaque__mes"></div>
+        <div id="enero" class="calendario__almanaque__mes"></div>
+        <div id="febrero" class="calendario__almanaque__mes"></div>
+        <div class="calendario__cabecera">
+          <h2>{{ano|add:1}}</h2>
+        </div>
+        <div id="marzo2" class="calendario__almanaque__mes"></div>
+
     </div>
     <div class="calendario__eventos">
         <div class="calendario__eventos__card">
@@ -147,17 +165,14 @@
     {% endfor %}
   ]
 
+  const meses = ['marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'enero', 'febrero', 'marzo2']
+
     $(document).ready(function () {
-        $("#calendario").zabuto_calendar({
+      meses.map((mes, index)=> {
+        $(`#${mes}`).zabuto_calendar({
           year: {{ano}},
           language: "es",
-          month: 3,
-          show_previous: false,
-          show_next: 12,
-          nav_icon: {
-            prev: '<',
-            next: '>'
-          },
+          month: (index + 3),
           data: eventos,
           action: function () {
             return myDateFunction(this.id, false);
@@ -166,6 +181,7 @@
             return myNavFunction(this.id);
           },
         });
+      });
     });
 
     function myDateFunction(id, fromModal) {
@@ -199,10 +215,10 @@
     action="{% url 'planificaciones:calendarioacademico' ano %}">
     {% csrf_token %} 
             <button type="submit" class="btn btn-primary my-2">
-                Crear Cronograma
+                Crear calendario {{ano}}
             </button>
     </form>
-    <p class="my-2">No existe calendario</p>
+    <p class="my-2">Aún existe calendario académico.</p>
 
 {% endif %} 
 
