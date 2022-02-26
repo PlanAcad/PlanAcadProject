@@ -1,6 +1,7 @@
 from django import forms  
 from django.utils.translation import gettext_lazy as _
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
+from planificaciones.modelos.modelDiasCursado import DiasCursado
 
 class DatosDescriptivosForm(forms.ModelForm):  
     cursado = forms.ChoiceField(choices=[
@@ -8,7 +9,10 @@ class DatosDescriptivosForm(forms.ModelForm):
     ('1','1er Cuatrimestre'),
     ('2','2do Cuatrimestre')
     ], widget=forms.RadioSelect())
-    
+    dias = forms.ModelMultipleChoiceField(
+            queryset=DiasCursado.objects.all(),
+            widget=forms.CheckboxSelectMultiple,
+            required=True) 
     class Meta:  
         model = DatosDescriptivos  
         exclude = ['carrera', 'asignatura']        
