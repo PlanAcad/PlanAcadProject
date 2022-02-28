@@ -1,5 +1,8 @@
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
+from planificaciones.modelos.modelCarrera import Carrera
+from planificaciones.modelos.modelDiasCursado import DiasCursado
+
 from django.db import models
 
 class DatosDescriptivos(models.Model): 
@@ -19,8 +22,10 @@ class DatosDescriptivos(models.Model):
     ('1','1er Cuatrimestre'),
     ('2','2do Cuatrimestre')
     ]
+   
    cursado = models.CharField(max_length=1, null=True, blank=True,choices=cursado_posible, default="A")
    
+   dias = models.ManyToManyField(DiasCursado, blank=True)
    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, null=True, blank=True) 
    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, null=True, blank=True) 
 

@@ -8,6 +8,7 @@ from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWe
 from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo, viewFechaCalendarioAcademico
 from planificaciones.funcionesDeVistas import viewExportar
 from planificaciones.validaciones import validacionSecciones
+from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 
 
 
@@ -119,6 +120,9 @@ urlpatterns = [
 
 
    # VALIDACION
-    path('planificacion/<int:id_planificacion>/validacion', validacionSecciones.ValidacionIndex, name='validacionSeccion1')
+    path('planificacion/<int:id_planificacion>/validacion', validacionSecciones.ValidacionIndex, name='validacionSeccion1'),
+
+   # CREAR PLANIFICACION A PARTIR DE UNA
+    path('planificacion/<int:id_planificacion>/planificacion-copiada', copiarPlanificacion.CopiarIndex, name='copiarPlanif')
 
 ]
