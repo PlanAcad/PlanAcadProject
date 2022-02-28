@@ -31,14 +31,18 @@ def CopiarIndex(request,id_planificacion):
         print("Seccion 7.1 - 7.2- 13")
         #Seccion 1 --Hecho
         datosDescriptivos = DatosDescriptivos.objects.get(id=datosDescriptivosId)
+        diasClase = datosDescriptivos.dias.all()
         datosDescriptivos.ciclo_lectivo =  datosDescriptivos.ciclo_lectivo+1
         datosDescriptivos.pk = None
         datosDescriptivos._state.adding = True
         datosDescriptivos.save()
+        for dc in diasClase:
+            datosDescriptivos.dias.add(dc)
+        datosDescriptivos.save()
         planificacion.datos_descriptivos = datosDescriptivos
+        planificacion.save()
         print("Seccion 1")
         ##Save planificacion
-        planificacion.save()
         #Seccion 2 -Hecho, 12 
         detallesProfesorCatedra = DetalleProfesorCatedra.objects.filter(planificacion_id=id_planificacion)
         for item in detallesProfesorCatedra:
@@ -188,7 +192,7 @@ def CopiarIndex(request,id_planificacion):
         ## Crear cronograma
         datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
         cronograma = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo)
-        dias = ["M","V"]
+        dias = datosDescriptivos.dias.all()
         inicio = None
         fin = None
         if (datosDescriptivos.cursado=='A'):
@@ -202,18 +206,19 @@ def CopiarIndex(request,id_planificacion):
             fin= cronograma.get(actividad='FC2')
         cronograma = cronograma.filter(fecha__range=[inicio.fecha,fin.fecha])
         dias_cronograma = []
-        if('L' in dias):
-            dias_cronograma.extend(cronograma.filter(nombre_dia="Monday").filter(hay_clase=True))
-        if ('M' in dias):
-            dias_cronograma.extend(cronograma.filter(nombre_dia="Tuesday").filter(hay_clase=True))
-        if ('MI' in dias):
-            dias_cronograma.extend(cronograma.filter(nombre_dia="Wednesday").filter(hay_clase=True))
-        if ('J' in dias):
-            dias_cronograma.extend(cronograma.filter(nombre_dia="Thursday").filter(hay_clase=True))
-        if ('V' in dias):
-            dias_cronograma.extend(cronograma.filter(nombre_dia="Friday").filter(hay_clase=True))
-        if ('S' in dias):
-            dias_cronograma.extend(cronograma.filter(nombre_dia="Saturday").filter(hay_clase=True))
+        for d in dias:
+            if(d.id ==1):
+                dias_cronograma.extend(cronograma.filter(nombre_dia="Monday").filter(hay_clase=True))
+            if (d.id ==2):
+                dias_cronograma.extend(cronograma.filter(nombre_dia="Tuesday").filter(hay_clase=True))
+            if (d.id ==3):
+                dias_cronograma.extend(cronograma.filter(nombre_dia="Wednesday").filter(hay_clase=True))
+            if (d.id ==4):
+                dias_cronograma.extend(cronograma.filter(nombre_dia="Thursday").filter(hay_clase=True))
+            if (d.id ==5):
+                dias_cronograma.extend(cronograma.filter(nombre_dia="Friday").filter(hay_clase=True))
+            if (d.id ==6):
+                dias_cronograma.extend(cronograma.filter(nombre_dia="Saturday").filter(hay_clase=True))
         for i in dias_cronograma:
             instance = Clase()
             instance.planificacion_id=planificacion.id
@@ -270,7 +275,6 @@ def CopiarIndex(request,id_planificacion):
             item.planificacion = planificacion
             item.save()
         print("Seccion 10")
-        
         
     return render(request,'secciones/copiar.html',{'validacion_ok':validacion_ok,'validacion_bad':validacion_bad,
     'errores':errores,'planificacion': planificacion}) 

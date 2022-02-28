@@ -11,7 +11,7 @@ class DatosDescriptivosForm(forms.ModelForm):
     ], widget=forms.RadioSelect())
     dias = forms.ModelMultipleChoiceField(
             queryset=DiasCursado.objects.all(),
-            widget=forms.CheckboxSelectMultiple,
+            widget=forms.CheckboxSelectMultiple(),
             required=True) 
     class Meta:  
         model = DatosDescriptivos  
