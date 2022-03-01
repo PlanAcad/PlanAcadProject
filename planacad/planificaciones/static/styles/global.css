@@ -294,6 +294,10 @@ ul.multiple-select-list {
     text-align: center;
 }
 
+.planif-state-card--aprobado {
+    background-color: #76ca5a;
+}
+
 .planif-state-card p {
     color: white;
     font-size: 0.75rem;
