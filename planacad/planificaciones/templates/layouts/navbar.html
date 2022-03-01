@@ -1,5 +1,5 @@
-<header class="pt-1 pb-1 border-bottom" style="background-color: #ffffff">
-    <div class="pt-2 pb-2 border-bottom">
+<header class="main-navbar">
+    <div class="pt-2 pb-2 separator">
         <div class="container-xl ">
         <div class="flex__between__center m-1">
             <h1 class="col-md-3 h3 mb-0">
@@ -37,46 +37,42 @@
     </div>
     </div>
 <div
-    id="sub-navbar"
-    style="background-color: #ffffff"
+    class="subnavbar"
 >
     <div class="container-xl">
         <div class="flex__between__center">
             <div>
-                <span>Comision: {{planificacion.asignatura.comision|default:""}}</span><br />
+                {% if planificacion.asignatura.comision %}<span>Comisión: {{planificacion.asignatura.comision|default:""}}</span><br />{% endif %}
+                {% if planificacion.asignatura %}
                 <span>
                     <b>Asignatura:</b> {{planificacion.asignatura|default:""}}
                 </span>
+                {% endif %}
             </div>
             <div>
-                <span class="item-subnavbar">
+               
                     <a
-                        class=""
-                        href=""
-                        style="text-decoration: none; color: inherit"
+                        class="item-subnavbar"
+                        href="#"
                     >
                         Libro Rojo
                     </a>
-                </span>
-                <span class="item-subnavbar">
+               
                     {% now "Y" as current_year %}
                     <a
-                        class=""
+                        class="item-subnavbar"
                         href="{% if ano %}{% url 'planificaciones:calendarioacademico' ano %}{% else %}{% url 'planificaciones:calendarioacademico' current_year %}{% endif %}"
-                        style="text-decoration: none; color: inherit"
-                    >
+                       >
                         Calendario Académico
                     </a>
-                </span>
-                <span class="item-subnavbar">
+                
                     <a
-                        class=""
-                        href=""
-                        style="text-decoration: none; color: inherit"
-                    >
+                        class="item-subnavbar"
+                        href="#"
+                       >
                         Verbos de la taxonomia de Bloom
                     </a>
-                </span>
+                
             </div>
         </div>
     </div>
