@@ -27,6 +27,7 @@ def CopiarIndex(request,id_planificacion):
         fundamentacionId = planificacion.fundamentacion_id
         planificacion.datos_descriptivos =None
         planificacion.fundamentacion = None
+        planificacion.estado = "P"
         planificacion.save()
         print("Seccion 7.1 - 7.2- 13")
         #Seccion 1 --Hecho
