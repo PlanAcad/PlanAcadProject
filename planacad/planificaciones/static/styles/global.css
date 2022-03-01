@@ -310,6 +310,7 @@ ul.multiple-select-list {
     top: -12px;
     right: 20px;
     border-radius: 0.45rem;
+    overflow: hidden;
     padding: 0.2rem 0.7rem;
     text-align: center;
 }

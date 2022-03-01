@@ -12,7 +12,7 @@ from planificaciones.modelos.modelBibliografia import Bibliografia
 from planificaciones.modelos.modelWebgrafia import Webgrafia
 from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico
 from planificaciones.modelos.modelContenido import Contenido
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 def CopiarIndex(request,id_planificacion):
     validacion_ok=False
@@ -276,5 +276,4 @@ def CopiarIndex(request,id_planificacion):
             item.save()
         print("Seccion 10")
         
-    return render(request,'secciones/copiar.html',{'validacion_ok':validacion_ok,'validacion_bad':validacion_bad,
-    'errores':errores,'planificacion': planificacion}) 
+    return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)

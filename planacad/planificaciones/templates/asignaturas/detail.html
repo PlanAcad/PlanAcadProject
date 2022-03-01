@@ -41,7 +41,7 @@
                                 <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                               </svg>
                             </div>
-                            <div class="card-footer p-2 m-0">
+                            <div class="card-footer p-2 m-0">                                
                                 <p class="m-0">Crear planificación vacia</p>
                             </div>
                           </div>
@@ -65,9 +65,21 @@
                                         <b>Última modificación:</b> {{ planificacion.fecha_modificacion.date }}
                                     </p>
                                   </div>
-                                  <div class="card-footer p-2 m-0">
-                                    <p class="m-0">Ir a la planificación</p>
-                                  </div>
+                                  
+                                  {% if planificacion.estado == "A" %}
+                                  <form
+                                  method="POST"  class="card-footer" action="{% url 'planificaciones:copiarPlanif' planificacion.id %}">
+                                      <button 
+                                      style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                       type="submit">
+                                       <p class="m-0">Tomar como base para nueva planificación</p>
+                                      </button>
+                                      {% csrf_token %}
+                                  </form>
+                                  {% else %}
+                                  <div class="card-footer p-2 m-0"><p class="m-0">Ir a la planificación</p></div>
+                                  {% endif %}
+                        
                                 </div>
 
                             </a>
