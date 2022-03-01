@@ -278,3 +278,4 @@ def CopiarIndex(request,id_planificacion):
         print("Seccion 10")
         
     return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
+    
