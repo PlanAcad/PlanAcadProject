@@ -84,7 +84,10 @@ def AprobarPlanificacion(request, id):
     planificacion = Planificacion.objects.get(id=id)  
     form = PlanificacionForm(request.POST, instance = planificacion)  
     if form.is_valid():
-        form.estado = "A"  
-        form.save()    
-    return render(request, 'planificacion/index.html', {'form': form})  
+        instance = form.save(commit=False)
+        print(instance.estado)
+        instance.estado = "A"
+        print(instance.estado)  
+        instance.save()    
+    return render(request, '/planificacion/'+str(planificacion.id)+'/datos-descriptivos', {'form': form})  
   
