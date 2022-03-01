@@ -10,6 +10,8 @@ from planificaciones.funcionesDeVistas import viewExportar
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 
+import planificaciones
+
 
 
 
@@ -123,6 +125,9 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/validacion', validacionSecciones.ValidacionIndex, name='validacionSeccion1'),
 
    # CREAR PLANIFICACION A PARTIR DE UNA
-    path('planificacion/<int:id_planificacion>/planificacion-copiada', copiarPlanificacion.CopiarIndex, name='copiarPlanif')
+    path('planificacion/<int:id_planificacion>/planificacion-copiada', copiarPlanificacion.CopiarIndex, name='copiarPlanif'),
+
+   # Estado planificacion
+    path('planificacion/<int:id>/cerrar-planificacion', viewPlanificacion.AprobarPlanificacion, name='aprobarPlanif')
 
 ]

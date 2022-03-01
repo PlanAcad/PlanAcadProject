@@ -78,4 +78,13 @@ def PlanificacionLogicDestroy(request, id):
 def PlanificacionDestroy(request, id):  
     planificacion = Planificacion.objects.get(id=id)  
     planificacion.delete()  
-    return planificacion("/show")  
+    return planificacion("/show")
+
+def AprobarPlanificacion(request, id):
+    planificacion = Planificacion.objects.get(id=id)  
+    form = PlanificacionForm(request.POST, instance = planificacion)  
+    if form.is_valid():
+        form.estado = "A"  
+        form.save()    
+    return render(request, 'planificacion/index.html', {'form': form})  
+  
