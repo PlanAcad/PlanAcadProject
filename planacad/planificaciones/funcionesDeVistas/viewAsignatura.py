@@ -45,4 +45,11 @@ def AsignaturaUpdate(request, id):
 def AsignaturaDestroy(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
     asignatura.delete()  
-    return asignatura("/show")  
+    return asignatura("/show") 
+
+def PapeleraView(request, id_asignatura):  
+    asignatura = Asignatura.objects.get(id=id_asignatura)  
+    carrera = Carrera.objects.get(id=asignatura.carrera_id)
+    planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=True).order_by('id')
+   
+    return render(request,'asignaturas/papelera.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones})   

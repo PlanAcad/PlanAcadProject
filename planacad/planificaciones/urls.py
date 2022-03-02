@@ -27,7 +27,9 @@ urlpatterns = [
     path('asignaturas', viewAsignatura.AsignaturasView, name='asignaturas'),
     path('asignaturas/<int:id>', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:asignatura_id>/nueva-planificacion', viewPlanificacion.PlanificacionNew, name='nueva'),
-    path('planificacion/<int:id>/eliminar-planificacion', viewPlanificacion.PlanificacionLogicDestroy, name='eliminar'),
+    path('planificacion/<int:id>/eliminar-planif-temporal', viewPlanificacion.PlanificacionLogicDestroy, name='deleteLogicPlanificacion'),
+    path('planificacion/<int:id>/eliminar-planificacion', viewPlanificacion.PlanificacionDestroy, name='deletePlanificacion'),
+
 
     #Profesor
     path('profesores/<int:id>', viewProfesor.ProfesorDetailView, name='profesorDetail'),
@@ -129,5 +131,9 @@ urlpatterns = [
 
    # Estado planificacion
     path('planificacion/<int:id>/cerrar-planificacion', viewPlanificacion.AprobarPlanificacion, name='aprobarPlanif')
+
+    # PAPELERA
+    path('asignaturas/<int:id_asignatura>/papelera', viewAsignatura.PapeleraView, name='papelera'),
+
 
 ]
