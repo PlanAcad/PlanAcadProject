@@ -24,71 +24,61 @@
 
                     {% if asignatura %}
                     <div class="d-flex justify-content-between mb-3">
-                      <div class="p-2"><span>Asignaturas / {{ asignatura.nombre_materia }}</span></div>
-
                       <div class="p-2">
-                        <a
-                        href="{% url 'planificaciones:papelera' asignatura.id %}"
-                        class="icon-delete"
-                        style="text-decoration: none; color: #116ACC; display: flex; align-items: center; "
-                        >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#116ACC" class="bi bi-trash3-fill" viewBox="0 0 16 16" style="margin-right: 4px;">
-                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
-                        </svg>
+                        <span>Asignaturas / 
+                          <a
+                          href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
+                          >
+                            {{ asignatura.nombre_materia }}
+                          </a> /
                           Papelera
-                        </a>
-                      </div>
+                        </span></div>
                     </div>
+
                     
-
-                  
-
-                    <form id="nueva-planificacion-form" action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
-                      {% csrf_token %} {{ form }}
-                    </form>
+                    
 
 
                     {% if planificaciones %}
                       <div class="row mt-4">
-                        <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">
-                          <div class="card card-subject p-0 mb-5">
-                            <div class="p-3 text-center">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                              </svg>
-                            </div>
-                            <div class="card-footer p-2 m-0">
-                                <p class="m-0">Crear planificación vacia</p>
-                            </div>
-                          </div>
-                        </div>
-                        
                         {% for planificacion in planificaciones %}
                           <div class="col-md-4">
                             <div class="card card-subject p-0 mb-5">
-                              <div class="dropdown">
-                                  <button
-                                      type="button"
-                                      id="dropdownMenu2"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                      class="three-dots-button"
-                                  >
-                                    <svg data-target="#modal-delete" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#D9DDE7" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                      <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                                    </svg>
-                                  </button>
-                                <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
-                                  <li><a href="#"><button style="all: unset;" data-toggle="modal" data-target="#modal-delete">Eliminar</button></a></li>
-                                  <li><a href="#">Aprobar planificación</a></li>
-                                </ul>
-                              </div>
+                                <!-- <button
+                                    type=""
+                                    class="three-dots-button"
+                                    data-toggle="modal"
+                                    data-target="#modal-delete"
+                                >
+                                  <svg data-target="#modal-delete" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#D9DDE7" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                  </svg>
+                                </button> -->
 
-                              <a
-                              href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
-                              style="text-decoration: none"
-                              >
+
+                                <div class="dropdown">
+                                    <button
+                                        type="button"
+                                        id="dropdownMenu2"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        class="three-dots-button"
+                                    >
+                                      <svg data-target="#modal-delete" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#D9DDE7" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                      </svg>
+                                    </button>
+                                  <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
+                                    <li><a href="#">Restaurar</a></li>
+                                    <li><a href="#"><button style="all: unset;" data-toggle="modal" data-target="#modal-delete">Eliminar definitivamente</button></a></li>
+                                  </ul>
+                                </div>
+
+                               <a
+                                href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
+                                style="text-decoration: none"
+                                >
                               <div class="planif-state-card float-right">
                                 <p>En proceso</p>
                               </div>
@@ -133,7 +123,7 @@
                                         <div class="modal-body">
                                           <form
                                             method="POST"
-                                            action="{% url 'planificaciones:deleteLogicPlanificacion' planificacion.id %}"
+                                            action="{% url 'planificaciones:deletePlanificacion' planificacion.id %}"
 
                                           >
                                             {% csrf_token %}
