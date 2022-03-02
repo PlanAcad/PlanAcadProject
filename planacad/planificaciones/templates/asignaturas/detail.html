@@ -89,8 +89,8 @@
                               href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
                               style="text-decoration: none"
                               >
-                              <div class="planif-state-card float-right">
-                                <p>En proceso</p>
+                              <div class="planif-state-card float-right {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}">
+                                <p>{{ planificacion.get_estado_display }}</p>
                               </div>
                               <div class="p-3 pt-2">
                                 <h5 class="card-subject-title">
