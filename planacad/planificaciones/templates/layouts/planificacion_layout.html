@@ -159,12 +159,13 @@
                                 title="Justificacion ordenanza"
                                 ><li>Justificación ordenanza 604</li></a
                             >
-                            <a
-                            href="{% url 'planificaciones:copiarPlanif' planificacion.id %}"
-                            class=""
-                            title="COPIAAA"
-                            ><li>Copiar Planif</li></a
-                        >
+                            <form
+                            method="POST"
+                            class="mt-6"
+                            action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}">
+                                <input type="submit" class="btn btn-primary mt-4" value="Aprobar"  />
+                                {% csrf_token %}
+                            </form>
                         </ol>
 
                         <hr >
