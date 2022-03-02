@@ -80,8 +80,10 @@
                                     </svg>
                                   </button>
                                 <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
-                                  <li><a href="#"><button style="all: unset;" data-toggle="modal" data-target="#modal-delete">Eliminar</button></a></li>
-                                  <li><a href="#">Aprobar planificación</a></li>
+                                  <li><button  data-toggle="modal" data-target="#modal-delete">Eliminar</button></li>
+                                  <li><form
+                                    method="POST"
+                                    action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"><button type="submit">Aprobar planificación</button>{% csrf_token %}</form></li>
                                 </ul>
                               </div>
 

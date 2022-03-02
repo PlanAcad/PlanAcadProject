@@ -394,7 +394,6 @@ div.zabuto_calendar .table tr td div.day {
     font-size: 1.5em;
 }
 
-
 /**************
 *** BOTONES ***
 ***************/
@@ -403,22 +402,23 @@ div.zabuto_calendar .table tr td div.day {
     padding-left: 16px;
 }
 
-
 /**************
 *** DROPDOWN ***
 ***************/
-.options-menu li{
+.options-menu li {
     padding: 10px;
 }
 
-.options-menu li:hover{
-    background-color: #D1D5DB;
+.options-menu li:hover {
+    background-color: #d1d5db;
 }
 
-.options-menu a{
+.options-menu button {
     text-decoration: none;
     color: #000000 !important;
     font-weight: 500;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
-
-
