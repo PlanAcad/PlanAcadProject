@@ -413,7 +413,8 @@ div.zabuto_calendar .table tr td div.day {
     background-color: #d1d5db;
 }
 
-.options-menu button {
+.options-menu button,
+.options-menu a {
     text-decoration: none;
     color: #000000 !important;
     font-weight: 500;
