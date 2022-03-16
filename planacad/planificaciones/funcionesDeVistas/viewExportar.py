@@ -170,9 +170,9 @@ def print_competencias(Story, competencias):
 
         p_subcompetencias = []
         for subcompetencia in competencia.subcompetencia_set.all():
-            p_subcompetencia = Paragraph(subcompetencia.descripcion, style, bulletText='-')
+            p_subcompetencia = Paragraph(subcompetencia.descripcion or "", style, bulletText='-')
             p_subcompetencias.append(p_subcompetencia)
-        new_row = [Paragraph(competencia.get_tipo_competencia_display(), style), Paragraph(competencia.descripcion, style), p_subcompetencias]
+        new_row = [Paragraph(competencia.get_tipo_competencia_display(), style), Paragraph(competencia.descripcion or "", style), p_subcompetencias]
         data.append(new_row)
 
     t = Table(data)
