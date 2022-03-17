@@ -54,6 +54,11 @@ styleTitleTable = ParagraphStyle(
         spaceAfter=6,
     )
 
+styleBlackText = ParagraphStyle(
+    'blackText',
+    fontName='Helvetica-Bold',
+)
+
 
 def print_datos_descriptivos(Story,datos_descriptivos):
     p = Paragraph("1. Datos descriptivos:", styleSectionTitle)
@@ -170,9 +175,9 @@ def print_competencias(Story, competencias):
 
         p_subcompetencias = []
         for subcompetencia in competencia.subcompetencia_set.all():
-            p_subcompetencia = Paragraph(subcompetencia.descripcion, style, bulletText='-')
+            p_subcompetencia = Paragraph(subcompetencia.descripcion or "", style, bulletText='-')
             p_subcompetencias.append(p_subcompetencia)
-        new_row = [Paragraph(competencia.get_tipo_competencia_display(), style), Paragraph(competencia.descripcion, style), p_subcompetencias]
+        new_row = [Paragraph(competencia.get_tipo_competencia_display(), style), Paragraph(competencia.descripcion or "", style), p_subcompetencias]
         data.append(new_row)
 
     t = Table(data)
@@ -355,13 +360,25 @@ def print_cronograma(Story, clases):
         for contenido in clase.unidad_tematica_o_tema.all():
             p_unidad = Paragraph(contenido.unidad.titulo, style, bulletText='-')
             p_unidades.append(p_unidad)
+        
+        if clase.es_examen != 'NA':
+            p_unidades.append(
+                Paragraph(clase.get_es_examen_display() or "", styleBlackText))
 
         p_resultados = []
         for resultado in clase.resultado_de_aprendizaje.all():
             p_resultado = Paragraph(resultado.resultado, style, bulletText='-')
             p_resultados.append(p_resultado)
 
-        new_row = [p_profesores, Paragraph(clase.lugar_desarrollo_de_clase, style), Paragraph(clase.fecha_clase.strftime("%m/%d/%Y"), style), p_unidades, Paragraph(str(clase.cantidad_tareas), style), p_resultados]
+        new_row = [
+            p_profesores, Paragraph(clase.lugar_desarrollo_de_clase or "", style), 
+            [
+                Paragraph(clase.fecha_clase.strftime("%m/%d/%Y") or "", style), 
+                Paragraph(clase.numero_de_clase_o_semana or "", style)
+            ], 
+            p_unidades, Paragraph(str(clase.cantidad_tareas) or "", style), 
+            p_resultados
+        ]
         data.append(new_row)
 
     t = Table(data)
