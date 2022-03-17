@@ -430,7 +430,7 @@ div.zabuto_calendar .table tr td div.day {
 *** LOGIN ***
 ***************/
 #body-login {
-background-color: #B3CEE2;
+background-color: rgba(0, 0, 0, 0);
 font-family: 'Ubuntu', sans-serif;
 }
 
