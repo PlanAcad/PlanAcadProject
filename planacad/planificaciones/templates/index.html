@@ -1,6 +1,20 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>PlanAcad</h1>
-<a href="/login" class="mt-4 btn btn-primary">Login</a>
+<body id="body-login">
+    <div class="main-login">
+        <h1 class="title-login">PlanAcad</h1>
+        <h6 class="subtitle-login">Universidad Tecnológica Nacional - FRRE UTN</h6>
+
+        <form class="form-login">
+        <input class="input-user" type="text"  placeholder="Usuario">
+        <input class="input-password" type="password" placeholder="Contraseña">
+
+
+        <div style="text-align: center;">
+            <a href="/login" class="mt-4 btn btn-primary">Ingresar</a>
+        </div>
+                
+    </div>   
+</body>
 
 {% endblock %}
