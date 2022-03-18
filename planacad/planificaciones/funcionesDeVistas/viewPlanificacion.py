@@ -76,6 +76,18 @@ def PlanificacionLogicDestroy(request, id):
         return render(request, '/asignaturas/'+str(planificacion.asignatura.id), {'mensaje_error': mensaje_error})  
 
 
+def PlanificacionRestore(request, id):
+    mensaje_error = None
+    try:
+        planificacion = Planificacion.objects.get(id=id)
+        planificacion.eliminada = False
+        planificacion.save(update_fields=['eliminada'])
+        return redirect('planificaciones:asignaturaDetail', id=planificacion.asignatura.id)
+
+    except:
+        mensaje_error = "No se pudo eliminar la planificacion"
+        return redirect('planificaciones:asignaturaDetail', {'id': planificacion.asignatura.id, 'mensaje_error': mensaje_error})
+
 def PlanificacionDestroy(request, id):  
     planificacion = Planificacion.objects.get(id=id)  
     planificacion.delete()  

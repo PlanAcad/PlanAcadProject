@@ -35,27 +35,19 @@
                         </span></div>
                     </div>
 
-                    
-                    
-
-
                     {% if planificaciones %}
                       <div class="row mt-4">
                         {% for planificacion in planificaciones %}
                           <div class="col-md-4">
                             <div class="card card-subject p-0 mb-5">
-                                <!-- <button
-                                    type=""
-                                    class="three-dots-button"
-                                    data-toggle="modal"
-                                    data-target="#modal-delete"
+                                <form
+                                id="restore-form"
+                                method="POST"
+                                action="{% url 'planificaciones:restorePlanificacion' planificacion.id %}"
+                                style="display: none;"
                                 >
-                                  <svg data-target="#modal-delete" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#D9DDE7" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                                  </svg>
-                                </button> -->
-
-
+                                  {% csrf_token %} 
+                                </form>
                                 <div class="dropdown">
                                     <button
                                         type="button"
@@ -70,8 +62,8 @@
                                       </svg>
                                     </button>
                                   <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
-                                    <li><a href="#">Restaurar</a></li>
                                     <li><a href="#"><button style="all: unset;" data-toggle="modal" data-target="#modal-delete">Eliminar definitivamente</button></a></li>
+                                    <li><a href="#" onclick="document.getElementById('restore-form').submit()">Restaurar</a></li>
                                   </ul>
                                 </div>
 
