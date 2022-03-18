@@ -101,6 +101,6 @@ def AprobarPlanificacion(request, id):
         print(instance.estado)
         instance.estado = "A"
         print(instance.estado)  
-        instance.save()    
-    return render(request, '/planificacion/'+str(planificacion.id)+'/datos-descriptivos', {'form': form})  
+        instance.save()
+    return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
   
