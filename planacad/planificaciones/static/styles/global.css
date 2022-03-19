@@ -282,6 +282,7 @@ ul.multiple-select-list {
 }
 
 .card-subject-title {
+    margin-top: 1.4rem;
     margin-bottom: 1.8rem;
     color: #000000;
 }
@@ -308,7 +309,7 @@ ul.multiple-select-list {
     background-color: #a0c3ff;
     position: absolute;
     top: -12px;
-    right: 20px;
+    left: 20px;
     border-radius: 0.45rem;
     overflow: hidden;
     padding: 0.2rem 0.7rem;
@@ -399,7 +400,8 @@ div.zabuto_calendar .table tr td div.day {
 ***************/
 .three-dots-button {
     all: unset;
-    padding-left: 16px;
+    position: absolute;
+    right: 10px;
 }
 
 /**************

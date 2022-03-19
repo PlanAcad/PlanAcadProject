@@ -66,6 +66,14 @@
                         {% for planificacion in planificaciones %}
                           <div class="col-md-4">
                             <div class="card card-subject p-0 mb-5">
+                              <a
+                              href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
+                              style="text-decoration: none"
+                              >
+                              <div class="planif-state-card float-right {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}">
+                                <p>{{ planificacion.get_estado_display }}</p>
+                              </div>
+
                               <div class="dropdown">
                                   <button
                                       type="button"
@@ -85,15 +93,9 @@
                                     method="POST"
                                     action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"><button type="submit">Aprobar planificación</button>{% csrf_token %}</form></li>
                                 </ul>
-                              </div>
+                              </div>  
 
-                              <a
-                              href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
-                              style="text-decoration: none"
-                              >
-                              <div class="planif-state-card float-right {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}">
-                                <p>{{ planificacion.get_estado_display }}</p>
-                              </div>
+
                               <div class="p-3 pt-2">
                                 <h5 class="card-subject-title">
                                     {{ planificacion.asignatura.nombre_materia }} - {{ planificacion.fecha_creacion.year }}
