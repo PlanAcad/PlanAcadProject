@@ -339,7 +339,7 @@ def print_condicion_aprobacion(Story, condicion_aprobacion_directa, condicion_ap
     Story.append(Spacer(1,0.2*inch))
 
 def print_cronograma(Story, clases):
-    p = Paragraph("9. Cronograma", styleSectionTitle)
+    p = Paragraph("8. Cronograma", styleSectionTitle)
     Story.append(p)
     Story.append(Spacer(1,0.2*inch))
 
