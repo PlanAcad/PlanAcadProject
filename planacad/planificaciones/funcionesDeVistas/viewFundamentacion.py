@@ -1,6 +1,8 @@
 # Para usar los objetos y/o funciones de 'redirect'  
+from datetime import datetime
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect  
+from django.shortcuts import render, redirect
+from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico  
 ## import model and form
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelFundamentacion import Fundamentacion
@@ -20,7 +22,9 @@ def FundamentacionView(request):
 
 def FundamentacionDetailView(request, id):  
     fundamentacion = Fundamentacion.objects.get(id=id)
-    return render(request,'profesores/detail.html', {'fundamentacion':fundamentacion})  
+    calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+
+    return render(request,'profesores/detail.html', {'fundamentacion':fundamentacion, 'calendario': calendario})  
  
 def FundamentacionUpdate(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
