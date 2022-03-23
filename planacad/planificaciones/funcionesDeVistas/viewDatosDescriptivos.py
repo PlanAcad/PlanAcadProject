@@ -1,8 +1,10 @@
 # Para usar los objetos y/o funciones de 'redirect'  
+from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from django.shortcuts import render, redirect  
+from django.shortcuts import render, redirect
+from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico  
 ## import model and form
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
@@ -48,7 +50,10 @@ def DatosDescriptivosView(request):
 
 def DatosDescriptivosDetailView(request, id):  
     datosDescriptivos = DatosDescriptivos.objects.get(id=id)
-    return render(request,'profesores/detail.html', {'datosDescriptivos':datosDescriptivos})  
+    calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+
+    return render(request,'profesores/detail.html', {'datosDescriptivos':datosDescriptivos, 'calendario': calendario})  
+    
 def DatosDescriptivosDestroy(request, id):  
     datosDescriptivos = DatosDescriptivos.objects.get(id=id)  
     datosDescriptivos.delete()  

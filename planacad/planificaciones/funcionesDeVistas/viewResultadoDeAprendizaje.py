@@ -1,7 +1,9 @@
 # Para usar los objetos y/o funciones de 'redirect'
+from datetime import datetime
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.modelos.modelAsignatura import Asignatura
+from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
 from planificaciones.formularios.formResultadoDeAprendizaje import  ResultadoDeAprendizajeForm
@@ -47,9 +49,11 @@ def ResultadoDeAprendizajeViewbyAsignatura(request, asignatura_id):
          asignatura = Asignatura.objects.get(id=asignatura_id)
          #Obtengo los resultados de aprendizaje
          resultadosDeAprendizajes = ResultadoDeAprendizaje.objects.filter(asignatura=asignatura)
+         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+
     except:
          mensaje_error = "No pudimos obtener los datos correctamente" 
-    return render(request,'profesores/detail.html', {'asignatura':asignatura, 'resultadosDeAprendizajes':resultadosDeAprendizajes, 'mensaje_error': mensaje_error})  
+    return render(request,'profesores/detail.html', {'asignatura':asignatura, 'resultadosDeAprendizajes':resultadosDeAprendizajes, 'mensaje_error': mensaje_error, 'calendario': calendario})  
 
 
 def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprendizaje):  

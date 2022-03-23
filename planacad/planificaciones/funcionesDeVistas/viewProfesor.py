@@ -1,8 +1,10 @@
 # Para usar los objetos y/o funciones de 'redirect'
 
+from datetime import datetime
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.modelos.modelAsignatura import Asignatura
+from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico
 from planificaciones.modelos.modelProfesor import Profesor
 from planificaciones.formularios.formProfesores import  ProfesorForm
 ##Define request for Asignatura   
@@ -27,7 +29,9 @@ def ProfesorDetailView(request, id):
     profesor = Profesor.objects.get(id=id)
     # Obtener materias del profesor
     asignaturas = Asignatura.objects.filter(profesor=profesor)
-    return render(request,'profesores/detail.html', {'profesor':profesor, 'asignaturas':asignaturas})  
+    calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+
+    return render(request,'profesores/detail.html', {'profesor':profesor, 'asignaturas':asignaturas, 'calendario': calendario})  
  
 def ProfesorUpdate(request, id):  
     profesor = Profesor.objects.get(id=id)  

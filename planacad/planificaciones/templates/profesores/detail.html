@@ -47,28 +47,38 @@
                     <h2>No existe el usuario profesor.</h2>
                     {% endif %}
                 </main>
-                <aside
-                    class="layout__sidebar col-3 py-3 px-2 show collapse"
-                    id="collapseSidebar"
-
-                >
-                    <h2 class="visually-hidden">Secciones</h2>
-
-                    <nav  style="background-color: #fff; border-radius: 0.45rem;">
-                        <div style="text-align: center;">
-                            <h5 class="p-2">Calendario</h5>
-                        </div>
-                        <ul>
-                            <li><p>16. Primer examen parcial</p></li>
-                            <li><p>21. Mesa de examenes finales</p></li>
-                            <li><p>22. Mesa de examenes finales</p></li>
-                            <li><p>23. Primer examen parcial</p></li>
-                            <li><p>24. Primer examen parcial</p></li>
-                            <li><p>30. Feriado nacional</p></li>
-                        </ul>
-                    </nav>
-                </aside>
                 
+                <aside
+                    class="layout__sidebar col-3 py-3 px-2 show collapse aside-calendario"
+                > 
+                  <div class="container-card-calendario">
+                      <div style="text-align: center;">
+                          <h5 class="p-2">Calendario</h5>
+                      </div>
+
+                      {% if calendario %}
+                        {% for fecha in calendario %}
+                          <div class="calendario-card">
+                            <div class="calendario-card-dot-day">
+                              {% if fecha.fecha.day < 10 %}
+                                <span class="calendario-card-dot-day-text">0{{ fecha.fecha.day }}</span>
+                              {% else %}
+                                <span class="calendario-card-dot-day-text">{{ fecha.fecha.day }}</span>
+                              {% endif %}
+                            </div>
+                            <div>
+                              <p class="calendario-card-title">{{fecha.get_actividad_display}}</p>
+                              {% if fecha.hay_clase %}
+                                <p class="calendario-card-subtitle">Sin suspensión de clases</p>
+                              {% else %}
+                                <p class="calendario-card-subtitle">Con suspensión de clases</p>
+                              {% endif %}
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                  </div>
+                </aside>
             </div>
         </div>
     </div>
