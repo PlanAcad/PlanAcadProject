@@ -7,6 +7,10 @@ from planificaciones.formularios.formAsignatura import AsignaturaForm
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
+from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
+from datetime import datetime
+
+
 
 ##Define request for Asignatura   
 def AsignaturaNew(request):  
@@ -32,7 +36,10 @@ def AsignaturaDetailView(request, id):
     planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('id')
     # Mandarle el form para crear planificaciones
     form = PlanificacionForm()  
-    return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form})  
+
+    calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+
+    return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form, 'calendario': calendario})  
  
 def AsignaturaUpdate(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
