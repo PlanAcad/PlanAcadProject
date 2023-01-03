@@ -7,6 +7,12 @@
         <div class="container-xl">
             <div class="row">
                 <main class="col seccion px-4 py-3">
+                  {% if error %}
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ha ocurrido un error!</strong> La planificacion tiene un problema y no es posible tomarla como referencia
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                  {% endif %} 
                     {% if error_message %}
                     <p><strong>{{ error_message }}</strong></p>
                     {% endif %} {% if form.subject.errors %}

@@ -226,3 +226,37 @@ def ValidacionIndex(request,id_planificacion):
         
     return render(request,'secciones/validacion.html',{'validacion_ok':validacion_ok,'validacion_bad':validacion_bad,
     'errores':errores,'planificacion': planificacion}) 
+
+def CamposCompletos(id_planificacion):
+    validacion_ok=False
+    planificacion = Planificacion.objects.get(id=id_planificacion)
+    seccion1= validacionDatosDescriptivos.ValidarSeccion(id_planificacion)
+    validacion_ok = seccion1[0] 
+    seccion2= validacionEstructuraDeLaCatedra.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion2[0]
+    seccion3= validacionFundamentacion.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion3[0]
+    seccion4= validacionResultadoAprendizajeAnterior.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion4[0]
+    seccion5= validacionCompetenciasySubcompetencia.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion5[0]
+    seccion6= validacionPropuestaDeDesarrollo.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion6[0]
+    seccion7= validacionSistemaDeEvaluacion.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion7[0]
+    seccion7_1_2= validacionCondicionAprobacion.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion7_1_2[0]
+    seccion8= validacionCronograma.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion8[0]
+    seccion9= validarBibliografia.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion9[0]
+    seccion10= validacionWebgrafia.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion10[0]
+    seccion11= validacionContenido.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion11[0]
+    seccion12= validacionDistribucionDeTareas.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion12[0]
+    seccion13= validacionJustificacion.ValidarSeccion(id_planificacion)
+    validacion_ok = validacion_ok and seccion13[0]
+    print(validacion_ok)
+    return validacion_ok
