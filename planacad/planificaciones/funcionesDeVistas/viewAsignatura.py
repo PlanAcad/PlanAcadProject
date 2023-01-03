@@ -28,7 +28,9 @@ def AsignaturasView(request):
     asignaturas = Asignatura.objects.all()  
     return render(request,"asignaturas/index.html",{'asignaturas':asignaturas})  
     
-def AsignaturaDetailView(request, id):  
+def AsignaturaDetailView(request, id, error = 'False'):
+    print(error)
+    mostrar_error = error == 'True'  
     asignatura = Asignatura.objects.get(id=id)  
     # Obtengo el nombre de la carrera
     carrera = Carrera.objects.get(id=asignatura.carrera_id)
@@ -38,9 +40,12 @@ def AsignaturaDetailView(request, id):
     form = PlanificacionForm()  
 
     calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+    if(not mostrar_error):
+        return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form, 'calendario': calendario})  
+    else:
+        print(mostrar_error)
+        return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form, 'calendario': calendario, 'error': "Ha ocurrido un error"})  
 
-    return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form, 'calendario': calendario})  
- 
 def AsignaturaUpdate(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
     form = AsignaturaForm(request.POST, instance = asignatura)  
