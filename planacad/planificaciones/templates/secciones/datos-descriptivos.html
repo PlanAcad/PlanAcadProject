@@ -1,7 +1,22 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <h2 class="seccion__encabezado">1. Datos descriptivos</h2>
 <div class="seccion__card">
+  {% if errores %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {% for e in errores %}
+      {% if e|get_type == 'str' %}
+        <strong><p>No se completaron en {{e|default:""}} los siguientes campos</p></strong>
+      {% else %}
+        {% for campo in e %}
+          <li>{{ campo|default:""}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+  </div>
+  {% endif %}
+
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
   {% endif %}
