@@ -19,11 +19,11 @@ def ValidarSeccion(id_planificacion):
         except:
             validacion_ok=False
             validacion_bad=True
-            errores.append("No existe ninguna clase")
+            errores.append("No existe ninguna propuesta de desarrollo")
         if(not propuestasDeDesarrollo):
             validacion_ok=False
             validacion_bad=True
-            errores.append("No existe ninguna clase")
+            errores.append("No existe ninguna propuesta de desarrollo")
         else:
             for propuestaDeDesarrollo in propuestasDeDesarrollo:
                 if(propuestaDeDesarrollo is not None):

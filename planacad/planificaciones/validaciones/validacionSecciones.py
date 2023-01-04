@@ -160,7 +160,7 @@ def ValidacionPlanificacion(id_planificacion):
     validacion_ok = validacion_ok and seccion6[0]
     validacion_bad = validacion_bad or seccion6[1]
     if(seccion6[1]):
-        errores.append("Seccion Competencias y capacidades")
+        errores.append("Seccion Propuestas de desarrollo")
         errores.append(seccion6[2])
 
     seccion7= validacionSistemaDeEvaluacion.ValidarSeccion(id_planificacion)
