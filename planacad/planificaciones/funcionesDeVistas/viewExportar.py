@@ -12,10 +12,11 @@ from planificaciones.modelos.modelClase import Clase
 from planificaciones.modelos.modelBibliografia import Bibliografia 
 from planificaciones.modelos.modelWebgrafia import Webgrafia 
 from planificaciones.modelos.modelContenido import Contenido 
-
+from planificaciones.validaciones import validacionSecciones
+import json
 import io
 from django.http import FileResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect 
 from reportlab.pdfgen import canvas
 
 from reportlab.lib import colors
@@ -547,10 +548,14 @@ def print_justificacion_ordenanza(Story, justificacion_ordenanza):
 
 
 def Exportar(request, id_planificacion):  
+    data =None 
     planificacion = Planificacion.objects.get(id=id_planificacion)
-
+    data_json = request.GET.get('data')
+    if(data_json):
+        data = json.loads(data_json)
     context = {
         'planificacion': planificacion,
+        'errores': data
     }
 
     return render(request, "exportar/index.html", context) 
@@ -581,66 +586,72 @@ def myLaterPages(canvas, doc):
 
 # VIEW TO OPEN AND DOWNLOAD PDF
 def DownloadPDF(request, id_planificacion):
-    planificacion = Planificacion.objects.get(id=id_planificacion)
-    datos_descriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos.id)
-    estructuras_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
-    fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
-    resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
-    competencias = Competencia.objects.filter(planificacion = planificacion)
+    validacion_ok, validacion_bad, errores = validacionSecciones.ValidacionPlanificacion(id_planificacion)
+    if(validacion_ok):
+        planificacion = Planificacion.objects.get(id=id_planificacion)
+        datos_descriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos.id)
+        estructuras_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+        fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
+        resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
+        competencias = Competencia.objects.filter(planificacion = planificacion)
 
-    resultados_aprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
-    resultados_aprendizaje_materia = resultados_aprendizaje.filter(asignatura=planificacion.asignatura).order_by('id')
-    propuestas_desarrollo = PropuestaDesarrollo.objects.filter(planificacion=planificacion) 
+        resultados_aprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
+        resultados_aprendizaje_materia = resultados_aprendizaje.filter(asignatura=planificacion.asignatura).order_by('id')
+        propuestas_desarrollo = PropuestaDesarrollo.objects.filter(planificacion=planificacion) 
 
-    actividades = Actividad.objects.filter(planificacion=planificacion) 
+        actividades = Actividad.objects.filter(planificacion=planificacion) 
 
-    clases = Clase.objects.filter(planificacion=planificacion)
+        clases = Clase.objects.filter(planificacion=planificacion)
 
-    bibliografias = Bibliografia.objects.filter(planificacion=planificacion) 
-    webgrafias = Webgrafia.objects.filter(planificacion=planificacion)  
+        bibliografias = Bibliografia.objects.filter(planificacion=planificacion) 
+        webgrafias = Webgrafia.objects.filter(planificacion=planificacion)  
 
-    contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')  
+        contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')  
 
-    detalles_profesores_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion) 
-    profesores =  detalles_profesores_catedra.filter(categoria__categoria = "Titular") | detalles_profesores_catedra.filter(categoria__categoria = "Adjunto")
-    profesores_auxiliares =  detalles_profesores_catedra.exclude(categoria__categoria = "Titular").exclude(categoria__categoria = "Adjunto")
-
-
-
-    # ------------ 
-    # GENERATE PDF
-    # ------------ 
-    doc = SimpleDocTemplate("planificacion.pdf")
-    # Story = [Spacer(1,2*inch)]
-    Story = []
-
-    print_datos_descriptivos(Story=Story, datos_descriptivos=datos_descriptivos)
-    print_estructura_catedra(Story=Story, estructuras_catedra=estructuras_catedra)
-    print_fundamentacion(Story=Story, fundamentacion=fundamentacion.fundamentos)
-    print_resultados_aprendizaje_previos(Story=Story, resultados_aprendizaje_previos=resultados_aprendizaje_previos)
-    print_competencias(Story=Story, competencias=competencias)
-    print_propuesta_desarrollo(Story=Story, resultados_aprendizaje=resultados_aprendizaje_materia, propuestas_desarrollo=propuestas_desarrollo)
-    print_sistema_evaluacion(Story=Story, actividades=actividades)
-    print_condicion_aprobacion(Story=Story, condicion_aprobacion_directa= planificacion.condicion_aprobacion_directa,condicion_aprobacion_cursada=planificacion.condicion_aprobacion_cursada)
-    print_cronograma(Story=Story, clases = clases)
-    print_bibliografia(Story=Story, bibliografias = bibliografias)
-    print_webgrafia(Story=Story, webgrafias = webgrafias)
-    print_contenido(Story=Story, contenidos = contenidos)
-    print_distribucion_tareas(Story=Story, numero_comisiones = planificacion.numero_comisiones, numero_estudiantes = planificacion.numero_estudiantes_comision, profesores = profesores, profesores_auxiliares = profesores_auxiliares)
-    print_justificacion_ordenanza(Story=Story, justificacion_ordenanza = planificacion.justificacion_ordenanza)
+        detalles_profesores_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion) 
+        profesores =  detalles_profesores_catedra.filter(categoria__categoria = "Titular") | detalles_profesores_catedra.filter(categoria__categoria = "Adjunto")
+        profesores_auxiliares =  detalles_profesores_catedra.exclude(categoria__categoria = "Titular").exclude(categoria__categoria = "Adjunto")
 
 
-    # ------------ 
-    # CREATE PDF
-    # ------------ 
-    doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
+
+        # ------------ 
+        # GENERATE PDF
+        # ------------ 
+        doc = SimpleDocTemplate("planificacion.pdf")
+        # Story = [Spacer(1,2*inch)]
+        Story = []
+
+        print_datos_descriptivos(Story=Story, datos_descriptivos=datos_descriptivos)
+        print_estructura_catedra(Story=Story, estructuras_catedra=estructuras_catedra)
+        print_fundamentacion(Story=Story, fundamentacion=fundamentacion.fundamentos)
+        print_resultados_aprendizaje_previos(Story=Story, resultados_aprendizaje_previos=resultados_aprendizaje_previos)
+        print_competencias(Story=Story, competencias=competencias)
+        print_propuesta_desarrollo(Story=Story, resultados_aprendizaje=resultados_aprendizaje_materia, propuestas_desarrollo=propuestas_desarrollo)
+        print_sistema_evaluacion(Story=Story, actividades=actividades)
+        print_condicion_aprobacion(Story=Story, condicion_aprobacion_directa= planificacion.condicion_aprobacion_directa,condicion_aprobacion_cursada=planificacion.condicion_aprobacion_cursada)
+        print_cronograma(Story=Story, clases = clases)
+        print_bibliografia(Story=Story, bibliografias = bibliografias)
+        print_webgrafia(Story=Story, webgrafias = webgrafias)
+        print_contenido(Story=Story, contenidos = contenidos)
+        print_distribucion_tareas(Story=Story, numero_comisiones = planificacion.numero_comisiones, numero_estudiantes = planificacion.numero_estudiantes_comision, profesores = profesores, profesores_auxiliares = profesores_auxiliares)
+        print_justificacion_ordenanza(Story=Story, justificacion_ordenanza = planificacion.justificacion_ordenanza)
 
 
-    # ------------ 
-    # TO OPEN PDF IN BROWSER
-    # ------------ 
-    return FileResponse(open('planificacion.pdf', 'rb'), as_attachment=True, content_type='application/pdf', filename='planificacion.pdf')
+        # ------------ 
+        # CREATE PDF
+        # ------------ 
+        doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
 
+
+        # ------------ 
+        # TO OPEN PDF IN BROWSER
+        # ------------ 
+        return FileResponse(open('planificacion.pdf', 'rb'), as_attachment=True, content_type='application/pdf', filename='planificacion.pdf')
+    else:
+        print("no todos los campos activos")
+        data_json = json.dumps(errores)
+        url = '/planificacion/' + str(id_planificacion) + '/exportar' + '?data=' + data_json
+        return redirect(url)
 
 
 
@@ -648,66 +659,72 @@ def DownloadPDF(request, id_planificacion):
 
 # VIEW TO OPEN AND DOWNLOAD PDF
 def PrintPDF(request, id_planificacion):
-    planificacion = Planificacion.objects.get(id=id_planificacion)
-    datos_descriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos.id)
-    estructuras_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
-    fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
-    resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
-    competencias = Competencia.objects.filter(planificacion = planificacion)
+    validacion_ok, validacion_bad, errores = validacionSecciones.ValidacionPlanificacion(id_planificacion)
+    if(validacion_ok):
+        planificacion = Planificacion.objects.get(id=id_planificacion)
+        datos_descriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos.id)
+        estructuras_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+        fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
+        resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
+        competencias = Competencia.objects.filter(planificacion = planificacion)
 
-    resultados_aprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
-    resultados_aprendizaje_materia = resultados_aprendizaje.filter(asignatura=planificacion.asignatura).order_by('id')
-    propuestas_desarrollo = PropuestaDesarrollo.objects.filter(planificacion=planificacion) 
+        resultados_aprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
+        resultados_aprendizaje_materia = resultados_aprendizaje.filter(asignatura=planificacion.asignatura).order_by('id')
+        propuestas_desarrollo = PropuestaDesarrollo.objects.filter(planificacion=planificacion) 
 
-    actividades = Actividad.objects.filter(planificacion=planificacion) 
+        actividades = Actividad.objects.filter(planificacion=planificacion) 
 
-    clases = Clase.objects.filter(planificacion=planificacion)
+        clases = Clase.objects.filter(planificacion=planificacion)
 
-    bibliografias = Bibliografia.objects.filter(planificacion=planificacion) 
-    webgrafias = Webgrafia.objects.filter(planificacion=planificacion)  
+        bibliografias = Bibliografia.objects.filter(planificacion=planificacion) 
+        webgrafias = Webgrafia.objects.filter(planificacion=planificacion)  
 
-    contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')  
+        contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')  
 
-    detalles_profesores_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion) 
-    profesores =  detalles_profesores_catedra.filter(categoria__categoria = "Titular") | detalles_profesores_catedra.filter(categoria__categoria = "Adjunto")
-    profesores_auxiliares =  detalles_profesores_catedra.exclude(categoria__categoria = "Titular").exclude(categoria__categoria = "Adjunto")
-
-
-
-    # ------------ 
-    # GENERATE PDF
-    # ------------ 
-    doc = SimpleDocTemplate("planificacion.pdf")
-    # Story = [Spacer(1,2*inch)]
-    Story = []
-
-    print_datos_descriptivos(Story=Story, datos_descriptivos=datos_descriptivos)
-    print_estructura_catedra(Story=Story, estructuras_catedra=estructuras_catedra)
-    print_fundamentacion(Story=Story, fundamentacion=fundamentacion.fundamentos)
-    print_resultados_aprendizaje_previos(Story=Story, resultados_aprendizaje_previos=resultados_aprendizaje_previos)
-    print_competencias(Story=Story, competencias=competencias)
-    print_propuesta_desarrollo(Story=Story, resultados_aprendizaje=resultados_aprendizaje_materia, propuestas_desarrollo=propuestas_desarrollo)
-    print_sistema_evaluacion(Story=Story, actividades=actividades)
-    print_condicion_aprobacion(Story=Story, condicion_aprobacion_directa= planificacion.condicion_aprobacion_directa,condicion_aprobacion_cursada=planificacion.condicion_aprobacion_cursada)
-    print_cronograma(Story=Story, clases = clases)
-    print_bibliografia(Story=Story, bibliografias = bibliografias)
-    print_webgrafia(Story=Story, webgrafias = webgrafias)
-    print_contenido(Story=Story, contenidos = contenidos)
-    print_distribucion_tareas(Story=Story, numero_comisiones = planificacion.numero_comisiones, numero_estudiantes = planificacion.numero_estudiantes_comision, profesores = profesores, profesores_auxiliares = profesores_auxiliares)
-    print_justificacion_ordenanza(Story=Story, justificacion_ordenanza = planificacion.justificacion_ordenanza)
+        detalles_profesores_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion) 
+        profesores =  detalles_profesores_catedra.filter(categoria__categoria = "Titular") | detalles_profesores_catedra.filter(categoria__categoria = "Adjunto")
+        profesores_auxiliares =  detalles_profesores_catedra.exclude(categoria__categoria = "Titular").exclude(categoria__categoria = "Adjunto")
 
 
-    # ------------ 
-    # CREATE PDF
-    # ------------ 
-    doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
+
+        # ------------ 
+        # GENERATE PDF
+        # ------------ 
+        doc = SimpleDocTemplate("planificacion.pdf")
+        # Story = [Spacer(1,2*inch)]
+        Story = []
+
+        print_datos_descriptivos(Story=Story, datos_descriptivos=datos_descriptivos)
+        print_estructura_catedra(Story=Story, estructuras_catedra=estructuras_catedra)
+        print_fundamentacion(Story=Story, fundamentacion=fundamentacion.fundamentos)
+        print_resultados_aprendizaje_previos(Story=Story, resultados_aprendizaje_previos=resultados_aprendizaje_previos)
+        print_competencias(Story=Story, competencias=competencias)
+        print_propuesta_desarrollo(Story=Story, resultados_aprendizaje=resultados_aprendizaje_materia, propuestas_desarrollo=propuestas_desarrollo)
+        print_sistema_evaluacion(Story=Story, actividades=actividades)
+        print_condicion_aprobacion(Story=Story, condicion_aprobacion_directa= planificacion.condicion_aprobacion_directa,condicion_aprobacion_cursada=planificacion.condicion_aprobacion_cursada)
+        print_cronograma(Story=Story, clases = clases)
+        print_bibliografia(Story=Story, bibliografias = bibliografias)
+        print_webgrafia(Story=Story, webgrafias = webgrafias)
+        print_contenido(Story=Story, contenidos = contenidos)
+        print_distribucion_tareas(Story=Story, numero_comisiones = planificacion.numero_comisiones, numero_estudiantes = planificacion.numero_estudiantes_comision, profesores = profesores, profesores_auxiliares = profesores_auxiliares)
+        print_justificacion_ordenanza(Story=Story, justificacion_ordenanza = planificacion.justificacion_ordenanza)
 
 
-    # ------------ 
-    # TO OPEN PDF IN BROWSER
-    # ------------ 
-    return FileResponse(open('planificacion.pdf', 'rb'), as_attachment=False, content_type='application/pdf', filename='planificacion.pdf')
+        # ------------ 
+        # CREATE PDF
+        # ------------ 
+        doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
 
+
+        # ------------ 
+        # TO OPEN PDF IN BROWSER
+        # ------------ 
+        return FileResponse(open('planificacion.pdf', 'rb'), as_attachment=False, content_type='application/pdf', filename='planificacion.pdf')
+    else: 
+        print("no todos los campos activos")
+        data_json = json.dumps(errores)
+        url = '/planificacion/' + str(id_planificacion) + '/exportar' + '?data=' + data_json
+        return redirect(url)
 
 
 
