@@ -110,4 +110,4 @@ def AprobarPlanificacion(request, id):
         print("no todos los campos activos")
         data_json = json.dumps(errores)
         url = '/planificacion/' + str(id) + '/datos-descriptivos' + '?data=' + data_json
-        return redirect(url)
+        return redirect(url) 
