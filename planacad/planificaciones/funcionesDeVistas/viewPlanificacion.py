@@ -1,5 +1,5 @@
 # Para usar los objetos y/o funciones de 'redirect'
-
+import json
 from django.shortcuts import render, redirect  
 from django.http import HttpResponseRedirect
 
@@ -10,6 +10,7 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos
 from planificaciones.funcionesDeVistas import viewFundamentacion
+from planificaciones.validaciones import validacionSecciones
 
 ##Define request for Planificacion   
 def PlanificacionNew(request, asignatura_id):  
@@ -94,13 +95,19 @@ def PlanificacionDestroy(request, id):
     return redirect('planificaciones:papelera', id_asignatura=planificacion.asignatura.id)
 
 def AprobarPlanificacion(request, id):
-    planificacion = Planificacion.objects.get(id=id)  
-    form = PlanificacionForm(request.POST, instance = planificacion)  
-    if form.is_valid():
-        instance = form.save(commit=False)
-        print(instance.estado)
-        instance.estado = "A"
-        print(instance.estado)  
-        instance.save()
-    return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
-  
+    validacion_ok, validacion_bad, errores = validacionSecciones.ValidacionPlanificacion(id)
+    if(validacion_ok):
+        planificacion = Planificacion.objects.get(id=id)  
+        form = PlanificacionForm(request.POST, instance = planificacion)  
+        if form.is_valid():
+            instance = form.save(commit=False)
+            print(instance.estado)
+            instance.estado = "A"
+            print(instance.estado)  
+            instance.save()
+        return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
+    else:
+        print("no todos los campos activos")
+        data_json = json.dumps(errores)
+        url = '/planificacion/' + str(id) + '/datos-descriptivos' + '?data=' + data_json
+        return redirect(url)

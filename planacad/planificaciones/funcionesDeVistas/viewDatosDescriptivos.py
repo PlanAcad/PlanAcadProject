@@ -2,13 +2,14 @@
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+import json
 from django.shortcuts import render, redirect
 from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico  
 ## import model and form
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
 from planificaciones.formularios.formDatosDescriptivos import  DatosDescriptivosForm
+
 ##Define request for Asignatura   
 def DatosDescriptivosNew(asignatura_id, carrera_id):      
         form = DatosDescriptivos()  
@@ -24,13 +25,17 @@ def DatosDescriptivosNew(asignatura_id, carrera_id):
 # Esto muestro en /seccion1
 # Si es un POST actualiza
 # Si es un GET mando el form y los datos actuales
-def DatosDescriptivosUpdate(request, id_planificacion):  
+def DatosDescriptivosUpdate(request, id_planificacion):
+    data = None
+    errores = []  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
     form = DatosDescriptivosForm(instance = datosDescriptivos)
     mensaje_exito = None
     mensaje_error = None
-    
+    data_json = request.GET.get('data')
+    if(data_json):
+        data = json.loads(data_json)
     if request.method == 'POST':  
         form = DatosDescriptivosForm(request.POST,instance = datosDescriptivos)
         if form.is_valid():
@@ -41,7 +46,7 @@ def DatosDescriptivosUpdate(request, id_planificacion):
             except:
                 mensaje_error = "No pudimos guardar los cambios."
     
-    return render(request, 'secciones/datos-descriptivos.html', {'planificacion': planificacion,'datosDescriptivos': datosDescriptivos, 'form': form, 'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error}) 
+    return render(request, 'secciones/datos-descriptivos.html', {'planificacion': planificacion,'datosDescriptivos': datosDescriptivos, 'form': form, 'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error, 'errores': data}) 
 
 ## Estos de abajo no se usan
 def DatosDescriptivosView(request):  
