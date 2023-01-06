@@ -171,8 +171,19 @@
 </div>
 
 <div class="py-4"></div>
-
 <h2 class="seccion__encabezado">Correcciones</h2>
-<div class="seccion__card">No posee correcciones.</div>
+{% if correcciones %}
+    {% for correccion in correcciones %}
+      <li>{{ correccion.correccion|default:""}}</p>
+        {% if correccion.comentarios.all %}
+          {% for comentario in correccion.comentarios.all %}
+          <hr class="m-1">
+          <li>{{ comentario.comentario|default:""}}</p>
+          {% endfor %}        
+        {% endif %}
+    {% endfor %}
+{% else %}
+  <div class="seccion__card">No posee correcciones.</div>    
+{% endif %}
 
 {% endblock %}
