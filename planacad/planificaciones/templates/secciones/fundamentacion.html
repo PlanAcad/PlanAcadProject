@@ -5,6 +5,9 @@
 </header>
 
 <h2 class="seccion__encabezado">3. Fundamentación</h2>
+  {% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
 <div class="seccion__card">
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
@@ -32,9 +35,8 @@
   </form>
 </div>
 
-<div class="py-4"></div>
-
-<h2 class="seccion__encabezado">Correcciones</h2>
-<div class="seccion__card">No posee correcciones.</div>
+{% with seccion=3 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
 
 {% endblock %}

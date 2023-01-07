@@ -3,6 +3,10 @@ from django.shortcuts import render, redirect
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelBibliografia import Bibliografia
 from planificaciones.formularios.formBibliografia import BibliografiaForm
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+from planificaciones.formularios.formCorreccion import CorreccionForm
 
 
 # To show and to add new one
@@ -11,7 +15,15 @@ def IndexBibliografia(request, id_planificacion):
     bibliografias = Bibliografia.objects.filter(planificacion=planificacion)  
     mensaje_exito = None
     mensaje_error = None
-    
+   #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 9)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    correccion = CorreccionForm()
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+
     form = BibliografiaForm()
     if request.method == 'POST':
         form = BibliografiaForm(request.POST)
@@ -33,10 +45,12 @@ def IndexBibliografia(request, id_planificacion):
         'planificacion': planificacion,
         'bibliografias': bibliografias,
         "form": form,
+        'correcciones':correcciones,
+        'correccion_form': correccion,
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }
-
     return render(request,"secciones/bibliografia/index.html", context) 
 
 

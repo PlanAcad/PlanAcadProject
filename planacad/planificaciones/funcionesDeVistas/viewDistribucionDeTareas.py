@@ -4,6 +4,10 @@ from planificaciones.modelos.modelProfesor import Profesor
 from planificaciones.formularios.formDetalleProfesorCatedra import DetalleProfesorCatedraForm
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra  
 from planificaciones.modelos.modelPlanificacion import Planificacion
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+from planificaciones.formularios.formCorreccion import CorreccionForm
 
 # To show and to add new one
 def DistribucionDeTareas(request, id_planificacion):   
@@ -15,6 +19,14 @@ def DistribucionDeTareas(request, id_planificacion):
 
     mensaje_exito = None
     mensaje_error = None
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 12)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    correccion = CorreccionForm()
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
     form = DetalleProfesorCatedraForm()
     if request.method == 'POST':
@@ -48,6 +60,9 @@ def DistribucionDeTareas(request, id_planificacion):
         'profesores': profesores,
         'profesores_auxiliares': profesores_auxiliares,
         "form": form,
+        'correcciones':correcciones,
+        'correccion_form': correccion,
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }

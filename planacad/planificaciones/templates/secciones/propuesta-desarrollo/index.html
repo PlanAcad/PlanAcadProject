@@ -45,7 +45,9 @@
 </style>
 
 <h2 class="seccion__encabezado">6. Propuestas para el desarrollo</h2>
-
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
 <div id="accordion">
     <div class="card">
         <div class="card-header" id="heading1">
@@ -220,10 +222,10 @@
     </button>
 </div>
 
-<div class="py-4"></div>
 
-<h2 class="seccion__encabezado">Correcciones</h2>
-<div class="seccion__card">No posee correcciones.</div>
+{% with seccion=6 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
 
 <!-- Modal resultado de aprendizaje -->
 <div

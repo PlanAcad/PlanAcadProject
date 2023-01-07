@@ -1,6 +1,9 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
 <h2 class="seccion__encabezado">8. Cronograma</h2>
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
 <button type="button" class="link mt-2 mb-2 mr-2" style="float:right" data-toggle="modal" data-target="#modal-cronograma-create">
   Sincronizar con calendario académico
 </button>
@@ -162,4 +165,9 @@ Se sugiere consultar lo trabajado en el Módulo 3 del Curso Formación por Compe
   <div class="alert alert-danger">{{form.errors}}</div>
   {% endif %}
 </div>
+
+{% with seccion=8 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
+
 {% endblock %}

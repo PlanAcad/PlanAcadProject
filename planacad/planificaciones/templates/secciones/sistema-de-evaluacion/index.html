@@ -25,6 +25,9 @@
 </style>
 
 <h2 class="seccion__encabezado">7. Sistema de Evaluación</h2>
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
 <div class="seccion__card">
   <table class="">
     <tbody>
@@ -84,11 +87,9 @@
   </p>
 </div>
 
-<div class="py-4"></div>
-
-<h2 class="seccion__encabezado">Correcciones</h2>
-<div class="seccion__card">No posee correcciones.</div>
-
+{% with seccion=7 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
 
 <!-- Modal sistema de evaluacion -->
 <div

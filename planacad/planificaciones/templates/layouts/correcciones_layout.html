@@ -1,0 +1,82 @@
+
+<div class="py-4"></div>
+<h2 class="seccion__encabezado">Correcciones</h2>
+<button
+type="button"
+class="btn btn-primary mt-4"
+data-toggle="modal"
+data-target="#modal-agregar-correccion"
+>
+Añadir correccion
+</button>
+
+<div  class="modal fade"
+      id="modal-agregar-correccion"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                      Añadir Correccion
+                  </h5>
+                  <button
+                      type="button"
+                      class="btn-close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                  ></button>
+              </div>
+              <div class="modal-body">
+                  <form
+                      method="POST"
+                      {% block action %}
+                            action="{% url 'planificaciones:agregarCorreccion' planificacion.id seccion %}"
+                      {% endblock action %}
+                      >
+                      {% csrf_token %}
+                      <input type="hidden" name="form_name" value="agregar-correccion"/>
+
+
+                      <label>Descripción</label>
+                      <p>{{correccion_form.correccion}}</p>
+
+                      {% if errors %}
+                      <div class="alert alert-danger">
+                          {{errors}}
+                      </div>
+                      {% endif %}
+
+                      <div class="modal-footer">
+                          <button
+                              type="button"
+                              class="btn btn-outline-primary"
+                              data-dismiss="modal"
+                          >
+                              Cancelar
+                          </button>
+                          <button type="submit" class="btn btn-primary">
+                              Guardar
+                          </button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+        </div>
+</div>
+
+{% if correcciones %}
+    {% for correccion in correcciones %}
+      <li>{{ correccion.correccion|default:""}}</p>
+        {% if correccion.comentarios.all %}
+          {% for comentario in correccion.comentarios.all %}
+          <hr class="m-1">
+          <li>{{ comentario.comentario|default:""}}</p>
+          {% endfor %}        
+        {% endif %}
+    {% endfor %}
+{% else %}
+  <div class="seccion__card">No posee correcciones.</div>    
+{% endif %}

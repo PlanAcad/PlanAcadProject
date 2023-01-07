@@ -11,6 +11,10 @@ from planificaciones.modelos.modelSubCompetencia import SubCompetencia
 from planificaciones.modelos.modelCompetencia import Competencia
 from planificaciones.modelos.modelContenido import Contenido
 from planificaciones.modelos.modelUnidad import Unidad
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+from planificaciones.formularios.formCorreccion import CorreccionForm
 
 
 # To show and to add new one
@@ -45,6 +49,15 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
     form_propuesta_desarrollo.fields['resultados_de_aprendizaje'].queryset = resultados_aprendizaje_materia
     form_propuesta_desarrollo.fields['unidades'].queryset = unidades
     form_propuesta_desarrollo.fields['bibliografias'].queryset = bibliografias_planificacion
+
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 6)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    correccion = CorreccionForm()
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
     if request.method == 'POST':
         if request.POST.get("form_name") == "resultado_aprendizaje":
@@ -92,6 +105,9 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
         "form_propuesta_desarrollo": form_propuesta_desarrollo,
         "unidades_planificacion": unidades,
         "bibliografias_planificacion": bibliografias_planificacion,
+        'correcciones':correcciones,
+        'correccion_form': correccion,
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }

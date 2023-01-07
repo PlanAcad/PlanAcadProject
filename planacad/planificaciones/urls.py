@@ -9,6 +9,7 @@ from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo, viewFecha
 from planificaciones.funcionesDeVistas import viewExportar
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
+from planificaciones.funcionesDeVistas import viewCorreccion
 
 import planificaciones
 
@@ -135,7 +136,10 @@ urlpatterns = [
     path('planificacion/<int:id>/cerrar-planificacion', viewPlanificacion.AprobarPlanificacion, name='aprobarPlanif'),
 
     # PAPELERA
-    path('asignaturas/<int:id_asignatura>/papelera', viewAsignatura.PapeleraView, name='papelera')
+    path('asignaturas/<int:id_asignatura>/papelera', viewAsignatura.PapeleraView, name='papelera'),
+    
+    #Correcciones
+    path('planificacion/<int:id_planificacion>/<int:id_seccion>/agregar-correccion', viewCorreccion.CorreccionNew, name='agregarCorreccion'),
 
 
 ]

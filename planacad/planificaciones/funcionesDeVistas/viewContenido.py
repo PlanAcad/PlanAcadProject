@@ -3,6 +3,10 @@ from django.shortcuts import render, redirect
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelContenido import Contenido
 from planificaciones.formularios.formContenido import ContenidoForm
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+from planificaciones.formularios.formCorreccion import CorreccionForm
 
 
 # To show and to add new one
@@ -11,7 +15,15 @@ def IndexContenido(request, id_planificacion):
     contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')  
     mensaje_exito = None
     mensaje_error = None
-    
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 11)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    correccion = CorreccionForm()
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+
     form = ContenidoForm()
     if request.method == 'POST':
         form = ContenidoForm(request.POST)
@@ -37,6 +49,9 @@ def IndexContenido(request, id_planificacion):
         'planificacion': planificacion,
         'contenidos': contenidos,
         "form": form,
+        'correcciones':correcciones,
+        'correccion_form': correccion,
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }
