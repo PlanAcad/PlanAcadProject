@@ -19,6 +19,13 @@
                     class="layout__sidebar col-3 py-3 px-2 show collapse"
                     id="collapseSidebar"
                 >
+                    <div class="planif-state-card 
+                    {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
+                    {% if planificacion.estado == "R" %} planif-state-card--revision {% endif %}
+                    {% if planificacion.estado == "C" %} planif-state-card--correccion {% endif %}
+                    " style="position: initial;">
+                    <p>{{ planificacion.get_estado_display }}</p>
+                    </div>
                     <h2 class="visually-hidden">Secciones</h2>
 
                     <nav>
@@ -173,6 +180,33 @@
                                 <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
                             </svg>
                             EXPORTAR PLANIFICACION
+                        </div>
+                        </a>   
+                        <a
+                        href="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"
+                        class=""
+                        title="APROBAR PLANIFICACION"
+                        >
+                        <div style="display: flex; align-items: center;">
+                            APROBAR PLANIFICACION
+                        </div>
+                        </a>   
+                        <a
+                        href="{% url 'planificaciones:revisarPlanif' planificacion.id %}"
+                        class=""
+                        title="REVISAR PLANIFICACION"
+                        >
+                        <div style="display: flex; align-items: center;">
+                            REVISAR PLANIFICACION
+                        </div>
+                        </a>   
+                        <a
+                        href="{% url 'planificaciones:corregirPlanif' planificacion.id %}"
+                        class=""
+                        title="CORREGIR PLANIFICACION"
+                        >
+                        <div style="display: flex; align-items: center;">
+                            CORREGIR PLANIFICACION
                         </div>
                         </a>                
                     </nav>

@@ -76,7 +76,11 @@
                               href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
                               style="text-decoration: none"
                               >
-                              <div class="planif-state-card float-right {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}">
+                              <div class="planif-state-card float-right 
+                              {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
+                              {% if planificacion.estado == "R" %} planif-state-card--revision {% endif %}
+                              {% if planificacion.estado == "C" %} planif-state-card--correccion {% endif %}
+                              ">
                                 <p>{{ planificacion.get_estado_display }}</p>
                               </div>
 
@@ -98,6 +102,12 @@
                                   <li><form
                                     method="POST"
                                     action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"><button type="submit">Aprobar planificación</button>{% csrf_token %}</form></li>
+                                    <li><form
+                                      method="POST"
+                                      action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                      <li><form
+                                        method="POST"
+                                        action="{% url 'planificaciones:corregirPlanif' planificacion.id %}"><button type="submit">Corregir planificación</button>{% csrf_token %}</form></li>
                                 </ul>
                               </div>  
 

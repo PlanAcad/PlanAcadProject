@@ -110,4 +110,34 @@ def AprobarPlanificacion(request, id):
         print("no todos los campos activos")
         data_json = json.dumps(errores)
         url = '/planificacion/' + str(id) + '/datos-descriptivos' + '?data=' + data_json
-        return redirect(url) 
+        return redirect(url)
+
+def RevisarPlanificacion(request, id):
+    validacion_ok, validacion_bad, errores = validacionSecciones.ValidacionPlanificacion(id)
+    if(validacion_ok):
+        planificacion = Planificacion.objects.get(id=id)  
+        form = PlanificacionForm(request.POST, instance = planificacion)  
+        if form.is_valid():
+            instance = form.save(commit=False)
+            print(instance.estado)
+            instance.estado = "R"
+            print(instance.estado)  
+            instance.save()
+        return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
+    else:
+        print("no todos los campos activos")
+        data_json = json.dumps(errores)
+        url = '/planificacion/' + str(id) + '/datos-descriptivos' + '?data=' + data_json
+        return redirect(url)
+
+def CorregirPlanificacion(request, id):
+    planificacion = Planificacion.objects.get(id=id)  
+    form = PlanificacionForm(request.POST, instance = planificacion)  
+    if form.is_valid():
+        instance = form.save(commit=False)
+        print(instance.estado)
+        instance.estado = "C"
+        print(instance.estado)  
+        instance.save()
+    return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
+    

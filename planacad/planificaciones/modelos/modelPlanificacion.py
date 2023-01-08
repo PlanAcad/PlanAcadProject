@@ -7,7 +7,7 @@ class Planificacion(models.Model):
    id = models.AutoField(primary_key=True)
    estado = models.CharField(
         max_length=2,
-        choices=[('P', 'En proceso'),('A', 'Aprobada')]) 
+        choices=[('P', 'En proceso'),('A', 'Aprobada'),('R', 'En revision'),('C', 'A corregir')]) 
    fecha_creacion = models.DateTimeField(max_length=50, auto_now=True)
    fecha_modificacion = models.DateTimeField(auto_now=True)
    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE)
