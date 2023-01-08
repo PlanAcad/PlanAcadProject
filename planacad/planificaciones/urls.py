@@ -135,6 +135,8 @@ urlpatterns = [
 
    # Estado planificacion
     path('planificacion/<int:id>/cerrar-planificacion', viewPlanificacion.AprobarPlanificacion, name='aprobarPlanif'),
+    path('planificacion/<int:id>/revisar-planificacion', viewPlanificacion.RevisarPlanificacion, name='revisarPlanif'),
+    path('planificacion/<int:id>/corregir-planificacion', viewPlanificacion.CorregirPlanificacion, name='corregirPlanif'),
 
     # PAPELERA
     path('asignaturas/<int:id_asignatura>/papelera', viewAsignatura.PapeleraView, name='papelera'),

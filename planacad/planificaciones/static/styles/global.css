@@ -319,12 +319,19 @@ ul.multiple-select-list {
 .planif-state-card--aprobado {
     background-color: #76ca5a;
 }
+.planif-state-card--revision {
+    background-color: #f59b2e;
+}
+.planif-state-card--correccion {
+    background-color: #f50032;
+}
 
 .planif-state-card p {
     color: white;
     font-size: 0.75rem;
     margin: 0;
 }
+
 
 /**************
 *** CALENDARIO ***
