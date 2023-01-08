@@ -7,7 +7,14 @@ from django.http import HttpResponseRedirect
 from planificaciones.formularios.formDetalleProfesorCatedra import DetalleProfesorCatedraForm
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
-from planificaciones.modelos.modelPlanificacion import Planificacion 
+from planificaciones.modelos.modelPlanificacion import Planificacion
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
 
 
 ##Define request for Asignatura   
@@ -17,6 +24,18 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 2)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+
     if request.method == "POST":  
         form = DetalleProfesorCatedraForm(request.POST)  
         if form.is_valid():  
@@ -25,20 +44,27 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
                 instance.planificacion_id=planificacion.id
                 #Guardo
                 instance.save()
-                form.save_m2m()
-
-               # selectedTareas = form.cleaned_data.get('tareas')
-                #for tarea in selectedTareas:
-                 #   tarea_obj = TareasFunciones.objects.get(id = tarea.id)
-                  #  instance.tareas.add(tarea_obj)
-                    
+                form.save_m2m()                    
                 mensaje_exito="Añadimos el docente correctamente."  
-                 
             except:  
                  mensaje_error = "No pudimos añadir el docente."    
     else:  
-        form = DetalleProfesorCatedraForm()  
-    return render(request,'secciones/detalles-profesor-catedra.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+        form = DetalleProfesorCatedraForm()
+    #Agregar
+    context = {
+        'planificacion': planificacion,
+        'data': data,
+        'form':form,
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
+        'mensaje_exito': mensaje_exito, 
+        'mensaje_error': mensaje_error
+    }  
+    return render(request,'secciones/detalles-profesor-catedra.html', context) 
   
 
 def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorcatedra):  

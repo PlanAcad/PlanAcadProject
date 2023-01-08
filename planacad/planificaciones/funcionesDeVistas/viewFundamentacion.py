@@ -7,6 +7,14 @@ from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendari
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelFundamentacion import Fundamentacion
 from planificaciones.formularios.formFundamentacion import  FundamentacionForm
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
+
 ##Define request for Asignatura   
 def FundamentacionNew():      
         form = Fundamentacion()
@@ -32,7 +40,18 @@ def FundamentacionUpdate(request, id_planificacion):
     form = FundamentacionForm(instance = fundamentacion)
     mensaje_exito = None
     mensaje_error = None
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 3)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
     
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+
     if request.method == 'POST':  
         form = FundamentacionForm(request.POST,instance = fundamentacion)
         if form.is_valid():
@@ -42,8 +61,21 @@ def FundamentacionUpdate(request, id_planificacion):
                
             except:
                 mensaje_error = "No pudimos guardar los cambios."
-    
-    return render(request, 'secciones/fundamentacion.html', {'planificacion': planificacion,'fundamentacion': fundamentacion, 'form': form, 'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error})  
+    #Agregar
+    context = {
+        'planificacion': planificacion,
+        'fundamentacion': fundamentacion,
+        'form':form,
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
+        'mensaje_exito': mensaje_exito, 
+        'mensaje_error': mensaje_error
+    }  
+    return render(request, 'secciones/fundamentacion.html', context)  
 
 def FundamentacionDestroy(request, id):  
     fundamentacion = Fundamentacion.objects.get(id=id)  

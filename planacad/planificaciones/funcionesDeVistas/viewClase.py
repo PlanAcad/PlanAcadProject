@@ -14,6 +14,14 @@ from planificaciones.formularios.formResultadoDeAprendizaje import  ResultadoDeA
 from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
 from planificaciones.formularios.formCronogramaCreate import  CronogramaCreateForm
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
+
 
 ##Define request for Resultado de Aprendizaje   
 def ClasesView(request,id_planificacion): 
@@ -25,6 +33,17 @@ def ClasesView(request,id_planificacion):
     data = Clase.objects.filter(planificacion=planificacion).order_by('fecha_clase')
     datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
     existe_calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo).exists()
+     #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 8)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+
     if request.method == "POST":  
         form = ClaseForm(request.POST)
         if form.is_valid():  
@@ -45,7 +64,24 @@ def ClasesView(request,id_planificacion):
             form_create = CronogramaCreateForm()    
         except:
             mensaje_error = "No pudimos obtener los datos correctamente."
-    return render(request,'secciones/cronograma/index.html',{'planificacion':planificacion,'data':data,'form':form,'form_create': form_create, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito, 'cronograma_sintonizado':cronograma_sintonizado, 'existe_calendario':existe_calendario})  
+    #Agregar
+    context = {
+        'planificacion': planificacion,
+        'data':data,
+        'form':form,
+        'form_create': form_create,
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
+        'cronograma_sintonizado':cronograma_sintonizado, 
+        'existe_calendario':existe_calendario,
+        'mensaje_exito': mensaje_exito, 
+        'mensaje_error': mensaje_error
+    }  
+    return render(request,'secciones/cronograma/index.html',context)  
 
 def ClaseViewDetail(request,clase_id): 
     mensaje_error = None 

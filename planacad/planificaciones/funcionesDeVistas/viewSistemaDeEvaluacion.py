@@ -3,11 +3,29 @@ from django.shortcuts import render, redirect
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelActividad import Actividad
 from planificaciones.formularios.formSistemaDeEvaluacion import ActividadForm
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
 
 
 def SistemaDeEvaluacion(request, planificacion_id): 
     planificacion = Planificacion.objects.get(id=planificacion_id)    
-    actividades = Actividad.objects.filter(planificacion=planificacion)  
+    actividades = Actividad.objects.filter(planificacion=planificacion)
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = planificacion_id) & Q(seccion = 7)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
     form = ActividadForm()
     if request.method == 'POST':
@@ -27,7 +45,13 @@ def SistemaDeEvaluacion(request, planificacion_id):
     context = {
         "planificacion": planificacion,
         "actividades": actividades,
-        "form": form
+        "form": form,
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
+        'existen_correcciones_pendientes':existen_correcciones_pendientes
     }
 
     return render(request,"secciones/sistema-de-evaluacion/index.html", context) 

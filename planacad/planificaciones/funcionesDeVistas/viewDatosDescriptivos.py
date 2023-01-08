@@ -3,12 +3,18 @@ from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import json
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico  
 ## import model and form
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
+from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formDatosDescriptivos import  DatosDescriptivosForm
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
 
 ##Define request for Asignatura   
 def DatosDescriptivosNew(asignatura_id, carrera_id):      
@@ -28,9 +34,20 @@ def DatosDescriptivosNew(asignatura_id, carrera_id):
 def DatosDescriptivosUpdate(request, id_planificacion):
     data = None
     errores = []  
-    planificacion = Planificacion.objects.get(id=id_planificacion)
+    planificacion = Planificacion.objects.get(id=id_planificacion) 
     datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
     form = DatosDescriptivosForm(instance = datosDescriptivos)
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 1)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
+    for item in correcciones:
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+    
     mensaje_exito = None
     mensaje_error = None
     data_json = request.GET.get('data')
@@ -45,8 +62,23 @@ def DatosDescriptivosUpdate(request, id_planificacion):
                
             except:
                 mensaje_error = "No pudimos guardar los cambios."
-    
-    return render(request, 'secciones/datos-descriptivos.html', {'planificacion': planificacion,'datosDescriptivos': datosDescriptivos, 'form': form, 'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error, 'errores': data}) 
+    #Agregar
+    context = {
+        'planificacion': planificacion,
+        'form': form,
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
+        'datosDescriptivos': datosDescriptivos,
+        'existen_correcciones_pendientes': existen_correcciones_pendientes,
+        'mensaje_exito': mensaje_exito, 
+        'mensaje_error': mensaje_error,
+        'errores': data
+    }
+
+    return render(request, 'secciones/datos-descriptivos.html', context) 
 
 ## Estos de abajo no se usan
 def DatosDescriptivosView(request):  

@@ -29,6 +29,9 @@
     desarrollo de los Resultados de Aprendizaje de la asignatura en relación con
     el nivel de aporte a las sub-competencias y Competencias
 </h2>
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
 <div class="seccion__card">
     {% if mensaje_exito %}
     <div class="alert alert-success">{{mensaje_exito}}</div>
@@ -75,7 +78,9 @@
     <div class="alert alert-danger">{{form.errors}}</div>
     {% endif %}
 </div>
-
+{% with seccion=4 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
 <!-- Modal resultado de aprendizaje previo -->
 <div
     class="modal fade"
