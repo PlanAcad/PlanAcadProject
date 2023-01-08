@@ -140,6 +140,7 @@ urlpatterns = [
     
     #Correcciones
     path('planificacion/<int:id_planificacion>/<int:id_seccion>/agregar-correccion', viewCorreccion.CorreccionNew, name='agregarCorreccion'),
+    path('planificacion/<int:id_correccion>/resolver-correccion', viewCorreccion.CorreccionUpdate, name='resolverCorreccion'),
 
 
 ]

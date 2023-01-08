@@ -39,7 +39,6 @@ def DatosDescriptivosUpdate(request, id_planificacion):
     existen_correcciones_pendientes = None
     correccion = CorreccionForm()
     for item in correcciones:
-        print(item.estado)
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
     

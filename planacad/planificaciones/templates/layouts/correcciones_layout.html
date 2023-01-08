@@ -69,7 +69,16 @@ Añadir correccion
 
 {% if correcciones %}
     {% for correccion in correcciones %}
-      <li>{{ correccion.correccion|default:""}}</p>
+        <form enctype= multipart/form-data
+        method="POST"
+        action="{% url 'planificaciones:resolverCorreccion' correccion.id %}">        
+            <button type="submit" class="btn btn-primary">
+                Aprobar
+            </button>
+                {% csrf_token %}    
+            <li>{{ correccion.correccion|default:""}} Estado:{{correccion.estado|default:""}}</li>
+            
+        </form>
         {% if correccion.comentarios.all %}
           {% for comentario in correccion.comentarios.all %}
           <hr class="m-1">
