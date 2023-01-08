@@ -8,6 +8,10 @@ from planificaciones.formularios.formCondicion import  CondicionAprobacionDirect
 from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
 
 def AprobacionDirecta(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
@@ -16,7 +20,10 @@ def AprobacionDirecta(request, id_planificacion):
     mensaje_error = None
     #Agregar
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 71)).prefetch_related('comentarios')
-    correccion = CorreccionForm()
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
     
     if request.method == 'POST':  
         form = CondicionAprobacionDirectaForm(request.POST,instance = planificacion)
@@ -33,7 +40,10 @@ def AprobacionDirecta(request, id_planificacion):
         'planificacion': planificacion,
         'form': form, 
         'correcciones':correcciones,
-        'correccion_form': correccion,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
         'mensaje_exito': mensaje_exito, 
         'mensaje_error': mensaje_error
     }
@@ -50,7 +60,10 @@ def AprobacionCursada(request, id_planificacion):
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 72)).prefetch_related('comentarios')
     existen_correcciones_pendientes = None
-    correccion = CorreccionForm()
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
     for item in correcciones:
         print(item.estado)
         if(item.estado == "G"):
@@ -71,7 +84,10 @@ def AprobacionCursada(request, id_planificacion):
         'planificacion': planificacion,
         'form': form, 
         'correcciones':correcciones,
-        'correccion_form': correccion,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
         'existen_correcciones_pendientes':existen_correcciones_pendientes,
         'mensaje_exito': mensaje_exito, 
         'mensaje_error': mensaje_error

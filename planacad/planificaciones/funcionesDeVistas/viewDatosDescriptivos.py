@@ -11,7 +11,10 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
 from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formDatosDescriptivos import  DatosDescriptivosForm
+#Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
 
 ##Define request for Asignatura   
 def DatosDescriptivosNew(asignatura_id, carrera_id):      
@@ -37,7 +40,10 @@ def DatosDescriptivosUpdate(request, id_planificacion):
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 1)).prefetch_related('comentarios')
     existen_correcciones_pendientes = None
-    correccion = CorreccionForm()
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
     for item in correcciones:
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
@@ -61,7 +67,10 @@ def DatosDescriptivosUpdate(request, id_planificacion):
         'planificacion': planificacion,
         'form': form,
         'correcciones':correcciones,
-        'correccion_form': correccion,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
         'datosDescriptivos': datosDescriptivos,
         'existen_correcciones_pendientes': existen_correcciones_pendientes,
         'mensaje_exito': mensaje_exito, 

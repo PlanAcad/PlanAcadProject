@@ -69,22 +69,86 @@ Añadir correccion
 
 {% if correcciones %}
     {% for correccion in correcciones %}
-        <form enctype= multipart/form-data
-        method="POST"
-        action="{% url 'planificaciones:resolverCorreccion' correccion.id %}">        
-            <button type="submit" class="btn btn-primary">
-                Aprobar
+        <div class="seccion__card">
+            <form enctype= multipart/form-data
+            method="POST"
+            action="{% url 'planificaciones:resolverCorreccion' correccion.id %}">        
+                <button type="submit" class="btn btn-primary">
+                    Aprobar
+                </button>
+                    {% csrf_token %}    
+                <li>{{ correccion.correccion|default:""}} Estado:{{correccion.estado|default:""}}</li>
+            </form>
+            <button
+            type="button"
+            class="btn btn-primary mt-4"
+            data-toggle="modal"
+            data-target="#modal-agregar-comentario-{{correccion.id}}"
+            >
+            Añadir comentario
             </button>
-                {% csrf_token %}    
-            <li>{{ correccion.correccion|default:""}} Estado:{{correccion.estado|default:""}}</li>
-            
-        </form>
-        {% if correccion.comentarios.all %}
-          {% for comentario in correccion.comentarios.all %}
-          <hr class="m-1">
-          <li>{{ comentario.comentario|default:""}}</p>
-          {% endfor %}        
-        {% endif %}
+
+            <div  class="modal fade"
+            id="modal-agregar-comentario-{{correccion.id}}"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="labelAgregarComentario"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="labelAgregarComentario">
+                            Añadir Comentario
+                        </h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <form
+                            method="POST"
+                            action="{% url 'planificaciones:agrergarComentario' correccion.id seccion %}"
+                            >
+                            {% csrf_token %}
+                            <input type="hidden" name="form_name" value="agregar-comentario"/>
+
+
+                            <label>Descripción</label>
+                            <p>{{comentario_form.comentario}}</p>
+
+                            {% if errors %}
+                            <div class="alert alert-danger">
+                                {{errors}}
+                            </div>
+                            {% endif %}
+
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-primary"
+                                    data-dismiss="modal"
+                                >
+                                    Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    Guardar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+            {% if correccion.comentarios.all %}
+            {% for comentario in correccion.comentarios.all %}
+            <hr class="m-1">
+            <li>{{ comentario.comentario|default:""}}</p>
+            {% endfor %}        
+            {% endif %}
+        </div>
     {% endfor %}
 {% else %}
   <div class="seccion__card">No posee correcciones.</div>    
