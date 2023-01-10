@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+
+<body id="body-register">
+    <div class="main-register">
+        <h1 class="title-register">Crear Usuario</h1>
+        
+        <form class="form-register" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <!-- <input class="input-user" type="text"  placeholder="Usuario">
+            <input class="input-password" type="password" placeholder="Contraseña"> -->
+
+
+            <div style="text-align: center;">
+                <a href="/login" class="mt-4 btn btn-primary">Registrar</a>
+            </div>
+        </form>
+                
+    </div>   
+</body>
+
+{% endblock %}

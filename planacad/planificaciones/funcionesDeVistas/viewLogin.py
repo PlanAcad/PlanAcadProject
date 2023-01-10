@@ -1,6 +1,6 @@
 
 # Para usar los objetos y/o funciones de 'redirect'
-from django.shortcuts import render, redirect  
+from django.shortcuts import render, redirect 
 ## import model and form
 from planificaciones.modelos.modelProfesor import Profesor
 

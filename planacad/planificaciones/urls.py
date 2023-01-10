@@ -1,7 +1,7 @@
 from django.urls import path
 from django.shortcuts import render
 from . import views
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura, viewLogin,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
+from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
@@ -10,8 +10,8 @@ from planificaciones.funcionesDeVistas import viewExportar
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios
-
-
+from planificaciones.funcionesDeVistas.registration import  viewRegister
+from django.contrib.auth.views import LoginView,LogoutView
 import planificaciones
 
 
@@ -20,8 +20,11 @@ import planificaciones
 app_name = 'planificaciones'
 urlpatterns = [
     path('', views.IndexView, name='index'),
-    path('login', viewLogin.LoginView, name='login'),
-
+    #Accounts
+    path('login/', LoginView.as_view(), name='login_url'),
+    path('register/', viewRegister.registerView, name='register_url'),
+    path('logout', LogoutView.as_view(), name='logout'),
+        
     #Componentes
     path('componentes', views.ComponentesView, name='componentes'),
 
@@ -146,5 +149,5 @@ urlpatterns = [
     path('planificacion/<int:id_correccion>/resolver-correccion', viewCorreccion.CorreccionUpdate, name='resolverCorreccion'),
     #Comentarios
     path('planificacion/<int:id_correccion>/<int:id_seccion>/agregar-comentario', viewComentarios.ComentarioNew, name='agrergarComentario'),
-
+    
 ]

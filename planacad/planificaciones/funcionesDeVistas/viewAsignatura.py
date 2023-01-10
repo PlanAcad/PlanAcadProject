@@ -27,7 +27,7 @@ def AsignaturaNew(request):
 def AsignaturasView(request):  
     asignaturas = Asignatura.objects.all()  
     return render(request,"asignaturas/index.html",{'asignaturas':asignaturas})  
-    
+
 def AsignaturaDetailView(request, id, error = 'False'):
     print(error)
     mostrar_error = error == 'True'  
