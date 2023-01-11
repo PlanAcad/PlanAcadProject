@@ -7,13 +7,12 @@
         <form class="form-register" method="POST">
             {% csrf_token %}
             {{form.as_p}}
-            <!-- <input class="input-user" type="text"  placeholder="Usuario">
-            <input class="input-password" type="password" placeholder="Contraseña"> -->
-
-
             <div style="text-align: center;">
-                <a href="/login" class="mt-4 btn btn-primary">Registrar</a>
+                <button type="submit" class="mt-4 btn btn-primary" >Registrar</button>
             </div>
+            {% if form.errors %}
+                <p>{{form.errors}}</p>
+            {% endif %}
         </form>
                 
     </div>   
