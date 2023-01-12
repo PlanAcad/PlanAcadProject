@@ -6,7 +6,7 @@ from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelClase import Clase
 from planificaciones.modelos.modelContenido import Contenido
 from planificaciones.modelos.modelPlanificacion import Planificacion
-from planificaciones.modelos.modelProfesor import Profesor
+from django.contrib.auth.models import User
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.formularios.formClase import  ClaseForm
 from planificaciones.formularios.formResultadoDeAprendizaje import  ResultadoDeAprendizaje
@@ -58,7 +58,7 @@ def ClasesView(request,id_planificacion):
     else:  
         try:
             form = ClaseForm()
-            form.fields['profesor_a_cargo'].queryset = Profesor.objects.filter(asignatura__id = planificacion.asignatura_id)
+            form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
             form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
             form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
             form_create = CronogramaCreateForm()    
@@ -114,7 +114,7 @@ def ClaseUpdate(request, id_planificacion, id_clase):
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = ClaseForm(instance=data)
-        form.fields['profesor_a_cargo'].queryset = Profesor.objects.filter(asignatura__id = planificacion.asignatura_id)
+        form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
         form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)  
     return render(request,'secciones/cronograma/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 

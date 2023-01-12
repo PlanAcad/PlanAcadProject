@@ -1,4 +1,4 @@
-
+from django.contrib.auth.decorators import login_required
 # Para usar los objetos y/o funciones de 'redirect'
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from django.shortcuts import render, redirect  
@@ -24,10 +24,20 @@ def AsignaturaNew(request):
                 pass  
     return render(request,'index.html') 
 
-def AsignaturasView(request):  
-    asignaturas = Asignatura.objects.all()  
-    return render(request,"asignaturas/index.html",{'asignaturas':asignaturas})  
-
+@login_required
+def AsignaturasView(request):
+    # Obtener materias del profesor
+    asignaturas = None
+    calendario = None
+    usergroup = request.user.groups.values_list('name',flat = True)
+    if "profesor" in  usergroup :
+        asignaturas = Asignatura.objects.filter(profesor=request.user)
+        calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+    elif "alumno" in usergroup:
+        asignaturas = Asignatura.objects.all()
+        calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+    return render(request,'asignaturas/index.html', {'asignaturas':asignaturas, 'calendario': calendario})
+    
 def AsignaturaDetailView(request, id, error = 'False'):
     print(error)
     mostrar_error = error == 'True'  

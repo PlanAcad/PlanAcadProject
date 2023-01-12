@@ -110,5 +110,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/profesores/1'
+LOGIN_REDIRECT_URL = '/asignaturas/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'

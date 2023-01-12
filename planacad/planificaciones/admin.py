@@ -5,7 +5,6 @@ from .modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico
 from .modelos.modelAsignatura import Asignatura
 from .modelos.modelCarrera import Carrera
 from .modelos.modelPlanificacion import Planificacion
-from .modelos.modelProfesor import Profesor
 from .modelos.modelDatosDescriptivos import DatosDescriptivos
 from .modelos.modelFundamentacion import Fundamentacion
 from .modelos.modelTipoDeEvaluacion import TipoDeEvaluacion
@@ -37,7 +36,6 @@ from .modelos.modelCorrecciones import Correccion
 admin.site.register(Asignatura)
 admin.site.register(Carrera)
 admin.site.register(Planificacion)
-admin.site.register(Profesor)
 admin.site.register(Categoria)
 admin.site.register(Dedicacion)
 admin.site.register(Situacion)

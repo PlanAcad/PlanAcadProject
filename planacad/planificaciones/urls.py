@@ -29,7 +29,7 @@ urlpatterns = [
     path('componentes', views.ComponentesView, name='componentes'),
 
     #Asignaturas
-    path('asignaturas', viewAsignatura.AsignaturasView, name='asignaturas'),
+    path('asignaturas/', viewAsignatura.AsignaturasView, name='asignaturas'),
     path('asignaturas/<int:id>', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:id>/<str:error>/', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:asignatura_id>/nueva-planificacion', viewPlanificacion.PlanificacionNew, name='nueva'),
@@ -39,7 +39,7 @@ urlpatterns = [
 
 
     #Profesor
-    path('profesores/<int:id>', viewProfesor.ProfesorDetailView, name='profesorDetail'),
+    path('profesores/', viewProfesor.ProfesorDetailView, name='profesorDetail'),
 
     #Planificacion    
     path('planificacion/<int:id>', viewPlanificacion.PlanificacionDetailView, name='planificacionDetail'),

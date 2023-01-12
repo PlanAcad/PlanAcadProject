@@ -1,6 +1,6 @@
 # Para usar los objetos y/o funciones de 'redirect'
 from django.shortcuts import render, redirect
-from planificaciones.modelos.modelProfesor import Profesor
+from django.contrib.auth.models import User
 from planificaciones.formularios.formDetalleProfesorCatedra import DetalleProfesorCatedraForm
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra  
 from planificaciones.modelos.modelPlanificacion import Planificacion
@@ -41,10 +41,10 @@ def DistribucionDeTareas(request, id_planificacion):
             try:  
                 nombre_profesor = form.cleaned_data["nombre_profesor"]
                 apellido_profesor = form.cleaned_data["apellido_profesor"]
-                profesor = Profesor.objects.filter(nombre__iexact=nombre_profesor).filter(apellido__iexact=apellido_profesor).first()
+                profesor = User.objects.filter(nombre__iexact=nombre_profesor).filter(apellido__iexact=apellido_profesor).first()
 
                 if not profesor:
-                    profesor = Profesor.objects.create(nombre=nombre_profesor, apellido=apellido_profesor)
+                    profesor = User.objects.create(nombre=nombre_profesor, apellido=apellido_profesor)
 
                 distribucion_de_tareas = form.save(commit=False)
                 distribucion_de_tareas.planificacion_id = planificacion.id
