@@ -26,7 +26,6 @@ def registerView(request):
         }
             return render(request,'registration/register.html', context)
     else:
-        print("no guardo")
         form = CreateUserForm()
         context = {
             'form': form 
