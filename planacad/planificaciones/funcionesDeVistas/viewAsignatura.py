@@ -33,7 +33,7 @@ def AsignaturasView(request):
     if "profesor" in  usergroup :
         asignaturas = Asignatura.objects.filter(profesor=request.user)
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
-    elif "alumno" in usergroup:
+    elif "alumno" in usergroup: 
         asignaturas = Asignatura.objects.all()
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
     return render(request,'asignaturas/index.html', {'asignaturas':asignaturas, 'calendario': calendario})

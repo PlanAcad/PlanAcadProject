@@ -27,6 +27,8 @@ from .modelos.modelUnidad import Unidad
 from .modelos.modelClase import Clase
 from .modelos.modelComentarios import Comentario
 from .modelos.modelCorrecciones import Correccion
+from .modelos.modelCarreraUsuario import CarreraUsuario
+
 
 
 
@@ -59,6 +61,7 @@ admin.site.register(Clase)
 admin.site.register(FechaCalendarioAcademico)
 admin.site.register(Comentario)
 admin.site.register(Correccion)
+admin.site.register(CarreraUsuario)
 
 
 
