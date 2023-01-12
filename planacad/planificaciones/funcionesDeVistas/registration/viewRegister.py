@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from planificaciones.formularios.registration.formRegistration import CreateUserForm
 from django.shortcuts import render, redirect
 
@@ -7,7 +8,10 @@ def registerView(request):
         form = CreateUserForm(request.POST)
         print("guardo")
         if form.is_valid():
-            form.save()
+            user =form.save()
+            group = Group.objects.get(id=request.POST["groups"])
+            user.groups.add(group)
+            user.save()
             return redirect('planificaciones:login_url')
         else:
             context = {
