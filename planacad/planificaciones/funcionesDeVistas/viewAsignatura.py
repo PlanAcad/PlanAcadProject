@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from planificaciones.formularios.formAsignatura import AsignaturaForm 
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
+from planificaciones.modelos.modelCarreraUsuario import CarreraUsuario
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
 from datetime import datetime
@@ -30,8 +31,14 @@ def AsignaturasView(request):
     asignaturas = None
     calendario = None
     usergroup = request.user.groups.values_list('name',flat = True)
-    if "profesor" in  usergroup :
+    if "profesor" in  usergroup  :
         asignaturas = Asignatura.objects.filter(profesor=request.user)
+        calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+    elif "jefe de carrera" in  usergroup or "consejo" in  usergroup:
+        carrera_usuario = CarreraUsuario.objects.get(usuario_id = request.user.id)
+        carrera = Carrera.objects.get(id = carrera_usuario.carrera_id) 
+        asignaturas = Asignatura.objects.filter(carrera = carrera)
+        print(asignaturas)
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
     elif "alumno" in usergroup: 
         asignaturas = Asignatura.objects.all()
