@@ -31,10 +31,10 @@ def AsignaturasView(request):
     asignaturas = None
     calendario = None
     usergroup = request.user.groups.values_list('name',flat = True)
-    if "profesor" in  usergroup  :
+    if "profesor" in  usergroup or "consejo" in  usergroup :
         asignaturas = Asignatura.objects.filter(profesor=request.user)
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
-    elif "jefe de carrera" in  usergroup or "consejo" in  usergroup:
+    elif "jefe de carrera" in  usergroup :
         carrera_usuario = CarreraUsuario.objects.get(usuario_id = request.user.id)
         carrera = Carrera.objects.get(id = carrera_usuario.carrera_id) 
         asignaturas = Asignatura.objects.filter(carrera = carrera)
