@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
-from planificaciones.modelos.modelCarreraUsuario import CarreraUsuario
+from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.formularios.registration.formRegistration import CreateUserForm
 from django.shortcuts import render, redirect
 
@@ -12,12 +12,14 @@ def registerView(request):
             user =form.save()
             group = Group.objects.get(id=request.POST["groups"])
             user.groups.add(group)
+            carreras = Carrera.objects.get(id = request.POST["carrera"])
+            user.carrera.add(carreras)
             user.save()
 
-            carreraUser = CarreraUsuario()
-            carreraUser.carrera_id = request.POST["carrera"]
-            carreraUser.usuario_id = user.id
-            carreraUser.save()
+            # carreraUser = CarreraUsuario()
+            # carreraUser.carrera_id = request.POST["carrera"]
+            # carreraUser.usuario_id = user.id
+            # carreraUser.save()
 
             return redirect('planificaciones:asignaturas')
         else:
