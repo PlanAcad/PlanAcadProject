@@ -21,7 +21,7 @@ def registerView(request):
             # carreraUser.usuario_id = user.id
             # carreraUser.save()
 
-            return redirect('planificaciones:asignaturas')
+            return redirect('planificaciones:usuarios')
         else:
             context = {
             'form': form 

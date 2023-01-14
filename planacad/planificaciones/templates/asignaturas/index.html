@@ -29,11 +29,14 @@
                                     <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                                   </svg>
                                 </div>
-                                <div class="card-footer p-2 m-0">                                
+                                {% csrf_token %}
+                              </a>
+                              <a class="card-footer p-0 m-0" href="{% url 'planificaciones:newAsignatura' %}" style="text-decoration: none">
+                                <div class="p-2 m-0">                                
                                     <p class="m-0">Crear Asignatura</p>
                                 </div>
                                 {% csrf_token %}
-                              </a>
+                            </a>
                             </div>
                           </div>
                       {% endif %}

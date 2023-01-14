@@ -13,15 +13,7 @@
                 </a>
             </h1>
             <div class="flex__between__center">
-                {% if request.user|has_group:"jefe de carrera" %}
-                    <a
-                    class="item-subnavbar"
-                    href="{% url 'planificaciones:register_url' %}"
-                    >
-                        Añadir nuevo usuario
-                    </a>
-
-                {% endif %}
+                
                 <h6 class="mb-0 px-2">{{ user.last_name }}</h6>
                 <a class="item icon" href="{% url 'planificaciones:logout' %}">
                     <svg
@@ -60,6 +52,15 @@
                 {% endif %}
             </div>
             <div> 
+                    {% if request.user|has_group:"jefe de carrera" %}
+                        <a
+                        class="item-subnavbar"
+                        href="{% url 'planificaciones:usuarios' %}"
+                        >
+                            Usuario
+                        </a>
+
+                    {% endif %}
                     <a
                         class="item-subnavbar"
                         href="#"

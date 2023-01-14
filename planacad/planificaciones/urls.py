@@ -9,8 +9,8 @@ from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo, viewFecha
 from planificaciones.funcionesDeVistas import viewExportar
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
-from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios
-from planificaciones.funcionesDeVistas.registration import  viewRegister
+from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios, viewUsers
+from planificaciones.funcionesDeVistas.registration import  viewRegister, viewEditProfile
 from django.contrib.auth.views import LoginView,LogoutView
 import planificaciones
 
@@ -24,7 +24,9 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login_url'),
     path('register/', viewRegister.registerView, name='register_url'),
     path('logout', LogoutView.as_view(), name='logout'),
-        
+    path('users/',viewUsers.usersView,name = "usuarios" ),
+    path('users/<int:id>/edit',viewEditProfile.editUserView,name = "edit_profile" ),
+    
     #Componentes
     path('componentes', views.ComponentesView, name='componentes'),
 
@@ -33,7 +35,7 @@ urlpatterns = [
     path('asignaturas/<int:id>', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:id>/actualizar', viewAsignatura.AsignaturaUpdate, name='updateAsignatura'),
     path('asignaturas/crear', viewAsignatura.AsignaturaNew, name='newAsignatura'),
-    
+    #Asignaturas Detail
     path('asignaturas/<int:id>/<str:error>/', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:asignatura_id>/nueva-planificacion', viewPlanificacion.PlanificacionNew, name='nueva'),
     path('planificacion/<int:id>/eliminar-planif-temporal', viewPlanificacion.PlanificacionLogicDestroy, name='deleteLogicPlanificacion'),
