@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-
+{% load util %}
 <div class="layout d-flex flex-column min-vh-100">
     <!-- Add navbar -->
     {% include "layouts/navbar.html" %}
@@ -53,22 +53,29 @@
                       {% csrf_token %} {{ form }}
                     </form>
 
+                    {% if not planificaciones %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      <strong>No existen planificaciones!</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                      </div>
+                    {% endif %} 
 
+                    {% if request.user|has_group:"jefe de carrera" or request.user|has_group:"profesor" %}
+                          <div class="row mt-4">
+                            <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">
+                              <div class="card card-subject p-0 mb-5">
+                                <div class="p-3 text-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                  </svg>
+                                </div>
+                                <div class="card-footer p-2 m-0">                                
+                                    <p class="m-0">Crear planificación vacia</p>
+                                </div>
+                              </div>
+                            </div>
+                      {% endif %}
                     {% if planificaciones %}
-                      <div class="row mt-4">
-                        <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">
-                          <div class="card card-subject p-0 mb-5">
-                            <div class="p-3 text-center">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                              </svg>
-                            </div>
-                            <div class="card-footer p-2 m-0">                                
-                                <p class="m-0">Crear planificación vacia</p>
-                            </div>
-                          </div>
-                        </div>
-                        
                         {% for planificacion in planificaciones %}
                           <div class="col-md-4">
                             <div class="card card-subject p-0 mb-5">
@@ -203,12 +210,13 @@
                           </div>
                         {% endfor %}
                       </div>
-                    {% else %}
-                    <p>No se encontraron planificaciones.</p>
                     {% endif %}
 
                     {% else %}
-                    <h2>No existe la asignatura.</h2>
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>No existe la asignatura.</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                      </div>
                     {% endif %} 
                 </main>
                 <aside

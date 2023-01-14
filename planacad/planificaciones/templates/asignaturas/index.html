@@ -8,71 +8,81 @@
             <div class="row">
                 <main class="col seccion px-4 py-3">
                     {% if user.is_authenticated  %}
-                    <h2 style="margin-bottom: 0">
-                        Bienvenido {{ user.first_name  }}
-                    </h2>
-                    <span>Asignaturas</span>
-                    {% if request.user|has_group:"jefe de carrera" %}
-                      <div class="row mt-4">
-                        <div class="col-md-4">
-                          <div class="card card-subject p-0 mb-5">
-                            <a href="{% url 'planificaciones:newAsignatura' %}" style="text-decoration: none">
-                              <div class="p-3 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                                </svg>
-                              </div>
-                              <div class="card-footer p-2 m-0">                                
-                                  <p class="m-0">Crear Asignatura</p>
-                              </div>
-                              {% csrf_token %}
-                            </a>
-                          </div>
+                      <h2 style="margin-bottom: 0">
+                          Bienvenido {{ user.first_name  }}
+                      </h2>
+                      <span>Asignaturas</span>
+                      {% if not asignaturas %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          <strong>No existen asignaturas!</strong>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                         </div>
-                    {% endif %}
-                    {% if asignaturas %} 
-                        
-                            {% for asignatura in asignaturas %}
-                                <div class="col-md-4">
-                                        <a
-                                            href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
-                                            style="text-decoration: none"
-                                        >
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ asignatura.nombre_materia }}
-                                                    </h5>
-                                                    <p class="card-subject-subtitle mb-2 text-muted">
-                                                        <b>Año:</b> {{ asignatura.ano }}
-                                                    </p>
-                                                    <p class="card-subject-subtitle mb-2 text-muted">
-                                                        <b>Comisión:</b> {{ asignatura.comision }}
-                                                    </p>
-                                                    <p class="card-subject-subtitle mb-2 text-muted">
-                                                        <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
-                                                    </p>
-                                                </div>
-                                                {% if request.user|has_group:"jefe de carrera" %}
-                                                  <a class="card-footer" href="{% url 'planificaciones:updateAsignatura' asignatura.id %}">
-                                                      <button 
-                                                      style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                      type="submit">
-                                                      <p class="m-0">Modificar Asignatura</p>
-                                                      </button>
-                                                      {% csrf_token %}
-                                                    </a>
-                                                {% endif %}
-                                            </div>      
-                                        </a>
+                      {% endif %} 
+
+                      {% if request.user|has_group:"jefe de carrera" %}
+                        <div class="row mt-4">
+                          <div class="col-md-4">
+                            <div class="card card-subject p-0 mb-5">
+                              <a href="{% url 'planificaciones:newAsignatura' %}" style="text-decoration: none">
+                                <div class="p-3 text-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                  </svg>
                                 </div>
-                            {% endfor %} 
-                        </div>
-                    {% else %}
-                    <h2>No existen asignaturas.</h2>
-                    {% endif %} {% else %}
-                    <h2>No existe el usuario profesor.</h2>
-                    {% endif %}
+                                <div class="card-footer p-2 m-0">                                
+                                    <p class="m-0">Crear Asignatura</p>
+                                </div>
+                                {% csrf_token %}
+                              </a>
+                            </div>
+                          </div>
+                      {% endif %}
+                      
+                      {% if asignaturas %} 
+                          
+                              {% for asignatura in asignaturas %}
+                                  <div class="col-md-4">
+                                          <a
+                                              href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
+                                              style="text-decoration: none"
+                                          >
+                                              <div class="card card-subject p-0 mb-4">
+                                                  <div class="p-3">
+                                                      <h5 class="card-subject-title">
+                                                          {{ asignatura.nombre_materia }}
+                                                      </h5>
+                                                      <p class="card-subject-subtitle mb-2 text-muted">
+                                                          <b>Año:</b> {{ asignatura.ano }}
+                                                      </p>
+                                                      <p class="card-subject-subtitle mb-2 text-muted">
+                                                          <b>Comisión:</b> {{ asignatura.comision }}
+                                                      </p>
+                                                      <p class="card-subject-subtitle mb-2 text-muted">
+                                                          <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
+                                                      </p>
+                                                  </div>
+                                                  {% if request.user|has_group:"jefe de carrera" %}
+                                                    <a class="card-footer" href="{% url 'planificaciones:updateAsignatura' asignatura.id %}">
+                                                        <button 
+                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                        type="submit">
+                                                        <p class="m-0">Modificar Asignatura</p>
+                                                        </button>
+                                                        {% csrf_token %}
+                                                      </a>
+                                                  {% endif %}
+                                              </div>      
+                                          </a>
+                                  </div>
+                              {% endfor %} 
+                          </div>
+                      {% endif %}
+                  {% else %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      <strong>No existe el usuario profesor.</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                  {% endif %}
                 </main>
                 
                 <aside
