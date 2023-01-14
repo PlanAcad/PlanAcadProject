@@ -31,6 +31,9 @@ urlpatterns = [
     #Asignaturas
     path('asignaturas/', viewAsignatura.AsignaturasView, name='asignaturas'),
     path('asignaturas/<int:id>', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
+    path('asignaturas/<int:id>/actualizar', viewAsignatura.AsignaturaUpdate, name='updateAsignatura'),
+    path('asignaturas/crear', viewAsignatura.AsignaturaNew, name='newAsignatura'),
+    
     path('asignaturas/<int:id>/<str:error>/', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:asignatura_id>/nueva-planificacion', viewPlanificacion.PlanificacionNew, name='nueva'),
     path('planificacion/<int:id>/eliminar-planif-temporal', viewPlanificacion.PlanificacionLogicDestroy, name='deleteLogicPlanificacion'),

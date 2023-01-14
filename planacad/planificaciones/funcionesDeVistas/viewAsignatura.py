@@ -12,18 +12,20 @@ from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalend
 from datetime import datetime
 
 
-
-##Define request for Asignatura   
-def AsignaturaNew(request):  
-    if request.method == "POST":  
+def AsignaturaNew(request):
+    form = AsignaturaForm()
+    if request.method == "POST":
         form = AsignaturaForm(request.POST)  
-        if form.is_valid():  
-            try:  
-                form.save()  
-                return redirect('/')  
-            except:  
-                pass  
-    return render(request,'index.html') 
+        if form.is_valid():
+            print("guarda")
+            asig = form.save(commit=False)
+            asig.save()
+            form.save_m2m()
+            return redirect('planificaciones:asignaturas')
+    context = {
+        'form':form, 
+    }      
+    return render(request, 'asignaturas/add.html', context)
 
 @login_required
 def AsignaturasView(request):
@@ -43,7 +45,11 @@ def AsignaturasView(request):
     elif "alumno" in usergroup: 
         asignaturas = Asignatura.objects.all()
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
-    return render(request,'asignaturas/index.html', {'asignaturas':asignaturas, 'calendario': calendario})
+    context = {
+            'asignaturas': asignaturas,
+            'calendario':calendario, 
+        }  
+    return render(request,'asignaturas/index.html', context)
     
 def AsignaturaDetailView(request, id, error = 'False'):
     print(error)
@@ -57,19 +63,34 @@ def AsignaturaDetailView(request, id, error = 'False'):
     form = PlanificacionForm()  
 
     calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
-    if(not mostrar_error):
-        return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form, 'calendario': calendario})  
-    else:
-        print(mostrar_error)
-        return render(request,'asignaturas/detail.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones, 'form':form, 'calendario': calendario, 'error': "Ha ocurrido un error"})  
+    msgError = None
+    if mostrar_error:
+        msgError = "Ha ocurrido un error"
+    context = {
+            'planificaciones':planificaciones,
+            'asignatura': asignatura,
+            'carrera':carrera,
+            'form':form, 
+            'calendario': calendario,
+            'error':msgError
+        }
+    return render(request,'asignaturas/detail.html',context)  
 
 def AsignaturaUpdate(request, id):  
-    asignatura = Asignatura.objects.get(id=id)  
-    form = AsignaturaForm(request.POST, instance = asignatura)  
-    if form.is_valid():  
-        form.save()  
-        return redirect("/show")  
-    return render(request, 'edit.html', {'asignatura': asignatura})  
+    asignatura = Asignatura.objects.get(id=id)
+    form = AsignaturaForm(instance = asignatura)
+    if request.method == "POST":  
+        form = AsignaturaForm(request.POST, instance = asignatura)  
+        if form.is_valid():
+            asig = form.save(commit=False)
+            asig.save()
+            form.save_m2m()
+            return redirect('planificaciones:asignaturas')
+    context = {
+        'asignatura': asignatura,
+        'form':form, 
+    }      
+    return render(request, 'asignaturas/update.html', context)  
 
 def AsignaturaDestroy(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
@@ -80,5 +101,9 @@ def PapeleraView(request, id_asignatura):
     asignatura = Asignatura.objects.get(id=id_asignatura)  
     carrera = Carrera.objects.get(id=asignatura.carrera_id)
     planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=True).order_by('id')
-   
-    return render(request,'asignaturas/papelera.html', {'asignatura':asignatura, 'carrera':carrera, 'planificaciones':planificaciones})   
+    context = {
+            'planificaciones':planificaciones,
+            'asignatura': asignatura,
+            'carrera':carrera, 
+        }  
+    return render(request,'asignaturas/papelera.html', context)   
