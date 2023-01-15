@@ -59,9 +59,8 @@
                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                       </div>
                     {% endif %} 
-
+                    <div class="row mt-4">
                     {% if request.user|has_group:"jefe de carrera" or request.user|has_group:"profesor" %}
-                          <div class="row mt-4">
                             <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">
                               <div class="card card-subject p-0 mb-5">
                                 <div class="p-3 text-center">
@@ -82,6 +81,7 @@
                               <a
                               href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
                               style="text-decoration: none"
+                              "{% if request.user|has_group:'alumno' %}disabled{% endif %}"
                               >
                               <div class="planif-state-card float-right 
                               {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
