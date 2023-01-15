@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 # Para usar los objetos y/o funciones de 'redirect'
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from django.shortcuts import render, redirect  
@@ -46,7 +47,7 @@ def AsignaturasView(request):
         asignaturas = Asignatura.objects.all()
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
     context = {
-            'asignaturas': asignaturas,
+            'asignaturas': asignaturas.order_by('ano'),
             'calendario':calendario, 
         }  
     return render(request,'asignaturas/index.html', context)
@@ -58,7 +59,15 @@ def AsignaturaDetailView(request, id, error = 'False'):
     # Obtengo el nombre de la carrera
     carrera = Carrera.objects.get(id=asignatura.carrera_id)
     # Obtener planificaciones existentes
-    planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('id')
+    usergroup = request.user.groups.values_list('name',flat = True)
+    if "profesor" in  usergroup  :
+        planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('fecha_creacion')
+    elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
+        planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(Q(estado = 'R') | Q(estado = 'A')).filter(eliminada=False).order_by('fecha_creacion')
+    elif "alumno" in usergroup:
+        planificaciones = Planificacion.objects.filter(Q(asignatura=asignatura) and Q(estado = 'A')).filter(eliminada=False).order_by('fecha_creacion')
+    
+
     # Mandarle el form para crear planificaciones
     form = PlanificacionForm()  
 

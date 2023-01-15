@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-
+{% load util %}
 <div class="layout d-flex flex-column min-vh-100">
     {% include "layouts/navbar.html" with ano=planificacion.fecha_creacion.year %}
     <div class="bg-light flex-grow-1">
@@ -181,34 +181,56 @@
                             </svg>
                             EXPORTAR PLANIFICACION
                         </div>
-                        </a>   
-                        <a
-                        href="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"
-                        class=""
-                        title="APROBAR PLANIFICACION"
-                        >
-                        <div style="display: flex; align-items: center;">
-                            APROBAR PLANIFICACION
-                        </div>
-                        </a>   
-                        <a
-                        href="{% url 'planificaciones:revisarPlanif' planificacion.id %}"
-                        class=""
-                        title="REVISAR PLANIFICACION"
-                        >
-                        <div style="display: flex; align-items: center;">
-                            REVISAR PLANIFICACION
-                        </div>
-                        </a>   
-                        <a
-                        href="{% url 'planificaciones:corregirPlanif' planificacion.id %}"
-                        class=""
-                        title="CORREGIR PLANIFICACION"
-                        >
-                        <div style="display: flex; align-items: center;">
-                            CORREGIR PLANIFICACION
-                        </div>
-                        </a>                
+                        </a>
+                        {% if planificacion.estado == "P" %} 
+                        {% if request.user|has_group:"profesor" %}
+                            <a
+                            href="{% url 'planificaciones:revisarPlanif' planificacion.id %}"
+                            class=""
+                            title="REVISAR PLANIFICACION"
+                            >
+                            <div style="display: flex; align-items: center;">
+                                REVISAR PLANIFICACION
+                            </div>
+                            </a>   
+                        {% endif %}
+                      {% endif %}
+                      {% if planificacion.estado == "R" %}
+                        {% if request.user|has_group:"consejo" or request.user|has_group:"jefe de carrera"%}
+                            <a
+                            href="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"
+                            class=""
+                            title="APROBAR PLANIFICACION"
+                            >
+                            <div style="display: flex; align-items: center;">
+                                APROBAR PLANIFICACION
+                            </div>
+                            </a>   
+                            
+                            <a
+                            href="{% url 'planificaciones:corregirPlanif' planificacion.id %}"
+                            class=""
+                            title="CORREGIR PLANIFICACION"
+                            >
+                            <div style="display: flex; align-items: center;">
+                                CORREGIR PLANIFICACION
+                            </div>
+                            </a>
+                        {% endif %}
+                      {% endif %}
+                      {% if planificacion.estado == "C" %} 
+                          {% if request.user|has_group:"profesor" %}
+                            <a
+                            href="{% url 'planificaciones:revisarPlanif' planificacion.id %}"
+                            class=""
+                            title="REVISAR PLANIFICACION"
+                            >
+                            <div style="display: flex; align-items: center;">
+                                REVISAR PLANIFICACION
+                            </div>
+                            </a>   
+                          {% endif %}
+                      {% endif %}                  
                     </nav>
                 </aside>
                 <main class="col seccion px-4">

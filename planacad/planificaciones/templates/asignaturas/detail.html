@@ -105,17 +105,41 @@
                                     </svg>
                                   </button>
                                 <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
-                                  <li><button  data-toggle="modal" data-target="#modal-delete">Eliminar</button></li>
-                                  <li><form
-                                    method="POST"
-                                    action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"><button type="submit">Aprobar planificación</button>{% csrf_token %}</form></li>
-                                    <li><form
-                                      method="POST"
-                                      action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                  {% if request.user|has_group:"consejo" or request.user|has_group:"P"%}
+                                    <li><button  data-toggle="modal" data-target="#modal-delete">Eliminar</button></li>
+                                  {% endif %}
+                                  {% if planificacion.estado == "P" %} 
+                                    {% if request.user|has_group:"profesor" %}
                                       <li><form
                                         method="POST"
-                                        action="{% url 'planificaciones:corregirPlanif' planificacion.id %}"><button type="submit">Corregir planificación</button>{% csrf_token %}</form></li>
-                                </ul>
+                                        action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                    {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "R" %}
+                                    {% if request.user|has_group:"consejo" or request.user|has_group:"jefe de carrera"%}
+                                        <li><form
+                                          method="POST"
+                                          action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"><button type="submit">Aprobar planificación</button>{% csrf_token %}</form></li>
+                                        <li><form
+                                          method="POST"
+                                          action="{% url 'planificaciones:corregirPlanif' planificacion.id %}"><button type="submit">Corregir planificación</button>{% csrf_token %}</form></li>
+                                    {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "C" %} 
+                                      {% if request.user|has_group:"profesor" %}
+                                      <li><form
+                                        method="POST"
+                                        action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                      {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "A" %}
+                                      {% if request.user|has_group:"alumno" %}
+                                      <li><form
+                                        method="POST"
+                                        action="{% url 'planificaciones:printPdf' planificacion.id %}"><button type="submit">Ver planificación</button>{% csrf_token %}</form></li>
+                                      {% endif %}
+                                  {% endif %}           
+                                      </ul>
                               </div>  
 
 
