@@ -79,9 +79,10 @@
                           <div class="col-md-4">
                             <div class="card card-subject p-0 mb-5">
                               <a
-                              href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
+                              {% if not request.user|has_group:'alumno' %}href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"{% endif %}
+                              
                               style="text-decoration: none"
-                              "{% if request.user|has_group:'alumno' %}disabled{% endif %}"
+                              {% if request.user|has_group:'alumno' %}disabled{% endif %}
                               >
                               <div class="planif-state-card float-right 
                               {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
@@ -151,6 +152,7 @@
                                     <b>Ultima modificación:</b> {{ planificacion.fecha_modificacion.date }}
                                 </p>
                               </div>
+                              {% if not request.user|has_group:'alumno' %}
                                 {% if planificacion.estado == "A" %}
                                   <form
                                   method="POST"  class="card-footer" action="{% url 'planificaciones:copiarPlanif' planificacion.id %}">
@@ -164,6 +166,7 @@
                                   {% else %}
                                   <div class="card-footer p-2 m-0"><p class="m-0">Ir a la planificación</p></div>
                                   {% endif %}
+                                {% endif %}
                                
                               </a>
 
