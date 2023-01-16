@@ -43,9 +43,12 @@ def AsignaturasView(request):
             carrera = Carrera.objects.get(id = carreraUsuario.first().id) 
             asignaturas = Asignatura.objects.filter(carrera = carrera)
             calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
-    elif "alumno" in usergroup: 
-        asignaturas = Asignatura.objects.all()
-        calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+    elif "alumno" in usergroup:
+        if(carreraUsuario.count()==1):
+            carrera = Carrera.objects.get(Q(id = carreraUsuario.first().id) | Q(nombre_carrera = "Basicas") ) 
+            asignaturas = Asignatura.objects.filter(carrera = carrera) 
+            
+            calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
     context = {
             'asignaturas': asignaturas.order_by('ano'),
             'calendario':calendario, 
