@@ -7,12 +7,6 @@
         <div class="container-xl">
             <div class="row">
                 <main class="col seccion px-4 py-3">
-                  {% if error %}
-                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Ha ocurrido un error!</strong> La planificacion tiene un problema y no es posible tomarla como referencia
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                    </div>
-                  {% endif %} 
                     {% if error_message %}
                     <p><strong>{{ error_message }}</strong></p>
                     {% endif %} {% if form.subject.errors %}
@@ -52,6 +46,13 @@
                     <form id="nueva-planificacion-form" action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
                       {% csrf_token %} {{ form }}
                     </form>
+                    {{error}}
+                    {% if error %}
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Ha ocurrido un error!</strong> {{error}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                      </div>
+                    {% endif %}
 
                     {% if not planificaciones %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -106,7 +107,7 @@
                                     </svg>
                                   </button>
                                 <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
-                                  {% if request.user|has_group:"consejo" or request.user|has_group:"P"%}
+                                  {% if request.user|has_group:"consejo" or request.user|has_group:"profesor"%}
                                     <li><button  data-toggle="modal" data-target="#modal-delete">Eliminar</button></li>
                                   {% endif %}
                                   {% if planificacion.estado == "P" %} 

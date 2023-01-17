@@ -1,7 +1,9 @@
 # Para usar los objetos y/o funciones de 'redirect'
 import json
-from django.shortcuts import render, redirect  
+from django.shortcuts import render, redirect 
+from django.urls import reverse
 from django.http import HttpResponseRedirect
+from datetime import datetime
 
 ## import model and form
 from planificaciones.modelos.modelAsignatura import Asignatura
@@ -16,34 +18,43 @@ from planificaciones.validaciones import validacionSecciones
 def PlanificacionNew(request, asignatura_id):  
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = PlanificacionForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            print("form valid")
-            # Creo una instancia y no lo guardo aun
-            instance = form.save(commit=False)
-            # Asigno la asignatura, no hace falta ir a buscar el objeto
-            instance.asignatura_id = asignatura_id
-            # Obtengo el id de carrera 
-            asignatura = Asignatura.objects.get(id=asignatura_id) 
+        planificaciones = Planificacion.objects.filter(asignatura_id = asignatura_id).filter(eliminada = False)
+        current_year = datetime.now().year
+        existePlanificacionAñoActual = False
+        for planificacion in planificaciones:
+            if planificacion.fecha_creacion.year == current_year:
+                existePlanificacionAñoActual = True
 
-            # Creo secciones vacías           
-            datosDescriptivos = viewDatosDescriptivos.DatosDescriptivosNew(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
-            fundamentacion = viewFundamentacion.FundamentacionNew()
-            
-            # Vinculo los ids
-            instance.datos_descriptivos_id = datosDescriptivos.id
-            instance.fundamentacion_id = fundamentacion.id
-            
-            # Guardo el objeto definitivamente
-            instance.save()
-            # redirect to a new URL:
-            return HttpResponseRedirect('/asignaturas/'+str(asignatura_id))
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = PlanificacionForm()
-    return render(request, 'planificacion/index.html', {'form': form})
+        if not existePlanificacionAñoActual: 
+            # create a form instance and populate it with data from the request:
+            form = PlanificacionForm(request.POST)
+            # check whether it's valid:
+            if form.is_valid():
+                print("form valid")
+                # Creo una instancia y no lo guardo aun
+                instance = form.save(commit=False)
+                # Asigno la asignatura, no hace falta ir a buscar el objeto
+                instance.asignatura_id = asignatura_id
+                instance.estado = 'P'
+                # Obtengo el id de carrera 
+                asignatura = Asignatura.objects.get(id=asignatura_id) 
+
+                # Creo secciones vacías           
+                datosDescriptivos = viewDatosDescriptivos.DatosDescriptivosNew(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
+                fundamentacion = viewFundamentacion.FundamentacionNew()
+                
+                # Vinculo los ids
+                instance.datos_descriptivos_id = datosDescriptivos.id
+                instance.fundamentacion_id = fundamentacion.id
+                
+                # Guardo el objeto definitivamente
+                instance.save()
+                return redirect('planificaciones:datosDescriptivos',id_planificacion = instance.id)
+            # if a GET (or any other method) we'll create a blank form
+            else:
+                return redirect(reverse('planificaciones:asignaturaDetail', kwargs={'id' : asignatura_id, 'error': 'Ha ocurrido un error pruebalo nuevamente'} ))
+        else:
+            return redirect(reverse('planificaciones:asignaturaDetail', kwargs={'id' : asignatura_id, 'error': 'Ya existe una planificacion de este año'} ))
 
 def PlanificacionesView(request,idAsignatura):
     #Obtengo la asignatura

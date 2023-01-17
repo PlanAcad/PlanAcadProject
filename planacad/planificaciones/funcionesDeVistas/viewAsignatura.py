@@ -44,6 +44,7 @@ def AsignaturasView(request):
             asignaturas = Asignatura.objects.filter(carrera = carrera)
             calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
     elif "alumno" in usergroup:
+        carreraUsuario = request.user.carrera.all()
         if(carreraUsuario.count()==1):
             carrera = Carrera.objects.get(Q(id = carreraUsuario.first().id) | Q(nombre_carrera = "Basicas") ) 
             asignaturas = Asignatura.objects.filter(carrera = carrera) 
@@ -54,7 +55,8 @@ def AsignaturasView(request):
             'calendario':calendario, 
         }  
     return render(request,'asignaturas/index.html', context)
-    
+
+@login_required
 def AsignaturaDetailView(request, id, error = 'False'):
     print(error)
     mostrar_error = error == 'True'  
@@ -69,15 +71,12 @@ def AsignaturaDetailView(request, id, error = 'False'):
         planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(Q(estado = 'R') | Q(estado = 'A')).filter(eliminada=False).order_by('fecha_creacion')
     elif "alumno" in usergroup:
         planificaciones = Planificacion.objects.filter(Q(asignatura=asignatura) and Q(estado = 'A')).filter(eliminada=False).order_by('fecha_creacion')
-    
-
     # Mandarle el form para crear planificaciones
     form = PlanificacionForm()  
-
     calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
     msgError = None
     if mostrar_error:
-        msgError = "Ha ocurrido un error"
+        msgError = "La planificacion tiene un problema y no es posible tomarla como referencia"
     context = {
             'planificaciones':planificaciones,
             'asignatura': asignatura,
