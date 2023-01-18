@@ -124,6 +124,7 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas', viewDistribucionDeTareas.DistribucionDeTareas, name='distribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/edit/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.UpdateDistribucionDeTareas, name='updateDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/delete/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.DeleteDistribucionDeTareas, name='deleteDistribucionDeTareas'),
+    path('planificacion/<int:id_planificacion>/distribucion-de-tareas-planif', viewDistribucionDeTareas.UpdateDistribucionDeTareasPlanif, name='distribucionTareasPlanif'),
     
  
     # Seccion 13 - Justificacion (Ordenanza 604)

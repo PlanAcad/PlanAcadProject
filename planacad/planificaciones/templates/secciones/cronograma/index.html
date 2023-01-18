@@ -31,7 +31,7 @@
                 <td class="">
                   <ul>
                     {% for profesor in fila.profesor_a_cargo.all %}
-                    <p><li>{{ profesor.nombre }} {{profesor.apellido}}</li></p>
+                    <p><li>{{ profesor.first_name }} {{profesor.last_name}}</li></p>
                     {% endfor %}
                   </ul>
                 </td>
