@@ -70,7 +70,7 @@ def AsignaturaDetailView(request, id, error = 'False'):
     elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
         planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(Q(estado = 'R') | Q(estado = 'A')).filter(eliminada=False).order_by('fecha_creacion')
     elif "alumno" in usergroup:
-        planificaciones = Planificacion.objects.filter(Q(asignatura=asignatura) and Q(estado = 'A')).filter(eliminada=False).order_by('fecha_creacion')
+        planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(estado = 'A').filter(eliminada=False).order_by('fecha_creacion')
     # Mandarle el form para crear planificaciones
     form = PlanificacionForm()  
     calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
