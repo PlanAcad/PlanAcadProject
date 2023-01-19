@@ -38,7 +38,6 @@ def DistribucionDeTareas(request, id_planificacion):
     form = DetalleProfesorCatedraForm()
     if request.method == 'POST':
         form = DetalleProfesorCatedraForm(request.POST)
-        print(form)
         if form.is_valid():
             try:  
                 nombre_profesor = form.cleaned_data["nombre_profesor"]
@@ -174,8 +173,7 @@ def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcate
     mensaje_error = None
 
     if request.method == "POST":  
-        form = DetalleProfesorCatedraForm(request.POST, instance=data)  
-        print(form)
+        form = DetalleProfesorCatedraForm(request.POST, instance=data) 
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)

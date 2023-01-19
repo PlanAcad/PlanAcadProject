@@ -94,7 +94,7 @@
               <form method="POST" action="{% url 'planificaciones:deleteDistribucionDeTareas' planificacion.id data.id %}">
                   {% csrf_token %}
                   
-                  <p>Estás por eliminar al profesor: {{data.profesor.nombre}} {{data.profesor.apellido}} </p>
+                  <p>Estás por eliminar al profesor: {{data.profesor.first_name}} {{data.profesor.last_name}} </p>
                   <p><b>Desea eliminar la fila correspondiente?</b> </p>
 
                   {% if form.errors %}

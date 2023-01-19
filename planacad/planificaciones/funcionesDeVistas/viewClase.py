@@ -47,12 +47,18 @@ def ClasesView(request,id_planificacion):
     if request.method == "POST":  
         form = ClaseForm(request.POST)
         if form.is_valid():  
-            try:  
+            try:
+                print("entro")  
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
+                if(data):
+                    instance.numero_de_clase_o_semana = data.last().numero_de_clase_o_semana
+                else:
+                    instance.numero_de_clase_o_semana = 1
                 instance.save()
                 form.save_m2m()
-                mensaje_exito="Añadimos la clase correctamente."  
+                mensaje_exito="Añadimos la clase correctamente." 
+                data =  Clase.objects.filter(planificacion=planificacion).order_by('fecha_clase')
             except:  
                  mensaje_error = "No pudimos añadir la clase."    
     else:  
@@ -104,6 +110,7 @@ def ClaseUpdate(request, id_planificacion, id_clase):
             try: 
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
+
                 #Guardo
                 instance.save()
                 form.save_m2m()
@@ -179,10 +186,10 @@ def CronogramaCreate(request,id_planificacion):
          print(len(dias_cronograma))
          try:  
             for i in dias_cronograma:
-                print("hola")  
                 instance = Clase()
                 instance.planificacion_id=id_planificacion
                 instance.fecha_clase=i.fecha
+                instance.numero_de_clase_o_semana = i
                 instance.save()
             planificacion.sincronizado_calendario_academico = True
             planificacion.save()
