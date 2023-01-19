@@ -6,12 +6,13 @@ from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorC
 class DetalleProfesorCatedraForm(forms.ModelForm):
     profesor = forms.ModelChoiceField(
         queryset= User.objects.filter(groups= Group.objects.get(name='profesor'))) 
-    actividades = forms.CharField(widget=forms.Textarea())
+    
     nombre_profesor = forms.CharField(required=False) 
     apellido_profesor = forms.CharField(required=False) 
+    actividades = forms.CharField(widget=forms.Textarea())
     class Meta:  
         model = DetalleProfesorCatedra         
-        fields = ['nombre_profesor', 'apellido_profesor', 'profesor', 'categoria', 'situacion', 'dedicacion', 'tareas']
+        fields = ['nombre_profesor', 'apellido_profesor', 'profesor', 'categoria', 'situacion', 'dedicacion', 'tareas','actividades']
         exclude = ['planificacion']
         widgets = {
             'tareas': forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'}),
