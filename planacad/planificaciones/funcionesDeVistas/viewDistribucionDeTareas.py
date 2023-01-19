@@ -161,7 +161,7 @@ def UpdateDistribucionDeTareasPlanif(request, id_planificacion):
                 return redirect('planificaciones:distribucionDeTareas', id_planificacion=id_planificacion)
             except:  
                 mensaje_error = "No pudimos guardar los cambios."
-    return redirect('planificaciones:distribucionDeTareas', id_planificacion=id_planificacion, guardo = "guardo")
+    return redirect('planificaciones:distribucionDeTareas', id_planificacion=id_planificacion)
             
 
 
