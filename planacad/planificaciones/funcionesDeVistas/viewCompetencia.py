@@ -13,9 +13,9 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
 def CompetenciaNew(request,id_planificacion):
     mensaje_exito = None
     mensaje_error = None
@@ -62,7 +62,7 @@ def CompetenciaNew(request,id_planificacion):
     }  
     return render(request,'secciones/competencias/index.html',context) 
   
-  
+@login_required
 def CompetenciaView(request,id_planificacion):
     mensaje_error = None
     competencias = None
@@ -74,6 +74,7 @@ def CompetenciaView(request,id_planificacion):
     
     return render(request,"secciones/",{'competencias':competencias,'mensaje_error': mensaje_error})  
 
+@login_required
 def CompetenciabyTypeView(request,planificacion_id,type):
     mensaje_error = None
     competencias = None
@@ -86,6 +87,7 @@ def CompetenciabyTypeView(request,planificacion_id,type):
     return render(request,"secciones/",{'competencias':competencias,'mensaje_error': mensaje_error})  
  
 
+@login_required
 def CompetenciaDetailView(request, id):
     mensaje_error = None
     competencia = None
@@ -96,6 +98,7 @@ def CompetenciaDetailView(request, id):
     return render(request,'secciones/seccion2detail.html', {'competencia':competencia
     ,'mensaje_error': mensaje_error})  
 
+@login_required
 def CompetenciaUpdate(request, id_planificacion, id_competencia):  
     mensaje_exito = None
     mensaje_error = None
@@ -119,7 +122,7 @@ def CompetenciaUpdate(request, id_planificacion, id_competencia):
         form = CompetenciaForm(instance=data)  
     return render(request,'secciones/competencias/editar.html',{'data':data, 'subcompetencias': subcompetencias,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
-
+@login_required
 def CompetenciaDestroy(request, id_planificacion, id_competencia):
     mensaje_exito = None
     mensaje_error = None

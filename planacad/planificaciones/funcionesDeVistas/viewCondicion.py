@@ -12,7 +12,9 @@ from planificaciones.formularios.formCorreccion import CorreccionForm
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def AprobacionDirecta(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     form = CondicionAprobacionDirectaForm(instance = planificacion)
@@ -51,7 +53,7 @@ def AprobacionDirecta(request, id_planificacion):
     return render(request, "secciones/condicion/aprobacion-directa.html", context)  
 
 
-
+@login_required
 def AprobacionCursada(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     form = CondicionAprobacionCursadaForm(instance = planificacion)

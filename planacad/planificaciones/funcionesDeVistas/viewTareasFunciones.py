@@ -5,8 +5,11 @@ from django.shortcuts import render, redirect
 from planificaciones.formularios.formTareasFunciones import TareasFuncionesForm
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
+from django.contrib.auth.decorators import login_required
 
-##Define request for Asignatura   
+
+##Define request for Asignatura  
+@login_required 
 def TareasFuncionesNew(request,categoria_id,detalle_profesor_catedra_id):
     mensaje_exito = None
     mensaje_error = None
@@ -31,6 +34,7 @@ def TareasFuncionesNew(request,categoria_id,detalle_profesor_catedra_id):
     return render(request, 'planificacion/index.html', {'form': form,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito})
 
+@login_required
 def TareasFuncionesView(request,categoria_id):
     mensaje_exito = None
     mensaje_error = None
@@ -41,6 +45,7 @@ def TareasFuncionesView(request,categoria_id):
     return render(request,"",{'tareasFunciones':tareasFunciones,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito})  
 
+@login_required
 def TareasFuncionesDetailView(request, id):
     mensaje_exito = None
     mensaje_error = None
@@ -51,6 +56,7 @@ def TareasFuncionesDetailView(request, id):
     return render(request,'', {'tareasFunciones':tareasFunciones,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito})  
  
+@login_required
 def SituacionUpdate(request, id):
     mensaje_exito = None
     mensaje_error = None
@@ -67,6 +73,7 @@ def SituacionUpdate(request, id):
     return render(request, 'edit.html', {'tareasFunciones': tareasFunciones,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito})  
 
+@login_required
 def SituacionDestroy(request, id):
     mensaje_exito = None
     mensaje_error = None

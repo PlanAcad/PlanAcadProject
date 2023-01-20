@@ -3,7 +3,9 @@ from django.contrib.auth.models import Group, User
 from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.formularios.registration.formEditProfile import EditUserForm
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def editUserView(request,id):
     user = User.objects.get(id = id)
     if(request.method == 'POST'):

@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 # Para usar los objetos y/o funciones de 'redirect'
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
@@ -10,8 +9,9 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def AsignaturaNew(request):
     form = AsignaturaForm()
     if request.method == "POST":
@@ -87,6 +87,7 @@ def AsignaturaDetailView(request, id, error = 'False'):
         }
     return render(request,'asignaturas/detail.html',context)  
 
+@login_required
 def AsignaturaUpdate(request, id):  
     asignatura = Asignatura.objects.get(id=id)
     form = AsignaturaForm(instance = asignatura)
@@ -103,11 +104,13 @@ def AsignaturaUpdate(request, id):
     }      
     return render(request, 'asignaturas/update.html', context)  
 
+@login_required
 def AsignaturaDestroy(request, id):  
     asignatura = Asignatura.objects.get(id=id)  
     asignatura.delete()  
     return asignatura("/show") 
 
+@login_required
 def PapeleraView(request, id_asignatura):  
     asignatura = Asignatura.objects.get(id=id_asignatura)  
     carrera = Carrera.objects.get(id=asignatura.carrera_id)

@@ -21,9 +21,12 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
 
 
 ##Define request for Resultado de Aprendizaje   
+@login_required
 def ClasesView(request,id_planificacion): 
     mensaje_exito=None
     mensaje_error=None
@@ -89,6 +92,7 @@ def ClasesView(request,id_planificacion):
     }  
     return render(request,'secciones/cronograma/index.html',context)  
 
+@login_required
 def ClaseViewDetail(request,clase_id): 
     mensaje_error = None 
     try:
@@ -98,6 +102,7 @@ def ClaseViewDetail(request,clase_id):
          mensaje_error = "No pudimos obtener los datos correctamente" 
     return render(request,'secciones/cronograma/index.html', {'clase':clase, 'mensaje_error': mensaje_error})  
 
+@login_required
 def ClaseUpdate(request, id_planificacion, id_clase):  
     mensaje_exito = None
     mensaje_error = None
@@ -126,6 +131,7 @@ def ClaseUpdate(request, id_planificacion, id_clase):
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)  
     return render(request,'secciones/cronograma/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
 
+@login_required
 def ClaseDestroy(request,id_planificacion,id_clase):
     mensaje_exito = None
     mensaje_error = None
@@ -139,6 +145,7 @@ def ClaseDestroy(request,id_planificacion,id_clase):
         
         return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
 
+@login_required
 def CronogramaCreate(request,id_planificacion):
     mensaje_error = None
     try:

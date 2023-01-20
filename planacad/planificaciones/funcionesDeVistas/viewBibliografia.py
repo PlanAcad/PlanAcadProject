@@ -10,8 +10,9 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 # To show and to add new one
 def IndexBibliografia(request, id_planificacion):   
     planificacion = Planificacion.objects.get(id=id_planificacion)  
@@ -65,6 +66,7 @@ def IndexBibliografia(request, id_planificacion):
 
 
 # To show and to add new one
+@login_required
 def UpdateBibliografia(request, id_planificacion, id_bibliografia):   
     planificacion = Planificacion.objects.get(id=id_planificacion) 
     bibliografia = Bibliografia.objects.get(id=id_bibliografia)  
@@ -101,7 +103,7 @@ def UpdateBibliografia(request, id_planificacion, id_bibliografia):
     return render(request,"secciones/bibliografia/update.html", context) 
 
 
-
+@login_required
 def Deletebibliografia(request, id_planificacion, id_bibliografia):
     mensaje_exito = None
     mensaje_error = None

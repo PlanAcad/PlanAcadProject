@@ -12,8 +12,11 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
 
 # To show and to add new one
+@login_required
 def DistribucionDeTareas(request, id_planificacion):   
     planificacion = Planificacion.objects.get(id=id_planificacion) 
     detalles_profesores_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion) 
@@ -146,6 +149,7 @@ def DistribucionDeTareas(request, id_planificacion):
 
     return render(request,"secciones/distribucion-de-tareas/index.html", context)    
 
+@login_required
 def UpdateDistribucionDeTareasPlanif(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     mensaje_exito = None
@@ -164,7 +168,7 @@ def UpdateDistribucionDeTareasPlanif(request, id_planificacion):
     return redirect('planificaciones:distribucionDeTareas', id_planificacion=id_planificacion)
             
 
-
+@login_required
 def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcatedra):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)
@@ -198,7 +202,7 @@ def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcate
     return render(request,'secciones/distribucion-de-tareas/update.html', context) 
     
     
-
+@login_required
 def DeleteDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcatedra):
     mensaje_exito = None
     mensaje_error = None

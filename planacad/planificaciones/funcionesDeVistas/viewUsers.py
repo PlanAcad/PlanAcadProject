@@ -4,7 +4,9 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.formularios.registration.formRegistration import CreateUserForm
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def usersView(request):
     carrera = Carrera.objects.get(id =  request.user.carrera.first().id)
     usuarios = User.objects.all()

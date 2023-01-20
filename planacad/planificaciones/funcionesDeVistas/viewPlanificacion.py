@@ -13,8 +13,11 @@ from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos
 from planificaciones.funcionesDeVistas import viewFundamentacion
 from planificaciones.validaciones import validacionSecciones
+from django.contrib.auth.decorators import login_required
+
 
 ##Define request for Planificacion   
+@login_required
 def PlanificacionNew(request, asignatura_id):  
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -56,6 +59,7 @@ def PlanificacionNew(request, asignatura_id):
         else:
             return redirect(reverse('planificaciones:asignaturaDetail', kwargs={'id' : asignatura_id, 'error': 'Ya existe una planificacion de este año'} ))
 
+@login_required
 def PlanificacionesView(request,idAsignatura):
     #Obtengo la asignatura
     asignatura = Asignatura.objects.get(id=idAsignatura)   
@@ -63,10 +67,12 @@ def PlanificacionesView(request,idAsignatura):
     planificaciones = Planificacion.objects.filter(asignatura=asignatura)
     return render(request,"planificacion/index.html",{'planificaciones':planificaciones})  
 
+@login_required
 def PlanificacionDetailView(request, id): 
     planificacion = Planificacion.objects.get(id=id)
     return render(request,'planificacion/detail.html', {'planificacion':planificacion})  
- 
+
+@login_required
 def PlanificacionUpdate(request, id):  
     planificacion = Planificacion.objects.get(id=id)  
     form = PlanificacionForm(request.POST, instance = planificacion)  
@@ -75,6 +81,7 @@ def PlanificacionUpdate(request, id):
         return redirect("/show")  
     return render(request, 'edit.html', {'planificacion': planificacion})  
 
+@login_required
 def PlanificacionLogicDestroy(request, id):  
     mensaje_error = None
     try:
@@ -88,6 +95,7 @@ def PlanificacionLogicDestroy(request, id):
         return render(request, '/asignaturas/'+str(planificacion.asignatura.id), {'mensaje_error': mensaje_error})  
 
 
+@login_required
 def PlanificacionRestore(request, id):
     mensaje_error = None
     try:
@@ -100,11 +108,13 @@ def PlanificacionRestore(request, id):
         mensaje_error = "No se pudo eliminar la planificacion"
         return redirect('planificaciones:asignaturaDetail', {'id': planificacion.asignatura.id, 'mensaje_error': mensaje_error})
 
+@login_required
 def PlanificacionDestroy(request, id):  
     planificacion = Planificacion.objects.get(id=id)  
     planificacion.delete()  
     return redirect('planificaciones:papelera', id_asignatura=planificacion.asignatura.id)
 
+@login_required
 def AprobarPlanificacion(request, id):
     validacion_ok, validacion_bad, errores = validacionSecciones.ValidacionPlanificacion(id)
     if(validacion_ok):
@@ -123,6 +133,7 @@ def AprobarPlanificacion(request, id):
         url = '/planificacion/' + str(id) + '/datos-descriptivos' + '?data=' + data_json
         return redirect(url)
 
+@login_required
 def RevisarPlanificacion(request, id):
     validacion_ok, validacion_bad, errores = validacionSecciones.ValidacionPlanificacion(id)
     if(validacion_ok):
@@ -141,6 +152,7 @@ def RevisarPlanificacion(request, id):
         url = '/planificacion/' + str(id) + '/datos-descriptivos' + '?data=' + data_json
         return redirect(url)
 
+@login_required
 def CorregirPlanificacion(request, id):
     planificacion = Planificacion.objects.get(id=id)  
     form = PlanificacionForm(request.POST, instance = planificacion)  
