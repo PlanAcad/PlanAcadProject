@@ -26,6 +26,8 @@ from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.rl_config import defaultPageSize
+from django.contrib.auth.decorators import login_required
+
 
 PAGE_HEIGHT=defaultPageSize[1]; 
 PAGE_WIDTH=defaultPageSize[0]
@@ -585,6 +587,7 @@ def myLaterPages(canvas, doc):
 
 
 # VIEW TO OPEN AND DOWNLOAD PDF
+@login_required
 def DownloadPDF(request, id_planificacion):
     validacion_ok, validacion_bad, errores = validacionSecciones.ValidacionPlanificacion(id_planificacion)
     if(validacion_ok):
@@ -658,6 +661,7 @@ def DownloadPDF(request, id_planificacion):
 
 
 # VIEW TO OPEN AND DOWNLOAD PDF
+@login_required
 def PrintPDF(request, id_planificacion):
     validacion_ok, validacion_bad, errores = validacionSecciones.ValidacionPlanificacion(id_planificacion)
     if(validacion_ok):

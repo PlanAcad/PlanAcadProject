@@ -18,9 +18,12 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
 
 
 # To show and to add new one
+@login_required
 def IndexPropuestaDesarrollo(request, id_planificacion):  
     # General 
     planificacion = Planificacion.objects.get(id=id_planificacion) 
@@ -123,7 +126,7 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
 
     return render(request,"secciones/propuesta-desarrollo/index.html", context) 
 
-
+@login_required
 def UpdateResultadoAprendizaje(request, id_planificacion, id_resultado_aprendizaje):   
     planificacion = Planificacion.objects.get(id=id_planificacion) 
     resultado_aprendizaje = ResultadoDeAprendizaje.objects.get(id=id_resultado_aprendizaje)  
@@ -164,7 +167,7 @@ def UpdateResultadoAprendizaje(request, id_planificacion, id_resultado_aprendiza
 
     return render(request,"secciones/propuesta-desarrollo/update-resultado-aprendizaje.html", context) 
 
-
+@login_required
 def DeleteResultadoAprendizaje(request, id_planificacion, id_resultado_aprendizaje):
     if request.method == "POST":
         try:
@@ -177,7 +180,7 @@ def DeleteResultadoAprendizaje(request, id_planificacion, id_resultado_aprendiza
         
         return redirect('planificaciones:propuestaDesarrollo', id_planificacion=id_planificacion)
 
-
+@login_required
 def UpdatePropuestaDesarrollo(request, id_planificacion, id_propuesta_desarrollo):   
     # General 
     planificacion = Planificacion.objects.get(id=id_planificacion) 
@@ -247,7 +250,7 @@ def UpdatePropuestaDesarrollo(request, id_planificacion, id_propuesta_desarrollo
 
     return render(request,"secciones/propuesta-desarrollo/update-propuesta-desarrollo.html", context) 
 
-
+@login_required
 def DeletePropuestaDesarrollo(request, id_planificacion, id_propuesta_desarrollo):
     if request.method == "POST":
         try:

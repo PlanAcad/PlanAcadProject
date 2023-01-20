@@ -10,8 +10,9 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def SistemaDeEvaluacion(request, planificacion_id): 
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividades = Actividad.objects.filter(planificacion=planificacion)
@@ -56,7 +57,7 @@ def SistemaDeEvaluacion(request, planificacion_id):
 
     return render(request,"secciones/sistema-de-evaluacion/index.html", context) 
 
-
+@login_required
 def UpdateActividad(request, planificacion_id, actividad_id):
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividad = Actividad.objects.get(id=actividad_id)
@@ -86,7 +87,7 @@ def UpdateActividad(request, planificacion_id, actividad_id):
     }
     return render(request, "secciones/sistema-de-evaluacion/update-actividad.html", context)
 
-
+@login_required
 def DeleteActividad(request, planificacion_id, actividad_id):
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividad = Actividad.objects.get(id=actividad_id)

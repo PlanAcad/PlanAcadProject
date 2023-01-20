@@ -11,9 +11,9 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
 def JustificacionOrdenanza(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     form = JustificacionOrdenanzaForm(instance=planificacion)

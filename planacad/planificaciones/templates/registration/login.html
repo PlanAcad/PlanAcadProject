@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block content %}
+
+<body id="body-login">
+    <div class="main-login">
+        
+        <form method="POST">
+            {% csrf_token %}
+            <h1 class="title-login">PlanAcad</h1>
+            <h6 class="subtitle-login">Universidad Tecnológica Nacional - FRRE UTN</h6>
+
+            <form class="form-login">
+                {{form.as_p}}
+                <!-- <input class="input-user" type="text"  placeholder="Usuario">
+                <input class="input-password" type="password" placeholder="Contraseña"> -->
+                <div style="text-align: center;">
+                    <button type="submit" class="mt-4 btn btn-primary" >Ingresar</button>
+                </div>
+            </form>
+        </form>
+    </div>   
+</body>
+
+{% endblock %}
+
+

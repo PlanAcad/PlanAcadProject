@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from planificaciones.modelos.modelProfesor import Profesor
+from django.contrib.auth.models import User
 from planificaciones.modelos.modelContenido import Contenido
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
@@ -22,7 +22,7 @@ class Clase(models.Model):
    
    unidad_tematica_o_tema = models.ManyToManyField(Contenido, blank=True, null=True)
    resultado_de_aprendizaje = models.ManyToManyField(ResultadoDeAprendizaje, blank=True, null=True)
-   profesor_a_cargo = models.ManyToManyField(Profesor, blank=True, null=True)
+   profesor_a_cargo = models.ManyToManyField(User, blank=True, null=True)
 
    def __str__(self):
         return "%s, %s" %(self.unidad_tematica_o_tema,self.fecha_clase)

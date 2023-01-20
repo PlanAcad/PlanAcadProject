@@ -3,9 +3,12 @@ from django.shortcuts import render, redirect
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
+from django.contrib.auth.decorators import login_required
+
 
 
 # To to add new one
+@login_required
 def CorreccionNew(request, id_planificacion, id_seccion):   
     planificacion = Planificacion.objects.get(id=id_planificacion)
     if request.method == 'POST':
@@ -57,6 +60,7 @@ def CorreccionNew(request, id_planificacion, id_seccion):
 
 
 # To to add new one
+@login_required
 def CorreccionUpdate(request, id_correccion):
     data = Correccion.objects.get(id = id_correccion)
     if request.method == 'POST':

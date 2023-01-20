@@ -10,9 +10,10 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
-
+from django.contrib.auth.decorators import login_required
 
 # To show and to add new one
+@login_required
 def IndexContenido(request, id_planificacion):   
     planificacion = Planificacion.objects.get(id=id_planificacion)  
     contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')  
@@ -70,6 +71,7 @@ def IndexContenido(request, id_planificacion):
 
 
 # To show and to add new one
+@login_required
 def UpdateContenido(request, id_planificacion, id_contenido):   
     planificacion = Planificacion.objects.get(id=id_planificacion) 
     contenido = Contenido.objects.get(id=id_contenido)  
@@ -110,7 +112,7 @@ def UpdateContenido(request, id_planificacion, id_contenido):
     return render(request,"secciones/contenido/update.html", context) 
 
 
-
+@login_required
 def DeleteContenido(request, id_planificacion, id_contenido):
     mensaje_exito = None
     mensaje_error = None

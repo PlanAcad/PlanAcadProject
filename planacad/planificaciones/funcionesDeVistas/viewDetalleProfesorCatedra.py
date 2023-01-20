@@ -15,9 +15,12 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
 
 
 ##Define request for Asignatura   
+@login_required
 def DetalleProfesorCatedraNew(request, id_planificacion):
     mensaje_exito=None
     mensaje_error=None
@@ -66,7 +69,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     }  
     return render(request,'secciones/detalles-profesor-catedra.html', context) 
   
-
+@login_required
 def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorcatedra):  
     mensaje_exito = None
     mensaje_error = None
@@ -91,7 +94,7 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
     return render(request,'secciones/detalles-profesor-catedra-update.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
-
+@login_required
 def DetalleProfesorCatedraDestroy(request, id_planificacion, id_detalleprofesorcatedra):
     mensaje_exito = None
     mensaje_error = None

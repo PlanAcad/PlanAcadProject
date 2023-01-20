@@ -30,11 +30,11 @@ def ValidarSeccion(id_planificacion):
                     if clase.profesor_a_cargo.all() is not None:
                             for profesor in clase.profesor_a_cargo.all():
                                 if profesor is not None:
-                                    if(not profesor.nombre):
+                                    if(not profesor.first_name):
                                         validacion_ok=False
                                         validacion_bad=True
                                         errores.append("nombre en el profesor"+str(profesor.id)+"en la clase "+str(clase.id))
-                                    if(not profesor.apellido):
+                                    if(not profesor.last_name):
                                         validacion_ok=False
                                         validacion_bad=True
                                         errores.append("apellido en el profesor"+str(profesor.id)+"en la clase "+str(clase.id))

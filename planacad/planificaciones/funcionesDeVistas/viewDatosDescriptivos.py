@@ -15,8 +15,11 @@ from planificaciones.formularios.formDatosDescriptivos import  DatosDescriptivos
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
-##Define request for Asignatura   
+
+##Define request for Asignatura
+@login_required   
 def DatosDescriptivosNew(asignatura_id, carrera_id):      
         form = DatosDescriptivos()  
         # Asigno la asignatura y carrera, no hace falta ir a buscar el objeto
@@ -31,6 +34,7 @@ def DatosDescriptivosNew(asignatura_id, carrera_id):
 # Esto muestro en /seccion1
 # Si es un POST actualiza
 # Si es un GET mando el form y los datos actuales
+@login_required
 def DatosDescriptivosUpdate(request, id_planificacion):
     data = None
     errores = []  
@@ -81,16 +85,19 @@ def DatosDescriptivosUpdate(request, id_planificacion):
     return render(request, 'secciones/datos-descriptivos.html', context) 
 
 ## Estos de abajo no se usan
+@login_required
 def DatosDescriptivosView(request):  
     datosDescriptivos = DatosDescriptivos.objects.all()
     return render(request,"profesores/index.html",{'datosDescriptivos':datosDescriptivos})  
 
+@login_required
 def DatosDescriptivosDetailView(request, id):  
     datosDescriptivos = DatosDescriptivos.objects.get(id=id)
     calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
 
     return render(request,'profesores/detail.html', {'datosDescriptivos':datosDescriptivos, 'calendario': calendario})  
     
+@login_required
 def DatosDescriptivosDestroy(request, id):  
     datosDescriptivos = DatosDescriptivos.objects.get(id=id)  
     datosDescriptivos.delete()  

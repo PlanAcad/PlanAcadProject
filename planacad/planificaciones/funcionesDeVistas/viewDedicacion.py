@@ -3,7 +3,11 @@ from django.shortcuts import render, redirect
 ## import model and form
 from planificaciones.formularios.formDedicacion import DedicacionForm
 from planificaciones.modelos.modelDedicacion import Dedicacion
+from django.contrib.auth.decorators import login_required
+
+
 ##Define request for Asignatura   
+@login_required
 def DedicacionNew(request):
     mensaje_exito = None
     mensaje_error = None  
@@ -20,6 +24,7 @@ def DedicacionNew(request):
     return render(request,'index.html',{'form':form,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito}) 
 
+@login_required
 def DedicacionesView(request):
     mensaje_error = None
     try:
@@ -28,6 +33,7 @@ def DedicacionesView(request):
          mensaje_error = ""  
     return render(request,"",{'dedicaciones':dedicaciones,'mensaje_error': mensaje_error})  
 
+@login_required
 def DedicacionDetailView(request, id):
     mensaje_error = None
     try:
@@ -36,6 +42,7 @@ def DedicacionDetailView(request, id):
          mensaje_error = ""  
     return render(request,'', {'dedicacion':dedicacion,'mensaje_error': mensaje_error})  
  
+@login_required
 def DedicacionUpdate(request, id):
     mensaje_exito = None
     mensaje_error = None
@@ -52,6 +59,7 @@ def DedicacionUpdate(request, id):
     return render(request, 'edit.html', {'dedicacion': dedicacion,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito})  
 
+@login_required
 def DedicacionDestroy(request, id):
     mensaje_exito = None
     mensaje_error = None

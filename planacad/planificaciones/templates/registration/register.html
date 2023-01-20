@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<div class="layout d-flex flex-column min-vh-100">
+    <!-- Add navbar -->
+    {% include "layouts/navbar.html" %}
+    <div class="bg-light flex-grow-1">
+        <div class="container-xl">
+            <body id="body-register">
+                <div class="main-register">
+                    <h1 class="title-register">Crear Usuario</h1>
+                    
+                    <form class="form-register" method="POST">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <div style="text-align: center;">
+                            <button type="submit" class="mt-4 btn btn-primary" >Registrar</button>
+                        </div>
+                    </form>
+                            
+                </div>   
+            </body>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-
+{% load util %}
 <div class="layout d-flex flex-column min-vh-100">
     <!-- Add navbar -->
     {% include "layouts/navbar.html" %}
@@ -7,12 +7,6 @@
         <div class="container-xl">
             <div class="row">
                 <main class="col seccion px-4 py-3">
-                  {% if error %}
-                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Ha ocurrido un error!</strong> La planificacion tiene un problema y no es posible tomarla como referencia
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                    </div>
-                  {% endif %} 
                     {% if error_message %}
                     <p><strong>{{ error_message }}</strong></p>
                     {% endif %} {% if form.subject.errors %}
@@ -52,29 +46,44 @@
                     <form id="nueva-planificacion-form" action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
                       {% csrf_token %} {{ form }}
                     </form>
+                    {{error}}
+                    {% if error %}
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Ha ocurrido un error!</strong> {{error}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                      </div>
+                    {% endif %}
 
-
+                    {% if not planificaciones %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      <strong>No existen planificaciones!</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                      </div>
+                    {% endif %} 
+                    <div class="row mt-4">
+                    {% if request.user|has_group:"jefe de carrera" or request.user|has_group:"profesor" %}
+                            <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">
+                              <div class="card card-subject p-0 mb-5">
+                                <div class="p-3 text-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                  </svg>
+                                </div>
+                                <div class="card-footer p-2 m-0">                                
+                                    <p class="m-0">Crear planificación vacia</p>
+                                </div>
+                              </div>
+                            </div>
+                      {% endif %}
                     {% if planificaciones %}
-                      <div class="row mt-4">
-                        <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">
-                          <div class="card card-subject p-0 mb-5">
-                            <div class="p-3 text-center">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                              </svg>
-                            </div>
-                            <div class="card-footer p-2 m-0">                                
-                                <p class="m-0">Crear planificación vacia</p>
-                            </div>
-                          </div>
-                        </div>
-                        
                         {% for planificacion in planificaciones %}
                           <div class="col-md-4">
                             <div class="card card-subject p-0 mb-5">
                               <a
-                              href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
+                              {% if not request.user|has_group:'alumno' %}href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"{% endif %}
+                              
                               style="text-decoration: none"
+                              {% if request.user|has_group:'alumno' %}disabled{% endif %}
                               >
                               <div class="planif-state-card float-right 
                               {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
@@ -98,17 +107,41 @@
                                     </svg>
                                   </button>
                                 <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
-                                  <li><button  data-toggle="modal" data-target="#modal-delete">Eliminar</button></li>
-                                  <li><form
-                                    method="POST"
-                                    action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"><button type="submit">Aprobar planificación</button>{% csrf_token %}</form></li>
-                                    <li><form
-                                      method="POST"
-                                      action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                  {% if request.user|has_group:"consejo" or request.user|has_group:"profesor"%}
+                                    <li><button  data-toggle="modal" data-target="#modal-delete">Eliminar</button></li>
+                                  {% endif %}
+                                  {% if planificacion.estado == "P" %} 
+                                    {% if request.user|has_group:"profesor" %}
                                       <li><form
                                         method="POST"
-                                        action="{% url 'planificaciones:corregirPlanif' planificacion.id %}"><button type="submit">Corregir planificación</button>{% csrf_token %}</form></li>
-                                </ul>
+                                        action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                    {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "R" %}
+                                    {% if request.user|has_group:"consejo" or request.user|has_group:"jefe de carrera"%}
+                                        <li><form
+                                          method="POST"
+                                          action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"><button type="submit">Aprobar planificación</button>{% csrf_token %}</form></li>
+                                        <li><form
+                                          method="POST"
+                                          action="{% url 'planificaciones:corregirPlanif' planificacion.id %}"><button type="submit">Corregir planificación</button>{% csrf_token %}</form></li>
+                                    {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "C" %} 
+                                      {% if request.user|has_group:"profesor" %}
+                                      <li><form
+                                        method="POST"
+                                        action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                      {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "A" %}
+                                      {% if request.user|has_group:"alumno" %}
+                                      <li><form
+                                        method="POST"
+                                        action="{% url 'planificaciones:printPdf' planificacion.id %}"><button type="submit">Ver planificación</button>{% csrf_token %}</form></li>
+                                      {% endif %}
+                                  {% endif %}           
+                                      </ul>
                               </div>  
 
 
@@ -120,6 +153,7 @@
                                     <b>Ultima modificación:</b> {{ planificacion.fecha_modificacion.date }}
                                 </p>
                               </div>
+                              {% if not request.user|has_group:'alumno' %}
                                 {% if planificacion.estado == "A" %}
                                   <form
                                   method="POST"  class="card-footer" action="{% url 'planificaciones:copiarPlanif' planificacion.id %}">
@@ -133,6 +167,7 @@
                                   {% else %}
                                   <div class="card-footer p-2 m-0"><p class="m-0">Ir a la planificación</p></div>
                                   {% endif %}
+                                {% endif %}
                                
                               </a>
 
@@ -203,12 +238,13 @@
                           </div>
                         {% endfor %}
                       </div>
-                    {% else %}
-                    <p>No se encontraron planificaciones.</p>
                     {% endif %}
 
                     {% else %}
-                    <h2>No existe la asignatura.</h2>
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>No existe la asignatura.</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                      </div>
                     {% endif %} 
                 </main>
                 <aside

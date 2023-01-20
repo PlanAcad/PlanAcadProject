@@ -95,7 +95,7 @@
                       <li>Profesor a cargo: <br/>
                         {% if data.profesor_a_cargo.all %}
                           {% for profesor in data.profesor_a_cargo.all %}
-                          <span>- {{ profesor.apellido }}, {{ profesor.nombre }}</span><br/>
+                          <span>- {{ profesor.last_name }}, {{ profesor.first_name }}</span><br/>
                           {% endfor %}
                         {% else %}
                             <p>-</p>

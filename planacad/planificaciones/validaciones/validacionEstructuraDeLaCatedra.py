@@ -63,11 +63,11 @@ def ValidarSeccion(id_planificacion):
                         validacion_bad=True
                         errores.append("No existe ningun profesor")
                     else:
-                        if(not detalleProfesorCatedra.profesor.nombre):
+                        if(not detalleProfesorCatedra.profesor.first_name):
                             validacion_ok=False
                             validacion_bad=True
                             errores.append("nombre en el detalle "+str(detalleProfesorCatedra.id))
-                        if(not detalleProfesorCatedra.profesor.apellido):
+                        if(not detalleProfesorCatedra.profesor.last_name):
                             validacion_ok=False
                             validacion_bad=True
                             errores.append("apellido en el detalle "+str(detalleProfesorCatedra.id))

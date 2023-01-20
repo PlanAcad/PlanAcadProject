@@ -13,8 +13,11 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
 
 ##Define request for Resultado de Aprendizaje   
+@login_required
 def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion): 
     mensaje_exito=None
     mensaje_error=None
@@ -64,11 +67,13 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
     }  
     return render(request,'secciones/resultadosDeAprendizaje.html',context) 
   
+@login_required
 def ResultadosDeAprendizajePorAsignatura(request):
     asignatura_id=request.GET.get('asignatura')
     resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).order_by('resultado')
     return render(request, 'secciones/resultado-de-aprendizaje-anterior/dropdown-ra-anteriores-options.html', {'resultados': resultados})
 
+@login_required
 def ResultadoDeAprendizajeAnteriorViewbyPlanificacion(request,planificacion_id):
     mensaje_error = None
     try:
@@ -81,7 +86,7 @@ def ResultadoDeAprendizajeAnteriorViewbyPlanificacion(request,planificacion_id):
     return render(request,"secciones/resultadosDeAprendizaje.html",{'resultadosDeAprendizajes':resultadosDeAprendizajes, 'mensaje_error': mensaje_error})  
 
 
-
+@login_required
 def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultadodeaprendizaje):  
     mensaje_exito = None
     mensaje_error = None
@@ -106,7 +111,7 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
     return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
-
+@login_required
 def ResultadoDeAprendizajeAnteriorDestroy(request, id_planificacion, id_resultadodeaprendizaje):
     mensaje_exito = None
     mensaje_error = None

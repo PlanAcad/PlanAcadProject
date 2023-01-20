@@ -1,14 +1,18 @@
-from django import forms  
+from django import forms 
+from django.contrib.auth.models import User, Group 
 from django.utils.translation import gettext_lazy as _
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 
-class DetalleProfesorCatedraForm(forms.ModelForm): 
-    actividades = forms.CharField(widget=forms.Textarea())
+class DetalleProfesorCatedraForm(forms.ModelForm):
+    profesor = forms.ModelChoiceField(
+        queryset= User.objects.filter(groups= Group.objects.get(name='profesor'))) 
+    
     nombre_profesor = forms.CharField(required=False) 
     apellido_profesor = forms.CharField(required=False) 
+    actividades = forms.CharField(widget=forms.Textarea())
     class Meta:  
         model = DetalleProfesorCatedra         
-        fields = ['nombre_profesor', 'apellido_profesor', 'profesor', 'categoria', 'situacion', 'dedicacion', 'tareas']
+        fields = ['nombre_profesor', 'apellido_profesor', 'profesor', 'categoria', 'situacion', 'dedicacion', 'tareas','actividades']
         exclude = ['planificacion']
         widgets = {
             'tareas': forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'}),

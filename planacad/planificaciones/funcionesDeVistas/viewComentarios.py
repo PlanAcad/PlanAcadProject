@@ -3,9 +3,12 @@ from django.shortcuts import render, redirect
 from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.modelos.modelComentarios import Comentario
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
 
 
 # To to add new one
+@login_required
 def ComentarioNew(request, id_correccion, id_seccion):
     correccion = Correccion.objects.get(id=id_correccion)
     if request.method == 'POST':

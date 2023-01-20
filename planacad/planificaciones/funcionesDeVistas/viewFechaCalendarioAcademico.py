@@ -10,7 +10,9 @@ from planificaciones.formularios.formFechaCalendarioUpdate import FechaCalendari
 
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
 from django.utils.translation import get_language, activate
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def CalendarioAcademicoIndex(request, ano):
     mensaje_exito = None
     mensaje_error = None  
@@ -53,6 +55,7 @@ def CalendarioAcademicoIndex(request, ano):
     return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'existe_calendario':existe_calendario,'ano':ano,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito, 'form':form, 'cerrado': cerrado}) 
 
+@login_required
 def UpdateFechaCalendarioAcademico(request,ano):  
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     mensaje_exito = None
@@ -93,6 +96,7 @@ def UpdateFechaCalendarioAcademico(request,ano):
 
     return redirect('planificaciones:calendarioacademico', ano=ano)
 
+@login_required
 def CerrarCalendarioAcademico(request, ano):
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     mensaje_exito = None

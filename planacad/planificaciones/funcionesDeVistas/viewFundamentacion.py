@@ -14,8 +14,11 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
 
 ##Define request for Asignatura   
+@login_required
 def FundamentacionNew():      
         form = Fundamentacion()
         # Guardo el objeto definitivamente
@@ -24,16 +27,19 @@ def FundamentacionNew():
         return  form
 
 ##Este no se deberia usar pero bueno
+@login_required
 def FundamentacionView(request):  
     fundamentacion = Fundamentacion.objects.all()
     return render(request,"profesores/index.html",{'fundamentacion':fundamentacion})  
 
+@login_required
 def FundamentacionDetailView(request, id):  
     fundamentacion = Fundamentacion.objects.get(id=id)
     calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
 
     return render(request,'profesores/detail.html', {'fundamentacion':fundamentacion, 'calendario': calendario})  
  
+@login_required
 def FundamentacionUpdate(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
@@ -77,6 +83,7 @@ def FundamentacionUpdate(request, id_planificacion):
     }  
     return render(request, 'secciones/fundamentacion.html', context)  
 
+@login_required
 def FundamentacionDestroy(request, id):  
     fundamentacion = Fundamentacion.objects.get(id=id)  
     fundamentacion.delete()  

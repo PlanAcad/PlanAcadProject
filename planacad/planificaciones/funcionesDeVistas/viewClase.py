@@ -6,7 +6,7 @@ from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelClase import Clase
 from planificaciones.modelos.modelContenido import Contenido
 from planificaciones.modelos.modelPlanificacion import Planificacion
-from planificaciones.modelos.modelProfesor import Profesor
+from django.contrib.auth.models import User
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.formularios.formClase import  ClaseForm
 from planificaciones.formularios.formResultadoDeAprendizaje import  ResultadoDeAprendizaje
@@ -21,9 +21,12 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
 
 
 ##Define request for Resultado de Aprendizaje   
+@login_required
 def ClasesView(request,id_planificacion): 
     mensaje_exito=None
     mensaje_error=None
@@ -47,18 +50,24 @@ def ClasesView(request,id_planificacion):
     if request.method == "POST":  
         form = ClaseForm(request.POST)
         if form.is_valid():  
-            try:  
+            try:
+                print("entro")  
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
+                if(data):
+                    instance.numero_de_clase_o_semana = data.last().numero_de_clase_o_semana
+                else:
+                    instance.numero_de_clase_o_semana = 1
                 instance.save()
                 form.save_m2m()
-                mensaje_exito="Añadimos la clase correctamente."  
+                mensaje_exito="Añadimos la clase correctamente." 
+                data =  Clase.objects.filter(planificacion=planificacion).order_by('fecha_clase')
             except:  
                  mensaje_error = "No pudimos añadir la clase."    
     else:  
         try:
             form = ClaseForm()
-            form.fields['profesor_a_cargo'].queryset = Profesor.objects.filter(asignatura__id = planificacion.asignatura_id)
+            form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
             form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
             form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
             form_create = CronogramaCreateForm()    
@@ -83,6 +92,7 @@ def ClasesView(request,id_planificacion):
     }  
     return render(request,'secciones/cronograma/index.html',context)  
 
+@login_required
 def ClaseViewDetail(request,clase_id): 
     mensaje_error = None 
     try:
@@ -92,6 +102,7 @@ def ClaseViewDetail(request,clase_id):
          mensaje_error = "No pudimos obtener los datos correctamente" 
     return render(request,'secciones/cronograma/index.html', {'clase':clase, 'mensaje_error': mensaje_error})  
 
+@login_required
 def ClaseUpdate(request, id_planificacion, id_clase):  
     mensaje_exito = None
     mensaje_error = None
@@ -104,6 +115,7 @@ def ClaseUpdate(request, id_planificacion, id_clase):
             try: 
                 instance = form.save(commit=False)
                 instance.planificacion_id=planificacion.id
+
                 #Guardo
                 instance.save()
                 form.save_m2m()
@@ -114,11 +126,12 @@ def ClaseUpdate(request, id_planificacion, id_clase):
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = ClaseForm(instance=data)
-        form.fields['profesor_a_cargo'].queryset = Profesor.objects.filter(asignatura__id = planificacion.asignatura_id)
+        form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
         form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)  
     return render(request,'secciones/cronograma/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
 
+@login_required
 def ClaseDestroy(request,id_planificacion,id_clase):
     mensaje_exito = None
     mensaje_error = None
@@ -132,6 +145,7 @@ def ClaseDestroy(request,id_planificacion,id_clase):
         
         return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
 
+@login_required
 def CronogramaCreate(request,id_planificacion):
     mensaje_error = None
     try:
@@ -179,10 +193,10 @@ def CronogramaCreate(request,id_planificacion):
          print(len(dias_cronograma))
          try:  
             for i in dias_cronograma:
-                print("hola")  
                 instance = Clase()
                 instance.planificacion_id=id_planificacion
                 instance.fecha_clase=i.fecha
+                instance.numero_de_clase_o_semana = i
                 instance.save()
             planificacion.sincronizado_calendario_academico = True
             planificacion.save()

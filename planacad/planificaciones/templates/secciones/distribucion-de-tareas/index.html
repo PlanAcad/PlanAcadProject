@@ -31,17 +31,27 @@
 <h2 class="seccion__encabezado">12. Distribución de Tareas</h2>
 {% if existen_correcciones_pendientes %}
   <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
-  {% endif %}
+{% endif %}
+{% if mensaje_exito %}
+  <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
+{% endif %}
+{% if mensaje_error %}
+  <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
+{% endif %}
+
 <div class="seccion__card">
+  <form  method="POST" id="distribucion-tareas-form"
+  action="{% url 'planificaciones:distribucionTareasPlanif' planificacion.id %}">
+  {% csrf_token %}
     <div class="form-group">
         <label class="mt-3">Número de comisiones</label>
-        <input type="number" class="form-control" value="{{planificacion.numero_comisiones}}">
+        {{distribucionTareasForm.numero_comisiones}}
     </div>
     <div class="form-group">
         <label class="mt-3">Número de estudiantes (aprox) por comisión</label>
-        <input type="number" class="form-control" value="{{planificacion.numero_estudiantes_comision}}">
+        "{{distribucionTareasForm.numero_estudiantes_comision}}
     </div>
-
+  </form>
     <p class="mt-3 mb-0">Nómina de profesores:</p>
     {% if profesores %}
     <table class="seccion__table">
@@ -63,8 +73,8 @@
                         onclick="location.href=`{% url 'planificaciones:updateDistribucionDeTareas' planificacion.id detalleprofesor.id %}`" 
                         > 
                             <td>
-                                {{detalleprofesor.profesor.nombre|default:""}}
-                                {{detalleprofesor.profesor.apellido|default:""}}
+                                {{detalleprofesor.profesor.first_name|default:""}}
+                                {{detalleprofesor.profesor.last_name|default:""}}
                             </td>
                             <td>{{detalleprofesor.categoria|default:""}}</td>
                             <td>{{detalleprofesor.situacion|default:""}}</td>
@@ -101,8 +111,8 @@
                         {% for detalleprofesor in profesores_auxiliares %}
                             <tr onclick="location.href=`{% url 'planificaciones:updateDistribucionDeTareas' planificacion.id detalleprofesor.id %}`" > 
                                 <td>
-                                    {{detalleprofesor.profesor.nombre|default:""}}
-                                    {{detalleprofesor.profesor.apellido|default:""}}
+                                    {{detalleprofesor.profesor.first_name|default:""}}
+                                    {{detalleprofesor.profesor.last_name|default:""}}
                                 </td>
                                 <td>{{detalleprofesor.categoria|default:""}}</td>
                                 <td>{{detalleprofesor.situacion|default:""}}</td>
@@ -120,14 +130,6 @@
             Aún no se asignaron profesores auxiliares.
         </div>
     {% endif %}
-
-    {% if mensaje_exito %}
-      <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
-    {% endif %}
-    {% if mensaje_error %}
-      <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
-    {% endif %}
-
     <!-- Abrir modal docente -->
     <button
         type="button"
@@ -138,6 +140,9 @@
         Añadir docente
     </button>
 </div>
+
+<button type="button" class="btn btn-primary mt-4" onclick="document.getElementById('distribucion-tareas-form').submit()">
+Guardar</button>
 
 
 {% with seccion=12 %}

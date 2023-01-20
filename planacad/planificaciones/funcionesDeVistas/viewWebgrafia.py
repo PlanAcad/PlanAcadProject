@@ -10,9 +10,11 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
 
 # To show and to add new one
+@login_required
 def IndexWebgrafia(request, id_planificacion):   
     planificacion = Planificacion.objects.get(id=id_planificacion)  
     webgrafias = Webgrafia.objects.filter(planificacion=planificacion)  
@@ -70,6 +72,7 @@ def IndexWebgrafia(request, id_planificacion):
 
 
 # To show and to add new one
+@login_required
 def UpdateWebgrafia(request, id_planificacion, id_webgrafia):   
     planificacion = Planificacion.objects.get(id=id_planificacion) 
     webgrafia = Webgrafia.objects.get(id=id_webgrafia)  
@@ -110,7 +113,7 @@ def UpdateWebgrafia(request, id_planificacion, id_webgrafia):
     return render(request,"secciones/webgrafia/update.html", context) 
 
 
-
+@login_required
 def DeleteWebgrafia(request, id_planificacion, id_webgrafia):
     mensaje_exito = None
     mensaje_error = None

@@ -18,8 +18,16 @@
 
 <h2 class="seccion__encabezado">2. Estructura de la cátedra</h2>
 {% if existen_correcciones_pendientes %}
-  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
-  {% endif %}
+    <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+{% endif %}
+
+{% if mensaje_exito %}
+    <div class="alert alert-success mt-2">{{mensaje_exito}}</div>
+{% endif %}
+
+{% if form.errors %}
+    <div class="alert alert-danger mt-2">{{form.errors}}</div>
+{% endif %}
 <div class="seccion__card">
     <table class="seccion__table">
         <tbody>
@@ -38,8 +46,8 @@
                 <td class="py-4">
                     <a
                         href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}"
-                        >{{detalleprofesor.profesor.nombre|default:""}}
-                        {{detalleprofesor.profesor.apellido|default:""}}</a
+                        >{{detalleprofesor.profesor.first_name|default:""}}
+                        {{detalleprofesor.profesor.last_name|default:""}}</a
                     >
                 </td>
                 <td class="py-4">{{detalleprofesor.categoria|default:""}}</td>
@@ -59,14 +67,6 @@
         </tbody>
     </table>
     
-    {% if mensaje_exito %}
-    <div class="alert alert-success">{{mensaje_exito}}</div>
-    {% endif %}
-    
-    {% if form.errors %}
-        <div class="alert alert-danger">{{form.errors}}</div>
-    {% endif %}
-
     <!-- Abrir modal de añadir docente -->
     <button
         type="button"

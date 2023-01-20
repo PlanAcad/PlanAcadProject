@@ -7,7 +7,11 @@ from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendari
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
 from planificaciones.formularios.formResultadoDeAprendizaje import  ResultadoDeAprendizajeForm
+from django.contrib.auth.decorators import login_required
+
+
 ##Define request for Resultado de Aprendizaje   
+@login_required
 def ResultadoDeAprendizajeNew(request,id_planificacion): 
     mensaje_exito=None
     mensaje_error=None
@@ -30,7 +34,7 @@ def ResultadoDeAprendizajeNew(request,id_planificacion):
         form.fields['asignatura'].queryset = Asignatura.objects.filter(id = planificacion.asignatura_id)  
     return render(request,'secciones/resultadosDeAprendizaje.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
-
+@login_required
 def ResultadoDeAprendizajeViewbyPlanificacion(request,planificacion_id):
     mensaje_error = None
     try:
@@ -42,6 +46,7 @@ def ResultadoDeAprendizajeViewbyPlanificacion(request,planificacion_id):
          mensaje_error = "No pudimos obtener los datos correctamente"    
     return render(request,"secciones/resultadosDeAprendizaje.html",{'resultadosDeAprendizajes':resultadosDeAprendizajes, 'mensaje_error': mensaje_error})  
 
+@login_required
 def ResultadoDeAprendizajeViewbyAsignatura(request, asignatura_id): 
     mensaje_error = None 
     try:
@@ -55,7 +60,7 @@ def ResultadoDeAprendizajeViewbyAsignatura(request, asignatura_id):
          mensaje_error = "No pudimos obtener los datos correctamente" 
     return render(request,'profesores/detail.html', {'asignatura':asignatura, 'resultadosDeAprendizajes':resultadosDeAprendizajes, 'mensaje_error': mensaje_error, 'calendario': calendario})  
 
-
+@login_required
 def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprendizaje):  
     mensaje_exito = None
     mensaje_error = None
@@ -80,7 +85,7 @@ def ResultadoDeAprendizajeUpdate(request, id_planificacion, id_resultadodeaprend
     return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
-
+@login_required
 def ResultadoDeAprendizajeDestroy(request, id_planificacion, id_resultadodeaprendizaje):
     mensaje_exito = None
     mensaje_error = None
