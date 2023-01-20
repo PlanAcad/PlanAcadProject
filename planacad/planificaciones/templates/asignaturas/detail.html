@@ -138,7 +138,7 @@
                                       {% if request.user|has_group:"alumno" %}
                                       <li><form
                                         method="POST"
-                                        action="{% url 'planificaciones:printPdf' planificacion.id %}"><button type="submit">Ver planificación</button>{% csrf_token %}</form></li>
+                                        action="{% url 'planificaciones:downloadPdf' planificacion.id %}"><button type="submit">Ver planificación</button>{% csrf_token %}</form></li>
                                       {% endif %}
                                   {% endif %}           
                                       </ul>

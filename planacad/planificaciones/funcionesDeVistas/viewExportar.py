@@ -107,7 +107,7 @@ def print_estructura_catedra(Story, estructuras_catedra):
             t = Paragraph(tarea.tarea_funcion, style, bulletText='-')
             p_tareas.append(t)
 
-        new_row = [estructura.profesor.nombre + ' ' + estructura.profesor.apellido, estructura.categoria.categoria, estructura.dedicacion.dedicacion, estructura.situacion.situacion, p_tareas]
+        new_row = [estructura.profesor.first_name + ' ' + estructura.profesor.last_name, estructura.categoria.categoria, estructura.dedicacion.dedicacion, estructura.situacion.situacion, p_tareas]
         data.append(new_row)
 
     t = Table(data)
@@ -356,7 +356,7 @@ def print_cronograma(Story, clases):
 
         p_profesores = []
         for profesor in clase.profesor_a_cargo.all():
-            p_profesor = Paragraph(profesor.nombre + ', ' + profesor.apellido, style, bulletText='-')
+            p_profesor = Paragraph(profesor.first_name + ', ' + profesor.last_name, style, bulletText='-')
             p_profesores.append(p_profesor)
 
         p_unidades = []
@@ -377,7 +377,7 @@ def print_cronograma(Story, clases):
             p_profesores, Paragraph(clase.lugar_desarrollo_de_clase or "", style), 
             [
                 Paragraph(clase.fecha_clase.strftime("%m/%d/%Y") or "", style), 
-                Paragraph(clase.numero_de_clase_o_semana or "", style)
+                Paragraph(str(clase.numero_de_clase_o_semana) or "", style)
             ], 
             p_unidades, Paragraph(str(clase.cantidad_tareas) or "", style), 
             p_resultados
@@ -488,7 +488,7 @@ def print_distribucion_tareas(Story, numero_comisiones, numero_estudiantes, prof
     ]
 
     for detalle_profesor in profesores:
-        new_row = [Paragraph(detalle_profesor.profesor.nombre + ', ' + detalle_profesor.profesor.apellido, style), Paragraph(str(detalle_profesor.categoria), style), Paragraph(str(detalle_profesor.situacion), style), Paragraph(str(detalle_profesor.dedicacion), style), Paragraph(detalle_profesor.actividades or "", style)]
+        new_row = [Paragraph(detalle_profesor.profesor.first_name + ', ' + detalle_profesor.profesor.last_name, style), Paragraph(str(detalle_profesor.categoria), style), Paragraph(str(detalle_profesor.situacion), style), Paragraph(str(detalle_profesor.dedicacion), style), Paragraph(detalle_profesor.actividades or "", style)]
         data.append(new_row)
         
     t = Table(data)
@@ -516,7 +516,7 @@ def print_distribucion_tareas(Story, numero_comisiones, numero_estudiantes, prof
     ]
 
     for detalle_profesor in profesores_auxiliares:
-        new_row = [Paragraph(detalle_profesor.profesor.nombre + ', ' + detalle_profesor.profesor.apellido, style), Paragraph(str(detalle_profesor.categoria), style), Paragraph(str(detalle_profesor.situacion), style), Paragraph(str(detalle_profesor.dedicacion), style), Paragraph(detalle_profesor.actividades or "", style)]
+        new_row = [Paragraph(detalle_profesor.profesor.first_name + ', ' + detalle_profesor.profesor.last_name, style), Paragraph(str(detalle_profesor.categoria), style), Paragraph(str(detalle_profesor.situacion), style), Paragraph(str(detalle_profesor.dedicacion), style), Paragraph(detalle_profesor.actividades or "", style)]
         data.append(new_row)
         
     t = Table(data)
