@@ -48,7 +48,7 @@ def ClasesView(request,id_planificacion):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
     if request.method == "POST":  
-        form = ClaseForm(request.POST)
+        form = ClaseForm(request.POST,planificacion_id=id_planificacion)
         if form.is_valid():  
             try:
                 print("entro")  
@@ -65,14 +65,8 @@ def ClasesView(request,id_planificacion):
             except:  
                  mensaje_error = "No pudimos añadir la clase."    
     else:  
-        try:
-            form = ClaseForm()
-            form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
-            form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
-            form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
-            form_create = CronogramaCreateForm()    
-        except:
-            mensaje_error = "No pudimos obtener los datos correctamente."
+        form = ClaseForm(planificacion_id=id_planificacion)
+        form_create = CronogramaCreateForm()    
     #Agregar
     context = {
         'planificacion': planificacion,
@@ -108,9 +102,9 @@ def ClaseUpdate(request, id_planificacion, id_clase):
     mensaje_error = None
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = Clase.objects.get(id=id_clase)
-    form = ClaseForm(instance=data)
+    form = ClaseForm(instance=data,planificacion_id=id_planificacion)
     if request.method == "POST":  
-        form = ClaseForm(request.POST, instance = data)  
+        form = ClaseForm(request.POST, instance = data,planificacion_id=id_planificacion)  
         if form.is_valid():  
             try: 
                 instance = form.save(commit=False)
@@ -125,10 +119,8 @@ def ClaseUpdate(request, id_planificacion, id_clase):
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
-        form = ClaseForm(instance=data)
-        form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
-        form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion = planificacion)
-        form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)  
+        form = ClaseForm(instance=data,planificacion_id=id_planificacion)
+       
     return render(request,'secciones/cronograma/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
 
 @login_required

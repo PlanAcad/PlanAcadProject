@@ -48,7 +48,14 @@
             {{ actividad.tipo_de_evaluacion.get_tipo_display }}
           </td>
           <td>{{ actividad.get_actividad_display }}</td>
-          <td>{{actividad.unidad_tematica}}</td>
+          {% if actividad.unidad_tematica.all %}
+              {% for unidad in actividad.unidad_tematica.all %}
+               <td>{{unidad.titulo}}</td>
+              {% endfor %}
+          {% else %}
+            <p>-</p>
+          {% endif %}
+         
           <td>{{actividad.lugar}}</td>
           <td>{{actividad.indicadores_de_logro}}</td>
           <td>
@@ -130,36 +137,6 @@
                     </button>
                 </div>
               </form>
-                <!-- <form
-                    method="POST"
-                    action="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}"
-                >
-                    {% csrf_token %}
-                    <input type="hidden" name="form_name" value="resultado_aprendizaje"/>
-
-
-                    <label>Descripción</label>
-                    <p>{{form_resultado_aprendizaje.resultado}}</p>
-
-                    {% if form_resultado_aprendizaje.errors %}
-                    <div class="alert alert-danger">
-                        {{form_resultado_aprendizaje.errors}}
-                    </div>
-                    {% endif %}
-
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-outline-primary"
-                            data-dismiss="modal"
-                        >
-                            Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            Guardar
-                        </button>
-                    </div>
-                </form> -->
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundame
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
 from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo, viewFechaCalendarioAcademico
-from planificaciones.funcionesDeVistas import viewExportar
+from planificaciones.funcionesDeVistas import viewExportar, viewUnidad
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios, viewUsers
@@ -119,6 +119,8 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/contenido', viewContenido.IndexContenido, name='contenido'),
     path('planificacion/<int:id_planificacion>/contenido/edit/<int:id_contenido>', viewContenido.UpdateContenido, name='updateContenido'),
     path('planificacion/<int:id_planificacion>/contenido/delete/<int:id_contenido>', viewContenido.DeleteContenido, name='deleteContenido'),
+    path('planificacion/<int:id_planificacion>/contenido/unidad', viewUnidad.UnidadNew, name='unidad'),
+    
 
     # Seccion 12 - Distribución de tareas
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas', viewDistribucionDeTareas.DistribucionDeTareas, name='distribucionDeTareas'),
