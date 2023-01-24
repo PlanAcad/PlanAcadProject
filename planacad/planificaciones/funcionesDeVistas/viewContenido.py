@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelContenido import Contenido
 from planificaciones.formularios.formContenido import ContenidoForm
+from planificaciones.formularios.formUnidad import UnidadForm
+
 #Agregar
 from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
@@ -17,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 def IndexContenido(request, id_planificacion):   
     planificacion = Planificacion.objects.get(id=id_planificacion)  
     contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')  
+    unidadForm = UnidadForm()
     mensaje_exito = None
     mensaje_error = None
     #CORRECCIONES
@@ -31,9 +34,9 @@ def IndexContenido(request, id_planificacion):
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
-    form = ContenidoForm()
+    form = ContenidoForm(planificacion_id=id_planificacion)
     if request.method == 'POST':
-        form = ContenidoForm(request.POST)
+        form = ContenidoForm(request.POST,planificacion_id=id_planificacion)
         if form.is_valid():
             try:  
                 instance = form.save(commit=False)
@@ -56,6 +59,7 @@ def IndexContenido(request, id_planificacion):
         'planificacion': planificacion,
         'contenidos': contenidos,
         "form": form,
+        'formUnidad': unidadForm,
         'correcciones':correcciones,
         #Forms Correcciones
         'correccion_form': correccionForm,
@@ -75,12 +79,12 @@ def IndexContenido(request, id_planificacion):
 def UpdateContenido(request, id_planificacion, id_contenido):   
     planificacion = Planificacion.objects.get(id=id_planificacion) 
     contenido = Contenido.objects.get(id=id_contenido)  
-    form = ContenidoForm(instance=contenido)
+    form = ContenidoForm(instance=contenido,planificacion_id=id_planificacion)
     mensaje_exito = None
     mensaje_error = None
     
     if request.method == 'POST':
-        form = ContenidoForm(request.POST, instance=contenido)  
+        form = ContenidoForm(request.POST, instance=contenido,planificacion_id=id_planificacion)  
         if form.is_valid():
             try:  
                 instance = form.save(commit=False)

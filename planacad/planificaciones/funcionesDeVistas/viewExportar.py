@@ -305,8 +305,13 @@ def print_sistema_evaluacion(Story, actividades):
         for resultado in actividad.resultados_de_aprendizaje.all():
             p_resultado_aprendizaje = Paragraph(resultado.resultado, style, bulletText='-')
             p_resultados_aprendizaje.append(p_resultado_aprendizaje)
+        p_unidades = []
+        for unidad in actividad.unidad_tematica.all():
+            p_unidad = Paragraph( str(unidad.numero)+ " " + unidad.titulo , style, bulletText='-')
+            p_unidades.append(p_unidad)
+        
 
-        new_row = [Paragraph(str(actividad.tipo_de_evaluacion.get_tipo_display()), style), Paragraph(actividad.get_actividad_display(), style), Paragraph(actividad.unidad_tematica, style), Paragraph(actividad.lugar, style), Paragraph(actividad.indicadores_de_logro, style), p_resultados_aprendizaje, Paragraph(actividad.tecnicas_de_evaluacion, style)]
+        new_row = [Paragraph(str(actividad.tipo_de_evaluacion.get_tipo_display()), style), Paragraph(actividad.get_actividad_display(), style), p_unidades, Paragraph(actividad.lugar, style), Paragraph(actividad.indicadores_de_logro, style), p_resultados_aprendizaje, Paragraph(actividad.tecnicas_de_evaluacion, style)]
         data.append(new_row)
 
     t = Table(data)

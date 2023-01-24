@@ -73,7 +73,15 @@
                     <ul>
                       <li>Tipo: {{ actividad.tipo_de_evaluacion.get_tipo_display }}</li>
                       <li>Actividades de evaluación: {{ actividad.get_actividad_display }}</li>
-                      <li>Unidad tematica: {{actividad.unidad_tematica}}</li>
+                      <li>Unidad tematica: 
+                            {% if actividad.unidad_tematica.all %}
+                                {% for unidad in actividad.unidad_tematica.all %}
+                                     <td>{{unidad.numero}}, </td>
+                                {% endfor %}
+                            {% else %}
+                                <p>-</p>
+                            {% endif %}
+                    </li>
                       <li>Lugar/plataformas: {{actividad.lugar}}</li>
                       <li>Indicadores de logro: {{actividad.indicadores_de_logro}}</li>
                       <li>RA: <br/>

@@ -41,10 +41,8 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
     competencias_planificacion = Competencia.objects.filter(planificacion=planificacion)
     subcompetencias_planificacion = SubCompetencia.objects.filter(competencia__in = competencias_planificacion)
 
-    # Unidades: Las unidades sacar de Contenido. Se deben seleccionar todos los contenidos que tengan la planificacion que le pasamos
-    # unidades_planificacion = Contenido.objects.filter(planificacion=planificacion).values('numero_unidad').order_by('numero_unidad')
-    contenidos_unidad = Contenido.objects.filter(planificacion=planificacion).values('unidad')
-    unidades = Unidad.objects.filter(id__in=contenidos_unidad)
+    # Unidades: Las unidades sacar de Unidades
+    unidades = Unidad.objects.filter(planificacion_id=planificacion.id)
 
     # Bibliografias: Listar todos las Bibliografias que estén asociadas a la planificación. Puede seleccionar multiples.
     bibliografias_planificacion = Bibliografia.objects.filter(planificacion=planificacion)
@@ -200,10 +198,8 @@ def UpdatePropuestaDesarrollo(request, id_planificacion, id_propuesta_desarrollo
     competencias_planificacion = Competencia.objects.filter(planificacion=planificacion)
     subcompetencias_planificacion = SubCompetencia.objects.filter(competencia__in = competencias_planificacion)
 
-    # Unidades: Las unidades sacar de Contenido. Se deben seleccionar todos los contenidos que tengan la planificacion que le pasamos
-    # unidades_planificacion = Contenido.objects.filter(planificacion=planificacion).values('numero_unidad').order_by('numero_unidad')
-    contenidos_unidad = Contenido.objects.filter(planificacion=planificacion).values('unidad')
-    unidades = Unidad.objects.filter(id__in=contenidos_unidad)
+    # Unidades: Las unidades sacar de Unidades
+    unidades = Unidad.objects.filter(planificacion_id=planificacion.id)
 
     # Bibliografias: Listar todos las Bibliografias que estén asociadas a la planificación. Puede seleccionar multiples.
     bibliografias_planificacion = Bibliografia.objects.filter(planificacion=planificacion)
