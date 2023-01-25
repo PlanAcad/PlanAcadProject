@@ -23,7 +23,11 @@
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
   {% endif %}
-
+  {% if messages %}
+    {% for message in messages %}
+    <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
   <form
     method="POST"
     class="mt-6"

@@ -65,6 +65,7 @@ def AsignaturaDetailView(request, id, error = 'False'):
     carrera = Carrera.objects.get(id=asignatura.carrera_id)
     # Obtener planificaciones existentes
     usergroup = request.user.groups.values_list('name',flat = True)
+    planificacionesDeAsignatura = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).exists()
     if "profesor" in  usergroup  :
         planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('fecha_creacion')
     elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
@@ -79,6 +80,7 @@ def AsignaturaDetailView(request, id, error = 'False'):
         msgError = "La planificacion tiene un problema y no es posible tomarla como referencia"
     context = {
             'planificaciones':planificaciones,
+            'planificacionesDeAsignatura':planificacionesDeAsignatura,
             'asignatura': asignatura,
             'carrera':carrera,
             'form':form, 
@@ -114,7 +116,7 @@ def AsignaturaDestroy(request, id):
 def PapeleraView(request, id_asignatura):  
     asignatura = Asignatura.objects.get(id=id_asignatura)  
     carrera = Carrera.objects.get(id=asignatura.carrera_id)
-    planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=True).order_by('id')
+    planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=True).order_by('fecha_creacion')
     context = {
             'planificaciones':planificaciones,
             'asignatura': asignatura,

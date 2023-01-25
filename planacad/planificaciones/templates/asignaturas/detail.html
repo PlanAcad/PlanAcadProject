@@ -7,6 +7,7 @@
         <div class="container-xl">
             <div class="row">
                 <main class="col seccion px-4 py-3">
+
                     {% if error_message %}
                     <p><strong>{{ error_message }}</strong></p>
                     {% endif %} {% if form.subject.errors %}
@@ -17,10 +18,29 @@
                     </ol>
                     {% endif %} 
 
-                    <!-- <h2 style="margin-bottom: 0">
-                        Bienvenido profesor_name
-                    </h2> -->
+                    {% if messages %}
+                      {% for message in messages %}
+                        {% if "success" in message.tags %}
+                          <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+                        {% endif %}
+                        {% if "error" in message.tags %}
+                          <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
 
+                    {% if not planificaciones %}
+                      {% if not planificacionesDeAsignatura %}
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          <strong>No existen planificaciones!</strong>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                          </div>
+                      {% else %}
+                        <div class="alert alert-warning" role="alert">
+                          Existen planificaciones en otro estado actualmente
+                        </div>
+                        {% endif %}
+                    {% endif %}
 
                     {% if asignatura %}
                     <div class="d-flex justify-content-between mb-3">
@@ -46,7 +66,6 @@
                     <form id="nueva-planificacion-form" action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
                       {% csrf_token %} {{ form }}
                     </form>
-                    {{error}}
                     {% if error %}
                       <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>Ha ocurrido un error!</strong> {{error}}
@@ -54,12 +73,8 @@
                       </div>
                     {% endif %}
 
-                    {% if not planificaciones %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                      <strong>No existen planificaciones!</strong>
-                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                      </div>
-                    {% endif %} 
+                    
+                     
                     <div class="row mt-4">
                     {% if request.user|has_group:"jefe de carrera" or request.user|has_group:"profesor" %}
                             <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">

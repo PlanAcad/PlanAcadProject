@@ -17,9 +17,16 @@
                     </ol>
                     {% endif %} 
 
-                    <!-- <h2 style="margin-bottom: 0">
-                        Bienvenido profesor_name
-                    </h2> -->
+                    {% if messages %}
+                      {% for message in messages %}
+                        {% if "success" in message.tags %}
+                          <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+                        {% endif %}
+                        {% if "error" in message.tags %}
+                          <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
 
 
                     {% if asignatura %}
@@ -41,7 +48,7 @@
                           <div class="col-md-4">
                             <div class="card card-subject p-0 mb-5">
                                 <form
-                                id="restore-form"
+                                id="{{ planificacion.id }}"
                                 method="POST"
                                 action="{% url 'planificaciones:restorePlanificacion' planificacion.id %}"
                                 style="display: none;"
@@ -63,7 +70,7 @@
                                     </button>
                                   <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
                                     <li><a href="#"><button style="all: unset;" data-toggle="modal" data-target="#modal-delete">Eliminar definitivamente</button></a></li>
-                                    <li><a href="#" onclick="document.getElementById('restore-form').submit()">Restaurar</a></li>
+                                    <li><a href="#" onclick="document.getElementById('{{ planificacion.id }}').submit()">Restaurar</a></li>
                                   </ul>
                                 </div>
 
@@ -71,9 +78,14 @@
                                 href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
                                 style="text-decoration: none"
                                 >
-                              <div class="planif-state-card float-right">
-                                <p>En proceso</p>
+                                <div class="planif-state-card float-right 
+                              {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
+                              {% if planificacion.estado == "R" %} planif-state-card--revision {% endif %}
+                              {% if planificacion.estado == "C" %} planif-state-card--correccion {% endif %}
+                              ">
+                                <p>{{ planificacion.get_estado_display }}</p>
                               </div>
+
                               <div class="p-3 pt-2">
                                 <h5 class="card-subject-title">
                                     {{ planificacion.asignatura.nombre_materia }} - {{ planificacion.fecha_creacion.year }}

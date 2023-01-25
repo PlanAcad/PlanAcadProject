@@ -13,6 +13,7 @@ from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 # To show and to add new one
@@ -162,9 +163,10 @@ def UpdateDistribucionDeTareasPlanif(request, id_planificacion):
                 mensaje_exito="Guardamos los cambios correctamente."
 
                 print(mensaje_exito)
+                messages.success(request, 'Se ha guardado con éxito')
                 return redirect('planificaciones:distribucionDeTareas', id_planificacion=id_planificacion)
             except:  
-                mensaje_error = "No pudimos guardar los cambios."
+                messages.error(request, 'La operación falló')
     return redirect('planificaciones:distribucionDeTareas', id_planificacion=id_planificacion)
             
 
