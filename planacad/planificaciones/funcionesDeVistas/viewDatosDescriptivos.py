@@ -19,7 +19,7 @@ from django.contrib.auth.decorators import login_required
 
 
 ##Define request for Asignatura
-@login_required   
+
 def DatosDescriptivosNew(asignatura_id, carrera_id):      
         form = DatosDescriptivos()  
         # Asigno la asignatura y carrera, no hace falta ir a buscar el objeto

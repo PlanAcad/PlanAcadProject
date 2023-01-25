@@ -8,13 +8,15 @@ from datetime import datetime
 ## import model and form
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
+from planificaciones.modelos.modelFundamentacion import Fundamentacion
+from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos
 from planificaciones.funcionesDeVistas import viewFundamentacion
 from planificaciones.validaciones import validacionSecciones
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 
 ##Define request for Planificacion   
 @login_required
@@ -41,11 +43,17 @@ def PlanificacionNew(request, asignatura_id):
                 instance.estado = 'P'
                 # Obtengo el id de carrera 
                 asignatura = Asignatura.objects.get(id=asignatura_id) 
-
-                # Creo secciones vacías           
-                datosDescriptivos = viewDatosDescriptivos.DatosDescriptivosNew(asignatura_id=asignatura_id, carrera_id=asignatura.carrera_id)
-                fundamentacion = viewFundamentacion.FundamentacionNew()
-                
+                print(asignatura)
+                # Creo secciones vacías
+                datosDescriptivos = DatosDescriptivos()  
+                # Asigno la asignatura y carrera, no hace falta ir a buscar el objeto
+                datosDescriptivos.asignatura_id = asignatura_id
+                datosDescriptivos.carrera_id = asignatura.carrera_id
+                # Guardo el objeto definitivamente
+                datosDescriptivos.save()
+                fundamentacion = Fundamentacion()
+                # Guardo el objeto definitivamente
+                fundamentacion.save()           
                 # Vinculo los ids
                 instance.datos_descriptivos_id = datosDescriptivos.id
                 instance.fundamentacion_id = fundamentacion.id
@@ -55,9 +63,11 @@ def PlanificacionNew(request, asignatura_id):
                 return redirect('planificaciones:datosDescriptivos',id_planificacion = instance.id)
             # if a GET (or any other method) we'll create a blank form
             else:
-                return redirect(reverse('planificaciones:asignaturaDetail', kwargs={'id' : asignatura_id, 'error': 'Ha ocurrido un error pruebalo nuevamente'} ))
+                messages.error(request, 'Ha ocurrido un error pruebalo nuevamente')
+                return redirect('planificaciones:asignaturaDetail',id_planificacion = asignatura_id)
         else:
-            return redirect(reverse('planificaciones:asignaturaDetail', kwargs={'id' : asignatura_id, 'error': 'Ya existe una planificacion de este año'} ))
+            messages.error(request, 'Ya existe una planificacion de este año')
+            return redirect('planificaciones:asignaturaDetail',id_planificacion = asignatura_id)
 
 @login_required
 def PlanificacionesView(request,idAsignatura):
@@ -99,14 +109,24 @@ def PlanificacionLogicDestroy(request, id):
 def PlanificacionRestore(request, id):
     mensaje_error = None
     try:
-        planificacion = Planificacion.objects.get(id=id)
-        planificacion.eliminada = False
-        planificacion.save(update_fields=['eliminada'])
-        return redirect('planificaciones:asignaturaDetail', id=planificacion.asignatura.id)
+        planificacionRestore = Planificacion.objects.get(id=id)
+        planificaciones = Planificacion.objects.filter(asignatura_id = planificacionRestore.asignatura.id).filter(eliminada = False)
+        current_year = datetime.now().year
+        existePlanificacionAñoActual = False
+        for planificacion in planificaciones:
+            if planificacion.fecha_creacion.year == current_year:
+                existePlanificacionAñoActual = True
 
+        if not existePlanificacionAñoActual:
+            planificacionRestore.eliminada = False
+            planificacionRestore.save(update_fields=['eliminada'])
+            return redirect('planificaciones:asignaturaDetail', id=planificacionRestore.asignatura.id)
+        else:
+            messages.error(request, 'Ya existe una nueva planificacion de este año creada, puede eliminarla y luego restarurar esta')
+            return redirect('planificaciones:papelera', id_asignatura=planificacionRestore.asignatura.id)
     except:
         mensaje_error = "No se pudo eliminar la planificacion"
-        return redirect('planificaciones:asignaturaDetail', {'id': planificacion.asignatura.id, 'mensaje_error': mensaje_error})
+        return redirect('planificaciones:asignaturaDetail', {'id': planificacionRestore.asignatura.id, 'mensaje_error': mensaje_error})
 
 @login_required
 def PlanificacionDestroy(request, id):  
