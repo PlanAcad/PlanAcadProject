@@ -105,7 +105,7 @@
                             <tbody>
                                 {% for r in resultados_aprendizaje_materia %}
                                 <tr
-                                    onclick="location.href=`{% url 'planificaciones:updatePDResultadoAprendizaje' planificacion.id r.id %}`"
+                                {% if not planificacion.estado == "A" %} onclick="location.href=`{% url 'planificaciones:updatePDResultadoAprendizaje' planificacion.id r.id %}`" {% endif %}
                                 >
                                     <td class="">R{{ forloop.counter }}</td>
                                     <td class="">{{r.resultado}}</td>
@@ -117,15 +117,18 @@
                         </table>
                     </tbody>
                 </table>
-                <!-- Abrir modal resultado de aprendizaje -->
-                <button
+                {% if not planificacion.estado == "A" %} 
+                    <!-- Abrir modal resultado de aprendizaje -->
+                    <button
                     type="button"
                     class="btn btn-primary mt-4"
                     data-toggle="modal"
                     data-target="#modal-resultado-aprendizaje"
-                >
+                    >
                     Añadir resultado de aprendizaje
-                </button>
+                    </button>
+                {% endif %}
+                
             </div>
 
             {% if mensaje_exito %}
@@ -169,7 +172,7 @@
                 {% if propuestas_desarrollo %}
                 <tbody>
                     {% for propuesta in propuestas_desarrollo %}
-                    <tr onclick="location.href=`{% url 'planificaciones:updatePropuestaDesarrollo' planificacion.id propuesta.id %}`">
+                    <tr {% if not planificacion.estado == "A" %}  onclick="location.href=`{% url 'planificaciones:updatePropuestaDesarrollo' planificacion.id propuesta.id %}`" {% endif %}>
                         <td>
                             {% for subcompetencia in propuesta.subcompetencias.all %}
                             <p>{{ forloop.counter }}. {{ subcompetencia.descripcion }}</p>
@@ -211,6 +214,7 @@
             </table>
         </tbody>
     </table>
+    {% if not planificacion.estado == "A" %} 
     <!-- Abrir modal propuesta de desarrollo -->
     <button
         type="button"
@@ -220,6 +224,9 @@
     >
         Añadir propuesta de desarrollo
     </button>
+    {% endif %}
+    
+    
 </div>
 
 

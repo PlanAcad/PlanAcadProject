@@ -46,7 +46,7 @@
                 <td class="text-center">
                   <a
                                 class="stretched-link"
-                                href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}"
+                                {% if not planificacion.estado == "A" %} href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}" {% endif %}
                                 >
                   {{fila.fecha_clase|default:""}}
                   {% if fila.numero_de_clase_o_semana %}
@@ -97,10 +97,12 @@
             </tbody>
     </tbody>
 </table>
+{% if not planificacion.estado == "A" %} 
+  <button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modal-cronograma">
+    Añadir fila
+  </button>
+{% endif %}
 
-<button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modal-cronograma">
-  Añadir fila
-</button>
 
 <div class="seccion_disclaimer">
   Considerar la actividad desarrollada en el Módulo 2 del Curso Formación por Competencias.<br />

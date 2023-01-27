@@ -43,7 +43,7 @@
         </tr>
 
         {% for actividad in actividades %}
-        <tr onclick="location.href=`{% url 'planificaciones:updateActividad' planificacion.id actividad.id %}`">
+        <tr {% if not planificacion.estado == "A" %}  onclick="location.href=`{% url 'planificaciones:updateActividad' planificacion.id actividad.id %}`" {% endif %}>
           <td>
             {{ actividad.tipo_de_evaluacion.get_tipo_display }}
           </td>
@@ -77,15 +77,18 @@
     </tbody>
   </table>
 
-  <!-- Abrir modal sistema de evaluacion -->
-  <button
-      type="button"
-      class="btn btn-primary mt-4"
-      data-toggle="modal"
-      data-target="#modal-sistema-evaluacion"
-  >
+  {% if not planificacion.estado == "A" %} 
+    <button
+    type="button"
+    class="btn btn-primary mt-4"
+    data-toggle="modal"
+    data-target="#modal-sistema-evaluacion"
+    >
       Añadir actividad
-  </button>
+    </button>
+  {% endif %}
+  <!-- Abrir modal sistema de evaluacion -->
+  
 
   <p class="indications__footer__mesage">
     Recuperar lo desarrollado en el Módulo 4 del Curso Formación por Competencias. Presentar al menos una rúbrica de evaluación para un Resultado de Aprendizaje.

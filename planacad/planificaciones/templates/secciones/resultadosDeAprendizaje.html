@@ -50,7 +50,7 @@
                 <tbody>
                     {% if data %} {% for fila in data %}
 
-                    <tr onclick="location.href=`{% url 'planificaciones:resultadosDeAprendizajesUpdate' planificacion.id fila.id %}`">
+                    <tr {% if not planificacion.estado == "A" %} onclick="location.href=`{% url 'planificaciones:resultadosDeAprendizajesUpdate' planificacion.id fila.id %}`" {% endif %}>
                         <td class="py-4">{{fila.asignatura|default:""}}</td>
                         <td class="py-4">{{fila.resultado|default:""}}</td>
                     </tr>
@@ -64,15 +64,18 @@
         </tbody>
     </table>
 
-    <!-- Abrir modal  -->
-    <button
-        type="button"
-        class="btn btn-primary mt-4"
-        data-toggle="modal"
-        data-target="#modal-resultado-aprendizaje-previo"
-    >
-        Añadir resultado de aprendizaje
-    </button>
+    {% if not planificacion.estado == "A" %} 
+        <!-- Abrir modal  -->
+        <button
+            type="button"
+            class="btn btn-primary mt-4"
+            data-toggle="modal"
+            data-target="#modal-resultado-aprendizaje-previo"
+        >
+            Añadir resultado de aprendizaje
+        </button>
+    {% endif %}
+    
 
     {% if form.errors %}
     <div class="alert alert-danger">{{form.errors}}</div>
