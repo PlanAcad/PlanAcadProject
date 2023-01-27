@@ -41,11 +41,11 @@
 
             {% if data %} {% for detalleprofesor in data %}
             <tr
-                onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"
+            {% if not planificacion.estado == "A" %} onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"{% endif %} 
             >
                 <td class="py-4">
                     <a
-                        href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}"
+                    {% if not planificacion.estado == "A" %}  href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}" {% endif %}
                         >{{detalleprofesor.profesor.first_name|default:""}}
                         {{detalleprofesor.profesor.last_name|default:""}}</a
                     >
@@ -67,6 +67,8 @@
         </tbody>
     </table>
     
+    
+    {% if not planificacion.estado == "A" %} 
     <!-- Abrir modal de añadir docente -->
     <button
         type="button"
@@ -76,6 +78,9 @@
     >
         Añadir docente
     </button>
+    {% endif %}
+
+
 </div>
 
 

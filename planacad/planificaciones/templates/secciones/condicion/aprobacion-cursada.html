@@ -20,8 +20,9 @@
     {% if form.errors %}
     <div class="alert alert-danger">{{form.errors}}</div>
     {% endif %}
-
+    {% if not planificacion.estado == "A" %} 
     <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
+    {% endif %}
   </form>
 </div>
 

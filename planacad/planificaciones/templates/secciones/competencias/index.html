@@ -44,7 +44,7 @@
                     {% if data %} {% for competencia in data %}
 
                     <tr
-                        onclick="location.href='competencias/edit/{{competencia.id}}'"
+                    {% if not planificacion.estado == "A" %} onclick="location.href='competencias/edit/{{competencia.id}}'" {% endif %}
                         class="position-relative"
                     >
                         <td class="py-4">
@@ -53,7 +53,7 @@
                         <td class="py-4">
                             <a
                                 class="stretched-link"
-                                href="competencias/edit/{{competencia.id}}"
+                                {% if not planificacion.estado == "A" %} href="competencias/edit/{{competencia.id}}" {% endif %}
                                 >{{competencia.descripcion|default:""}}</a
                             >
                         </td>
@@ -77,15 +77,18 @@
         </tbody>
     </table>
 
-    <!-- Abrir modal añadir competencia -->
-    <button
-        type="button"
-        class="btn btn-primary mt-4"
-        data-toggle="modal"
-        data-target="#modal-competencia"
-    >
-        Añadir competencia
-    </button>
+    {% if not planificacion.estado == "A" %} 
+        <!-- Abrir modal añadir competencia -->
+        <button
+            type="button"
+            class="btn btn-primary mt-4"
+            data-toggle="modal"
+            data-target="#modal-competencia"
+        >
+            Añadir competencia
+        </button>
+    {% endif %}
+    
 
     {% if form.errors %}
     <div class="alert alert-danger">{{form.errors}}</div>

@@ -1,8 +1,11 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
-<header class="seccion__acciones">
-  <button onclick="document.getElementById('fundamentacion-form').submit()" class="btn btn-primary">Guardar</button>
-</header>
+{% if not planificacion.estado == "A" %} 
+  <header class="seccion__acciones">
+    <button onclick="document.getElementById('fundamentacion-form').submit()" class="btn btn-primary">Guardar</button>
+  </header>
+{% endif %}
+
 
 <h2 class="seccion__encabezado">3. Fundamentación</h2>
   {% if existen_correcciones_pendientes %}
