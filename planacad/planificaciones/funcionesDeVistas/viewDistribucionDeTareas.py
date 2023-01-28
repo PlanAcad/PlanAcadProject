@@ -46,7 +46,6 @@ def DistribucionDeTareas(request, id_planificacion):
             try:  
                 distribucion_de_tareas = form.save(commit=False)
                 distribucion_de_tareas.planificacion_id = planificacion.id
-                distribucion_de_tareas.profesor = profesor
                 distribucion_de_tareas.save()
                 form.save_m2m()
 
