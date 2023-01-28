@@ -2,6 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from planificaciones.modelos.modelActividad import Actividad
 from planificaciones.modelos.modelUnidad import Unidad
+from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
+
 from django.db.models import Value
 from django.db.models.functions import Concat
 from django.db.models import CharField
@@ -26,6 +28,8 @@ class ActividadForm(ModelForm):
                                                     choices= list(Unidad.objects.filter(planificacion_id=planificacion_id)
                                                     .annotate(title_number=Concat('numero', Value(': '), 'titulo',output_field=CharField())).values_list('id', 'title_number')
                                                     .values_list('id','title_number')))
+        self.fields['resultados_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion_id=planificacion_id)
+        
 
     def render(self):
         return self.as_table()
