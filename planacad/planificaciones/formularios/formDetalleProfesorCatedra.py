@@ -2,10 +2,12 @@ from django import forms
 from django.contrib.auth.models import User, Group 
 from django.utils.translation import gettext_lazy as _
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
+from planificaciones.modelos.modelAsignatura import Asignatura
+
 
 class DetalleProfesorCatedraForm(forms.ModelForm):
     profesor = forms.ModelChoiceField(
-        queryset= User.objects.filter(groups= Group.objects.get(name='profesor'))) 
+        queryset= User.objects.filter(groups= Group.objects.get(name='profesor')))
     
     nombre_profesor = forms.CharField(required=False) 
     apellido_profesor = forms.CharField(required=False) 
@@ -24,3 +26,8 @@ class DetalleProfesorCatedraForm(forms.ModelForm):
             'dedicacion': _('Dedicación'),
             'tareas': _('Tareas/Funciones a realizar'),
         }
+    def __init__(self, *args, **kwargs):
+        asignatura_id = kwargs.pop('asignatura_id', None)
+        super(DetalleProfesorCatedraForm, self).__init__(*args, **kwargs)
+        asignatura = Asignatura.objects.get(id= asignatura_id)
+        self.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
