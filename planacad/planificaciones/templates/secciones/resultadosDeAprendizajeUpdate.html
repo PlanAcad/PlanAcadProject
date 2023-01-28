@@ -13,17 +13,14 @@
 
   <h3>Modificar Resultado de Aprendizaje</h3>
   <form
-    data-resultados-url="{% url 'planificaciones:ajax_load_resultados' %}" novalidate
-    method="POST" id="resultadoDeAprendizajeAnteriorForm"
-    action="{% url 'planificaciones:resultadosDeAprendizajesUpdate' planificacion.id data.id %}"
+  data-resultados-url="{% url 'planificaciones:ajax_load_resultados' %}"
+  novalidate
+  method="POST"
+  id="resultadoDeAprendizajeAnteriorForm"
+  action="{% url 'planificaciones:resultadosDeAprendizajesUpdate' planificacion.id data.id %}"
   >
-    {% csrf_token %} 
-    
-    <label>Asignatura:</label>
-    <p>{{form.asignatura}}</p>
+    {% csrf_token %} {{form.as_p}}
 
-    <label>Resultado:</label>
-    <p>{{form.resultado}}</p>
   </form>
 
   <div id="buttons-footer" style="display: flex; justify-content: space-between">

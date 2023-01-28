@@ -37,7 +37,7 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
     if request.method == "POST":  
-        form = ResultadoDeAprendizajeAnteriorForm(request.POST)
+        form = ResultadoDeAprendizajeAnteriorForm(request.POST,planificacion_id=id_planificacion)
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)
@@ -47,8 +47,8 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
             except:  
                  mensaje_error = "No pudimos añadir el resultado de aprendizaje."    
     else:  
-        form = ResultadoDeAprendizajeAnteriorForm()
-        form.fields['asignatura'].queryset = Asignatura.objects.exclude(id = planificacion.asignatura_id)
+        form = ResultadoDeAprendizajeAnteriorForm(planificacion_id=id_planificacion)
+        # form.fields['asignatura'].queryset = Asignatura.objects.exclude(id = planificacion.asignatura_id)
         ##form.fields['resultado'].queryset = ResultadoDeAprendizaje.objects.filter(asignatura_id=request.GET.get('asignatura')).order_by('resultado')
       #Agregar
     context = {
@@ -70,7 +70,11 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
 @login_required
 def ResultadosDeAprendizajePorAsignatura(request):
     asignatura_id=request.GET.get('asignatura')
-    resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).order_by('resultado')
+    resultados = ResultadoDeAprendizaje.objects.none()
+    if(asignatura_id):
+        planificacionesAsignatura = Planificacion.objects.filter(asignatura_id=asignatura_id).filter(eliminada= False).filter(estado='A').order_by('fecha_creacion')
+        lastPlanificacionAsignatura = planificacionesAsignatura.last()    
+        resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).filter(planificacion_id = lastPlanificacionAsignatura.id).order_by('resultado')
     return render(request, 'secciones/resultado-de-aprendizaje-anterior/dropdown-ra-anteriores-options.html', {'resultados': resultados})
 
 @login_required
@@ -93,7 +97,7 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = ResultadoDeAprendizajeAnterior.objects.get(id=id_resultadodeaprendizaje)
     if request.method == "POST":  
-        form = ResultadoDeAprendizajeAnteriorForm(request.POST, instance = data)  
+        form = ResultadoDeAprendizajeAnteriorForm(request.POST, instance = data,planificacion_id=id_planificacion)  
         if form.is_valid():  
             try: 
                 instance = form.save(commit=False)
@@ -106,8 +110,16 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
-        form = ResultadoDeAprendizajeAnteriorForm()
-        form.fields['asignatura'].queryset = Asignatura.objects.exclude(id = planificacion.asignatura_id) 
+        asignatura_id=data.asignatura.id
+        print(asignatura_id)
+        form = ResultadoDeAprendizajeAnteriorForm(instance = data, planificacion_id=id_planificacion)
+        if(asignatura_id):
+            planificacionesAsignatura = Planificacion.objects.filter(asignatura_id=asignatura_id).filter(eliminada= False).filter(estado='A').order_by('fecha_creacion')
+            print(planificacionesAsignatura.count())
+            lastPlanificacionAsignatura = planificacionesAsignatura.last()    
+            resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).filter(planificacion_id = lastPlanificacionAsignatura.id).order_by('resultado')
+            form.fields['resultado'].queryset = resultados
+
     return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
