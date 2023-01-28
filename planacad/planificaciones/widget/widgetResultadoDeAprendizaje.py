@@ -15,7 +15,7 @@ class CheckboxSelectMultipleResultadoDeAprendizaje(forms.CheckboxSelectMultiple)
             if attrs is None:
                 attrs = {}
             attrs["value"] = self.choices[0][0]
-            attrs["class"] = self.cssClass
+            # attrs["class"] = self.cssClass
             label = str(self.choices[0][1])
             checkbox = forms.CheckboxInput(attrs=attrs, check_test=lambda value: value in [value,])
             return checkbox.render(name, value) + ' ' + label

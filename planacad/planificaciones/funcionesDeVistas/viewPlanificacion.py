@@ -17,6 +17,8 @@ from planificaciones.funcionesDeVistas import viewFundamentacion
 from planificaciones.validaciones import validacionSecciones
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import smtplib
+from email.mime.text import MIMEText
 
 ##Define request for Planificacion   
 @login_required
@@ -146,6 +148,24 @@ def AprobarPlanificacion(request, id):
             instance.estado = "A"
             print(instance.estado)  
             instance.save()
+
+
+            ## Me conecto al servidor
+            server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
+            server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
+            from_email = "carlitoslopezsoto495@gmail.com"
+            for usuario in planificacion.asignatura.profesor.all():
+                to_email = usuario.email
+                message = "Se ha aprobado la planificacion de " + planificacion.asignatura.nombre_materia + " de la comision " + str(planificacion.asignatura.comision) + " del año " + str(planificacion.datos_descriptivos.ciclo_lectivo) 
+                message = MIMEText(message)
+                message["Content-Type"] = "text/plain; charset=UTF-8"
+                message['subject'] = 'Cambio de estado de la planificacion'
+                msg = message.as_string()
+                server.sendmail(from_email, to_email, msg)
+
+            ##Cierro conexion al servidor
+            server.quit()
+            
         return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
     else:
         print("no todos los campos activos")
@@ -165,6 +185,24 @@ def RevisarPlanificacion(request, id):
             instance.estado = "R"
             print(instance.estado)  
             instance.save()
+
+            ## Me conecto al servidor
+            server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
+            server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
+            from_email = "carlitoslopezsoto495@gmail.com"
+            for usuario in planificacion.asignatura.profesor.all():
+                to_email = usuario.email
+                message = "Se ha mandado a revisar la planificacion de " + planificacion.asignatura.nombre_materia + " de la comision " + str(planificacion.asignatura.comision) + " del año " + str(planificacion.datos_descriptivos.ciclo_lectivo) 
+                message = MIMEText(message)
+                message["Content-Type"] = "text/plain; charset=UTF-8"
+                message['subject'] = 'Cambio de estado de la planificacion'
+                msg = message.as_string()
+                server.sendmail(from_email, to_email, msg)
+
+            ##Cierro conexion al servidor
+            server.quit()
+
+
         return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
     else:
         print("no todos los campos activos")
@@ -182,5 +220,22 @@ def CorregirPlanificacion(request, id):
         instance.estado = "C"
         print(instance.estado)  
         instance.save()
+
+        ## Me conecto al servidor
+        server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
+        server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
+        from_email = "carlitoslopezsoto495@gmail.com"
+        for usuario in planificacion.asignatura.profesor.all():
+            to_email = usuario.email
+            message = "Se ha mandado a corregir la planificacion de " + planificacion.asignatura.nombre_materia + " de la comision " + str(planificacion.asignatura.comision) + " del año " + str(planificacion.datos_descriptivos.ciclo_lectivo) 
+            message = MIMEText(message)
+            message["Content-Type"] = "text/plain; charset=UTF-8"
+            message['subject'] = 'Cambio de estado de la planificacion'
+            msg = message.as_string()
+            server.sendmail(from_email, to_email, msg)
+
+        ##Cierro conexion al servidor
+        server.quit()
+        
     return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
     
