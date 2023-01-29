@@ -5,3 +5,4 @@ class TareasFuncionesForm(forms.ModelForm):
     class Meta:  
         model = TareasFunciones  
         fields = "__all__"
+        exclude = ["categoria", "planificacion"]

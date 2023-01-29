@@ -6,7 +6,7 @@ from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundame
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
 from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo, viewFechaCalendarioAcademico
-from planificaciones.funcionesDeVistas import viewExportar, viewUnidad
+from planificaciones.funcionesDeVistas import viewExportar, viewUnidad, viewTareasFunciones
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios, viewUsers
@@ -127,6 +127,7 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/edit/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.UpdateDistribucionDeTareas, name='updateDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/delete/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.DeleteDistribucionDeTareas, name='deleteDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas-planif', viewDistribucionDeTareas.UpdateDistribucionDeTareasPlanif, name='distribucionTareasPlanif'),
+    path('planificacion/<int:id_planificacion>/tareas-funciones', viewTareasFunciones.TareasFuncionesIndex, name='tareaYFunciones'),
     
  
     # Seccion 13 - Justificacion (Ordenanza 604)

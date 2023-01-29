@@ -40,7 +40,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
     if request.method == "POST":  
-        form = DetalleProfesorCatedraForm(request.POST,asignatura_id = planificacion.asignatura.id)  
+        form = DetalleProfesorCatedraForm(request.POST,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)  
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)
@@ -52,7 +52,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
             except:  
                  mensaje_error = "No pudimos añadir el docente."    
     else:  
-        form = DetalleProfesorCatedraForm(asignatura_id = planificacion.asignatura.id)
+        form = DetalleProfesorCatedraForm(asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)
     #Agregar
     context = {
         'planificacion': planificacion,
@@ -76,7 +76,7 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)
     if request.method == "POST":  
-        form = DetalleProfesorCatedraForm(request.POST, instance=data,asignatura_id = planificacion.asignatura.id)  
+        form = DetalleProfesorCatedraForm(request.POST, instance=data,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)  
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)
@@ -90,7 +90,7 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
-        form = DetalleProfesorCatedraForm(instance=data,asignatura_id = planificacion.asignatura.id)  
+        form = DetalleProfesorCatedraForm(instance=data,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)  
     return render(request,'secciones/detalles-profesor-catedra-update.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
