@@ -32,7 +32,6 @@ class DetalleProfesorCatedraForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         asignatura_id = kwargs.pop('asignatura_id', None)
         planificacion_id = kwargs.pop('planificacion_id', None)
-        print(planificacion_id)
         super(DetalleProfesorCatedraForm, self).__init__(*args, **kwargs)
         asignatura = Asignatura.objects.get(id= asignatura_id)
         self.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
