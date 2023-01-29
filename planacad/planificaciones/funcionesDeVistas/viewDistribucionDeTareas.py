@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from planificaciones.formularios.formDetalleProfesorCatedra import DetalleProfesorCatedraForm
+from planificaciones.formularios.formTareasFunciones import TareasFuncionesForm
 from planificaciones.formularios.formDistribucionTareas import DistribucionTareasForm
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra  
 from planificaciones.modelos.modelPlanificacion import Planificacion
@@ -22,6 +23,7 @@ def DistribucionDeTareas(request, id_planificacion):
     planificacion = Planificacion.objects.get(id=id_planificacion) 
     detalles_profesores_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion) 
     distribucionTareasForm = DistribucionTareasForm(instance=planificacion)
+    tareasFuncionesForm = TareasFuncionesForm()
     profesores =  detalles_profesores_catedra.filter(categoria__categoria = "Titular") | detalles_profesores_catedra.filter(categoria__categoria = "Adjunto")
     profesores_auxiliares =  detalles_profesores_catedra.exclude(categoria__categoria = "Titular").exclude(categoria__categoria = "Adjunto")
 
@@ -39,9 +41,9 @@ def DistribucionDeTareas(request, id_planificacion):
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
-    form = DetalleProfesorCatedraForm(asignatura_id = planificacion.asignatura.id)
+    form = DetalleProfesorCatedraForm(asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)
     if request.method == 'POST':
-        form = DetalleProfesorCatedraForm(request.POST,asignatura_id = planificacion.asignatura.id)
+        form = DetalleProfesorCatedraForm(request.POST,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)
         if form.is_valid():
             try:  
                 distribucion_de_tareas = form.save(commit=False)
@@ -64,6 +66,7 @@ def DistribucionDeTareas(request, id_planificacion):
         'profesores_auxiliares': profesores_auxiliares,
         "form": form,
         'distribucionTareasForm': distribucionTareasForm,
+        'tareasFuncionesForm':tareasFuncionesForm,
         'correcciones':correcciones,
         #Forms Correcciones
         'correccion_form': correccionForm,
@@ -100,12 +103,12 @@ def UpdateDistribucionDeTareasPlanif(request, id_planificacion):
 def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcatedra):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)
-    form = DetalleProfesorCatedraForm(instance=data,asignatura_id = planificacion.asignatura.id)
+    form = DetalleProfesorCatedraForm(instance=data,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)
     mensaje_exito = None
     mensaje_error = None
 
     if request.method == "POST":  
-        form = DetalleProfesorCatedraForm(request.POST, instance=data,asignatura_id = planificacion.asignatura.id) 
+        form = DetalleProfesorCatedraForm(request.POST, instance=data,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id) 
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)

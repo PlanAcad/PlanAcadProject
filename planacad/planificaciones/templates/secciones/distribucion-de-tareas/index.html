@@ -141,16 +141,25 @@
             Aún no se asignaron profesores auxiliares.
         </div>
     {% endif %}
-    {% if not planificacion.estado == "A" %} 
-      <!-- Abrir modal docente -->
+    {% if not planificacion.estado == "A" %}
+    <div class="d-flex-row">
       <button
-          type="button"
-          class="btn btn-primary mt-4"
-          data-toggle="modal"
-          data-target="#modal-docente"
+      type="button"
+      class="btn btn-primary mt-4"
+      data-toggle="modal"
+      data-target="#modal-docente"
       >
           Añadir docente
       </button>
+      <button
+              type="button"
+              class="btn btn-primary mt-4"
+              data-toggle="modal"
+              data-target="#modal-tarea"
+        >
+              Añadir tarea
+      </button>
+    </div> 
     {% endif %}
     
 </div>
@@ -233,59 +242,59 @@
         </div>
     </div>
 </div>
-
-
-<div class="modal" id="modal-docente" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Añadir docente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form
-        method="POST"
-        action="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
-        >
-            {% csrf_token %} 
-            
-            <label>Nombre del profesor/a:</label>
-            <p>{{form.nombre_profesor}}</p>
-
-            <label>Apellido del profesor/a:</label>
-            <p>{{form.apellido_profesor}}</p>
-            
-            <label>Categoría:</label>
-            <p>{{form.categoria}}</p>
-
-            <label>Situación y/o condición:</label>
-            <p>{{form.situacion}}</p>
-
-            <label>Designación y/o dedicación:</label>
-            <p>{{form.dedicacion}}</p>
-
-            <label>Tareas:</label>
-            <p>{{form.tareas}}</p>
-
-            <label>Actividades:</label>
-            <p>{{form.actividades}}</p>
-
-        
-            {% if form.errors %}
-            <div class="alert alert-danger">{{form.errors}}</div>
-            {% endif %}
-        
-            <div class="modal-footer">
-                <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Añadir docente</button>
+<!-- Modal tarea -->
+<div
+    class="modal fade"
+    id="modal-tarea"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabelTarea"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelTarea">
+                    Añadir tarea
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
             </div>
-        </form>
-      </div>
+            <div class="modal-body">
+              <form
+              method="POST"
+              action="{% url 'planificaciones:tareaYFunciones' planificacion.id %}"
+              >
+                  {% csrf_token %} 
+                  
+                  {{tareasFuncionesForm.as_p}}
+              
+                  {% if form.errors %}
+                  <div class="alert alert-danger">{{form.errors}}</div>
+                  {% endif %}
+              
+                  <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+              </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
 
 
 <script>
