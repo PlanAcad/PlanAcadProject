@@ -6,7 +6,7 @@ from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundame
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
 from planificaciones.funcionesDeVistas import viewPropuestaDesarrollo, viewFechaCalendarioAcademico
-from planificaciones.funcionesDeVistas import viewExportar, viewUnidad, viewTareasFunciones
+from planificaciones.funcionesDeVistas import viewExportar, viewUnidad, viewTareasFunciones, viewUsuarioPlanificacion
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios, viewUsers
@@ -41,6 +41,8 @@ urlpatterns = [
     path('planificacion/<int:id>/eliminar-planif-temporal', viewPlanificacion.PlanificacionLogicDestroy, name='deleteLogicPlanificacion'),
     path('planificacion/<int:id>/recuperar-planificacion',viewPlanificacion.PlanificacionRestore, name='restorePlanificacion'),
     path('planificacion/<int:id>/eliminar-planificacion', viewPlanificacion.PlanificacionDestroy, name='deletePlanificacion'),
+    path('planificacion/<int:id_planificacion>/<int:id_asignatura>/subcribirse-planificacion', viewUsuarioPlanificacion.PlanificacionUsuarioNew, name='subcribirsePlanificacion'),
+    path('planificacion/<int:id_planificacion>/<int:id_asignatura>/dessubcribirse-planificacion', viewUsuarioPlanificacion.PlanificacionUsuarioDelete, name='dessubcribirsePlanificacion'),
 
 
     #Profesor

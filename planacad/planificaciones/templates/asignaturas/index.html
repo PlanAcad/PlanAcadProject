@@ -106,7 +106,9 @@
                               {% endif %}
                             </div>
                             <div>
-                              <p class="calendario-card-title">{{fecha.get_actividad_display}}</p>
+                              {% for actividad in fecha.actividades %}
+                                <p class="calendario-card-title">{{actividad}}</p>
+                              {% endfor %}
                               {% if fecha.hay_clase %}
                                 <p class="calendario-card-subtitle">Sin suspensión de clases</p>
                               {% else %}
@@ -115,6 +117,8 @@
                             </div>
                           </div>
                         {% endfor %}
+                      {% else %}
+                        <p class="text-center calendario-card-title">No tienes actividades este mes</p>
                       {% endif %}
                   </div>
                 </aside>

@@ -153,11 +153,28 @@
                                   {% endif %}
                                   {% if planificacion.estado == "A" %}
                                       {% if request.user|has_group:"alumno" %}
-                                      <li><form
-                                        method="POST"
-                                        action="{% url 'planificaciones:downloadPdf' planificacion.id %}"><button type="submit">Ver planificación</button>{% csrf_token %}</form></li>
+                                          <li><form
+                                          method="POST"
+                                          action="{% url 'planificaciones:downloadPdf' planificacion.id %}"><button type="submit">Ver planificación</button>{% csrf_token %}</form></li>
+                                          {% if usuariosPlanificacion %}
+                                            {% for usuarioPlanificacion in usuariosPlanificacion %}
+                                              {% if usuarioPlanificacion.planificacion != planificacion %}
+                                                <li><form
+                                                  method="POST"
+                                                  action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>  
+                                                {% else %}
+                                                <li><form
+                                                  method="POST"
+                                                  action="{% url 'planificaciones:dessubcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Eliminar Parciales</button>{% csrf_token %}</form></li>    
+                                              {% endif %}
+                                            {% endfor %}
+                                          {% else %}
+                                            <li><form
+                                              method="POST"
+                                              action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>  
+                                          {% endif %}
                                       {% endif %}
-                                  {% endif %}           
+                                    {% endif %}           
                                       </ul>
                               </div>  
 
@@ -283,7 +300,9 @@
                               {% endif %}
                             </div>
                             <div>
-                              <p class="calendario-card-title">{{fecha.get_actividad_display}}</p>
+                              {% for actividad in fecha.actividades %}
+                                <p class="calendario-card-title">{{actividad}}</p>
+                              {% endfor %}
                               {% if fecha.hay_clase %}
                                 <p class="calendario-card-subtitle">Sin suspensión de clases</p>
                               {% else %}
@@ -292,6 +311,8 @@
                             </div>
                           </div>
                         {% endfor %}
+                      {% else %}
+                        <p class="text-center calendario-card-title">No tienes actividades del mes</p>
                       {% endif %}
                   </div>
                 </aside>
