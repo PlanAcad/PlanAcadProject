@@ -61,13 +61,14 @@
                         </a>
 
                     {% endif %}
+                    {% if not  request.user|has_group:"alumno" %}
                     <a
-                        class="item-subnavbar"
-                        href="#"
+                    class="item-subnavbar"
+                    href="#"
                     >
                         Libro Rojo
                     </a>
-               
+                    {% endif %}
                     {% now "Y" as current_year %}
                     <a
                         class="item-subnavbar"
@@ -75,13 +76,15 @@
                        >
                         Calendario Académico
                     </a>
-                
+                    {% if not  request.user|has_group:"alumno" %}
                     <a
                         class="item-subnavbar"
                         href="#"
                        >
                         Verbos de la taxonomia de Bloom
                     </a>
+                    {% endif %}
+                    
                 
             </div>
         </div>

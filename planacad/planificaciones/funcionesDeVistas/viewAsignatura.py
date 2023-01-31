@@ -46,7 +46,7 @@ def AsignaturasView(request):
         asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
         for asig in asignaturasProfesor:
             planificacion = Planificacion.objects.get(asignatura = asig)
-            if(planificacion.datos_descriptivos.ciclo_lectivo == datetime.now().year & planificacion.estado == 'A'):
+            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
     elif "jefe de carrera" in  usergroup :
         carreraUsuario = request.user.carrera.all()
@@ -55,7 +55,7 @@ def AsignaturasView(request):
             asignaturas = Asignatura.objects.filter(carrera = carrera)
         for asig in asignaturasProfesor:
             planificacion = Planificacion.objects.get(asignatura = asig)
-            if(planificacion.datos_descriptivos.ciclo_lectivo == datetime.now().year & planificacion.estado == 'A'):
+            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
     
     elif "alumno" in usergroup:
@@ -65,7 +65,7 @@ def AsignaturasView(request):
             asignaturas = Asignatura.objects.filter(carrera = carrera) 
         for up in usuariosPlanificacion:
             planificacion = Planificacion.objects.get(id = up.planificacion_id)
-            if(planificacion.datos_descriptivos.ciclo_lectivo == datetime.now().year & planificacion.estado == 'A'):
+            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
 
       
@@ -96,20 +96,20 @@ def AsignaturaDetailView(request, id, error = 'False'):
         asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
         for asig in asignaturasProfesor:
             planificacion = Planificacion.objects.get(asignatura = asig)
-            if(planificacion.datos_descriptivos.ciclo_lectivo == datetime.now().year & planificacion.estado == 'A'):
+            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
     elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
         planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(Q(estado = 'R') | Q(estado = 'A')).filter(eliminada=False).order_by('fecha_creacion')
         asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
         for asig in asignaturasProfesor:
             planificacion = Planificacion.objects.get(asignatura = asig)
-            if(planificacion.datos_descriptivos.ciclo_lectivo == datetime.now().year & planificacion.estado == 'A'):
+            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
     elif "alumno" in usergroup:
         planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(estado = 'A').filter(eliminada=False).order_by('fecha_creacion')
         for up in usuariosPlanificacion:
             planificacion = Planificacion.objects.get(id = up.planificacion_id)
-            if(planificacion.datos_descriptivos.ciclo_lectivo == datetime.now().year & planificacion.estado == 'A'):
+            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
 
 
