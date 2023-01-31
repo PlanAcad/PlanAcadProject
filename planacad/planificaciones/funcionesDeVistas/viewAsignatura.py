@@ -53,6 +53,7 @@ def AsignaturasView(request):
         if(carreraUsuario.count()==1):
             carrera = Carrera.objects.get(id = carreraUsuario.first().id) 
             asignaturas = Asignatura.objects.filter(carrera = carrera)
+        asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
         for asig in asignaturasProfesor:
             planificacion = Planificacion.objects.get(asignatura = asig)
             if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):

@@ -1,7 +1,7 @@
 {% extends 'layouts/calendario_layout.html' %} {% block calendario %}
 
 {% load static %}
-
+{% load util %}
 {% if mensaje_exito %}
 <div class="alert alert-success">{{mensaje_exito}}</div>
 {% endif %}
@@ -41,20 +41,22 @@
           {% if cerrado %}
 <div class="alert alert-info">Calendario cerrado.</div>
           {% else %}
-          <button
-          type="button"
-          class="btn btn-outline-primary my-4"          
-          data-toggle="modal"
-          data-target="#modal-evento"
-      >
-          Añadir evento
-      </button>
-      
-            <button type="submit" class="btn btn-outline-primary ml-2 my-4" data-toggle="modal"
-            data-target="#modal-cerrar">
-                Cerrar calendario
-            </button>
+            {% if request.user|has_group:"jefe de carrera" %}
+              <button
+              type="button"
+              class="btn btn-outline-primary my-4"          
+              data-toggle="modal"
+              data-target="#modal-evento"
+              >
+                  Añadir evento
+              </button>
+          
+                <button type="submit" class="btn btn-outline-primary ml-2 my-4" data-toggle="modal"
+                data-target="#modal-cerrar">
+                    Cerrar calendario
+                </button>
             {% endif %}
+          {% endif %}
       <ul>
         {% if calendario %}
         {% for fecha in calendario %}
