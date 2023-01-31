@@ -39,7 +39,7 @@
         <div class="calendario__eventos__card">
           <h2>Eventos</h2>
           {% if cerrado %}
-<div class="alert alert-info">Calendario cerrado.</div>
+            <div class="alert alert-info">Calendario cerrado.</div>
           {% else %}
             {% if request.user|has_group:"jefe de carrera" %}
               <button
@@ -58,47 +58,52 @@
             {% endif %}
           {% endif %}
       <ul>
-        {% if calendario %}
-        {% for fecha in calendario %}
-        <li class="py-2">
-                {{ fecha.fecha|date:'d/m' }}<br>
-                <b>{{fecha.get_actividad_display}}</b>
-        </li>
-        {% endfor %}
+        {% if calendario %} 
+        <!-- Aca hay que editar -->
+          {% for fecha in calendario %}
+          <li class="py-2">
+                  {{ fecha.fecha|date:'d/m' }}<br>
+                  <b>{{fecha.get_actividad_display}}</b>
+          </li>
+          {% endfor %}
         {% endif %}
         </ul>
         </div>
     </div>
 </div>
 
-
-<div class="modal fade" id="modal-evento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Añadir evento</h5>
-          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <form
-          method="POST"
-           action="{% url 'planificaciones:updatecalendarioacademico' ano %}" 
-          >
-              {% csrf_token %}  {{form.as_p}} 
-          
-               {% if form.errors %}
-              <div class="alert alert-danger">{{form.errors}}</div>
-              {% endif %} 
-          
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Guardar</button>
-              </div>
-          </form>
+{% if not cerrado %}
+  {% if request.user|has_group:"jefe de carrera" %}
+    <div class="modal fade" id="modal-evento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Añadir evento</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar" onclick="hideModalEvento()"></button>
+          </div>
+          <div class="modal-body">
+            <form
+            method="POST"
+            action="{% url 'planificaciones:updatecalendarioacademico' ano %}" 
+            >
+                {% csrf_token %}  {{form.as_p}} 
+            
+                {% if form.errors %}
+                <div class="alert alert-danger">{{form.errors}}</div>
+                {% endif %} 
+            
+                <div class="modal-footer">
+                    <button type="button" onclick="hideModalEvento()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endif %}
+{% endif %}
+
 
   <div
   class="modal fade"
@@ -197,6 +202,10 @@
       $("#id_fecha_desde").val(fecha);
       $("#id_fecha_hasta").val(fecha);
       $("#modal-evento").modal('show');
+      return true;
+  }
+  function hideModalEvento() {
+      $("#modal-evento").modal('hide');
       return true;
   }
 
