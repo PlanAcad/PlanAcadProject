@@ -74,7 +74,7 @@
                         class="item-subnavbar"
                         href="{% if ano %}{% url 'planificaciones:calendarioacademico' ano %}{% else %}{% url 'planificaciones:calendarioacademico' current_year %}{% endif %}"
                        >
-                        Calendario Académico
+                        Calendario
                     </a>
                     {% if not  request.user|has_group:"alumno" %}
                     <a
