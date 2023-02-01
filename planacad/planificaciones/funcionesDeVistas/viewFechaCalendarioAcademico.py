@@ -66,21 +66,18 @@ def CalendarioAcademicoIndex(request, ano):
         if "profesor" in  usergroup  :
             asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
             for asig in asignaturasProfesor:
-                planificacion = Planificacion.objects.get(asignatura = asig)
-                if(planificacion.datos_descriptivos.ciclo_lectivo == ano and planificacion.estado == 'A'):
-                    fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
-        elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
+                planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = ano , estado = 'A').last()
+                fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
+        elif "jefe de carrera" in  usergroup or "consejo" in  usergroup:
             carreraUsuario = request.user.carrera.all()
             if(carreraUsuario.count()==1):
                 carrera = Carrera.objects.get(id = carreraUsuario.first().id) 
                 asignaturasProfesor = Asignatura.objects.filter(carrera = carrera)
-            print(asignaturasProfesor.count())
-            
+                print(asignaturasProfesor.count())
             for asig in asignaturasProfesor:
-                planificacion = Planificacion.objects.get(asignatura = asig)
-                if(planificacion.datos_descriptivos.ciclo_lectivo == ano and planificacion.estado == 'A'):
-                    fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
-                    print(fechasParciales)
+                planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = ano , estado = 'A').last()
+                fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
+                print(fechasParciales)
         elif "alumno" in usergroup:
             for up in usuariosPlanificacion:
                 planificacion = Planificacion.objects.get(id = up.planificacion_id)
