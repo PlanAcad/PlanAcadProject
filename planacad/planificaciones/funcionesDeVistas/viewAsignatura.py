@@ -44,18 +44,16 @@ def AsignaturasView(request):
     if "profesor" in  usergroup or "consejo" in  usergroup :
         asignaturas = Asignatura.objects.filter(profesor=request.user)
         for asig in asignaturas:
-            planificacion = Planificacion.objects.filter(asignatura = asig).last()
-            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
-                fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
+            planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
+            fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
     elif "jefe de carrera" in  usergroup :
         carreraUsuario = request.user.carrera.all()
         if(carreraUsuario.count()==1):
             carrera = Carrera.objects.get(id = carreraUsuario.first().id) 
             asignaturas = Asignatura.objects.filter(carrera = carrera)
         for asig in asignaturas:
-            planificacion = Planificacion.objects.get(asignatura = asig)
-            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
-                fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
+            planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
+            fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
     
     elif "alumno" in usergroup:
         carreraUsuario = request.user.carrera.all()
@@ -94,14 +92,14 @@ def AsignaturaDetailView(request, id, error = 'False'):
         planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('fecha_creacion')
         asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
         for asig in asignaturasProfesor:
-            planificacion = Planificacion.objects.filter(asignatura = asig).last()
+            planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
             if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
     elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
         planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(Q(estado = 'R') | Q(estado = 'A')).filter(eliminada=False).order_by('fecha_creacion')
         asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
         for asig in asignaturasProfesor:
-            planificacion = Planificacion.objects.get(asignatura = asig)
+            planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
             if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
     elif "alumno" in usergroup:
