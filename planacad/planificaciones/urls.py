@@ -160,5 +160,7 @@ urlpatterns = [
     path('planificacion/<int:id_correccion>/resolver-correccion', viewCorreccion.CorreccionUpdate, name='resolverCorreccion'),
     #Comentarios
     path('planificacion/<int:id_correccion>/<int:id_seccion>/agregar-comentario', viewComentarios.ComentarioNew, name='agrergarComentario'),
+    #Email
+    path('planificacion/mandar-Aviso', viewAsignatura.MandarAvisoFechaLimiteDePlanificacion, name='mandarAviso'),
     
 ]
