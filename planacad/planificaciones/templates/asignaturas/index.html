@@ -11,6 +11,18 @@
                       <h2 style="margin-bottom: 0">
                           Bienvenido {{ user.first_name  }}
                       </h2>
+                      {% if request.user|has_group:"jefe de carrera" %}
+                      <div class="row">
+                        <button
+                        type="button"
+                        class="btn btn-primary mt-4"
+                        data-toggle="modal"
+                        data-target="#modal-aviso-asignaturas"
+                        >
+                          Mandar aviso a asignaturas
+                        </button>
+                      </div>
+                      {% endif %}
                       <span>Asignaturas</span>
                       {% if not asignaturas %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -126,6 +138,48 @@
         </div>
     </div>
 </div>
+<!-- Modal sistema de evaluacion -->
+<div
+    class="modal fade"
+    id="modal-aviso-asignaturas"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Mandar aviso por correo a los profesores de las asignaturas seleccioandas
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'planificaciones:mandarAviso' %}" method="POST">
+                {% csrf_token %} {{formAsignaturaCarrera.as_p}}
 
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        data-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Guardar
+                    </button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 

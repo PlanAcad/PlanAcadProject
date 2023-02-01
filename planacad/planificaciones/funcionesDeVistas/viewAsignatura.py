@@ -4,6 +4,7 @@ from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.formularios.formAsignatura import AsignaturaForm 
+from planificaciones.formularios.formAsignaturasCarrera import AsignaturaCarreraForm 
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelClase import Clase
@@ -14,6 +15,8 @@ from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalend
 from planificaciones.funcionesDeVistas import viewCalendario
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+import smtplib
+from email.mime.text import MIMEText
 
 @login_required
 def AsignaturaNew(request):
@@ -40,6 +43,11 @@ def AsignaturasView(request):
 
     usuariosPlanificacion = PlanificacionUsuario.objects.filter(usuario_id = request.user.id)
     fechasParciales = None
+
+    carreraUsuario = request.user.carrera.all()
+    if(carreraUsuario.count()==1):
+        carrera = Carrera.objects.get(id = carreraUsuario.first().id)
+    formAsignaturaCarrera = AsignaturaCarreraForm(carrera)
 
     if "profesor" in  usergroup or "consejo" in  usergroup :
         asignaturas = Asignatura.objects.filter(profesor=request.user)
@@ -73,6 +81,7 @@ def AsignaturasView(request):
     context = {
             'asignaturas': asignaturas.order_by('ano'),
             'calendario':calendario, 
+            'formAsignaturaCarrera':formAsignaturaCarrera
         }  
     return render(request,'asignaturas/index.html', context)
 
@@ -166,3 +175,32 @@ def PapeleraView(request, id_asignatura):
             'carrera':carrera, 
         }  
     return render(request,'asignaturas/papelera.html', context)   
+
+@login_required 
+def MandarAvisoFechaLimiteDePlanificacion(request):
+    carreraUsuario = request.user.carrera.all()
+    if(carreraUsuario.count()==1):
+        carrera = Carrera.objects.get(id = carreraUsuario.first().id)
+    form = AsignaturaCarreraForm(carrera)
+    if request.method == 'POST':
+        form = AsignaturaCarreraForm(carrera, request.POST)
+        if form.is_valid():
+            asignaturas = form.cleaned_data['asignaturas']
+            comentario = form.cleaned_data['comentario']
+            for asignatura in asignaturas:
+                 ## Me conecto al servidor
+                server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
+                server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
+                from_email = "carlitoslopezsoto495@gmail.com"
+                for usuario in asignatura.profesor.all():
+                    to_email = usuario.email
+                    message = comentario
+                    message = MIMEText(message)
+                    message["Content-Type"] = "text/plain; charset=UTF-8"
+                    message['subject'] = 'Cambio de estado de la planificacion'
+                    msg = message.as_string()
+                    server.sendmail(from_email, to_email, msg)
+
+                ##Cierro conexion al servidor
+                server.quit()
+            return redirect('planificaciones:asignaturas')
