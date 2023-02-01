@@ -63,7 +63,9 @@
           {% for fecha in calendario %}
           <li class="py-2">
                   {{ fecha.fecha|date:'d/m' }}<br>
-                  <b>{{fecha.get_actividad_display}}</b>
+                  {% for actividad in fecha.actividades %}
+                    <b>{{actividad}}</b>
+                  {% endfor %}
           </li>
           {% endfor %}
         {% endif %}
@@ -164,10 +166,16 @@
     {
       "date": "{{ fecha.fecha|date:'Y-m-d' }}",
       "badge": true,
-      "title": "{{fecha.get_actividad_display}}",
+      {% if fecha.actividades|length > 1  %}
+        "title": "Tiene varias actividades esta fecha",
+      {% else %}  
+        "title": "{{fecha.actividades.0}}",
+      {% endif %}
       "body": "<p class=\"lead\">Party<\/p><p>Like it's 1999.<\/p>",
       "footer":"At Paisley Park",
+
       "classname":"purple-event"
+
     },
     {% endfor %}
   ]
@@ -218,19 +226,20 @@
 </script>
 
 {% else %}
+  {% if request.user|has_group:"jefe de carrera" %}
+  <h1>Calendario Academico Año {{ano}}</h1>
+      
+  <form
+      method="POST"
+      action="{% url 'planificaciones:calendarioacademico' ano %}">
+      {% csrf_token %} 
+              <button type="submit" class="btn btn-primary my-2">
+                  Crear calendario {{ano}}
+              </button>
+      </form>
+      <p class="my-2">Aún existe calendario académico.</p>
 
-<h1>Calendario Academico Año {{ano}}</h1>
-    
-<form
-    method="POST"
-    action="{% url 'planificaciones:calendarioacademico' ano %}">
-    {% csrf_token %} 
-            <button type="submit" class="btn btn-primary my-2">
-                Crear calendario {{ano}}
-            </button>
-    </form>
-    <p class="my-2">Aún existe calendario académico.</p>
-
+  {% endif %} 
 {% endif %} 
 
 {% endblock %}
