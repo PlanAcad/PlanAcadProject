@@ -10,14 +10,15 @@ from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalend
 from planificaciones.formularios.formFechaCalendarioUpdate import FechaCalendarioAcademicoUpdateForm
 
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
-
+from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelClase import Clase
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelUsuarioPlanificacion import PlanificacionUsuario
-
+from django.contrib.auth.models import User, Group
 from planificaciones.funcionesDeVistas import viewCalendario
-
+import smtplib
+from email.mime.text import MIMEText
 from django.utils.translation import get_language, activate
 from django.contrib.auth.decorators import login_required
 
@@ -69,11 +70,17 @@ def CalendarioAcademicoIndex(request, ano):
                 if(planificacion.datos_descriptivos.ciclo_lectivo == ano and planificacion.estado == 'A'):
                     fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
         elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
-            asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
+            carreraUsuario = request.user.carrera.all()
+            if(carreraUsuario.count()==1):
+                carrera = Carrera.objects.get(id = carreraUsuario.first().id) 
+                asignaturasProfesor = Asignatura.objects.filter(carrera = carrera)
+            print(asignaturasProfesor.count())
+            
             for asig in asignaturasProfesor:
                 planificacion = Planificacion.objects.get(asignatura = asig)
                 if(planificacion.datos_descriptivos.ciclo_lectivo == ano and planificacion.estado == 'A'):
                     fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
+                    print(fechasParciales)
         elif "alumno" in usergroup:
             for up in usuariosPlanificacion:
                 planificacion = Planificacion.objects.get(id = up.planificacion_id)
@@ -153,13 +160,32 @@ def CerrarCalendarioAcademico(request, ano):
         try:
             if(FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exists()):
                 calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano)
-                for i in calendario:
-                        instance = i
-                        instance.editable = False
-                        instance.save()
-                mensaje_exito="Creamos el calendario correctamente"
+                calendario.update(editable = False)
+                mensaje_exito="Cerramos el calendario correctamente"
+                
+                prefesores = Group.objects.get(name='profesor')
+                jefes = Group.objects.get(name='jefe de carrera')
+                consejeros = Group.objects.get(name='consejo')
+                
+
+                users = User.objects.filter(Q(groups__name=prefesores.name) | Q(groups__name=jefes.name) | Q(groups__name=consejeros.name))
+                ## Me conecto al servidor
+                server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
+                server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
+                from_email = "carlitoslopezsoto495@gmail.com"
+                for usuario in users:
+                    to_email = usuario.email
+                    message = 'Calendario Academico'
+                    message = MIMEText(message)
+                    message["Content-Type"] = "text/plain; charset=UTF-8"
+                    message['subject'] = f'Se ha cerra el calendario academico del ciclo lectivo {ano}' 
+                    msg = message.as_string()
+                    server.sendmail(from_email, to_email, msg)
+                ##Cierro conexion al servidor
+                server.quit()
+
                 return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'año':ano,'mensaje_error': mensaje_error,
-'mensaje_exito':mensaje_exito}) 
+                        'mensaje_exito':mensaje_exito}) 
             else:
                 mensaje_error="ya hay un calendario con esa fecha"                
         except:  
