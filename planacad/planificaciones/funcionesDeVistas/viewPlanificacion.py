@@ -66,10 +66,10 @@ def PlanificacionNew(request, asignatura_id):
             # if a GET (or any other method) we'll create a blank form
             else:
                 messages.error(request, 'Ha ocurrido un error pruebalo nuevamente')
-                return redirect('planificaciones:asignaturaDetail',id_planificacion = asignatura_id)
+                return redirect('planificaciones:asignaturaDetail',id = asignatura_id)
         else:
             messages.error(request, 'Ya existe una planificacion de este año')
-            return redirect('planificaciones:asignaturaDetail',id_planificacion = asignatura_id)
+            return redirect('planificaciones:asignaturaDetail',id = asignatura_id)
 
 @login_required
 def PlanificacionesView(request,idAsignatura):

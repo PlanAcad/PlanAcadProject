@@ -3,12 +3,21 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 import datetime
 import locale
+from django.db.models import Q
 from datetime import timedelta
 from django.http import HttpResponseRedirect
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademicoForm
 from planificaciones.formularios.formFechaCalendarioUpdate import FechaCalendarioAcademicoUpdateForm
 
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
+
+from planificaciones.modelos.modelAsignatura import Asignatura
+from planificaciones.modelos.modelClase import Clase
+from planificaciones.modelos.modelPlanificacion import Planificacion
+from planificaciones.modelos.modelUsuarioPlanificacion import PlanificacionUsuario
+
+from planificaciones.funcionesDeVistas import viewCalendario
+
 from django.utils.translation import get_language, activate
 from django.contrib.auth.decorators import login_required
 
@@ -22,7 +31,9 @@ def CalendarioAcademicoIndex(request, ano):
     cantidad_de_dias = (fecha_fin - fecha_inicio).days 
     print(cantidad_de_dias)
     calendario = None
+    calendarioAcademico = None
     existe_calendario = None
+    fechasParciales = None
     if request.method == "POST":
         try:
             if(FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exists()==False):
@@ -47,13 +58,49 @@ def CalendarioAcademicoIndex(request, ano):
             calendario =FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')                 
         except:  
             mensaje_error="no se cargo nada de nada"  
-    else:  
-        calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')
+    else:
+         # Obtener planificaciones existentes
+        usergroup = request.user.groups.values_list('name',flat = True)
+        usuariosPlanificacion = PlanificacionUsuario.objects.filter(usuario_id = request.user.id)
+        if "profesor" in  usergroup  :
+            asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
+            for asig in asignaturasProfesor:
+                planificacion = Planificacion.objects.get(asignatura = asig)
+                if(planificacion.datos_descriptivos.ciclo_lectivo == ano and planificacion.estado == 'A'):
+                    fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
+        elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
+            asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
+            for asig in asignaturasProfesor:
+                planificacion = Planificacion.objects.get(asignatura = asig)
+                if(planificacion.datos_descriptivos.ciclo_lectivo == ano and planificacion.estado == 'A'):
+                    fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
+        elif "alumno" in usergroup:
+            for up in usuariosPlanificacion:
+                planificacion = Planificacion.objects.get(id = up.planificacion_id)
+                if(planificacion.datos_descriptivos.ciclo_lectivo == ano and planificacion.estado == 'A'):
+                    fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
+
+        calendarioAcademico = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=ano).exclude(actividad='DN').order_by('fecha')    
+    
+    calendario = viewCalendario.CreateCalendario(calendarioAcademico, fechasParciales)
+
+    
     form = FechaCalendarioAcademicoUpdateForm()
     existe_calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exists()  
     cerrado = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).filter(editable = False).exists()
-    return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'existe_calendario':existe_calendario,'ano':ano,'mensaje_error': mensaje_error,
-    'mensaje_exito':mensaje_exito, 'form':form, 'cerrado': cerrado}) 
+
+    context = {
+            'calendarioAcademico': calendarioAcademico,
+            'calendario':calendario, 
+            'existe_calendario':existe_calendario,
+            'ano':ano,
+            'mensaje_error': mensaje_error,
+            'mensaje_exito':mensaje_exito, 
+            'form':form, 
+            'cerrado': cerrado
+        }  
+
+    return render(request,'calendario/calendario-academico.html',context) 
 
 @login_required
 def UpdateFechaCalendarioAcademico(request,ano):  

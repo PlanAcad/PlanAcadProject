@@ -9,7 +9,7 @@ ESTADO = [
     ('EF', 'Examen final sin suspensión de clase'),
     ('RI', 'Receso de invierno'),
     ('F', 'Feriado'),
-    ('DN', 'Dia Normal')
+    ('DN', 'Dia Normal'),
     ]
 
 class FechaCalendarioAcademico(models.Model):
