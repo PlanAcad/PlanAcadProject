@@ -56,6 +56,15 @@ styleTitleTable = ParagraphStyle(
         leading=12,
         spaceAfter=6,
     )
+styleTitlePropDesarrolloTable = ParagraphStyle(
+        'titleSection',
+        fontName='Helvetica-Bold',
+        fontSize=8,
+        leading=12,
+        spaceAfter=2,
+        RIGHTPADDING = 2,
+        LEFTPADDING = 2
+    )
 
 styleBlackText = ParagraphStyle(
     'blackText',
@@ -238,7 +247,8 @@ def print_propuesta_desarrollo(Story, resultados_aprendizaje, propuestas_desarro
     Story.append(p)
 
     data = [
-        [Paragraph('Sub Comp.', styleTitleTable), Paragraph('RA', styleTitleTable), Paragraph('Unidades Tematicas', styleTitleTable), Paragraph('AFDAV', styleTitleTable), Paragraph('AFFDAV', styleTitleTable), Paragraph('THRDAV', styleTitleTable), Paragraph('THRFAV', styleTitleTable), Paragraph('Bibliografia propuesta por RA', styleTitleTable), Paragraph('Estrategias de enseñanza', styleTitleTable), Paragraph('Modo de agrupamiento', styleTitleTable), Paragraph('Materiales y/o equipamiento', styleTitleTable)]
+        [Paragraph('Sub Comp.', styleTitlePropDesarrolloTable), Paragraph('RA', styleTitlePropDesarrolloTable), Paragraph('Unidades Tematicas', styleTitlePropDesarrolloTable), Paragraph('Actividades Formativas', styleTitlePropDesarrolloTable), '', Paragraph('Tiempo aprox hora reloj', styleTitlePropDesarrolloTable), '', Paragraph('Bibliografia propuesta por RA', styleTitlePropDesarrolloTable), Paragraph('Estrategias de enseñanza', styleTitlePropDesarrolloTable), Paragraph('Modo de agrupamiento', styleTitlePropDesarrolloTable), Paragraph('Materiales y/o equipamiento', styleTitlePropDesarrolloTable)],
+        ['', '', '', Paragraph('Dentro del aula virtual', styleTitlePropDesarrolloTable), Paragraph('Fuera del aula virtual', styleTitlePropDesarrolloTable), Paragraph('Dentro del aula virtual', styleTitlePropDesarrolloTable), Paragraph('Fuera del aula virtual', styleTitlePropDesarrolloTable), '', '', '', '']
     ]
 
 
@@ -279,6 +289,15 @@ def print_propuesta_desarrollo(Story, resultados_aprendizaje, propuestas_desarro
     t.setStyle(
         TableStyle(
             [   ("BOX", (0, 0), (-1, -1), 0.25, colors.black),
+                ('SPAN',(0,0),(0,1)),
+                ('SPAN',(1,0),(1,1)),
+                ('SPAN',(2,0),(2,1)),
+                ('SPAN',(3,0),(4,0)),
+                ('SPAN',(5,0),(6,0)),
+                ('SPAN',(7,0),(7,1)),
+                ('SPAN',(8,0),(8,1)),
+                ('SPAN',(9,0),(9,1)),
+                ('SPAN',(10,0),(10,1)),
                 ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                 ('VALIGN', (0, 0), (-1, -1), 'TOP')
             ]
