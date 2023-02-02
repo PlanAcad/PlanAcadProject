@@ -11,7 +11,8 @@ class AsignaturaMultipleChoiceField(forms.ModelMultipleChoiceField):
 class AsignaturaCarreraForm(forms.Form):
     def __init__(self, carrera, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carrera)
+        if(carrera):
+            self.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carrera)
     
     asignaturas = AsignaturaMultipleChoiceField(
         queryset=None,
