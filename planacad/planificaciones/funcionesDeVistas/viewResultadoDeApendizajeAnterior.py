@@ -37,7 +37,7 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
     if request.method == "POST":  
-        form = ResultadoDeAprendizajeAnteriorForm(request.POST,planificacion_id=id_planificacion)
+        form = ResultadoDeAprendizajeAnteriorForm(request.POST)
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)
@@ -47,9 +47,8 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
             except:  
                  mensaje_error = "No pudimos añadir el resultado de aprendizaje."    
     else:  
-        form = ResultadoDeAprendizajeAnteriorForm(planificacion_id=id_planificacion)
-        # form.fields['asignatura'].queryset = Asignatura.objects.exclude(id = planificacion.asignatura_id)
-        ##form.fields['resultado'].queryset = ResultadoDeAprendizaje.objects.filter(asignatura_id=request.GET.get('asignatura')).order_by('resultado')
+        form = ResultadoDeAprendizajeAnteriorForm()
+        form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
       #Agregar
     context = {
         'planificacion': planificacion,
@@ -97,7 +96,7 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = ResultadoDeAprendizajeAnterior.objects.get(id=id_resultadodeaprendizaje)
     if request.method == "POST":  
-        form = ResultadoDeAprendizajeAnteriorForm(request.POST, instance = data,planificacion_id=id_planificacion)  
+        form = ResultadoDeAprendizajeAnteriorForm(request.POST, instance = data)  
         if form.is_valid():  
             try: 
                 instance = form.save(commit=False)
@@ -111,8 +110,8 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         asignatura_id=data.asignatura.id
-        print(asignatura_id)
-        form = ResultadoDeAprendizajeAnteriorForm(instance = data, planificacion_id=id_planificacion)
+        form = ResultadoDeAprendizajeAnteriorForm(instance = data)
+        form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
         if(asignatura_id):
             planificacionesAsignatura = Planificacion.objects.filter(asignatura_id=asignatura_id).filter(eliminada= False).filter(estado='A').order_by('fecha_creacion')
             print(planificacionesAsignatura.count())

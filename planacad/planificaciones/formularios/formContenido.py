@@ -22,11 +22,5 @@ class ContenidoForm(forms.ModelForm):
         super(ContenidoForm, self).__init__(*args, **kwargs)
         self.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=planificacion_id)
 
-        # self.fields['unidad'].choices = Unidad.objects.filter(planificacion_id=planificacion_id)
-        # self.fields['unidad'].widget = CheckboxSelectMultipleWithPlaceholder(attrs={'planificacion_id': planificacion_id,'class': 'multiple-select-list'},
-                                                    # choices= list(Unidad.objects.filter(planificacion_id=planificacion_id)
-                                                    # .annotate(title_number=Concat('numero', Value(': '), 'titulo',output_field=CharField())).values_list('id', 'title_number')
-                                                    # .values_list('id','title_number')))
-
     def render(self):
         return self.as_table()
