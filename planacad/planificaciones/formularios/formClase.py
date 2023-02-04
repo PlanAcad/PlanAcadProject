@@ -5,8 +5,6 @@ from planificaciones.modelos.modelUnidad import Unidad
 from django.db.models import Value
 from django.db.models.functions import Concat
 from django.db.models import CharField
-from planificaciones.widget.widgetUnidades import CheckboxSelectMultipleWithPlaceholder
-from planificaciones.widget.widgetResultadoDeAprendizaje import CheckboxSelectMultipleResultadoDeAprendizaje
 
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from django.contrib.auth.models import User

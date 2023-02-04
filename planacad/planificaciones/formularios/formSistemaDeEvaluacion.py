@@ -7,8 +7,6 @@ from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendi
 from django.db.models import Value
 from django.db.models.functions import Concat
 from django.db.models import CharField
-from planificaciones.widget.widgetUnidades import CheckboxSelectMultipleWithPlaceholder
-from planificaciones.widget.widgetResultadoDeAprendizaje import CheckboxSelectMultipleResultadoDeAprendizaje
 
 
 class ActividadForm(ModelForm):

@@ -202,23 +202,31 @@
               >
                   {% csrf_token %} 
                   
-                  <label>Profesor/a:</label>
-                  <p>{{form.profesor}}</p>
-                  
-                  <label>Categoría:</label>
-                  <p>{{form.categoria}}</p>
+                    <label class="form-label">Profesor/a:</label>
+                    <p>{{form.profesor}}</p>
 
-                  <label>Situación y/o condición:</label>
-                  <p>{{form.situacion}}</p>
+                    <label class="form-label">Situación y/o condición:</label>
+                    <p>{{form.situacion}}</p>
 
-                  <label>Designación y/o dedicación:</label>
-                  <p>{{form.dedicacion}}</p>
+                    <label class="form-label">Categoría:</label>
+                    <p>{{form.categoria}}</p>
 
-                  <label>Tareas:</label>
-                  <p>{{form.tareas}}</p>
-
-                  <label>Actividades:</label>
-                  <p>{{form.actividades}}</p>
+                    <label class="form-label">Designación y/o dedicación:</label>
+                    <p>{{form.dedicacion}}</p>
+                    
+                    <div class= "mb-3">
+                    <label for="" class="form-label">Funciones y/o Tareas a desarrollar:</label>
+                    {% if form.tareas|length > 0 %}
+                        {{ form.tareas }}
+                    {% else %}
+                        <input disabled></input>
+                        <span>No posee funciones y/o tareas agregadas.
+                        </span>
+                    {% endif %}
+                    </div>
+                    
+                    <label class="form-label">Actividades:</label>
+                    <p>{{form.actividades}}</p>
 
               
                   {% if form.errors %}
@@ -271,6 +279,7 @@
               >
                   {% csrf_token %} 
                   
+                
                   {{tareasFuncionesForm.as_p}}
               
                   {% if form.errors %}

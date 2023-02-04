@@ -14,23 +14,33 @@
     action="{% url 'planificaciones:detallesprofesorcatedraupdate' planificacion.id data.id %}"
   >
     {% csrf_token %} 
-    <label>Profesor/a:</label>
-    <p>{{form.profesor}}</p>
-    
-    <label>Situación y/o condición:</label>
-    <p>{{form.situacion}}</p>
+        <label class="form-label">Profesor/a:</label>
+        <p>{{form.profesor}}</p>
 
-    <label>Categoría:</label>
-    <p>{{form.categoria}}</p>
+        <label class="form-label">Situación y/o condición:</label>
+        <p>{{form.situacion}}</p>
 
-    <label>Designación:</label>
-    <p>{{form.dedicacion}}</p>
+        <label class="form-label">Categoría:</label>
+        <p>{{form.categoria}}</p>
 
-    <label>Funciones a desarrollar:</label>
-    <p>{{form.tareas}}</p>
-
-    <label>Actividades:</label>
-    <p>{{form.actividades}}</p>
+        <label class="form-label">Designación:</label>
+        <p>{{form.dedicacion}}</p>
+        
+        <div class= "mb-3">
+        <label for="" class="form-label">Funciones y/o Tareas a desarrollar:</label>
+        {% if form.tareas|length > 0 %}
+            {{ form.tareas }}
+        {% else %}
+            <input disabled></input>
+            <span>No posee funciones y/o tareas agregadas. 
+                <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}" class="link-primary">
+                Ir a sección 12: Distribucion de tareas</a>
+            </span>
+        {% endif %}
+        </div>
+        
+        <label class="form-label">Actividades:</label>
+        <p>{{form.actividades}}</p>
   </form>
 
   <div id="buttons-footer" style="display: flex; justify-content: space-between">
