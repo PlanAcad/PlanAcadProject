@@ -16,6 +16,11 @@ from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from django.contrib.auth.models import User, Group 
+from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
+from planificaciones.modelos.modelAsignatura import Asignatura
+from planificaciones.modelos.modelTareasFunciones import TareasFunciones
+
 
 # To show and to add new one
 @login_required
@@ -41,9 +46,9 @@ def DistribucionDeTareas(request, id_planificacion):
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
-    form = DetalleProfesorCatedraForm(asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)
+    form = DetalleProfesorCatedraForm()
     if request.method == 'POST':
-        form = DetalleProfesorCatedraForm(request.POST,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)
+        form = DetalleProfesorCatedraForm(request.POST)
         if form.is_valid():
             try:  
                 distribucion_de_tareas = form.save(commit=False)
@@ -59,6 +64,10 @@ def DistribucionDeTareas(request, id_planificacion):
 
         else:
             mensaje_error = "No pudimos añadir el docente." 
+    else:
+        asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
+        form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
 
     context = {
         'planificacion': planificacion,
@@ -103,12 +112,12 @@ def UpdateDistribucionDeTareasPlanif(request, id_planificacion):
 def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcatedra):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)
-    form = DetalleProfesorCatedraForm(instance=data,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id)
+    form = DetalleProfesorCatedraForm(instance=data)
     mensaje_exito = None
     mensaje_error = None
 
     if request.method == "POST":  
-        form = DetalleProfesorCatedraForm(request.POST, instance=data,asignatura_id = planificacion.asignatura.id,planificacion_id = planificacion.id) 
+        form = DetalleProfesorCatedraForm(request.POST) 
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)
