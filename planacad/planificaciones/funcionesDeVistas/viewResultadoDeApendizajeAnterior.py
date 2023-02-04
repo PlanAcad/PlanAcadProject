@@ -112,12 +112,6 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
         asignatura_id=data.asignatura.id
         form = ResultadoDeAprendizajeAnteriorForm(instance = data)
         form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
-        if(asignatura_id):
-            planificacionesAsignatura = Planificacion.objects.filter(asignatura_id=asignatura_id).filter(eliminada= False).filter(estado='A').order_by('fecha_creacion')
-            print(planificacionesAsignatura.count())
-            lastPlanificacionAsignatura = planificacionesAsignatura.last()    
-            resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).filter(planificacion_id = lastPlanificacionAsignatura.id).order_by('resultado')
-            form.fields['resultado'].queryset = resultados
 
     return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
