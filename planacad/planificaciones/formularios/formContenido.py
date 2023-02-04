@@ -15,12 +15,3 @@ class ContenidoForm(forms.ModelForm):
         model = Contenido  
         exclude = ['planificacion']
         fields = "__all__"
-        
-       
-    def __init__(self, *args, **kwargs):
-        planificacion_id = kwargs.pop('planificacion_id')
-        super(ContenidoForm, self).__init__(*args, **kwargs)
-        self.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=planificacion_id)
-
-    def render(self):
-        return self.as_table()

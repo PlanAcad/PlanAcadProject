@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from planificaciones.formularios.formUnidad import UnidadForm
 from planificaciones.formularios.formContenido import ContenidoForm
 from planificaciones.modelos.modelContenido import Contenido
+from planificaciones.modelos.modelUnidad import Unidad
 #Agregar
 from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
@@ -21,6 +22,8 @@ def UnidadNew(request,id_planificacion):
     planificacion = Planificacion.objects.get(id = id_planificacion)
     mensaje_exito = None
     mensaje_error = None
+    form = ContenidoForm()
+    
     if request.method == "POST":  
         unidadForm = UnidadForm(request.POST)  
         if unidadForm.is_valid():  
@@ -35,7 +38,8 @@ def UnidadNew(request,id_planificacion):
                 mensaje_error="No se pudo guardar la planificacion"  
     else:
         unidadForm = UnidadForm()
-    form = ContenidoForm(planificacion_id=id_planificacion)
+
+    form.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=id_planificacion)
     contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 11)).prefetch_related('comentarios')

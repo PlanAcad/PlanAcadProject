@@ -4,6 +4,7 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelContenido import Contenido
 from planificaciones.formularios.formContenido import ContenidoForm
 from planificaciones.formularios.formUnidad import UnidadForm
+from planificaciones.modelos.modelUnidad import Unidad
 
 #Agregar
 from django.db.models import Q
@@ -34,9 +35,9 @@ def IndexContenido(request, id_planificacion):
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
-    form = ContenidoForm(planificacion_id=id_planificacion)
+    form = ContenidoForm()
     if request.method == 'POST':
-        form = ContenidoForm(request.POST,planificacion_id=id_planificacion)
+        form = ContenidoForm(request.POST)
         if form.is_valid():
             try:  
                 instance = form.save(commit=False)
@@ -53,6 +54,8 @@ def IndexContenido(request, id_planificacion):
         else:
             mensaje_error = "No pudimos añadir el contenido." 
             print(form.errors)
+    else:
+        form.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=id_planificacion)
 
 
     context = {
@@ -79,12 +82,12 @@ def IndexContenido(request, id_planificacion):
 def UpdateContenido(request, id_planificacion, id_contenido):   
     planificacion = Planificacion.objects.get(id=id_planificacion) 
     contenido = Contenido.objects.get(id=id_contenido)  
-    form = ContenidoForm(instance=contenido,planificacion_id=id_planificacion)
+    form = ContenidoForm(instance=contenido)
     mensaje_exito = None
     mensaje_error = None
     
     if request.method == 'POST':
-        form = ContenidoForm(request.POST, instance=contenido,planificacion_id=id_planificacion)  
+        form = ContenidoForm(request.POST, instance=contenido)  
         if form.is_valid():
             try:  
                 instance = form.save(commit=False)
@@ -103,7 +106,8 @@ def UpdateContenido(request, id_planificacion, id_contenido):
         else:
             mensaje_error = "No pudimos añadir el contenido." 
             print(form.errors)
-
+    else:
+        form.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=id_planificacion)
 
     context = {
         'planificacion': planificacion,
