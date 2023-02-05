@@ -70,7 +70,7 @@ def ClasesView(request,id_planificacion):
         form_create = CronogramaCreateForm()
         form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
-        form.fields['unidad_tematica_o_tema'].queryset = Unidad.objects.filter(planificacion=planificacion)
+        form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
     #Agregar
     context = {
         'planificacion': planificacion,
@@ -121,12 +121,24 @@ def ClaseUpdate(request, id_planificacion, id_clase):
                 return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
                  
             except:  
-                 mensaje_error = "No pudimos guardar los cambios."    
+                mensaje_error = "No pudimos guardar los cambios."
+                print(mensaje_error)
+                form = ClaseForm(instance=data)
+                form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
+                form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
+                form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion) 
+        else:
+            mensaje_error = "No pudimos guardar los cambios."
+            print("form invalid")
+            form = ClaseForm(instance=data)
+            form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
+            form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
+            form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
     else:  
         form = ClaseForm(instance=data)
         form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
-        form.fields['unidad_tematica_o_tema'].queryset = Unidad.objects.filter(planificacion=planificacion)
+        form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
        
     return render(request,'secciones/cronograma/editar.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
 

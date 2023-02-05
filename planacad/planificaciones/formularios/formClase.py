@@ -47,7 +47,7 @@ class ClaseForm(forms.ModelForm):
 
     class Meta:  
         model = Clase
-        fields = ['profesor_a_cargo','lugar_desarrollo_de_clase', 'fecha_clase', 'es_examen', 'unidad_tematica_o_tema', 'cantidad_tareas','resultado_de_aprendizaje']
+        fields = ['profesor_a_cargo','lugar_desarrollo_de_clase', 'fecha_clase', 'es_examen', 'unidad_tematica_o_tema', 'cantidad_tareas','numero_de_clase_o_semana','resultado_de_aprendizaje']
         labels = {
             'profesor_a_cargo': 'Profesor a cargo de la clase',
             'lugar_desarrollo_de_clase': 'Lugar de desarrollo de la clase',
