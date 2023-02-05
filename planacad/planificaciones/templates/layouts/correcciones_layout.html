@@ -1,155 +1,87 @@
+{% if correcciones %}
+<div class="pt-4">
+    <h2 class="seccion__encabezado">Correcciones</h2>
+  </div>
 
-<div class="py-4"></div>
-<h2 class="seccion__encabezado">Correcciones</h2>
-<button
-type="button"
-class="btn btn-primary mt-4"
-data-toggle="modal"
-data-target="#modal-agregar-correccion"
->
-Añadir correccion
-</button>
-
-<div  class="modal fade"
-      id="modal-agregar-correccion"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
+  {% for correccion in correcciones %}
+  <div class="seccion__card correccion">
+      <form enctype="multipart/form-data" method="POST" action="{% url 'planificaciones:resolverCorreccion' correccion.id %}">
+        {% csrf_token %}
+        <div class="d-flex justify-content-end">
+          {% if correccion.estado == 'G' %}
+          <button type="submit" class="btn btn-outline-success btn-sm">Aprobar</button>
+          {% else %}
+          <button type="submit" disabled class="btn btn-success btn-sm">Aprobada</button>
+          {% endif %}
+        </div>
+        <li class="correccion__body">
+          {{ correccion.correccion|default:""}}
+        </li>
+      </form>
+      
+      {% if correccion.comentarios.all %}
+      <div class="correccion__comentarios">
+          {% for comentario in correccion.comentarios.all %}
+          
+              <li>
+                <p>{{ comentario.comentario|default:""}}</p>
+                {% if not forloop.last %}
+                    <hr class="m-1" />
+                {% endif %}
+              </li>
+            
+          {% endfor %}   
+      </div>     
+          {% endif %}
+      
+        <button type="button" class="correccion__comentarios__add btn btn btn-outline-primary" data-toggle="modal" data-target="#modal-agregar-comentario-{{correccion.id}}">Añadir comentario</button>
+    
+        <div class="modal fade" id="modal-agregar-comentario-{{correccion.id}}" tabindex="-1" role="dialog" aria-labelledby="labelAgregarComentario" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">
-                      Añadir Correccion
-                  </h5>
-                  <button
-                      type="button"
-                      class="btn-close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                  ></button>
+                <h5 class="modal-title" id="labelAgregarComentario">Añadir Comentario</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                  <form
-                      method="POST"
-                      {% block action %}
-                            action="{% url 'planificaciones:agregarCorreccion' planificacion.id seccion %}"
-                      {% endblock action %}
-                      >
-                      {% csrf_token %}
-                      <input type="hidden" name="form_name" value="agregar-correccion"/>
-
-
-                      <label>Descripción</label>
-                      <p>{{correccion_form.correccion}}</p>
-
-                      {% if errors %}
-                      <div class="alert alert-danger">
-                          {{errors}}
-                      </div>
-                      {% endif %}
-
-                      <div class="modal-footer">
-                          <button
-                              type="button"
-                              class="btn btn-outline-primary"
-                              data-dismiss="modal"
-                          >
-                              Cancelar
-                          </button>
-                          <button type="submit" class="btn btn-primary">
-                              Guardar
-                          </button>
-                      </div>
-                  </form>
+                <form method="POST" action="{% url 'planificaciones:agrergarComentario' correccion.id seccion %}">
+                  {% csrf_token %}
+                  
+                  <input type="hidden" name="form_name" value="agregar-comentario" class="form-control" />
+                  
+                  <label>Descripción</label>
+                  <p>{{comentario_form.comentario}}</p>
+                  
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+                </form>
               </div>
+            </div>
           </div>
         </div>
-</div>
 
-{% if correcciones %}
-    {% for correccion in correcciones %}
-        <div class="seccion__card">
-            <form enctype= multipart/form-data
-            method="POST"
-            action="{% url 'planificaciones:resolverCorreccion' correccion.id %}">        
-                <button type="submit" class="btn btn-primary">
-                    Aprobar
-                </button>
-                    {% csrf_token %}    
-                <li>{{ correccion.correccion|default:""}} Estado:{{correccion.estado|default:""}}</li>
-            </form>
-            <button
-            type="button"
-            class="btn btn-primary mt-4"
-            data-toggle="modal"
-            data-target="#modal-agregar-comentario-{{correccion.id}}"
-            >
-            Añadir comentario
-            </button>
-
-            <div  class="modal fade"
-            id="modal-agregar-comentario-{{correccion.id}}"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="labelAgregarComentario"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="labelAgregarComentario">
-                            Añadir Comentario
-                        </h5>
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        ></button>
-                    </div>
-                    <div class="modal-body">
-                        <form
-                            method="POST"
-                            action="{% url 'planificaciones:agrergarComentario' correccion.id seccion %}"
-                            >
-                            {% csrf_token %}
-                            <input type="hidden" name="form_name" value="agregar-comentario"/>
-
-
-                            <label>Descripción</label>
-                            <p>{{comentario_form.comentario}}</p>
-
-                            {% if errors %}
-                            <div class="alert alert-danger">
-                                {{errors}}
-                            </div>
-                            {% endif %}
-
-                            <div class="modal-footer">
-                                <button
-                                    type="button"
-                                    class="btn btn-outline-primary"
-                                    data-dismiss="modal"
-                                >
-                                    Cancelar
-                                </button>
-                                <button type="submit" class="btn btn-primary">
-                                    Guardar
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                </div>
-            </div>
-            {% if correccion.comentarios.all %}
-            {% for comentario in correccion.comentarios.all %}
-            <hr class="m-1">
-            <li>{{ comentario.comentario|default:""}}</p>
-            {% endfor %}        
-            {% endif %}
-        </div>
-    {% endfor %}
-{% else %}
-  <div class="seccion__card">No posee correcciones.</div>    
+      </div>
+  {% endfor %} 
 {% endif %}
+
+<div class="py-4">
+<h2 class="seccion__encabezado">Añadir corrección</h2>
+    <div class="modal-body">
+        <form method="POST" 
+        {% block action %}
+            action="{% url 'planificaciones:agregarCorreccion' planificacion.id seccion %}"
+        {% endblock action %}>
+        {% csrf_token %}
+        <input type="hidden" name="form_name" value="agregar-correccion" class="form-control" />
+
+        <label>Descripción</label>
+        <p>{{correccion_form.correccion}}</p>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Añadir correccion</button>
+        </div>
+        </form>
+    </div>
+</div>
