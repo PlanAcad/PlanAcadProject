@@ -84,7 +84,7 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.get(id=id_detalleprofesorcatedra)
     if request.method == "POST":  
-        form = DetalleProfesorCatedraForm(request.POST)  
+        form = DetalleProfesorCatedraForm(request.POST, instance=data)  
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)
