@@ -109,7 +109,6 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
-        asignatura_id=data.asignatura.id
         form = ResultadoDeAprendizajeAnteriorForm(instance = data)
         form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
 
