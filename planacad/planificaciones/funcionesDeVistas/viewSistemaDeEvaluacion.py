@@ -69,9 +69,9 @@ def UpdateActividad(request, planificacion_id, actividad_id):
     planificacion = Planificacion.objects.get(id=planificacion_id)    
     actividad = Actividad.objects.get(id=actividad_id)
     
-    form = ActividadForm(instance=actividad,planificacion_id=planificacion_id) 
+    form = ActividadForm(instance=actividad) 
     if request.method == 'POST':
-        form = ActividadForm(request.POST, instance=actividad,planificacion_id=planificacion_id)
+        form = ActividadForm(request.POST, instance=actividad)
         if form.is_valid():
             new_form = form.save(commit=False) 
             new_form.planificacion = planificacion 
@@ -81,6 +81,9 @@ def UpdateActividad(request, planificacion_id, actividad_id):
         else:
             print('not valid')
             print(form.errors)
+    else:
+        form.fields['unidad_tematica'].queryset = Unidad.objects.filter(planificacion_id=planificacion_id)
+        form.fields['resultados_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion_id = planificacion_id)
     context = {
         "planificacion": planificacion,
         "form": form,

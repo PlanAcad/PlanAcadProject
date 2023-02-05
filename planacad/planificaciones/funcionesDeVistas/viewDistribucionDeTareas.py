@@ -117,7 +117,7 @@ def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcate
     mensaje_error = None
 
     if request.method == "POST":  
-        form = DetalleProfesorCatedraForm(request.POST) 
+        form = DetalleProfesorCatedraForm(request.POST,instance=data) 
         if form.is_valid():  
             try:  
                 instance = form.save(commit=False)
@@ -129,7 +129,11 @@ def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcate
                 return redirect('planificaciones:distribucionDeTareas', id_planificacion=id_planificacion)
                  
             except:  
-                mensaje_error = "No pudimos guardar los cambios."  
+                mensaje_error = "No pudimos guardar los cambios." 
+    else:
+        asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
+        form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id) 
     
     context = {
         'data':data,
