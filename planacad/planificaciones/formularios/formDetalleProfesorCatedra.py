@@ -9,7 +9,7 @@ from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 
 class DetalleProfesorCatedraForm(forms.ModelForm):
     profesor = forms.ModelChoiceField(
-        queryset= User.objects.filter(groups= Group.objects.get(name='profesor')))
+        queryset= User.objects.all())
     nombre_profesor = forms.CharField(required=False) 
     apellido_profesor = forms.CharField(required=False) 
     actividades = forms.CharField(widget=forms.Textarea())

@@ -16,14 +16,14 @@
 <h4>Modificar distribución de tarea</h4>
 
 
-<form id="distribucion-tareas-form" action="" method="POST">
+<form id="distribucion-tareas-form" data-resultados-url="{% url 'planificaciones:ajax_load_profesores' %}" action="" method="POST">
   {% csrf_token %} 
-  
-    <label class="form-label">Profesor/a:</label>
-    <p>{{form.profesor}}</p>
 
     <label class="form-label">Situación y/o condición:</label>
     <p>{{form.situacion}}</p>
+    
+    <label class="form-label">Profesor/a:</label>
+    <p>{{form.profesor}}</p>
 
     <label class="form-label">Categoría:</label>
     <p>{{form.categoria}}</p>
@@ -130,6 +130,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#id_situacion").change(function () {
+        var url = $("#distribucion-tareas-form").attr(
+            "data-resultados-url"
+        ); // get the url of the `load_cities` view
+        var situacion = $(this).val(); // get the selected country ID from the HTML input
+
+        $.ajax({
+            // initialize an AJAX request
+            url: url, // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+                situacion: situacion,
+                planificacion : {{planificacion.id}} // add the country id to the GET parameters
+            },
+            success: function (data) {
+                // `data` is the return of the `load_cities` view function
+                $("#id_profesor").html(data); // replace the contents of the city input with the data that came from the server
+            },
+        });
+    });
+</script>
 
 <script>
 const modal = document.getElementById("modal-delete");

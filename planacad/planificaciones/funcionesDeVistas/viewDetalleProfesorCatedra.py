@@ -78,6 +78,19 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     return render(request,'secciones/detalles-profesor-catedra.html', context) 
   
 @login_required
+def ProfesoresPorSituacion(request):
+    planificacion_id = request.GET.get('planificacion')
+    planificacion = Planificacion.objects.get(id=planificacion_id)
+    situacion=request.GET.get('situacion')
+    if(situacion == "2"):
+        asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
+        users = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+    elif(situacion == "3"):
+        users = User.objects.filter(groups = Group.objects.get(name='alumno'))
+    return render(request, 'secciones/detalle-profesor-catedra-dropdown.html', {'users': users})
+
+
+@login_required
 def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorcatedra):  
     mensaje_exito = None
     mensaje_error = None
@@ -98,9 +111,12 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
             except:  
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
-        form = DetalleProfesorCatedraForm(instance=data)  
-        asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
-        form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        form = DetalleProfesorCatedraForm(instance=data)
+        if(data.situacion == "2"):
+            asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
+            form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        elif(data.situacion == "3"):
+            form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='alumno'))
         form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
 
     return render(request,'secciones/detalles-profesor-catedra-update.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 

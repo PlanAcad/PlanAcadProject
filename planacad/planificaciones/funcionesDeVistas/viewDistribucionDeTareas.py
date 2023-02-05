@@ -131,8 +131,11 @@ def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcate
             except:  
                 mensaje_error = "No pudimos guardar los cambios." 
     else:
-        asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
-        form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        if(data.situacion == "2"):
+            asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
+            form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        elif(data.situacion == "3"):
+            form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='alumno'))
         form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id) 
     
     context = {
