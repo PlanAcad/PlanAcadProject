@@ -52,7 +52,7 @@
                 {% endif %}
             </div>
             <div> 
-                    {% if request.user|has_group:"jefe de carrera" %}
+                    {% if user.is_staff %}
                         <a
                         class="item-subnavbar"
                         href="{% url 'planificaciones:usuarios' %}"
