@@ -150,8 +150,8 @@
                                     </a>
                               </div>
                             </div>
-                          
                         {% endfor %}
+
                           </div>
                         {% endif %}
                         <h4>LAR</h4>
@@ -215,79 +215,45 @@
                           </div>
                         {% endif %} 
                         <div class="row mt-4">
-                        {% if asignaturas %} 
-                                {% for asignatura in asignaturas %}
-                                    <div class="col-md-4">
-                                            <a
-                                                href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
-                                                style="text-decoration: none"
-                                            >
-                                                <div class="card card-subject p-0 mb-4">
-                                                    <div class="p-3">
-                                                        <h5 class="card-subject-title">
-                                                            {{ asignatura.nombre_materia }}
-                                                        </h5>
-                                                        <p class="card-subject-subtitle mb-2 text-muted">
-                                                            <b>Año:</b> {{ asignatura.ano }}
-                                                        </p>
-                                                        <p class="card-subject-subtitle mb-2 text-muted">
-                                                            <b>Comisión:</b> {{ asignatura.comision }}
-                                                        </p>
-                                                        <p class="card-subject-subtitle mb-2 text-muted">
-                                                            <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
-                                                        </p>
-                                                    </div>
-                                                    {% if request.user|has_group:"jefe de carrera" %}
-                                                      <a class="card-footer" href="{% url 'planificaciones:updateAsignatura' asignatura.id %}">
-                                                          <button 
-                                                          style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                          type="submit">
-                                                          <p class="m-0">Modificar Asignatura</p>
-                                                          </button>
-                                                          {% csrf_token %}
-                                                        </a>
-                                                    {% endif %}
-                                                </div>      
-                                            </a>
-                                    </div>
-                                {% endfor %} 
-                        {% endif %}
+                          {% if asignaturas %} 
+                                  {% for asignatura in asignaturas %}
+                                      <div class="col-md-4">
+                                              <a
+                                                  href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
+                                                  style="text-decoration: none"
+                                              >
+                                                  <div class="card card-subject p-0 mb-4">
+                                                      <div class="p-3">
+                                                          <h5 class="card-subject-title">
+                                                              {{ asignatura.nombre_materia }}
+                                                          </h5>
+                                                          <p class="card-subject-subtitle mb-2 text-muted">
+                                                              <b>Año:</b> {{ asignatura.ano }}
+                                                          </p>
+                                                          <p class="card-subject-subtitle mb-2 text-muted">
+                                                              <b>Comisión:</b> {{ asignatura.comision }}
+                                                          </p>
+                                                          <p class="card-subject-subtitle mb-2 text-muted">
+                                                              <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
+                                                          </p>
+                                                      </div>
+                                                      {% if request.user|has_group:"jefe de carrera" %}
+                                                        <a class="card-footer" href="{% url 'planificaciones:updateAsignatura' asignatura.id %}">
+                                                            <button 
+                                                            style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                            type="submit">
+                                                            <p class="m-0">Modificar Asignatura</p>
+                                                            </button>
+                                                            {% csrf_token %}
+                                                          </a>
+                                                      {% endif %}
+                                                  </div>      
+                                              </a>
+                                      </div>
+                                  {% endfor %} 
+                          {% endif %}
                         </div>
-                        <aside
-                    class="layout__sidebar col-3 py-3 px-2 show collapse aside-calendario"
-                > 
-                  <div class="container-card-calendario">
-                      <div style="text-align: center;">
-                          <h5 class="p-2">Calendario</h5>
-                      </div>
-
-                      {% if calendario %}
-                        {% for fecha in calendario %}
-                          <div class="calendario-card">
-                            <div class="calendario-card-dot-day">
-                              {% if fecha.fecha.day < 10 %}
-                                <span class="calendario-card-dot-day-text">0{{ fecha.fecha.day }}</span>
-                              {% else %}
-                                <span class="calendario-card-dot-day-text">{{ fecha.fecha.day }}</span>
-                              {% endif %}
-                            </div>
-                            <div>
-                              {% for actividad in fecha.actividades %}
-                                <p class="calendario-card-title">{{actividad}}</p>
-                              {% endfor %}
-                              {% if fecha.hay_clase %}
-                                <p class="calendario-card-subtitle">Sin suspensión de clases</p>
-                              {% else %}
-                                <p class="calendario-card-subtitle">Con suspensión de clases</p>
-                              {% endif %}
-                            </div>
-                          </div>
-                        {% endfor %}
-                      {% else %}
-                        <p class="text-center calendario-card-title">No tienes actividades este mes</p>
-                      {% endif %}
-                  </div>
-                        </aside>
+                        
                       {% endif %}
                   {% else %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -296,6 +262,43 @@
                     </div>
                   {% endif %}
                   </main>
+                  {% if not user.is_staff %}
+                  <aside
+                          class="layout__sidebar col-3 py-3 px-2 show collapse aside-calendario"
+                      > 
+                        <div class="container-card-calendario">
+                            <div style="text-align: center;">
+                                <h5 class="p-2">Calendario</h5>
+                            </div>
+      
+                            {% if calendario %}
+                              {% for fecha in calendario %}
+                                <div class="calendario-card">
+                                  <div class="calendario-card-dot-day">
+                                    {% if fecha.fecha.day < 10 %}
+                                      <span class="calendario-card-dot-day-text">0{{ fecha.fecha.day }}</span>
+                                    {% else %}
+                                      <span class="calendario-card-dot-day-text">{{ fecha.fecha.day }}</span>
+                                    {% endif %}
+                                  </div>
+                                  <div>
+                                    {% for actividad in fecha.actividades %}
+                                      <p class="calendario-card-title">{{actividad}}</p>
+                                    {% endfor %}
+                                    {% if fecha.hay_clase %}
+                                      <p class="calendario-card-subtitle">Sin suspensión de clases</p>
+                                    {% else %}
+                                      <p class="calendario-card-subtitle">Con suspensión de clases</p>
+                                    {% endif %}
+                                  </div>
+                                </div>
+                              {% endfor %}
+                            {% else %}
+                              <p class="text-center calendario-card-title">No tienes actividades este mes</p>
+                            {% endif %}
+                        </div>
+                  </aside>  
+                  {% endif  %}
             </div>
         </div>
     </div>

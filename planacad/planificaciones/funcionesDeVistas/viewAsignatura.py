@@ -76,9 +76,9 @@ def AsignaturasView(request):
 
         
         
-            formAsignaturaCarrera.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carreraUsuario)
-            calendarioAcademico = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')    
-            calendario = viewCalendario.CreateCalendario(calendarioAcademico, fechasParciales)
+        formAsignaturaCarrera.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carreraUsuario)
+        calendarioAcademico = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')    
+        calendario = viewCalendario.CreateCalendario(calendarioAcademico, fechasParciales)
 
         if(asignaturas):
             asignaturas = asignaturas.order_by('ano')
