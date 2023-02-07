@@ -629,3 +629,29 @@ border: 2px solid rgba(0, 0, 0, 0.18) !important;
     .input-user:focus, .input-password:focus {
     border: 2px solid rgba(0, 0, 0, 0.18) !important;
     }
+
+/**************
+*** CORRECCIONES ***
+***************/
+.correccion {
+    margin-bottom: 1em;
+  }
+  .correccion li {
+    list-style: none;
+    margin: 1em 0;
+  }
+  .correccion__body {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .correccion__comentarios {
+    background-color: #f5f5f5;
+    padding: 0.4em 0.8em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 2em;
+  }
+  .correccion__comentarios__add {
+    margin-top: 10px;
+    margin-left: 2em;
+  }

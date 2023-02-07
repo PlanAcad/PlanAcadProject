@@ -52,7 +52,7 @@
                 {% endif %}
             </div>
             <div> 
-                    {% if request.user|has_group:"jefe de carrera" %}
+                    {% if user.is_staff %}
                         <a
                         class="item-subnavbar"
                         href="{% url 'planificaciones:usuarios' %}"
@@ -61,7 +61,7 @@
                         </a>
 
                     {% endif %}
-                    {% if not  request.user|has_group:"alumno" %}
+                    {% if not  request.user|has_group:"alumno" and not user.is_staff %}
                     <a
                     class="item-subnavbar"
                     href="#"
@@ -69,14 +69,16 @@
                         Libro Rojo
                     </a>
                     {% endif %}
-                    {% now "Y" as current_year %}
-                    <a
-                        class="item-subnavbar"
-                        href="{% if ano %}{% url 'planificaciones:calendarioacademico' ano %}{% else %}{% url 'planificaciones:calendarioacademico' current_year %}{% endif %}"
-                       >
-                        Calendario
-                    </a>
-                    {% if not  request.user|has_group:"alumno" %}
+                    {% if not  user.is_staff %}
+                        {% now "Y" as current_year %}
+                        <a
+                            class="item-subnavbar"
+                            href="{% if ano %}{% url 'planificaciones:calendarioacademico' ano %}{% else %}{% url 'planificaciones:calendarioacademico' current_year %}{% endif %}"
+                        >
+                            Calendario
+                        </a>
+                    {% endif %}
+                    {% if not  request.user|has_group:"alumno" and not user.is_staff %}
                     <a
                         class="item-subnavbar"
                         href="#"

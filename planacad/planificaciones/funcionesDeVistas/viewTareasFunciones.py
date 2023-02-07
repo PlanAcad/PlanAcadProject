@@ -25,7 +25,7 @@ from django.contrib.auth.decorators import login_required
 @login_required 
 def TareasFuncionesIndex(request,id_planificacion):
     planificacion = Planificacion.objects.get(id=id_planificacion) 
-    form = DetalleProfesorCatedraForm(asignatura_id = planificacion.asignatura.id)
+    form = DetalleProfesorCatedraForm()
     detalles_profesores_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion) 
     distribucionTareasForm = DistribucionTareasForm(instance=planificacion)
     profesores =  detalles_profesores_catedra.filter(categoria__categoria = "Titular") | detalles_profesores_catedra.filter(categoria__categoria = "Adjunto")

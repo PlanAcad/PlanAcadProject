@@ -9,11 +9,6 @@ class AsignaturaMultipleChoiceField(forms.ModelMultipleChoiceField):
         return "{} del {} año, comision {}".format(obj.nombre_materia, obj.ano, obj.comision)
 
 class AsignaturaCarreraForm(forms.Form):
-    def __init__(self, carrera, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if(carrera):
-            self.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carrera)
-    
     asignaturas = AsignaturaMultipleChoiceField(
         queryset=None,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'})

@@ -36,54 +36,87 @@ def AsignaturaNew(request):
 
 @login_required
 def AsignaturasView(request):
-    # Obtener materias del profesor
-    asignaturas = None
-    calendario = None
-    usergroup = request.user.groups.values_list('name',flat = True)
+    if(not request.user.is_staff):
+        # Obtener materias del profesor
+        asignaturas = None
+        calendario = None
+        usergroup = request.user.groups.values_list('name',flat = True)
 
-    usuariosPlanificacion = PlanificacionUsuario.objects.filter(usuario_id = request.user.id)
-    fechasParciales = None
+        usuariosPlanificacion = PlanificacionUsuario.objects.filter(usuario_id = request.user.id)
+        fechasParciales = None
 
-    carreraUsuario = request.user.carrera.all()
-    if(carreraUsuario.count()==1):
-        carrera = Carrera.objects.get(id = carreraUsuario.first().id)
-    formAsignaturaCarrera = AsignaturaCarreraForm(carrera)
+        carrerasUsuario = request.user.carrera.all()
+        if(carrerasUsuario.count()==1):
+            carreraUsuario = Carrera.objects.get(id = carrerasUsuario.first().id)
+        formAsignaturaCarrera = AsignaturaCarreraForm()
 
-    if "profesor" in  usergroup or "consejo" in  usergroup :
-        asignaturas = Asignatura.objects.filter(profesor=request.user)
-        for asig in asignaturas:
-            planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
-            fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
-    elif "jefe de carrera" in  usergroup :
-        carreraUsuario = request.user.carrera.all()
-        if(carreraUsuario.count()==1):
-            carrera = Carrera.objects.get(id = carreraUsuario.first().id) 
-            asignaturas = Asignatura.objects.filter(carrera = carrera)
-        for asig in asignaturas:
-            planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
-            fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
-    
-    elif "alumno" in usergroup:
-        carreraUsuario = request.user.carrera.all()
-        if(carreraUsuario.count()==1):
-            carrera = Carrera.objects.get(Q(id = carreraUsuario.first().id) | Q(nombre_carrera = "Basicas") ) 
-            asignaturas = Asignatura.objects.filter(carrera = carrera) 
-        for up in usuariosPlanificacion:
-            planificacion = Planificacion.objects.get(id = up.planificacion_id)
-            if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
+        if "profesor" in  usergroup or "consejo" in  usergroup :
+            asignaturas = Asignatura.objects.filter(profesor=request.user)
+            for asig in asignaturas:
+                planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
+        elif "jefe de carrera" in  usergroup :
+            carrerasUsuario = request.user.carrera.all()
+            if(carrerasUsuario.count()==1):
+                carreraUsuario = Carrera.objects.get(id = carrerasUsuario.first().id) 
+                asignaturas = Asignatura.objects.filter(carrera = carreraUsuario)
+            for asig in asignaturas:
+                planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
+                fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
+        
+        elif "alumno" in usergroup:
+            carrerasUsuario = request.user.carrera.all()
+            if(carrerasUsuario.count()==1):
+                carreraUsuario = Carrera.objects.get(Q(id = carrerasUsuario.first().id) | Q(nombre_carrera = "Basicas") ) 
+                asignaturas = Asignatura.objects.filter(carrera = carreraUsuario) 
+            for up in usuariosPlanificacion:
+                planificacion = Planificacion.objects.get(id = up.planificacion_id)
+                if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
+                    fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
 
-      
-    calendarioAcademico = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')    
+        
+        
+        formAsignaturaCarrera.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carreraUsuario)
+        calendarioAcademico = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')    
+        calendario = viewCalendario.CreateCalendario(calendarioAcademico, fechasParciales)
+
+        if(asignaturas):
+            asignaturas = asignaturas.order_by('ano')
+
+        context = {
+                'asignaturas': asignaturas,
+                'calendario':calendario, 
+                'formAsignaturaCarrera':formAsignaturaCarrera
+            }  
+        return render(request,'asignaturas/index.html', context)
+    else:
+        asignaturasISI = None
+        asignaturasIQ = None
+        asignaturasIEM = None
+        asignaturasLAR = None
+        carrera = Carrera.objects.filter(nombre_carrera="ISI").first()
+        if(carrera):
+            asignaturasISI = Asignatura.objects.filter(carrera = carrera)
+        carrera = Carrera.objects.filter(nombre_carrera="IQ").first()
+        if(carrera):
+            asignaturasIQ = Asignatura.objects.filter(carrera = carrera)
+        carrera = Carrera.objects.filter(nombre_carrera="IEM").first()
+        if(carrera):
+            asignaturasIEM = Asignatura.objects.filter(carrera = carrera)
+        carrera = Carrera.objects.filter(nombre_carrera="LAR").first()
+        if(carrera):
+            asignaturasLAR = Asignatura.objects.filter(carrera = carrera)
+        context = {
+                'asignaturasISI': asignaturasISI,
+                'asignaturasIQ': asignaturasIQ,
+                'asignaturasIEM': asignaturasIEM,
+                'asignaturasLAR': asignaturasLAR,
+                
+            }  
+        return render(request,'asignaturas/index.html', context)
+
+
     
-    calendario = viewCalendario.CreateCalendario(calendarioAcademico, fechasParciales)
-
-    context = {
-            'asignaturas': asignaturas.order_by('ano'),
-            'calendario':calendario, 
-            'formAsignaturaCarrera':formAsignaturaCarrera
-        }  
-    return render(request,'asignaturas/index.html', context)
 
 @login_required
 def AsignaturaDetailView(request, id, error = 'False'):

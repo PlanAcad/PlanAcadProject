@@ -9,28 +9,40 @@
   {% endif %}
 
   <form
+    data-resultados-url="{% url 'planificaciones:ajax_load_profesores' %}"
+    method="POST"
     id="docente-form"
     method="POST"
     action="{% url 'planificaciones:detallesprofesorcatedraupdate' planificacion.id data.id %}"
   >
     {% csrf_token %} 
-    <label>Profesor/a:</label>
-    <p>{{form.profesor}}</p>
-    
-    <label>Situación y/o condición:</label>
-    <p>{{form.situacion}}</p>
+        <label class="form-label">Situación y/o condición:</label>
+        <p>{{form.situacion}}</p>
 
-    <label>Categoría:</label>
-    <p>{{form.categoria}}</p>
+        <label class="form-label">Profesor/a:</label>
+        <p>{{form.profesor}}</p>
 
-    <label>Designación:</label>
-    <p>{{form.dedicacion}}</p>
+        <label class="form-label">Categoría:</label>
+        <p>{{form.categoria}}</p>
 
-    <label>Funciones a desarrollar:</label>
-    <p>{{form.tareas}}</p>
-
-    <label>Actividades:</label>
-    <p>{{form.actividades}}</p>
+        <label class="form-label">Designación:</label>
+        <p>{{form.dedicacion}}</p>
+        
+        <div class= "mb-3">
+        <label for="" class="form-label">Funciones y/o Tareas a desarrollar:</label>
+        {% if form.tareas|length > 0 %}
+            {{ form.tareas }}
+        {% else %}
+            <input disabled></input>
+            <span>No posee funciones y/o tareas agregadas. 
+                <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}" class="link-primary">
+                Ir a sección 12: Distribucion de tareas</a>
+            </span>
+        {% endif %}
+        </div>
+        
+        <label class="form-label">Actividades:</label>
+        <p>{{form.actividades}}</p>
   </form>
 
   <div id="buttons-footer" style="display: flex; justify-content: space-between">
@@ -127,4 +139,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#id_situacion").change(function () {
+        var url = $("#docente-form").attr(
+            "data-resultados-url"
+        ); // get the url of the `load_cities` view
+        var situacion = $(this).val(); // get the selected country ID from the HTML input
+
+        $.ajax({
+            // initialize an AJAX request
+            url: url, // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+                situacion: situacion,
+                planificacion : {{planificacion.id}} // add the country id to the GET parameters
+            },
+            success: function (data) {
+                // `data` is the return of the `load_cities` view function
+                $("#id_profesor").html(data); // replace the contents of the city input with the data that came from the server
+            },
+        });
+    });
+</script>
 {% endblock %}

@@ -125,7 +125,47 @@
             </div>
             <div class="modal-body">
               <form action="" method="POST">
-                {% csrf_token %} {{form.as_p}}
+                {% csrf_token %} 
+                
+                    <label class="form-label">Actividad:</label>
+                    <p>{{form.actividad}}</p>
+
+                    <div class= "mb-3">
+                      <label for="" class="form-label">Unidad tematica:</label>
+                      {% if form.unidad_tematica|length > 0 %}
+                          {{ form.unidad_tematica }}
+                      {% else %}
+                          <input disabled></input>
+                          <span>No posee unidades agregadas.
+                            <a href="{% url 'planificaciones:contenido' planificacion.id %}" class="link-primary">
+                              Ir a sección 11: Contenido</a>
+                          </span>
+                      {% endif %}
+                      </div>
+
+                    <label class="form-label">Lugar:</label>
+                    <p>{{form.lugar}}</p>
+
+                    <label class="form-label">Indicadores de logro:</label>
+                    <p>{{form.indicadores_de_logro}}</p>
+                    <label class="form-label">Tecnicas de evaluacion:</label>
+                    <p>{{form.tecnicas_de_evaluacion}}</p>
+                    <label class="form-label">Tipo de evaluacion:</label>
+                    <p>{{form.tipo_de_evaluacion}}</p>
+                    <div class= "mb-3">
+                    <label for="" class="form-label">Resultados de aprendizaje:</label>
+                    {% if form.resultados_de_aprendizaje|length > 0 %}
+                        {{ form.resultados_de_aprendizaje }}
+                    {% else %}
+                        <input disabled></input>
+                        <span>No posee resultados de aprendizaje agregados.
+                          <a href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}" class="link-primary">
+                            Ir a sección 6: Propuestas para el desarrollo</a>
+                        </span>
+                    {% endif %}
+                    </div>
+                    
+                    
 
                 <div class="modal-footer">
                     <button

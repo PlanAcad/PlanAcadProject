@@ -46,7 +46,7 @@
                 <td class="text-center">
                   <a
                                 class="stretched-link"
-                                {% if not planificacion.estado == "A" %} href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}" {% endif %}
+                                 href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}" 
                                 >
                   {{fila.fecha_clase|default:""}}
                   {% if fila.numero_de_clase_o_semana %}
@@ -123,7 +123,51 @@ Se sugiere consultar lo trabajado en el Módulo 3 del Curso Formación por Compe
         method="POST"
         action="{% url 'planificaciones:cronograma' planificacion.id %}"
         >
-            {% csrf_token %} {{form.as_p}}
+            {% csrf_token %} 
+
+            <label class="form-label">Profesor a cargo de la clase:</label>
+            <p>{{form.profesor_a_cargo}}</p>
+
+            <label class="form-label">Lugar desarrollo de clase:</label>
+            <p>{{form.lugar_desarrollo_de_clase}}</p>
+
+            <label class="form-label">Fecha de la clase:</label>
+            <p>{{form.fecha_clase}}</p>
+
+            <label class="form-label">Es examen:</label>
+            <p>{{form.es_examen}}</p>
+
+            <div class= "mb-3">
+              <label for="" class="form-label">Unidad tematica:</label>
+              {% if form.unidad_tematica_o_tema|length > 0 %}
+                  {{ form.unidad_tematica_o_tema }}
+              {% else %}
+                  <input disabled></input>
+                  <span>No posee unidades agregadas.
+                    <a href="{% url 'planificaciones:contenido' planificacion.id %}" class="link-primary">
+                      Ir a sección 11: Contenido</a>
+                  </span>
+              {% endif %}
+              </div>
+
+            <label class="form-label">Cantidad de tareas por clase / semana:</label>
+            <p>{{form.cantidad_tareas}}</p>
+
+            <label class="form-label">Numero de  clase / semana:</label>
+            <p>{{form.numero_de_clase_o_semana}}</p>
+
+            <div class= "mb-3">
+            <label for="" class="form-label">Resultados de aprendizaje:</label>
+            {% if form.resultado_de_aprendizaje|length > 0 %}
+                {{ form.resultado_de_aprendizaje }}
+            {% else %}
+                <input disabled></input>
+                <span>No posee resultados de aprendizaje agregados.
+                  <a href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}" class="link-primary">
+                    Ir a sección 6: Propuestas para el desarrollo</a>
+                </span>
+            {% endif %}
+            </div>
         
             {% if form.errors %}
             <div class="alert alert-danger">{{form.errors}}</div>
