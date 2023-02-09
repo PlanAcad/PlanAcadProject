@@ -1,9 +1,9 @@
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['planacad.herokuapp.com']
+ALLOWED_HOSTS = ['https://planacad.azurewebsites.net']
 # Application definition
 
 
