@@ -26,7 +26,7 @@ DATABASES = {
 # SECRET_KEY = 'n%)qyk7n&3_uk+3zx&!z7ba1bykb1!9!0xhi$dw)n*v7kewn+9'
 
 # SCM_DO_BUILD_DURING_DEPLOYMENT=True
-WEBSITE_WEBDEPLOY_USE_SCM =True
+# WEBSITE_WEBDEPLOY_USE_SCM =True
 
 DEBUG = False
 
