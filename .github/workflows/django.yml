@@ -1,7 +1,7 @@
 name: Django CI
 
 on:
-  pull_request:
+  push:
     branches: "develop"
 env:
   AZURE_WEBAPP_NAME: Planacad # set this to your application's name
