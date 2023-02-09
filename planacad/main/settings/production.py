@@ -3,8 +3,8 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 # Application definition
 
-SCM_DO_BUILD_DURING_DEPLOYMENT=True
-# WEBSITE_WEBDEPLOY_USE_SCM =True
+# SCM_DO_BUILD_DURING_DEPLOYMENT=True
+WEBSITE_WEBDEPLOY_USE_SCM =True
 
 DEBUG = False
 
