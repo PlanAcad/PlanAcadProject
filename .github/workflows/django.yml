@@ -5,7 +5,7 @@ on:
     branches: "develop"
 env:
   AZURE_WEBAPP_NAME: Planacad # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: '/planacad' # set this to the path to your web app project, defaults to the repository root
 
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r planacat/requirements.txt
     - name: Building web app
       uses: azure/appservice-build@v2
     - name: Deploy web App using GH Action azure/webapps-deploy
