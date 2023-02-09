@@ -3,6 +3,12 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 # Application definition
 
+SCM_DO_BUILD_DURING_DEPLOYMENT=True
+# WEBSITE_WEBDEPLOY_USE_SCM =True
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['https://planacad.azurewebsites.net']
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -25,20 +31,11 @@ DATABASES = {
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'n%)qyk7n&3_uk+3zx&!z7ba1bykb1!9!0xhi$dw)n*v7kewn+9'
 
-SCM_DO_BUILD_DURING_DEPLOYMENT=True
-# WEBSITE_WEBDEPLOY_USE_SCM =True
-
-DEBUG = False
-
-ALLOWED_HOSTS = ['https://planacad.azurewebsites.net']
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/")  
-STATIC_ROOT = os.environ.get("DJANGO_STATIC_ROOT", "./static/")  
-STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage') 
 
 
 
