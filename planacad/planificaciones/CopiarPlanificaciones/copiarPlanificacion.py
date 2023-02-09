@@ -1,6 +1,7 @@
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
+from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 from planificaciones.modelos.modelFundamentacion import Fundamentacion
 from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
 from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior
@@ -12,8 +13,13 @@ from planificaciones.modelos.modelBibliografia import Bibliografia
 from planificaciones.modelos.modelWebgrafia import Webgrafia
 from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico
 from planificaciones.modelos.modelContenido import Contenido
+from planificaciones.modelos.modelUnidad import Unidad
+from django.contrib.auth.models import User
+
+
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.modelos.modelAsignatura import Asignatura
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -48,8 +54,14 @@ def CopiarIndex(request,id_planificacion):
             ##Save planificacion
             #Seccion 2 -Hecho, 12 
             detallesProfesorCatedra = DetalleProfesorCatedra.objects.filter(planificacion_id=id_planificacion)
+            tareasFunciones = TareasFunciones.objects.filter(planificacion_id = id_planificacion)
+            for item in tareasFunciones:
+                item.planificacion = planificacion
+                item.pk = None
+                item._state.adding = True
+                item.save()
+
             for item in detallesProfesorCatedra:
-                ##Resguard many to many
                 tareas = item.tareas.all()
                 ##Copy obj    
                 item.planificacion = planificacion
@@ -58,7 +70,9 @@ def CopiarIndex(request,id_planificacion):
                 item.save()
                 ##save many to many
                 for tarea in tareas:
-                    item.tareas.add(tarea)
+                    new_tarea = TareasFunciones.objects.get(tarea_funcion=tarea.tarea_funcion, planificacion = planificacion)
+                    item.tareas.add(new_tarea)
+                   
                 item.save()
             print("Seccion 2")
             #Seccion 3 --Hecho
@@ -81,7 +95,6 @@ def CopiarIndex(request,id_planificacion):
             #Seccion 5 --Hecho
             competencias = Competencia.objects.filter(planificacion_id=id_planificacion)
             for item in competencias:
-                ##Resguard many to many
                 subcompetencias = item.subcompetencia_set.all()
                 ##Copy obj 
                 item.pk = None
@@ -91,7 +104,7 @@ def CopiarIndex(request,id_planificacion):
                 for subcompetencia in subcompetencias: 
                     subcompetencia.pk = None
                     subcompetencia._state.adding = True
-                    subcompetencia.competencia = item
+                    subcompetencia.competencia = Competencia.objects.get(id=item.id)
                     subcompetencia.save()
             print("Seccion 5")
             #Seccion 9 --Hecho
@@ -103,6 +116,21 @@ def CopiarIndex(request,id_planificacion):
                 item.save()
             bibliografias = Bibliografia.objects.filter(planificacion_id=planificacion.id)
             print("Seccion 9")
+            #Seccion 11 --Hecho
+            contenidos = Contenido.objects.filter(planificacion_id=id_planificacion)
+            for item in contenidos:
+                unidad = Unidad.objects.get(id = item.unidad.id)
+                unidad.pk = None
+                unidad._state.adding = True
+                unidad.planificacion = planificacion
+                unidad.save()
+
+                item.pk = None
+                item._state.adding = True
+                item.planificacion = planificacion
+                item.unidad = unidad
+                item.save()
+            print("Seccion 11")
             #Seccion 6 --Hecho
             propuestasDeDesarrollo = PropuestaDesarrollo.objects.filter(planificacion_id=id_planificacion)
             ##Get resultados
@@ -113,54 +141,45 @@ def CopiarIndex(request,id_planificacion):
                 ra._state.adding = True
                 ra.planificacion = planificacion
                 ra.save()
+            resultadosDeAprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion_id=planificacion.id)
             ##Copy propuestas
             for item in propuestasDeDesarrollo:
                 ##Resguard 
-                subcompetencias = item.subcompetencias.all()
-                ##Resguard 
-                unidades = item.unidades.all()
-                ##Resguard 
-                estrategias_ens = item.estrategias_ens.all()
-                ##Resguard resultado de aprendizaje
                 resultadosDeAprendizajePropuesta = item.resultados_de_aprendizaje.all()
-                ## Get new resultados 
-                resultadosNuevosDeAprendizajePropuesta = []
-                for rap in resultadosDeAprendizajePropuesta:
-                    for ra in resultadosDeAprendizaje:
-                        if(ra.resultado == rap.resultado):
-                            resultadosNuevosDeAprendizajePropuesta.append(ra)
-                ##Resguard bibliografias
                 bibliografiasPropuesta = item.bibliografias.all()
-                ## Get new bibliografia 
-                bibliografiasNuevosDeAprendizajePropuesta = []
-                for bp in bibliografiasPropuesta:
-                    for b in bibliografias:
-                        if(bp.autor == b.autor and bp.titulo_libro == b.titulo_libro and bp.nombre_capitulo == b.nombre_capitulo):
-                            bibliografiasNuevosDeAprendizajePropuesta.append(bp)
+                subcompetencias = item.subcompetencias.all()
+                unidadesPropuesta = item.unidades.all()
+                estrategiasDeEnseñanza = item.estrategias_ens.all()
                 ##Copy obj 
+                
                 item.pk = None
                 item._state.adding = True
                 item.planificacion = planificacion
                 item.save()
+                ## Save bibliografias
+                for bp in bibliografiasPropuesta:
+                    biblioRa = Bibliografia.objects.get(planificacion_id=planificacion.id,autor = bp.autor , titulo_libro = bp.titulo_libro , nombre_capitulo = bp.nombre_capitulo)
+                    item.bibliografias.add(biblioRa)
+                item.save()
                 ##Save bibliografias
-                for s in subcompetencias: 
-                    item.subcompetencias.add(s)
+                for s in subcompetencias:
+                    comp = Competencia.objects.get(planificacion = planificacion, descripcion = s.competencia.descripcion)
+                    subcomp = SubCompetencia.objects.get(competencia = comp, descripcion = s.descripcion)
+                    item.subcompetencias.add(subcomp)
                 item.save()
                 ##Save unidades
-                for u in unidades: 
-                    item.unidades.add(u)
+                for u in unidadesPropuesta: 
+                    uni = Unidad.objects.get(planificacion_id = planificacion.id, titulo = u.titulo)
+                    item.unidades.add(uni)
                 item.save()
-                ##Save bibliografias
-                for e in estrategias_ens: 
+                ##Save estrategias
+                for e in estrategiasDeEnseñanza: 
                     item.estrategias_ens.add(e)
                 item.save()
                 ##Save resultado de aprendizaje
-                for ra in resultadosNuevosDeAprendizajePropuesta: 
-                    item.resultados_de_aprendizaje.add(ra)
-                item.save()
-                ##Save bibliografias
-                for ra in bibliografiasNuevosDeAprendizajePropuesta: 
-                    item.bibliografias.add(ra)
+                for ra in resultadosDeAprendizajePropuesta:
+                    result = ResultadoDeAprendizaje.objects.get(planificacion_id = planificacion.id, resultado = ra.resultado)
+                    item.resultados_de_aprendizaje.add(result)
                 item.save()
             print("Seccion 6")
             #Seccion 7 --Hecho
@@ -168,33 +187,33 @@ def CopiarIndex(request,id_planificacion):
             for item in actividades:
                 ##Resguard resultado de aprendizaje
                 resultadosDeAprendizajeActividad = item.resultados_de_aprendizaje.all()
-                ## Get new resultados 
-                resultadosNuevosDeAprendizajeActividad = []
-                for rap in resultadosDeAprendizajeActividad:
-                    for ra in resultadosDeAprendizaje:
-                        if(ra.resultado == rap.resultado):
-                            resultadosNuevosDeAprendizajeActividad.append(ra)
+                unidadesActividad = item.unidad_tematica.all()
+
                 item.pk = None
                 item._state.adding = True
                 item.planificacion = planificacion
                 item.save()
                 ##Save resultado de aprendizaje
-                for ra in resultadosNuevosDeAprendizajeActividad:
-                    item.resultados_de_aprendizaje.add(ra)
+                for ra in resultadosDeAprendizajeActividad:
+                    result = ResultadoDeAprendizaje.objects.get(planificacion_id = planificacion.id, resultado = ra.resultado)
+                    item.resultados_de_aprendizaje.add(result)
+                for u in unidadesActividad: 
+                    uni = Unidad.objects.get(planificacion_id = planificacion.id, titulo = u.titulo)
+                    item.unidad_tematica.add(uni)
                 item.save()
             print("Seccion 7")
-            #Seccion 11 --Hecho
-            contenidos = Contenido.objects.filter(planificacion_id=id_planificacion)
-            for item in contenidos:
+            #Seccion 10 --Hecho
+            webgrafias = Webgrafia.objects.filter(planificacion_id=id_planificacion)
+            for item in webgrafias:
                 item.pk = None
                 item._state.adding = True
                 item.planificacion = planificacion
                 item.save()
-            print("Seccion 11")
+            print("Seccion 10")
             #Seccion 8 --Hecho
             ## Crear cronograma
             datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
-            cronograma = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datosDescriptivos.ciclo_lectivo)
+            cronograma = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = datetime.now().year)
             dias = datosDescriptivos.dias.all()
             inicio = None
             fin = None
@@ -231,54 +250,33 @@ def CopiarIndex(request,id_planificacion):
             planificacion.save()
             ##End create cronograma
             clasesNuevas = Clase.objects.filter(planificacion_id=planificacion.id).order_by('fecha_clase')
-            print(planificacion.id)
             clases = Clase.objects.filter(planificacion_id=id_planificacion).order_by('fecha_clase')
             i = 0
             for item in clasesNuevas:
-                ##Resguard unidades
-                unidades = clases[i].unidad_tematica_o_tema.all()
-                ## Get new resultados 
-                unidadesNuevoClase = []
-                for rap in unidades:
-                    for ra in contenidos:
-                        if(ra.contenido == rap.contenido):
-                            unidadesNuevoClase.append(ra)
-                ##Resguard resultado de aprendizaje
-                resultadosDeAprendizajeClase = clases[i].resultado_de_aprendizaje.all()
-                ## Get new resultados 
-                resultadosNuevosDeAprendizajeClase = []
-                for rap in resultadosDeAprendizajeClase:
-                    for ra in resultadosDeAprendizaje:
-                        if(ra.resultado == rap.resultado):
-                            resultadosNuevosDeAprendizajeClase.append(ra)
-                    ##Resguard profesores a cargo
-                profesoresACargo = clases[i].profesor_a_cargo.all()
-
-                item.lugar_desarrollo_de_clase = clases[i].lugar_desarrollo_de_clase
-                item.es_examen = clases[i].es_examen
-                item.numero_de_clase_o_semana = i+1
-                item.cantidad_tareas = clases[i].cantidad_tareas
+                ##Resguard 
+                if(not i >= len(clases)):
+                    contenidos = clases[i].unidad_tematica_o_tema.all()
+                    resultadosDeAprendizajeClase = clases[i].resultado_de_aprendizaje.all()
+                    profesoresACargo = clases[i].profesor_a_cargo.all()
+                    item.lugar_desarrollo_de_clase = clases[i].lugar_desarrollo_de_clase
+                    item.es_examen = clases[i].es_examen
+                    item.numero_de_clase_o_semana = i+1
+                    item.cantidad_tareas = clases[i].cantidad_tareas
                 
-                ##Save contenido
-                for u in unidadesNuevoClase:
-                    item.unidad_tematica_o_tema.add(u)
-                ##Save resultado de aprendizaje
-                for ra in resultadosNuevosDeAprendizajeClase:
-                    item.resultado_de_aprendizaje.add(ra)
-                for p in profesoresACargo:
-                    item.profesor_a_cargo.add(p)
+                    ##Save contenido
+                    for c in contenidos:
+                        cont = Contenido.objects.get(planificacion_id = planificacion.id, contenido = c.contenido)
+                        item.unidad_tematica_o_tema.add(cont)
+                    ##Save resultado de aprendizaje
+                    for ra in resultadosDeAprendizajeClase:
+                        result = ResultadoDeAprendizaje.objects.get(planificacion_id = planificacion.id, resultado = ra.resultado)
+                        item.resultado_de_aprendizaje.add(result)
+                    for p in profesoresACargo:
+                        profe = User.objects.get(id = p.id)
+                        item.profesor_a_cargo.add(profe)
                 item.save()
                 i = i+1
             print("Seccion 8")
-            #Seccion 10 --Hecho
-            webgrafias = Webgrafia.objects.filter(planificacion_id=id_planificacion)
-            for item in webgrafias:
-                item.pk = None
-                item._state.adding = True
-                item.planificacion = planificacion
-                item.save()
-            print("Seccion 10")
-            
             return redirect('planificaciones:datosDescriptivos', id_planificacion=planificacion.id)
     else:
         asignatura = Planificacion.objects.get(id = id_planificacion).asignatura

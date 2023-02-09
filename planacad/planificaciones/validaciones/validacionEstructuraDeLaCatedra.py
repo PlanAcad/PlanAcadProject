@@ -34,6 +34,7 @@ def ValidarSeccion(id_planificacion):
                         errores.append("No existe ninguns categoria")
                     else:
                         if(not detalleProfesorCatedra.categoria.categoria):
+                            print(detalleProfesorCatedra.categoria)
                             validacion_ok=False
                             validacion_bad=True
                             errores.append("categoria en el detalle "+str(detalleProfesorCatedra.id))
@@ -82,10 +83,10 @@ def ValidarSeccion(id_planificacion):
                                 validacion_ok=False
                                 validacion_bad=True
                                 errores.append("tarea_funcion en "+str(detalleProfesorCatedra.id))
-                            if(not tareaFuncion.categoria):
-                                validacion_ok=False
-                                validacion_bad=True
-                                errores.append("No existe ninguns categoria en la tarea "+str(tareaFuncion.id)+ "del detalle "+str(detalleProfesorCatedra.id) )
+                            # if(not tareaFuncion.categoria):
+                            #     validacion_ok=False
+                            #     validacion_bad=True
+                            #     errores.append("No existe ninguns categoria en la tarea "+str(tareaFuncion.id)+ "del detalle "+str(detalleProfesorCatedra.id) )
                             else:
                                 if(not detalleProfesorCatedra.categoria.categoria):
                                     validacion_ok=False
