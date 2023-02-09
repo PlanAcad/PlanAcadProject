@@ -1,74 +1,157 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
 <style>
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-  td,
-  th {
-    border: 1px solid #dddddd;
-    text-align: center;
-    padding: 4px;
-    font-weight: 400;
-    font-size: small;
-  }
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 4px;
+        font-weight: 400;
+        font-size: small;
+    }
+
+    td {
+        cursor: pointer;
+    }
+
+    th {
+        font-weight: 500;
+    }
 </style>
 
 <h2 class="seccion__encabezado">
-  4. Resultados de Aprendizajes previos requeridos para iniciar/ continuar el
-  desarrollo de los Resultados de Aprendizaje de la asignatura en relación con
-  el nivel de aporte a las sub-competencias y Competencias
+    4. Resultados de Aprendizajes previos requeridos para iniciar/ continuar el
+    desarrollo de los Resultados de Aprendizaje de la asignatura en relación con
+    el nivel de aporte a las sub-competencias y Competencias
 </h2>
-<div class="seccion__card">
-  {% if mensaje_exito %}
-  <div class="alert alert-success">{{mensaje_exito}}</div>
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
   {% endif %}
+<div class="seccion__card">
+    {% if mensaje_exito %}
+    <div class="alert alert-success">{{mensaje_exito}}</div>
+    {% endif %}
 
-  <table class="seccion__table">
+    <table class="seccion__table">
         <tbody>
             <table>
                 <thead class="">
-                  <tr>
-                    <th>Asignatura aprobada y/o regularizadas</th>
-                    <th>Resultados de aprendizaje alcanzados</th>
-                  </tr>
+                    <tr>
+                        <th>Asignatura aprobada y/o regularizadas</th>
+                        <th>Resultados de aprendizaje alcanzados</th>
+                    </tr>
                 </thead>
 
                 <tbody>
-                  {% if data %} {% for fila in data %}
+                    {% if data %} {% for fila in data %}
 
-                  <tr onclick="location.href='resultados-de-aprendizaje/edit/{{fila.id}}'">
-                    <td class="py-4">
-                      <a href="resultados-de-aprendizaje/edit/{{fila.id}}"
-                        >{{fila.asignatura|default:""}}
-                      </a>
-                    </td>
-                    <td class="py-4">{{fila.resultado|default:""}}</td>
-                  </tr>
-                  {% endfor %}{% else %}
-                  <tr>
-                    <td colspan="5">No hay datos para mostrar</td>
-                  </tr>
-                  {% endif %}
+                    <tr {% if not planificacion.estado == "A" %} onclick="location.href=`{% url 'planificaciones:resultadosDeAprendizajesUpdate' planificacion.id fila.id %}`" {% endif %}>
+                        <td class="py-4">{{fila.asignatura|default:""}}</td>
+                        <td class="py-4">{{fila.resultado|default:""}}</td>
+                    </tr>
+                    {% endfor %}{% else %}
+                    <tr>
+                        <td colspan="5">No hay datos para mostrar</td>
+                    </tr>
+                    {% endif %}
                 </tbody>
-                
             </table>
         </tbody>
     </table>
 
-  <h3 class="mt-4">Agregar Resultado de aprendizaje</h3>
+    {% if not planificacion.estado == "A" %} 
+        <!-- Abrir modal  -->
+        <button
+            type="button"
+            class="btn btn-primary mt-4"
+            data-toggle="modal"
+            data-target="#modal-resultado-aprendizaje-previo"
+        >
+            Añadir resultado de aprendizaje
+        </button>
+    {% endif %}
+    
 
-  <form
-    method="POST"
-    action="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
-  >
-    {% csrf_token %} {{form.as_p}}
-    <button type="submit" class="btn btn-primary">Guardar</button>
-  </form>
-  {% if form.errors %}
-  <div class="alert alert-danger">{{form.errors}}</div>
-  {% endif %}
+    {% if form.errors %}
+    <div class="alert alert-danger">{{form.errors}}</div>
+    {% endif %}
 </div>
+{% with seccion=4 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
+<!-- Modal resultado de aprendizaje previo -->
+<div
+    class="modal fade"
+    id="modal-resultado-aprendizaje-previo"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir resultado de aprendizaje previo
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    data-resultados-url="{% url 'planificaciones:ajax_load_resultados' %}"
+                    novalidate
+                    method="POST"
+                    id="resultadoDeAprendizajeAnteriorForm"
+                    action="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
+                >
+                    {% csrf_token %} {{form.as_p}}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#id_asignatura").change(function () {
+        var url = $("#resultadoDeAprendizajeAnteriorForm").attr(
+            "data-resultados-url"
+        ); // get the url of the `load_cities` view
+        var asignaturaId = $(this).val(); // get the selected country ID from the HTML input
+
+        $.ajax({
+            // initialize an AJAX request
+            url: url, // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+                asignatura: asignaturaId, // add the country id to the GET parameters
+            },
+            success: function (data) {
+                // `data` is the return of the `load_cities` view function
+                $("#id_resultado").html(data); // replace the contents of the city input with the data that came from the server
+            },
+        });
+    });
+</script>
 {% endblock %}

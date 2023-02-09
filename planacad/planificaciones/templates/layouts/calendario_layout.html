@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="layout layout--calendario d-flex flex-column min-vh-100">
+    {% include "layouts/navbar.html" with ano=ano %}
+    
+    <div class="bg-gris-5 flex-grow-1">
+        <div class="container-xl pt-4">
+            <div class="">                
+                <main class="col seccion px-4">                    
+                    {% block calendario %} replace me {% endblock %}
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

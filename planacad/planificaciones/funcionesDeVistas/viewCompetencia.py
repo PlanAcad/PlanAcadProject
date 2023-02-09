@@ -6,14 +6,33 @@ from planificaciones.formularios.formCompetencia import CompetenciaForm
 from planificaciones.modelos.modelCompetencia import Competencia
 from planificaciones.modelos.modelSubCompetencia import SubCompetencia
 from planificaciones.modelos.modelPlanificacion import Planificacion 
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
 def CompetenciaNew(request,id_planificacion):
     mensaje_exito = None
     mensaje_error = None
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = Competencia.objects.filter(planificacion = planificacion)
+         #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 5)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+
     if request.method == "POST":  
         form = CompetenciaForm(request.POST)  
         if form.is_valid():  
@@ -26,10 +45,24 @@ def CompetenciaNew(request,id_planificacion):
             except:  
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
-        form = CompetenciaForm()  
-    return render(request,'secciones/competencias/index.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+        form = CompetenciaForm()
+    #Agregar
+    context = {
+        'planificacion': planificacion,
+        'data':data,
+        'form':form,
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
+        'mensaje_exito': mensaje_exito, 
+        'mensaje_error': mensaje_error
+    }  
+    return render(request,'secciones/competencias/index.html',context) 
   
-  
+@login_required
 def CompetenciaView(request,id_planificacion):
     mensaje_error = None
     competencias = None
@@ -41,6 +74,7 @@ def CompetenciaView(request,id_planificacion):
     
     return render(request,"secciones/",{'competencias':competencias,'mensaje_error': mensaje_error})  
 
+@login_required
 def CompetenciabyTypeView(request,planificacion_id,type):
     mensaje_error = None
     competencias = None
@@ -53,6 +87,7 @@ def CompetenciabyTypeView(request,planificacion_id,type):
     return render(request,"secciones/",{'competencias':competencias,'mensaje_error': mensaje_error})  
  
 
+@login_required
 def CompetenciaDetailView(request, id):
     mensaje_error = None
     competencia = None
@@ -63,6 +98,7 @@ def CompetenciaDetailView(request, id):
     return render(request,'secciones/seccion2detail.html', {'competencia':competencia
     ,'mensaje_error': mensaje_error})  
 
+@login_required
 def CompetenciaUpdate(request, id_planificacion, id_competencia):  
     mensaje_exito = None
     mensaje_error = None
@@ -78,7 +114,6 @@ def CompetenciaUpdate(request, id_planificacion, id_competencia):
                 #Guardo
                 instance.save()
                 mensaje_exito="Guardamos los cambios correctamente."
-                #return HttpResponseRedirect(reverse('planificaciones:detallesprofesorcatedra', args=[id_planificacion]))
                 return redirect('planificaciones:competencias', id_planificacion=id_planificacion)
                  
             except:  
@@ -87,7 +122,7 @@ def CompetenciaUpdate(request, id_planificacion, id_competencia):
         form = CompetenciaForm(instance=data)  
     return render(request,'secciones/competencias/editar.html',{'data':data, 'subcompetencias': subcompetencias,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
-
+@login_required
 def CompetenciaDestroy(request, id_planificacion, id_competencia):
     mensaje_exito = None
     mensaje_error = None

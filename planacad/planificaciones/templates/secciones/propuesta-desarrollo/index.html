@@ -1,0 +1,476 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 4px;
+        font-weight: 400;
+        font-size: small;
+    }
+
+    td {
+        cursor: pointer;
+    }
+
+    th {
+        font-weight: 500;
+    }
+
+    .icon {
+        margin: 4px;
+        text-decoration: none;
+    }
+
+    .card {
+        margin-top: 6px;
+    }
+
+    .card-header {
+        padding: 14px;
+        background-color: white;
+    }
+    .title-card-collapse {
+        cursor: pointer;
+    }
+    label {
+        font-weight: 600;
+    }
+</style>
+
+<h2 class="seccion__encabezado">6. Propuestas para el desarrollo</h2>
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="heading1">
+            <div
+                style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                "
+            >
+                <h4
+                    class="mb-0 title-card-collapse"
+                    data-toggle="collapse"
+                    data-target="#collapseheading1"
+                    aria-expanded="true"
+                    aria-controls="collapseheading1"
+                >
+                    Resultados de aprendizaje
+                </h4>
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    class="bi bi-caret-up"
+                    viewBox="0 0 16 16"
+                >
+                    <path
+                        d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"
+                    />
+                </svg>
+            </div>
+        </div>
+
+        <div
+            id="collapseheading1"
+            class="collapse show"
+            aria-labelledby="headingheading1"
+            data-parent="#accordion"
+        >
+            <div class="card-body">
+                <table class="seccion__table">
+                    <tbody>
+                        <table>
+                            <thead class="">
+                                <tr>
+                                    <th class="">Resultado de aprendizaje</th>
+                                    <th>
+                                        Resultados de aprendizaje alcanzados
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            {% if resultados_aprendizaje_materia %}
+                            <tbody>
+                                {% for r in resultados_aprendizaje_materia %}
+                                <tr
+                                {% if not planificacion.estado == "A" %} onclick="location.href=`{% url 'planificaciones:updatePDResultadoAprendizaje' planificacion.id r.id %}`" {% endif %}
+                                >
+                                    <td class="">R{{ forloop.counter }}</td>
+                                    <td class="">{{r.resultado}}</td>
+                                </tr>
+
+                                {% endfor %}
+                            </tbody>
+                            {% endif %}
+                        </table>
+                    </tbody>
+                </table>
+                {% if not planificacion.estado == "A" %} 
+                    <!-- Abrir modal resultado de aprendizaje -->
+                    <button
+                    type="button"
+                    class="btn btn-primary mt-4"
+                    data-toggle="modal"
+                    data-target="#modal-resultado-aprendizaje"
+                    >
+                    Añadir resultado de aprendizaje
+                    </button>
+                {% endif %}
+                
+            </div>
+
+            {% if mensaje_exito %}
+            <div id="mensaje_exito" class="alert alert-success mt-1">
+                {{mensaje_exito}}
+            </div>
+            {% endif %} {% if mensaje_error %}
+            <div id="mensaje_error" class="alert alert-danger mt-1">
+                {{mensaje_error}}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="seccion__card">
+    <table class="seccion__table">
+        <tbody>
+            <table>
+                <thead class="">
+                    <tr>
+                        <th rowspan="2">Sub Comp.</th>
+                        <th rowspan="2">RA</th>
+                        <th rowspan="2">Unidades Tematicas</th>
+                        <th colspan="2">Actividades formativas</th>
+                        <th colspan="2">Tiempo aprox hora reloj</th>
+                        <th rowspan="2">Bibliografia propuesta por RA</th>
+                        <th rowspan="2">Estrategias de enseñanza</th>
+                        <th rowspan="2">Modo de agrupamiento</th>
+                        <th rowspan="2">Materiales y/o equipamaiento</th>
+                    </tr>
+                    <tr>    
+                        <th>Dentro del aula virtual</th>
+                        <th>Fuera del aula virtual</th>
+
+                        <th>Dentro del aula virtual</th>
+                        <th>Fuera del aula virtual</th>
+                    </tr>
+                </thead>
+
+                {% if propuestas_desarrollo %}
+                <tbody>
+                    {% for propuesta in propuestas_desarrollo %}
+                    <tr {% if not planificacion.estado == "A" %}  onclick="location.href=`{% url 'planificaciones:updatePropuestaDesarrollo' planificacion.id propuesta.id %}`" {% endif %}>
+                        <td>
+                            {% for subcompetencia in propuesta.subcompetencias.all %}
+                            <p>{{ forloop.counter }}. {{ subcompetencia.descripcion }}</p>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for resultado in propuesta.resultados_de_aprendizaje.all %}
+                                <p>R{{ forloop.counter }}</p>
+                                <!-- <p>{{ resultado.resultado }}</p> -->
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for unidad in propuesta.unidades.all %}
+                                <p>Unidad {{ unidad.numero }}</p>
+                            {% endfor %}
+                        </td>
+                        <td>{{ propuesta.actividad_dentro_aula | default:""  }}</td>
+                        <td>{{ propuesta.actividad_fuera_aula | default:""  }}</td>
+                        <td>{{ propuesta.tiempo_dentro_aula | default:""  }}</td>
+                        <td>{{ propuesta.tiempo_fuera_aula | default:""  }}</td>
+                        <td>
+                            {% for bibliografia in propuesta.bibliografias.all %}
+                            <p>{{ forloop.counter }}. {{ bibliografia.autor }}, {{ bibliografia.titulo_libro }},</p>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for estrategia in propuesta.estrategias_ens.all %}
+                            <p>{{ forloop.counter }}. {{ estrategia.estrategia }}</p>
+                            {% endfor %}
+                        </td>
+                        <td>{{ propuesta.modo_agrupamiento | default:""  }}</td>
+                        <td>{{ propuesta.materiales_equipamiento | default:""  }}</td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+
+                {% endif %}
+            </table>
+        </tbody>
+    </table>
+    {% if not planificacion.estado == "A" %} 
+    <!-- Abrir modal propuesta de desarrollo -->
+    <button
+        type="button"
+        class="btn btn-primary mt-4"
+        data-toggle="modal"
+        data-target="#modal-propuesta-desarrollo"
+    >
+        Añadir propuesta de desarrollo
+    </button>
+    {% endif %}
+    
+    
+</div>
+
+
+{% with seccion=6 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
+
+<!-- Modal resultado de aprendizaje -->
+<div
+    class="modal fade"
+    id="modal-resultado-aprendizaje"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir resultado de aprendizaje
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    method="POST"
+                    action="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}"
+                >
+                    {% csrf_token %}
+                    <input type="hidden" name="form_name" value="resultado_aprendizaje"/>
+
+
+                    <label>Descripción</label>
+                    <p>{{form_resultado_aprendizaje.resultado}}</p>
+
+                    {% if form_resultado_aprendizaje.errors %}
+                    <div class="alert alert-danger">
+                        {{form_resultado_aprendizaje.errors}}
+                    </div>
+                    {% endif %}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal propuesta de desarrollo -->
+<div
+    class="modal fade"
+    id="modal-propuesta-desarrollo"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir propuesta de desarrollo
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    method="POST"
+                    action="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}"
+                >
+                    {% csrf_token %}
+                    <input type="hidden" name="form_name" value="propuesta_desarollo"/>
+
+                    <div class="my-3">
+                        <label for="" class="form-label">Subcompetencias asociadas</label>
+                        {% if form_propuesta_desarrollo.subcompetencias|length > 0 %}
+                            {{ form_propuesta_desarrollo.subcompetencias }}
+                        {% else %}
+                            <input disabled></input>
+                            <span>No posee subcompetencias agregadas. 
+                                <a href="{% url 'planificaciones:competencias' planificacion.id %}" class="link-primary">
+                                    Ir a sección 5: Competencias y capacidades
+                                </a>
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="my-3">
+                        <label for="" class="form-label">Resultados de aprendizaje</label>
+                        {% if form_propuesta_desarrollo.resultados_de_aprendizaje|length > 0 %}
+                            {{ form_propuesta_desarrollo.resultados_de_aprendizaje }} 
+                        {% else %}
+                            <input disabled></input>
+                            <span>No posee resultados de aprendizaje agregados. Puede agregarlos en la parte superior.</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="my-3">
+                        <label for="" class="form-label">Unidades tematicas</label>
+
+                        {% if form_propuesta_desarrollo.unidades|length > 0 %}
+                            {{ form_propuesta_desarrollo.unidades }}
+                        
+                        {% else %}
+                            <input disabled></input>
+                            <span>No posee unidades tematicas. 
+                                <a href="{% url 'planificaciones:contenido' planificacion.id %}" class="link-primary">
+                                    Ir a sección 11: Contenido
+                                </a>
+                            </span>
+                        {% endif %}
+                    </div>
+                    
+                    <h6>Actividades formativas</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="exampleFormControlTextarea1" class="form-label">Actividad dentro del aula</label>
+                            {{form_propuesta_desarrollo.actividad_dentro_aula }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="exampleFormControlTextarea1" class="form-label">Actividad fuera del aula</label>
+                            {{form_propuesta_desarrollo.actividad_fuera_aula}}  
+                        </div>
+                    </div>
+
+                    <br />
+                    <h6>Tiempo aproximado - horas reloj</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="exampleFormControlTextarea1" class="form-label">Tiempo dentro del aula</label>
+                            {{form_propuesta_desarrollo.tiempo_dentro_aula}}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="exampleFormControlTextarea1" class="form-label">Tiempo fuera del aula</label>
+                            {{form_propuesta_desarrollo.tiempo_fuera_aula}}  
+                        </div>
+                    </div>
+
+                    <div class="my-3">
+                        <label for="" class="form-label">Bibliografia</label>
+                        {% if form_propuesta_desarrollo.bibliografias|length > 0 %}
+                            {{ form_propuesta_desarrollo.bibliografias }}
+                        {% else %}
+                            <input disabled></input>
+                            <span>No posee bibliografias agregadas. 
+                                <a href="{% url 'planificaciones:bibliografia' planificacion.id %}" class="link-primary">
+                                Ir a sección 9: Bibliografia</a>
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div class="my-3">
+                        <label for="" class="form-label">Estrategias de enseñanza</label>
+                        {{ form_propuesta_desarrollo.estrategias_ens }}
+                    </div>
+                    <div class="my-3">
+                        <label for="" class="form-label">Modo de agrupamiento</label>
+                        {{ form_propuesta_desarrollo.modo_agrupamiento }}
+                    </div>
+                    <div class="my-3">
+                        <label for="" class="form-label">Materiales y/o equipamiento</label>
+                        {{ form_propuesta_desarrollo.materiales_equipamiento }}
+                    </div>
+
+
+                    {% if form_propuesta_desarrollo.errors %}
+                    <div class="alert alert-danger">
+                        {{form_propuesta_desarrollo.errors}}
+                    </div>
+                    {% endif %}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById("modal-contenido");
+    const addButton = document.getElementById("añadir-contenido-button");
+    const closeSpan = document.getElementsByClassName("close")[0];
+    const closeButton = document.getElementById("cerrar-modal");
+
+    // When the user clicks on the button, open the modal
+    addButton.onclick = function () {
+        modal.style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    closeSpan.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    closeButton.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    // Delete messages after 5 seconds
+    const mensajeExito = document.getElementById("mensaje_exito");
+    const mensajeError = document.getElementById("mensaje_error");
+    setTimeout(function () {
+        if (mensajeExito) mensajeExito.style.display = "none";
+        if (mensajeError) mensajeError.style.display = "none";
+    }, 5000);
+</script>
+
+{% endblock %}

@@ -1,95 +1,657 @@
-* {
-  /* outline: 1px solid red; */
+/**************
+*** NAVBAR ***
+***************/
+
+.main-navbar {
+    box-shadow: 0px 4px 50px rgba(209, 213, 219, 0.3);
+    background-color: #ffffff;
 }
+
+.main-navbar .separator {
+    border-bottom: 1px solid var(--gris-5);
+}
+
+.subnavbar {
+    height: 3.3em;
+    display: flex;
+    align-items: center;
+}
+.item-subnavbar {
+    font-weight: 500;
+    padding: 0 15px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.item-subnavbar:hover {
+    color: var(--blue);
+}
+
+/**************
+*** SIDEBAR ***
+***************/
 
 .layout__sidebar {
 }
 .layout__sidebar a {
-  text-decoration: none;
-  color: var(--gray-dark);
-  display: block;
-  font-weight: 500;
-  font-size: 0.9em;
-  padding: 0.5em 0;
+    text-decoration: none;
+    color: var(--gray-dark);
+    display: block;
+    font-weight: 500;
+    font-size: 0.9em;
+    padding: 0.5em 0;
 }
 .layout__sidebar a:hover {
-  color: var(--blue);
+    color: var(--blue);
 }
+
+/**************
+*** SECCION ***
+***************/
 
 .seccion {
-  padding-bottom: 2em;
+    padding-bottom: 2em;
 }
+
+.seccion__acciones {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1em;
+}
+
 .seccion__encabezado {
-  margin: 0.5em 0 0.75em;
-  font-size: 1.45em;
-  font-weight: 600;
+    margin: 0.5em 0 0.75em;
+    font-size: 1.45em;
+    font-weight: 600;
 }
 .seccion__card {
-  background-color: var(--false-white);
-  border-radius: 5px;
-  box-shadow: 0px 4px 10px rgba(170, 170, 170, 0.25);
-  padding: 1em 1.2em;
-  margin: 0.5em 0;
+    background-color: var(--gris-blanco);
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(170, 170, 170, 0.25);
+    padding: 1.6em 1.9em;
+    margin: 0.5em 0;
 }
 
-.seccion__card .subtitle__message{
-  color: #9CA3AF;
-  margin-top: 14px;
-  margin-bottom: 0;
+.seccion__card--edicion {
+    padding: 1.6em 6.9em;
 }
 
-.seccion__card .indications__footer__mesage{
-  font-size: 12px; 
-  margin: 0; 
-  margin-top: 20px; 
-  padding: 0;
+.seccion__card .subtitle__message {
+    color: #9ca3af;
+    margin-top: 14px;
+    margin-bottom: 0;
 }
 
+.seccion__card .indications__footer__mesage {
+    font-size: 12px;
+    margin: 0;
+    margin-top: 20px;
+    padding: 0;
+}
 
+/**************
+*** SECCION TABLE ***
+***************/
 
 .seccion__table {
-  table-layout: auto;
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  font-family: Arial, Helvetica, sans-serif;
+    table-layout: auto;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.875em;
 }
+
+.seccion__table a {
+    text-decoration: none;
+    color: black;
+}
+
+.seccion__table th {
+    font-weight: 600;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.seccion__table th,
 .seccion__table td {
-  border: 1px solid black;
+    padding: 0.5em 0.3em;
+    border: 1px solid black;
 }
+
+.seccion__table tbody tr {
+    position: relative;
+}
+.seccion__table tbody tr:hover {
+    background-color: rgba(179, 206, 226, 0.15);
+}
+
 .seccion__table td label {
-  display: block;
-  padding: 0.2em 0.3em;
-  font-weight: bold;
-  text-align: right;
+    display: block;
+    padding: 0.2em 0.3em;
+    font-weight: bold;
+    text-align: right;
 }
 
 .seccion__table td input:not([type="radio"]) {
-  width: 100%;
-  min-height: 2em;
-  padding: 0.2em 0.3em;
-  border: 1px solid transparent;
+    width: 100%;
+    min-height: 2em;
+    padding: 0.2em 0.3em;
+    border: 1px solid transparent;
 }
 
 .seccion__table
-  td
-  input:not([type="radio"]):not([type="checkbox"]):not([readonly]):hover,
+    td
+    input:not([type="radio"]):not([type="checkbox"]):not([readonly]):hover,
 .seccion__table
-  td
-  input:not([type="radio"]):not([type="checkbox"]):not([readonly]):focus {
-  border: 1px solid var(--blue);
-  box-shadow: 0 0 6px var(--blue);
-  outline: 0;
+    td
+    input:not([type="radio"]):not([type="checkbox"]):not([readonly]):focus {
+    border: 1px solid var(--blue);
+    box-shadow: 0 0 6px var(--blue);
+    outline: 0;
 }
 
 .seccion__table ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0.2em 0.5em;
-  margin: 0;
+    list-style: none;
+
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.2em 0.5em;
+    margin: 0;
 }
 .seccion__table ul li label {
-  font-weight: normal;
+    font-weight: normal;
 }
+.seccion__table__link {
+    color: #116acc;
+    font-family: "Ubuntu";
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.8em 0;
+}
+
+.seccion_disclaimer {
+    margin: 2em 0 0.8em;
+    font-size: 0.8em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/**************
+*** LINK CON FLECHA ***
+***************/
+
+.link {
+    font-weight: bold;
+    color: #116acc;
+    appearance: none;
+    border: 0;
+    background: transparent;
+}
+
+.link-arrow {
+    display: block;
+    text-decoration-line: none;
+    font-weight: bold;
+}
+.link-arrow span {
+    padding-bottom: 0.2em;
+    border-bottom: 2px solid;
+}
+.link-arrow svg {
+    margin: 0 0.2em;
+}
+
+/**************
+*** BOTON SOLO ICONO ***
+***************/
+.btn-icon {
+    width: 2.75em;
+    height: 2.75em;
+    padding: 0;
+    display: inline-flex;
+}
+.btn-icon svg {
+    margin: auto;
+}
+.btn-icon:hover {
+    box-shadow: 0px 4px 10px rgba(170, 170, 170, 0.25);
+}
+
+/** UTIILIDADES **/
+.bg-gris-5 {
+    background-color: var(--gris-5);
+}
+.flex__between__center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/**************
+*** MULTIPLE SELECT LIST ***
+***************/
+ul.multiple-select-list {
+    width: 100%;
+    padding: 0;
+    border: 1px solid #9ca3af;
+    border-radius: 5px;
+    background-color: white;
+    overflow-y: auto;
+    max-height: 22em;
+}
+
+.multiple-select-list li {
+    list-style: none;
+}
+
+.multiple-select-list li label {
+    padding: 0.8em;
+    width: 100%;
+}
+
+.multiple-select-list li:hover {
+    background-color: rgba(17, 106, 204, 0.2);
+}
+
+.multiple-select-list input {
+    width: 1.1em;
+    height: 1.1em;
+    position: relative;
+    top: 0.15em;
+    margin-right: 0.5em;
+    /* // Medium devices (tablets, 768px and up) */
+    @media (max-width: 768px) {
+        #sub-navbar {
+            display: none;
+        }
+    }
+}
+
+/** CARD **/
+.card-subject {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.45rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.card-subject:hover {
+    border-color: #1a94ff;
+}
+
+.card-subject-title {
+    margin-top: 1.4rem;
+    margin-bottom: 1.8rem;
+    color: #000000;
+}
+
+.card-subject-subtitle {
+    margin-top: -0.25rem;
+    margin-bottom: 0;
+}
+
+.card-footer {
+    text-align: center;
+    background-color: #485262;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.45rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.card-footer p {
+    color: #fff;
+    font-size: 0.75rem;
+}
+
+.planif-state-card {
+    background-color: #a0c3ff;
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    border-radius: 0.45rem;
+    overflow: hidden;
+    padding: 0.2rem 0.7rem;
+    text-align: center;
+}
+
+.planif-state-card--aprobado {
+    background-color: #76ca5a;
+}
+.planif-state-card--revision {
+    background-color: #f59b2e;
+}
+.planif-state-card--correccion {
+    background-color: #f50032;
+}
+
+.planif-state-card p {
+    color: white;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+
+/**************
+*** CALENDARIO ***
+***************/
+.layout--calendario header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: white;
+}
+.zabuto_calendar * {
+    background-color: transparent;
+}
+.calendario__columns {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+.calendario__almanaque {
+    width: 60%;
+}
+.calendario__almanaque__mes {
+    width: 100%;
+    margin-bottom: 2em;
+}
+.calendar-month-header {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    position: sticky;
+    top: 5em;
+    background-color: var(--gris-5);
+}
+.calendar-month-header td {
+    text-align: left;
+}
+div.zabuto_calendar .table tr td div.day {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+}
+.zibuto_calendar .day {
+    background-color: #a0c3ff;
+}
+.calendario__cabecera {
+    position: sticky;
+    top: 7em;
+    background-color: var(--gris-5);
+    padding: 0.5em 0;
+    z-index: 2;
+}
+.calendario__eventos {
+    width: 40%;
+    position: sticky;
+    top: 5.75em;
+    height: calc(100vh - 5.75em);
+    padding: 2.25em;
+    padding-right: 0;
+    display: flex;
+}
+.calendario__eventos__card {
+    background-color: white;
+    padding: 1.5em 2em;
+    border-radius: 8px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.calendario__eventos__card h2 {
+    font-size: 1.5em;
+}
+
+.aside-calendario {
+    height: calc(100vh - 5.75em); 
+    display: flex;
+}
+
+.container-card-calendario {
+    background-color: #ffff; 
+    border-radius: 0.45rem; 
+    overflow-y: auto; 
+    width: 100%;
+}
+
+.calendario-card{
+    display: flex; 
+    align-items: center;
+    margin: 20px;
+}
+
+.calendario-card-dot-day {
+    height: 25px;
+    width: 25px;
+    padding: 16px;
+    background-color: #A0C3FF;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.calendario-card-dot-day-text{
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.calendario-card-title{
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.calendario-card-subtitle{
+    margin: 0;
+    font-size: 0.7em;
+    color: #485262
+}
+
+/**************
+*** BOTONES ***
+***************/
+.three-dots-button {
+    all: unset;
+    position: absolute;
+    right: 10px;
+}
+
+/**************
+*** DROPDOWN ***
+***************/
+.options-menu li {
+    padding: 10px;
+}
+
+.options-menu li:hover {
+    background-color: #d1d5db;
+}
+
+.options-menu button,
+.options-menu a {
+    text-decoration: none;
+    color: #000000 !important;
+    font-weight: 500;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+/**************
+*** LOGIN ***
+***************/
+#body-login {
+background-color: rgba(0, 0, 0, 0);
+font-family: 'Ubuntu', sans-serif;
+}
+
+.main-login {
+background-color: #FFFFFF;
+width: 400px;
+height: 450px;
+margin: 7em auto;
+border-radius: 1.5em;
+box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+padding: 16px;
+}
+.main-login {
+background-color: #FFFFFF;
+width: 400px;
+height: 450px;
+margin: 7em auto;
+border-radius: 1.5em;
+box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+padding: 16px;
+}
+
+.title-login {
+padding-top: 40px;
+padding-bottom: 20px;
+
+font-weight: bold;
+text-align: center;
+}
+
+.subtitle-login {
+text-align: center;
+}
+
+form.form-login {
+padding-top: 40px;
+}
+
+.input-user {
+width: 76%;
+font-size: 14px;
+letter-spacing: 1px;
+background: rgba(136, 126, 126, 0.04);
+padding: 10px 20px;
+border: none;
+border-radius: 20px;
+outline: none;
+box-sizing: border-box;
+border: 2px solid rgba(0, 0, 0, 0.02);
+margin-bottom: 50px;
+margin-left: 46px;
+margin-bottom: 27px;
+}
+
+.input-password  {
+width: 76%;
+font-size: 14px;
+letter-spacing: 1px;
+background: rgba(136, 126, 126, 0.04);
+padding: 10px 20px;
+border: none;
+border-radius: 20px;
+outline: none;
+box-sizing: border-box;
+border: 2px solid rgba(0, 0, 0, 0.02);
+margin-bottom: 50px;
+margin-left: 46px;
+margin-bottom: 27px;
+}
+
+
+.input-user:focus, .input-password:focus {
+border: 2px solid rgba(0, 0, 0, 0.18) !important;
+}
+
+/**************
+*** REGISTER ***
+***************/
+#body-register {
+    background-color: rgba(0, 0, 0, 0);
+    font-family: 'Ubuntu', sans-serif;
+    }
+    
+    .main-register {
+    background-color: #FFFFFF;
+    margin: 1em;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    padding: 16px;
+    }
+    
+    .title-register {
+    padding-top: 40px;
+    padding-bottom: 20px;
+    
+    font-weight: bold;
+    text-align: center;
+    }
+    
+    .subtitle-register {
+    text-align: center;
+    }
+    
+    form.form-register {
+    padding-top: 40px;
+    }
+    
+    .input-user {
+    width: 76%;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    margin-bottom: 27px;
+    }
+    
+    .input-password  {
+    width: 76%;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    margin-bottom: 27px;
+    }
+    
+    
+    .input-user:focus, .input-password:focus {
+    border: 2px solid rgba(0, 0, 0, 0.18) !important;
+    }
+
+/**************
+*** CORRECCIONES ***
+***************/
+.correccion {
+    margin-bottom: 1em;
+  }
+  .correccion li {
+    list-style: none;
+    margin: 1em 0;
+  }
+  .correccion__body {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .correccion__comentarios {
+    background-color: #f5f5f5;
+    padding: 0.4em 0.8em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 2em;
+  }
+  .correccion__comentarios__add {
+    margin-top: 10px;
+    margin-left: 2em;
+  }

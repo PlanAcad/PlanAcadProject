@@ -1,0 +1,284 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    /* border: 1px solid #dddddd; */
+    text-align: center;
+    padding: 4px;
+    font-weight: 400;
+    font-size: small;
+  }
+
+  .icon{
+      margin: 4px;
+      text-decoration: none;
+  }
+
+  .card{
+    margin-top: 6px;
+  }
+
+  .card-header{
+    padding: 14px;
+  }
+  .title-card-collapse{
+    cursor: pointer;
+  }
+</style>
+
+<h2 class="seccion__encabezado">11. Contenido</h2>
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+{% endif %}
+{% if mensaje_exito %}
+  <div id="mensaje_exito" class="alert alert-success mt-1">{{mensaje_exito}}</div>
+{% endif %}
+{% if mensaje_error %}
+  <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
+{% endif %}
+<div class="seccion__card p-5">
+  {% if contenidos %}
+    {% for contenido in contenidos %}
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="heading{{contenido.unidad.numero}}">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h5  class="mb-0 title-card-collapse" data-toggle="collapse" data-target="#collapseheading{{contenido.unidad.numero}}" aria-expanded="true" aria-controls="collapseheading{{contenido.unidad.numero}}">
+                  <b><u>UNIDAD {{ contenido.unidad.numero }}:</u> {{ contenido.unidad.titulo }}</b>
+              </h5>
+              {% if not planificacion.estado == "A" %} 
+              <a class="item icon" href="{% url 'planificaciones:updateContenido' planificacion.id contenido.id %}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                      </svg>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+
+          <div id="collapseheading{{contenido.unidad.numero}}" class="collapse show" aria-labelledby="headingheading{{contenido.unidad.numero}}" data-parent="#accordion">
+            <div class="card-body">
+              <label><b>Objetivos:</b></label>
+              <p>{{ contenido.objetivos }}</p>
+
+              <label><b>Contenido:</b></label>
+              <p>{{ contenido.contenido }}</p>
+
+              <p><b>Carga horaria:</b> {{ contenido.carga_horaria }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  <br />
+  {% else %}
+  <h5 class="text-center subtitle__message">Todavia no tiene contenidos agregados.</h5>
+  {% endif %}
+
+  {% if not planificacion.estado == "A" %} 
+        <!-- Abrir modal contenido -->
+    <div class="d-flex-row">
+      <button
+      type="button"
+      class="btn btn-primary mt-4"
+      data-toggle="modal"
+      data-target="#modal-contenido"
+      >
+        Añadir contenido
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary mt-4"
+        data-toggle="modal"
+        data-target="#modal-unidad"
+      >
+        Añadir Unidad
+      </button>
+    </div>
+{% endif %}
+
+
+</div>
+
+{% with seccion=11 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
+<!-- Modal contenido -->
+<div
+    class="modal fade"
+    id="modal-contenido"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir contenido
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                method="POST"
+                action="{% url 'planificaciones:contenido' planificacion.id %}"
+                >
+                    {% csrf_token %} {{form.as_p}}
+                
+                    {% if form.errors %}
+                    <div class="alert alert-danger">{{form.errors}}</div>
+                    {% endif %}
+                
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal unidad -->
+<div
+    class="modal fade"
+    id="modal-unidad"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabelUnidad"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelUnidad">
+                    Añadir unidad
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                method="POST"
+                action="{% url 'planificaciones:unidad' planificacion.id %}"
+                >
+                    {% csrf_token %} {{formUnidad.as_p}}
+                
+                    {% if formUnidad.errors %}
+                    <div class="alert alert-danger">{{formUnidad.errors}}</div>
+                    {% endif %}
+                
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal-contenido" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Añadir contenido</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+        method="POST"
+        action="{% url 'planificaciones:contenido' planificacion.id %}"
+        >
+            {% csrf_token %} {{form.as_p}}
+        
+            {% if form.errors %}
+            <div class="alert alert-danger">{{form.errors}}</div>
+            {% endif %}
+        
+            <div class="modal-footer">
+                <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Añadir contenido</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+const modal = document.getElementById("modal-contenido");
+const addButton = document.getElementById("añadir-contenido-button");
+const closeSpan = document.getElementsByClassName("close")[0];
+const closeButton = document.getElementById("cerrar-modal");
+
+
+// When the user clicks on the button, open the modal 
+addButton.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+closeSpan.onclick = function() {
+  modal.style.display = "none";
+}
+
+closeButton.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Delete messages after 5 seconds
+const mensajeExito = document.getElementById("mensaje_exito");
+const mensajeError = document.getElementById("mensaje_error");
+setTimeout(function(){ 
+  if(mensajeExito) mensajeExito.style.display = "none";
+  if(mensajeError) mensajeError.style.display = "none";
+}, 5000);
+
+</script>
+
+{% endblock %}

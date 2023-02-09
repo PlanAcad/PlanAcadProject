@@ -1,0 +1,204 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="layout d-flex flex-column min-vh-100">
+    <!-- Add navbar -->
+    {% include "layouts/navbar.html" %}
+    <div class="bg-light flex-grow-1">
+        <div class="container-xl">
+            <div class="row">
+                <main class="col seccion px-4 py-3">
+                    {% if error_message %}
+                    <p><strong>{{ error_message }}</strong></p>
+                    {% endif %} {% if form.subject.errors %}
+                    <ol>
+                      {% for error in form.subject.errors %}
+                      <li><strong>{{ error|escape }}</strong></li>
+                      {% endfor %}
+                    </ol>
+                    {% endif %} 
+
+                    {% if messages %}
+                      {% for message in messages %}
+                        {% if "success" in message.tags %}
+                          <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+                        {% endif %}
+                        {% if "error" in message.tags %}
+                          <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+
+
+                    {% if asignatura %}
+                    <div class="d-flex justify-content-between mb-3">
+                      <div class="p-2">
+                        <span>Asignaturas / 
+                          <a
+                          href="{% url 'planificaciones:asignaturaDetail' asignatura.id %}"
+                          >
+                            {{ asignatura.nombre_materia }}
+                          </a> /
+                          Papelera
+                        </span></div>
+                    </div>
+
+                    {% if planificaciones %}
+                      <div class="row mt-4">
+                        {% for planificacion in planificaciones %}
+                          <div class="col-md-4">
+                            <div class="card card-subject p-0 mb-5">
+                                <form
+                                id="{{ planificacion.id }}"
+                                method="POST"
+                                action="{% url 'planificaciones:restorePlanificacion' planificacion.id %}"
+                                style="display: none;"
+                                >
+                                  {% csrf_token %} 
+                                </form>
+                                <div class="dropdown">
+                                    <button
+                                        type="button"
+                                        id="dropdownMenu2"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        class="three-dots-button"
+                                    >
+                                      <svg data-target="#modal-delete" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#D9DDE7" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                      </svg>
+                                    </button>
+                                  <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
+                                    <li><a href="#"><button style="all: unset;" data-toggle="modal" data-target="#modal-delete">Eliminar definitivamente</button></a></li>
+                                    <li><a href="#" onclick="document.getElementById('{{ planificacion.id }}').submit()">Restaurar</a></li>
+                                  </ul>
+                                </div>
+
+                               <a
+                                href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
+                                style="text-decoration: none"
+                                >
+                                <div class="planif-state-card float-right 
+                              {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
+                              {% if planificacion.estado == "R" %} planif-state-card--revision {% endif %}
+                              {% if planificacion.estado == "C" %} planif-state-card--correccion {% endif %}
+                              ">
+                                <p>{{ planificacion.get_estado_display }}</p>
+                              </div>
+
+                              <div class="p-3 pt-2">
+                                <h5 class="card-subject-title">
+                                    {{ planificacion.asignatura.nombre_materia }} - {{ planificacion.fecha_creacion.year }}
+                                </h5>
+                                <p class="card-subject-subtitle mb-2 text-muted">
+                                    <b>Ultima modificación:</b> {{ planificacion.fecha_modificacion.date }}
+                                </p>
+                              </div>
+                              <div class="card-footer p-2 m-0">
+                                <p class="m-0">Ir a la planificación</p>
+                              </div>
+                              </a>
+
+                            </div>
+
+
+                            <!-- MODAL ELIMINAR PLANIFICACION -->
+                            <div
+                                class="modal fade"
+                                id="modal-delete"
+                                tabindex="-1"
+                                role="dialog"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true"
+                            >
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                Eliminar planificación
+                                            </h5>
+                                            <button
+                                                type="button"
+                                                class="btn-close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                            ></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <form
+                                            method="POST"
+                                            action="{% url 'planificaciones:deletePlanificacion' planificacion.id %}"
+
+                                          >
+                                            {% csrf_token %}
+                                              <p>Estás por eliminar la planificación:</p>
+                                              <ul>
+                                                <li>Materia: {{ planificacion.asignatura.nombre_materia }}</li>
+                                                <li>Año: {{ planificacion.fecha_creacion.year }}</li>
+                                                <li>Ultima modificación: {{ planificacion.fecha_modificacion.date }}</li>
+                                              </ul>
+
+                                              {% if form.errors %}
+                                              <div class="alert alert-danger">{{form.errors}}</div>
+                                              {% endif %}
+
+                                              <div class="modal-footer">
+                                                  <button
+                                                      type="button"
+                                                      class="btn btn-outline-primary"
+                                                      data-dismiss="modal"
+                                                  >
+                                                      Cancelar
+                                                  </button>
+                                                  <button
+                                                      id="delete-button"
+                                                      type="submit"
+                                                      class="btn btn-danger my-4"
+                                                  >
+                                                      Eliminar
+                                                  </button>
+                                              </div>
+                                          </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                    <p>No se encontraron planificaciones.</p>
+                    {% endif %}
+
+                    {% else %}
+                    <h2>No existe la asignatura.</h2>
+                    {% endif %} 
+                </main>
+                <aside
+                    class="layout__sidebar col-3 py-3 px-2 show collapse"
+                    id="collapseSidebar"
+
+                >
+                    <h2 class="visually-hidden">Secciones</h2>
+
+                    <nav  style="background-color: #fff; border-radius: 0.45rem;">
+                        <div style="text-align: center;">
+                            <h5 class="p-2">Calendario</h5>
+                        </div>
+                        <ul>
+                            <li><p>16. Primer examen parcial</p></li>
+                            <li><p>21. Mesa de examenes finales</p></li>
+                            <li><p>22. Mesa de examenes finales</p></li>
+                            <li><p>23. Primer examen parcial</p></li>
+                            <li><p>24. Primer examen parcial</p></li>
+                            <li><p>30. Feriado nacional</p></li>
+                        </ul>
+                    </nav>
+                </aside>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

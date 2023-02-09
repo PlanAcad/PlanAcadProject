@@ -1,0 +1,167 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<a
+    href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
+    class="link-arrow my-2 mb-5"
+    >{% include "iconos/chevron-left.html" %}<span>Volver</span></a
+>
+
+<h4>Modificar sistema de evaluación </h4>
+
+
+<form id="sistema-evaluacion-form" action="" method="POST">
+  {% csrf_token %} 
+  
+    <label class="form-label">Actividad:</label>
+    <p>{{form.actividad}}</p>
+
+    <div class= "mb-3">
+        <label for="" class="form-label">Unidad tematica:</label>
+        {% if form.unidad_tematica|length > 0 %}
+            {{ form.unidad_tematica }}
+        {% else %}
+            <input disabled></input>
+            <span>No posee unidades agregadas.
+            <a href="{% url 'planificaciones:contenido' planificacion.id %}" class="link-primary">
+                Ir a sección 11: Contenido</a>
+            </span>
+        {% endif %}
+        </div>
+
+    <label class="form-label">Lugar:</label>
+    <p>{{form.lugar}}</p>
+
+    <label class="form-label">Indicadores de logro:</label>
+    <p>{{form.indicadores_de_logro}}</p>
+    <label class="form-label">Tecnicas de evaluacion:</label>
+    <p>{{form.tecnicas_de_evaluacion}}</p>
+    <label class="form-label">Tipo de evaluacion:</label>
+    <p>{{form.tipo_de_evaluacion}}</p>
+    <div class= "mb-3">
+    <label for="" class="form-label">Resultados de aprendizaje:</label>
+    {% if form.resultados_de_aprendizaje|length > 0 %}
+        {{ form.resultados_de_aprendizaje }}
+    {% else %}
+        <input disabled></input>
+        <span>No posee resultados de aprendizaje agregados.
+            <a href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}" class="link-primary">
+            Ir a sección 6: Propuestas para el desarrollo</a>
+        </span>
+    {% endif %}
+    </div>
+
+
+</form>
+
+<div id="buttons-footer" style="display: flex; justify-content: space-between">
+    <button
+        type="button"
+        class="btn btn-danger my-4"
+        data-toggle="modal"
+        data-target="#modal-delete"
+    >
+        Eliminar
+    </button>
+
+    <div id="right-buttons">
+        <a
+            href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
+            style="text-decoration: none"
+        >
+            <button class="btn btn-outline-primary my-4">Cancelar</button>
+        </a>
+        <button
+            class="btn btn-primary my-4"
+            onclick="document.getElementById('sistema-evaluacion-form').submit()"
+        >
+            Guardar
+        </button>
+    </div>
+</div>
+
+<!-- Modal eliminar resultado de aprendizaje -->
+<div
+    class="modal fade"
+    id="modal-delete"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Eliminar sistema de evaluación
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    method="POST"
+                    action="{% url 'planificaciones:deleteActividad' planificacion.id actividad.id %}"
+                >
+                    {% csrf_token %}
+
+                    <p>Estás por eliminar:</p>
+
+                    <ul>
+                      <li>Tipo: {{ actividad.tipo_de_evaluacion.get_tipo_display }}</li>
+                      <li>Actividades de evaluación: {{ actividad.get_actividad_display }}</li>
+                      <li>Unidad tematica: 
+                            {% if actividad.unidad_tematica.all %}
+                                {% for unidad in actividad.unidad_tematica.all %}
+                                     <td>{{unidad.numero}}, </td>
+                                {% endfor %}
+                            {% else %}
+                                <p>-</p>
+                            {% endif %}
+                    </li>
+                      <li>Lugar/plataformas: {{actividad.lugar}}</li>
+                      <li>Indicadores de logro: {{actividad.indicadores_de_logro}}</li>
+                      <li>RA: <br/>
+                        {% if actividad.resultados_de_aprendizaje.all %}
+                          {% for resultado in actividad.resultados_de_aprendizaje.all %}
+                          <span>- {{ resultado.resultado }}</span><br/>
+                          {% endfor %}
+                        {% else %}
+                            <p>-</p>
+                        {% endif %}
+                      </li>
+                      <li>Tec. de Evaluacion: {{actividad.tecnicas_de_evaluacion}}</li>
+                    </ul>
+
+                    <p><b>Desea eliminar la fila correspondiente?</b></p>
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">{{form.errors}}</div>
+                    {% endif %}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            id="delete-button"
+                            type="submit"
+                            class="btn btn-danger my-4"
+                        >
+                            Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

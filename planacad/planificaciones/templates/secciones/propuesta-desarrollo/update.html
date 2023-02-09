@@ -1,0 +1,97 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+    .modal {
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(179, 206, 226, 0.6); /* Black w/ opacity */
+    }
+</style>
+
+<h4>Modificar resultado de aprendizaje</h4>
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+    <label>Descripcion</label>
+    <p>{{form.resultado}}</p>
+
+    <br />
+    <a href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}">
+        <button type="submit" class="btn btn-secondary">Volver</button>
+    </a>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+<input id="delete-button" class="btn btn-danger my-4" value="Eliminar" />
+
+<div class="modal" id="modal-delete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5></h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <form
+                    method="POST"
+                    action="{% url 'planificaciones:deletePDResultadoAprendizaje' planificacion.id resultado_aprendizaje.id %}"
+                >
+                    {% csrf_token %}
+
+                    <p>Estás por eliminar el resultado de aprendizaje:</p>
+                    <p>{{resultado_aprendizaje.resultado}}</p>
+                    <p><b>Desea eliminar la fila correspondiente?</b></p>
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">{{form.errors}}</div>
+                    {% endif %}
+
+                    <button
+                        id="delete-button"
+                        type="submit"
+                        class="btn btn-danger my-4"
+                    >
+                        Eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById("modal-delete");
+    const deleteButton = document.getElementById("delete-button");
+    const closeSpan = document.getElementsByClassName("close")[0];
+    const closeButton = document.getElementById("cerrar-modal");
+
+    // When the user clicks on the button, open the modal
+    deleteButton.onclick = function () {
+        modal.style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    closeSpan.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    closeButton.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+</script>
+
+{% endblock %}

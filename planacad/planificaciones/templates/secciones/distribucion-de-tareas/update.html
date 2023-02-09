@@ -1,0 +1,186 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+    .modal {
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(179,206,226,0.6); /* Black w/ opacity */
+    }
+</style>
+
+<a
+    href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
+    class="link-arrow my-2 mb-5"
+    >{% include "iconos/chevron-left.html" %}<span>Volver</span></a
+>
+
+<h4>Modificar distribución de tarea</h4>
+
+
+<form id="distribucion-tareas-form" data-resultados-url="{% url 'planificaciones:ajax_load_profesores' %}" action="" method="POST">
+  {% csrf_token %} 
+
+    <label class="form-label">Situación y/o condición:</label>
+    <p>{{form.situacion}}</p>
+    
+    <label class="form-label">Profesor/a:</label>
+    <p>{{form.profesor}}</p>
+
+    <label class="form-label">Categoría:</label>
+    <p>{{form.categoria}}</p>
+
+    <label class="form-label">Designación y/o dedicación:</label>
+    <p>{{form.dedicacion}}</p>
+
+    <div class= "mb-3">
+    <label for="" class="form-label">Funciones y/o Tareas a desarrollar:</label>
+    {% if form.tareas|length > 0 %}
+        {{ form.tareas }}
+    {% else %}
+        <input disabled></input>
+        <span>No posee funciones y/o tareas agregadas.
+        </span>
+    {% endif %}
+    </div>
+
+    <label class="form-label">Actividades:</label>
+    <p>{{form.actividades}}</p>
+</form>
+
+
+<div id="buttons-footer" style="display: flex; justify-content: space-between">
+    <button
+        type="button"
+        class="btn btn-danger my-4"
+        data-toggle="modal"
+        data-target="#modal-delete"
+    >
+        Eliminar
+    </button>
+
+    <div id="right-buttons">
+        <a
+            href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
+            style="text-decoration: none"
+        >
+            <button class="btn btn-outline-primary my-4">Cancelar</button>
+        </a>
+        <button
+            class="btn btn-primary my-4"
+            onclick="document.getElementById('distribucion-tareas-form').submit()"
+        >
+            Guardar
+        </button>
+    </div>
+</div>
+
+
+
+<!-- Modal eliminar distribucion de tarea -->
+<div
+    class="modal fade"
+    id="modal-delete"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Eliminar profesor
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+
+              <form method="POST" action="{% url 'planificaciones:deleteDistribucionDeTareas' planificacion.id data.id %}">
+                  {% csrf_token %}
+                  
+                  <p>Estás por eliminar al profesor: {{data.profesor.first_name}} {{data.profesor.last_name}} </p>
+                  <p><b>Desea eliminar la fila correspondiente?</b> </p>
+
+                  {% if form.errors %}
+                  <div class="alert alert-danger">{{form.errors}}</div>
+                  {% endif %}
+
+                  <div class="modal-footer">
+                      <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          data-dismiss="modal"
+                      >
+                          Cancelar
+                      </button>
+                      <button
+                          id="delete-button"
+                          type="submit"
+                          class="btn btn-danger my-4"
+                      >
+                          Eliminar
+                      </button>
+                  </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#id_situacion").change(function () {
+        var url = $("#distribucion-tareas-form").attr(
+            "data-resultados-url"
+        ); // get the url of the `load_cities` view
+        var situacion = $(this).val(); // get the selected country ID from the HTML input
+
+        $.ajax({
+            // initialize an AJAX request
+            url: url, // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+                situacion: situacion,
+                planificacion : {{planificacion.id}} // add the country id to the GET parameters
+            },
+            success: function (data) {
+                // `data` is the return of the `load_cities` view function
+                $("#id_profesor").html(data); // replace the contents of the city input with the data that came from the server
+            },
+        });
+    });
+</script>
+
+<script>
+const modal = document.getElementById("modal-delete");
+const deleteButton = document.getElementById("delete-button");
+const closeSpan = document.getElementsByClassName("close")[0];
+const closeButton = document.getElementById("cerrar-modal");
+
+
+// When the user clicks on the button, open the modal 
+deleteButton.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+closeSpan.onclick = function() {
+  modal.style.display = "none";
+}
+
+closeButton.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+{% load util %}
+<h2 class="seccion__encabezado">Exportar planificación</h2>
+{% if errores %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {% for e in errores %}
+      {% if e|get_type == 'str' %}
+        <strong><p>No se completaron en {{e|default:""}} los siguientes campos</p></strong>
+      {% else %}
+        {% for campo in e %}
+          <li>{{ campo|default:""}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+  </div>
+  {% endif %}
+<div class="seccion__card">
+    <form
+        method="POST"
+        action="{% url 'planificaciones:printPdf' planificacion.id %}"
+        target="_blank"
+    >
+        {% csrf_token %}
+        <button
+            type="button"
+            class="btn btn-primary mt-4"
+            onclick="location.href=`{% url 'planificaciones:downloadPdf' planificacion.id %}`"
+        >
+            Exportar PDF
+        </button>
+        <button type="submit" 
+        class="btn btn-primary mt-4"
+        >Imprimir PDF</button>
+    </form>
+</div>
+
+{% endblock %}

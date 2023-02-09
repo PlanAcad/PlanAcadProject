@@ -14,9 +14,15 @@
     font-weight: 400;
     font-size: small;
   }
+  th {
+        font-weight: 500;
+    }
 </style>
 
 <h2 class="seccion__encabezado">5. Competencias</h2>
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
 <div class="seccion__card">
     {% if mensaje_exito %}
     <div class="alert alert-success">{{mensaje_exito}}</div>
@@ -38,7 +44,7 @@
                     {% if data %} {% for competencia in data %}
 
                     <tr
-                        onclick="location.href='competencias/edit/{{competencia.id}}'"
+                    {% if not planificacion.estado == "A" %} onclick="location.href='competencias/edit/{{competencia.id}}'" {% endif %}
                         class="position-relative"
                     >
                         <td class="py-4">
@@ -47,7 +53,7 @@
                         <td class="py-4">
                             <a
                                 class="stretched-link"
-                                href="competencias/edit/{{competencia.id}}"
+                                {% if not planificacion.estado == "A" %} href="competencias/edit/{{competencia.id}}" {% endif %}
                                 >{{competencia.descripcion|default:""}}</a
                             >
                         </td>
@@ -71,23 +77,73 @@
         </tbody>
     </table>
 
-    <h3 class="mt-4">Agregar competencia</h3>
+    {% if not planificacion.estado == "A" %} 
+        <!-- Abrir modal añadir competencia -->
+        <button
+            type="button"
+            class="btn btn-primary mt-4"
+            data-toggle="modal"
+            data-target="#modal-competencia"
+        >
+            Añadir competencia
+        </button>
+    {% endif %}
+    
 
-    <form
-        method="POST"
-        action="{% url 'planificaciones:competencias' planificacion.id %}"
-    >
-        {% csrf_token %} {{form.as_p}}
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </form>
     {% if form.errors %}
     <div class="alert alert-danger">{{form.errors}}</div>
     {% endif %}
 </div>
 
-<div class="py-4"></div>
+<!-- Modal competencia -->
+<div
+    class="modal fade"
+    id="modal-competencia"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir competencia
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    method="POST"
+                    action="{% url 'planificaciones:competencias' planificacion.id %}"
+                >
+                    {% csrf_token %} {{form.as_p}}
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h2 class="seccion__encabezado">Correcciones</h2>
-<div class="seccion__card">No posee correcciones.</div>
+
+{% with seccion=5 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
 
 {% endblock %}

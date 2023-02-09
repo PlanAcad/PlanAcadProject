@@ -1,0 +1,245 @@
+{% extends 'layouts/calendario_layout.html' %} {% block calendario %}
+
+{% load static %}
+{% load util %}
+{% if mensaje_exito %}
+<div class="alert alert-success">{{mensaje_exito}}</div>
+{% endif %}
+{% if form.errors %}
+<div class="alert alert-danger">{{form.errors}}</div>
+{% endif %}
+
+
+{% if existe_calendario %}
+
+<div class="calendario__columns">
+    <div class="calendario__almanaque">
+      <div class="calendario__cabecera">
+        <h2>{{ano}}</h2>
+      </div>
+        <div id="marzo" class="calendario__almanaque__mes"></div>
+        <div id="abril" class="calendario__almanaque__mes"></div>
+        <div id="mayo" class="calendario__almanaque__mes"></div>
+        <div id="junio" class="calendario__almanaque__mes"></div>
+        <div id="julio" class="calendario__almanaque__mes"></div>
+        <div id="agosto" class="calendario__almanaque__mes"></div>
+        <div id="septiembre" class="calendario__almanaque__mes"></div>
+        <div id="octubre" class="calendario__almanaque__mes"></div>
+        <div id="noviembre" class="calendario__almanaque__mes"></div>
+        <div id="diciembre" class="calendario__almanaque__mes"></div>
+        <div id="enero" class="calendario__almanaque__mes"></div>
+        <div id="febrero" class="calendario__almanaque__mes"></div>
+        <div class="calendario__cabecera">
+          <h2>{{ano|add:1}}</h2>
+        </div>
+        <div id="marzo2" class="calendario__almanaque__mes"></div>
+
+    </div>
+    <div class="calendario__eventos">
+        <div class="calendario__eventos__card">
+          <h2>Eventos</h2>
+          {% if cerrado %}
+            <div class="alert alert-info">Calendario cerrado.</div>
+          {% else %}
+            {% if request.user|has_group:"jefe de carrera" %}
+              <button
+              type="button"
+              class="btn btn-outline-primary my-4 mb-2"          
+              data-toggle="modal"
+              data-target="#modal-evento"
+              >
+                  Añadir evento del calendario academico
+              </button>
+          
+                <button type="submit" class="btn btn-outline-primary ml-2 my-2" data-toggle="modal"
+                data-target="#modal-cerrar">
+                    Cerrar calendario academico
+                </button>
+            {% endif %}
+          {% endif %}
+      <ul>
+        {% if calendario %} 
+        <!-- Aca hay que editar -->
+          {% for fecha in calendario %}
+          <li class="py-2">
+                  {{ fecha.fecha|date:'d/m' }}<br>
+                  {% for actividad in fecha.actividades %}
+                    <b>{{actividad}}</b>
+                  {% endfor %}
+          </li>
+          {% endfor %}
+        {% endif %}
+        </ul>
+        </div>
+    </div>
+</div>
+
+{% if not cerrado %}
+  {% if request.user|has_group:"jefe de carrera" %}
+    <div class="modal fade" id="modal-evento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Añadir evento</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar" onclick="hideModalEvento()"></button>
+          </div>
+          <div class="modal-body">
+            <form
+            method="POST"
+            action="{% url 'planificaciones:updatecalendarioacademico' ano %}" 
+            >
+                {% csrf_token %}  {{form.as_p}} 
+            
+                {% if form.errors %}
+                <div class="alert alert-danger">{{form.errors}}</div>
+                {% endif %} 
+            
+                <div class="modal-footer">
+                    <button type="button" onclick="hideModalEvento()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+
+  <div
+  class="modal fade"
+  id="modal-cerrar"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                  
+              </h5>
+              <button
+                  type="button"
+                  class="btn-close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+              ></button>
+          </div>
+          <div class="modal-body">
+              <form
+                  method="POST"
+                  action="{% url 'planificaciones:cerrarcalendarioacademico' ano %}"
+              >
+                  {% csrf_token %}
+
+                  <p>Esta por cerrar el calendario académico.</p>
+                 
+                  <div class="modal-footer">
+                      <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          data-dismiss="modal"
+                      >
+                          Cancelar
+                      </button>
+                      <button
+                          id="delete-button"
+                          type="submit"
+                          class="btn btn-danger my-4"
+                      >Cerrar calendario académico
+                      </button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<script src="{% static 'javascript/zabuto_calendar.min.js' %}"></script>
+<script type="application/javascript">
+  const eventos = [
+    {% for fecha in calendario %}
+    {
+      "date": "{{ fecha.fecha|date:'Y-m-d' }}",
+      "badge": true,
+      {% if fecha.actividades|length > 1  %}
+        "title": "Tiene varias actividades esta fecha",
+      {% else %}  
+        "title": "{{fecha.actividades.0}}",
+      {% endif %}
+      "body": "<p class=\"lead\">Party<\/p><p>Like it's 1999.<\/p>",
+      "footer":"At Paisley Park",
+
+      "classname":"purple-event"
+
+    },
+    {% endfor %}
+  ]
+
+  const meses = ['marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'enero', 'febrero', 'marzo2']
+
+    $(document).ready(function () {
+      meses.map((mes, index)=> {
+        $(`#${mes}`).zabuto_calendar({
+          year: {{ano}},
+          language: "es",
+          month: (index + 3),
+          data: eventos,
+          action: function () {
+            return myDateFunction(this.id, false);
+          },
+          action_nav: function () {
+            return myNavFunction(this.id);
+          },
+        });
+      });
+    });
+
+    function myDateFunction(id, fromModal) {
+      $("#modal-evento").hide();
+      if (fromModal) {
+          $("#" + id + "_modal").modal("hide");
+      }
+      var date = $("#" + id).data("date");
+      var fecha = moment(date, 'YYYY-MM-DD').format('DD/MM/YYYY')
+      /*$("#date-popover-content").html('You clicked on date ' + date);*/
+      $("#id_fecha_desde").val(fecha);
+      $("#id_fecha_hasta").val(fecha);
+      $("#modal-evento").modal('show');
+      return true;
+  }
+  function hideModalEvento() {
+      $("#modal-evento").modal('hide');
+      return true;
+  }
+
+  function myNavFunction(id) {
+      $("#date-popover").hide();
+      var nav = $("#" + id).data("navigation");
+      var to = $("#" + id).data("to");
+      console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+  }
+</script>
+
+{% else %}
+  {% if request.user|has_group:"jefe de carrera" %}
+  <h1>Calendario Academico Año {{ano}}</h1>
+      
+  <form
+      method="POST"
+      action="{% url 'planificaciones:calendarioacademico' ano %}">
+      {% csrf_token %} 
+              <button type="submit" class="btn btn-primary my-2">
+                  Crear calendario {{ano}}
+              </button>
+      </form>
+      <p class="my-2">Aún existe calendario académico.</p>
+
+  {% endif %} 
+{% endif %} 
+
+{% endblock %}

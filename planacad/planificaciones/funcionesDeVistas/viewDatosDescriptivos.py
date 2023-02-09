@@ -1,13 +1,25 @@
 # Para usar los objetos y/o funciones de 'redirect'  
+from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
-from django.shortcuts import render, redirect  
+import json
+from django.db.models import Q
+from django.shortcuts import render, redirect
+from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico  
 ## import model and form
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
+from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formDatosDescriptivos import  DatosDescriptivosForm
-##Define request for Asignatura   
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
+
+
+##Define request for Asignatura
+
 def DatosDescriptivosNew(asignatura_id, carrera_id):      
         form = DatosDescriptivos()  
         # Asigno la asignatura y carrera, no hace falta ir a buscar el objeto
@@ -22,13 +34,29 @@ def DatosDescriptivosNew(asignatura_id, carrera_id):
 # Esto muestro en /seccion1
 # Si es un POST actualiza
 # Si es un GET mando el form y los datos actuales
-def DatosDescriptivosUpdate(request, id_planificacion):  
-    planificacion = Planificacion.objects.get(id=id_planificacion)
+@login_required
+def DatosDescriptivosUpdate(request, id_planificacion):
+    data = None
+    errores = []  
+    planificacion = Planificacion.objects.get(id=id_planificacion) 
     datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
     form = DatosDescriptivosForm(instance = datosDescriptivos)
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 1)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
+    for item in correcciones:
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+    
     mensaje_exito = None
     mensaje_error = None
-    
+    data_json = request.GET.get('data')
+    if(data_json):
+        data = json.loads(data_json)
     if request.method == 'POST':  
         form = DatosDescriptivosForm(request.POST,instance = datosDescriptivos)
         if form.is_valid():
@@ -38,17 +66,38 @@ def DatosDescriptivosUpdate(request, id_planificacion):
                
             except:
                 mensaje_error = "No pudimos guardar los cambios."
-    
-    return render(request, 'secciones/datos-descriptivos.html', {'planificacion': planificacion,'datosDescriptivos': datosDescriptivos, 'form': form, 'mensaje_exito': mensaje_exito, 'mensaje_error': mensaje_error}) 
+    #Agregar
+    context = {
+        'planificacion': planificacion,
+        'form': form,
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
+        'datosDescriptivos': datosDescriptivos,
+        'existen_correcciones_pendientes': existen_correcciones_pendientes,
+        'mensaje_exito': mensaje_exito, 
+        'mensaje_error': mensaje_error,
+        'errores': data
+    }
+
+    return render(request, 'secciones/datos-descriptivos.html', context) 
 
 ## Estos de abajo no se usan
+@login_required
 def DatosDescriptivosView(request):  
     datosDescriptivos = DatosDescriptivos.objects.all()
     return render(request,"profesores/index.html",{'datosDescriptivos':datosDescriptivos})  
 
+@login_required
 def DatosDescriptivosDetailView(request, id):  
     datosDescriptivos = DatosDescriptivos.objects.get(id=id)
-    return render(request,'profesores/detail.html', {'datosDescriptivos':datosDescriptivos})  
+    calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')
+
+    return render(request,'profesores/detail.html', {'datosDescriptivos':datosDescriptivos, 'calendario': calendario})  
+    
+@login_required
 def DatosDescriptivosDestroy(request, id):  
     datosDescriptivos = DatosDescriptivos.objects.get(id=id)  
     datosDescriptivos.delete()  

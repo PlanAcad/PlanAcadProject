@@ -1,0 +1,193 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 4px;
+        font-weight: 400;
+        font-size: small;
+    }
+</style>
+
+<h2 class="seccion__encabezado">2. Estructura de la cátedra</h2>
+{% if existen_correcciones_pendientes %}
+    <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+{% endif %}
+
+{% if mensaje_exito %}
+    <div class="alert alert-success mt-2">{{mensaje_exito}}</div>
+{% endif %}
+
+{% if form.errors %}
+    <div class="alert alert-danger mt-2">{{form.errors}}</div>
+{% endif %}
+<div class="seccion__card">
+    <table class="seccion__table">
+        <tbody>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Dedicación</th>
+                <th>Situación</th>
+                <th>Tareas/Función a desarrollar</th>
+            </tr>
+
+            {% if data %} {% for detalleprofesor in data %}
+            <tr
+            {% if not planificacion.estado == "A" %} onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"{% endif %} 
+            >
+                <td class="py-4">
+                    <a
+                    {% if not planificacion.estado == "A" %}  href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}" {% endif %}
+                        >{{detalleprofesor.profesor.first_name|default:""}}
+                        {{detalleprofesor.profesor.last_name|default:""}}</a
+                    >
+                </td>
+                <td class="py-4">{{detalleprofesor.categoria|default:""}}</td>
+                <td class="py-4">{{detalleprofesor.dedicacion|default:""}}</td>
+                <td class="py-4">{{detalleprofesor.situacion|default:""}}</td>
+                <td style="text-align: left">
+                    {% for tarea in detalleprofesor.tareas.all %}
+                        <p>{{ tarea.tarea_funcion }}</p>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}{% else %}
+            <tr>
+                <td colspan="5">No hay datos para mostrar</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    
+    
+    {% if not planificacion.estado == "A" %} 
+    <!-- Abrir modal de añadir docente -->
+    <button
+        type="button"
+        class="btn btn-primary mt-4"
+        data-toggle="modal"
+        data-target="#modal-docente"
+    >
+        Añadir docente
+    </button>
+    {% endif %}
+
+
+</div>
+
+
+<!-- Agregar -->
+{% with seccion=2 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
+
+
+<!-- Modal propuesta de desarrollo -->
+<div
+    class="modal fade"
+    id="modal-docente"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir docente
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+
+                <form
+                    data-resultados-url="{% url 'planificaciones:ajax_load_profesores' %}"
+                    method="POST"
+                    id="detalleProfesorCatedraForm"
+                    action="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
+                >
+                    {% csrf_token %}
+
+                    <label class="form-label">Situación y/o condición:</label>
+                    <p>{{form.situacion}}</p>
+
+                    <label class="form-label">Profesor/a:</label>
+                    <p>{{form.profesor}}</p>
+
+                    <label class="form-label">Categoría:</label>
+                    <p>{{form.categoria}}</p>
+
+                    <label class="form-label">Designación:</label>
+                    <p>{{form.dedicacion}}</p>
+                    
+                    <div class= "mb-3">
+                    <label for="" class="form-label">Funciones y/o Tareas a desarrollar:</label>
+                    {% if form.tareas|length > 0 %}
+                        {{ form.tareas }}
+                    {% else %}
+                        <input disabled></input>
+                        <span>No posee funciones y/o tareas agregadas. 
+                            <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}" class="link-primary">
+                            Ir a sección 12: Distribucion de tareas</a>
+                        </span>
+                    {% endif %}
+                    </div>
+                    
+                    <label class="form-label">Actividades:</label>
+                    <p>{{form.actividades}}</p>
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#id_situacion").change(function () {
+        var url = $("#detalleProfesorCatedraForm").attr(
+            "data-resultados-url"
+        ); // get the url of the `load_cities` view
+        var situacion = $(this).val(); // get the selected country ID from the HTML input
+
+        $.ajax({
+            // initialize an AJAX request
+            url: url, // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+                situacion: situacion,
+                planificacion : {{planificacion.id}} // add the country id to the GET parameters
+            },
+            success: function (data) {
+                // `data` is the return of the `load_cities` view function
+                $("#id_profesor").html(data); // replace the contents of the city input with the data that came from the server
+            },
+        });
+    });
+</script>
+
+{% endblock %}

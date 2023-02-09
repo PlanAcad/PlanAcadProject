@@ -9,6 +9,6 @@ class ResultadoDeAprendizaje(models.Model):
     planificacion = models.ForeignKey(Planificacion, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-       return "%s, %s" % (self.id, self.resultado)
+       return "%s" % (self.resultado)
          
 

@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Calendario Academico actualizar </h1>
+{% if mensaje_exito %}
+<div class="alert alert-success">{{mensaje_exito}}</div>
+{% endif %}
+{% if form.errors %}
+<div class="alert alert-danger">{{form.errors}}</div>
+{% endif %}
+{% if data %}
+    <ul>
+    {% for fecha in data %}
+    <li class="py-4">
+            {{ fecha.fecha }} {{ fecha.hay_clase }}
+    </li>
+    {% endfor %}
+    </ul>
+{% endif %} 
+<form
+    method="POST"
+    action="{% url 'planificaciones:updatecalendarioacademico' 2021 03 01 2021 03 30 F %}">
+    {% csrf_token %} 
+            <button type="submit" class="btn btn-primary">
+                actualizar Cronograma
+            </button>
+</form>
+
+
+{% endblock %}

@@ -8,7 +8,9 @@ from django.urls import reverse
 from planificaciones.formularios.formSubCompetencia import SubCompetenciaForm
 from planificaciones.modelos.modelSubCompetencia import SubCompetencia 
 from planificaciones.modelos.modelPlanificacion import Planificacion 
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def SubCompetenciaNew(request,id_planificacion,id_competencia):
     mensaje_exito = None
     mensaje_error = None
@@ -30,7 +32,7 @@ def SubCompetenciaNew(request,id_planificacion,id_competencia):
         form = SubCompetenciaForm()  
     return render(request,'secciones/subcompetencias/index.html',{'planificacion':planificacion,'competencia':competencia,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
-  
+@login_required
 def SubCompetenciaUpdate(request, id_planificacion, id_competencia, id_subcompetencia):  
     mensaje_exito = None
     mensaje_error = None
@@ -54,7 +56,7 @@ def SubCompetenciaUpdate(request, id_planificacion, id_competencia, id_subcompet
         form = SubCompetenciaForm(instance=data)  
     return render(request,'secciones/subcompetencias/editar.html',{'data':data,'competencia':competencia,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
-
+@login_required
 def SubCompetenciaDestroy(request, id_planificacion, id_competencia, id_subcompetencia):
     mensaje_exito = None
     mensaje_error = None
@@ -68,7 +70,7 @@ def SubCompetenciaDestroy(request, id_planificacion, id_competencia, id_subcompe
         
         return HttpResponseRedirect(reverse('planificaciones:competenciaUpdate', args=[id_planificacion, id_competencia]))
 
-        
+@login_required 
 def SubCompetenciaDetailView(request, id):
     mensaje_error = None
     subcompetencia = None

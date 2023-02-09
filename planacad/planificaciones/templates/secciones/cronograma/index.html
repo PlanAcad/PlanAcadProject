@@ -1,0 +1,227 @@
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+
+<h2 class="seccion__encabezado">8. Cronograma</h2>
+{% if existen_correcciones_pendientes %}
+  <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
+
+{% if existe_calendario and not cronograma_sintonizado %}
+  <button type="button" class="link mt-2 mb-2 mr-2" style="float:right" data-toggle="modal" data-target="#modal-cronograma-create">
+    Sincronizar con calendario académico
+  </button>
+{% endif %}
+
+
+<div class="seccion__card">
+  {% if mensaje_exito %}
+  <div class="alert alert-success">{{mensaje_exito}}</div>
+  {% endif %}
+  <table class="seccion__table">
+    <tbody>
+            <thead class="">
+              <tr>
+                <th>Profesor a cargo de la clase</th>
+                <th>Lugar de desarrollo de clase</th>
+                <th>Fecha y número de semana / clase</th>
+                <th>Unidad temática / tema</th>
+                <th>Cantidad de tareas por clase / semana</th>
+                <th>Resultados de aprendizaje</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% if data %} {% for fila in data %}
+
+              <tr>
+                <td class="">
+                  <ul>
+                    {% for profesor in fila.profesor_a_cargo.all %}
+                    <p><li>{{ profesor.first_name }} {{profesor.last_name}}</li></p>
+                    {% endfor %}
+                  </ul>
+                </td>
+                <td class="">                  
+                  {{fila.lugar_desarrollo_de_clase|default:""}}
+                </td>
+                <td class="text-center">
+                  <a
+                                class="stretched-link"
+                                 href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}" 
+                                >
+                  {{fila.fecha_clase|default:""}}
+                  {% if fila.numero_de_clase_o_semana %}
+                      <span class="">Semana {{ fila.numero_de_clase_o_semana }}</span>
+                  {% endif %}</a
+                            >
+                </td>
+                
+                {% if fila.es_examen == None %}
+                      <td colspan="3"><span class="seccion__table__link">Añadir detalle de clase</span></td>
+                {% else %}
+                      
+                <td class="">
+                  <ul>
+                    {% for unidad in fila.unidad_tematica_o_tema.all %}
+                    <li>
+                      Unidad {{ unidad.unidad.numero }}                      
+                    </li>
+                    {% endfor %}
+                    {% if fila.es_examen != 'NA' %}
+                      <br /><span class="" style="font-weight:bold">{{ fila.get_es_examen_display|default:'' }}</span>
+                    {% endif %}
+                  </ul>
+                </td>
+                <td class="text-center">
+                  {{fila.cantidad_tareas}}
+                </td>
+                <td class="py-4">
+                  <ul>
+                    {% if fila.resultado_de_aprendizaje.all %}
+                     {% for resultado in fila.resultado_de_aprendizaje.all %}
+                      <a title="{{resultado.resultado}}" style="z-index:3;position:relative">{{ resultado.id }}, </a>
+                     {% endfor %}
+                     {% else %}
+                      <p>-</p>
+                     {% endif %}
+                  </ul>
+                </td>
+
+                {% endif %}
+
+              </tr>
+              {% endfor %}{% else %}
+              <tr>
+                
+              </tr>
+              {% endif %}
+            </tbody>
+    </tbody>
+</table>
+{% if not planificacion.estado == "A" %} 
+  <button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modal-cronograma">
+    Añadir fila
+  </button>
+{% endif %}
+
+
+<div class="seccion_disclaimer">
+  Considerar la actividad desarrollada en el Módulo 2 del Curso Formación por Competencias.<br />
+Discriminar si la actividad formativa corresponde a: formación experimental, resolución de problemas de ingeniería, actividades de proyecto y diseño, práctica profesional
+supervisada.<br />
+Se sugiere consultar lo trabajado en el Módulo 3 del Curso Formación por Competencias.
+</div>
+
+<div class="modal fade" id="modal-cronograma" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Añadir día al cronograma</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <form
+        method="POST"
+        action="{% url 'planificaciones:cronograma' planificacion.id %}"
+        >
+            {% csrf_token %} 
+
+            <label class="form-label">Profesor a cargo de la clase:</label>
+            <p>{{form.profesor_a_cargo}}</p>
+
+            <label class="form-label">Lugar desarrollo de clase:</label>
+            <p>{{form.lugar_desarrollo_de_clase}}</p>
+
+            <label class="form-label">Fecha de la clase:</label>
+            <p>{{form.fecha_clase}}</p>
+
+            <label class="form-label">Es examen:</label>
+            <p>{{form.es_examen}}</p>
+
+            <div class= "mb-3">
+              <label for="" class="form-label">Unidad tematica:</label>
+              {% if form.unidad_tematica_o_tema|length > 0 %}
+                  {{ form.unidad_tematica_o_tema }}
+              {% else %}
+                  <input disabled></input>
+                  <span>No posee unidades agregadas.
+                    <a href="{% url 'planificaciones:contenido' planificacion.id %}" class="link-primary">
+                      Ir a sección 11: Contenido</a>
+                  </span>
+              {% endif %}
+              </div>
+
+            <label class="form-label">Cantidad de tareas por clase / semana:</label>
+            <p>{{form.cantidad_tareas}}</p>
+
+            <label class="form-label">Numero de  clase / semana:</label>
+            <p>{{form.numero_de_clase_o_semana}}</p>
+
+            <div class= "mb-3">
+            <label for="" class="form-label">Resultados de aprendizaje:</label>
+            {% if form.resultado_de_aprendizaje|length > 0 %}
+                {{ form.resultado_de_aprendizaje }}
+            {% else %}
+                <input disabled></input>
+                <span>No posee resultados de aprendizaje agregados.
+                  <a href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}" class="link-primary">
+                    Ir a sección 6: Propuestas para el desarrollo</a>
+                </span>
+            {% endif %}
+            </div>
+        
+            {% if form.errors %}
+            <div class="alert alert-danger">{{form.errors}}</div>
+            {% endif %}
+        
+            <div class="modal-footer">
+                <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Añadir clase</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  
+{% if existe_calendario and not cronograma_sintonizado %}
+  <div class="modal fade" id="modal-cronograma-create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Días de clases</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p>Seleccione los días que dicta clases.</p>
+          <form
+          method="POST"
+          action="{% url 'planificaciones:cronogramaCreate' planificacion.id %}"
+          >
+              {% csrf_token %} {{form_create.as_p}}
+          
+              {% if form_create.errors %}
+              <div class="alert alert-danger">{{form_create.errors}}</div>
+              {% endif %}
+          
+              <div class="modal-footer">
+                  <button  id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Sincronizar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+
+  {% if form.errors %}
+  <div class="alert alert-danger">{{form.errors}}</div>
+  {% endif %}
+</div>
+
+{% with seccion=8 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
+
+{% endblock %}

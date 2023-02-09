@@ -1,0 +1,95 @@
+{% load util %}
+<header class="main-navbar">
+    <div class="pt-2 pb-2 separator">
+        <div class="container-xl ">
+        <div class="flex__between__center m-1">
+            <h1 class="col-md-3 h3 mb-0">
+                <a
+                    class="item"
+                    href="{% url 'planificaciones:asignaturas' %}"
+                    style="text-decoration: none; color: inherit"
+                >
+                    PlanAcad
+                </a>
+            </h1>
+            <div class="flex__between__center">
+                
+                <h6 class="mb-0 px-2">{{ user.last_name }}</h6>
+                <a class="item icon" href="{% url 'planificaciones:logout' %}">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-box-arrow-right"
+                        viewBox="0 0 16 16"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+                        />
+                        <path
+                            fill-rule="evenodd"
+                            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                        />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    </div>
+<div
+    class="subnavbar"
+>
+    <div class="container-xl">
+        <div class="flex__between__center">
+            <div>
+                {% if planificacion.asignatura.comision %}<span>Comisión: {{planificacion.asignatura.comision|default:""}}</span><br />{% endif %}
+                {% if planificacion.asignatura %}
+                <span>
+                    <b>Asignatura:</b> {{planificacion.asignatura|default:""}}
+                </span>
+                {% endif %}
+            </div>
+            <div> 
+                    {% if user.is_staff %}
+                        <a
+                        class="item-subnavbar"
+                        href="{% url 'planificaciones:usuarios' %}"
+                        >
+                            Usuario
+                        </a>
+
+                    {% endif %}
+                    {% if not  request.user|has_group:"alumno" and not user.is_staff %}
+                    <a
+                    class="item-subnavbar"
+                    href="#"
+                    >
+                        Libro Rojo
+                    </a>
+                    {% endif %}
+                    {% if not  user.is_staff %}
+                        {% now "Y" as current_year %}
+                        <a
+                            class="item-subnavbar"
+                            href="{% if ano %}{% url 'planificaciones:calendarioacademico' ano %}{% else %}{% url 'planificaciones:calendarioacademico' current_year %}{% endif %}"
+                        >
+                            Calendario
+                        </a>
+                    {% endif %}
+                    {% if not  request.user|has_group:"alumno" and not user.is_staff %}
+                    <a
+                        class="item-subnavbar"
+                        href="#"
+                       >
+                        Verbos de la taxonomia de Bloom
+                    </a>
+                    {% endif %}
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+</header>

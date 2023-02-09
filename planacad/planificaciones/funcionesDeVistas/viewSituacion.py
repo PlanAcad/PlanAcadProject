@@ -3,7 +3,11 @@ from django.shortcuts import render, redirect
 ## import model and form
 from planificaciones.formularios.formSituacion import SituacionForm
 from planificaciones.modelos.modelSituacion import Situacion
+from django.contrib.auth.decorators import login_required
+
+
 ##Define request for Asignatura   
+@login_required
 def SituacionNew(request):
     mensaje_exito = None
     mensaje_error = None  
@@ -20,6 +24,7 @@ def SituacionNew(request):
     return render(request,'index.html',{'form':form,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito}) 
 
+@login_required
 def SituacionesView(request):
     mensaje_error = None
     try:
@@ -29,6 +34,7 @@ def SituacionesView(request):
       
     return render(request,"",{'situaciones':situaciones,'mensaje_error': mensaje_error})  
 
+@login_required
 def SituacionDetailView(request, id):
     mensaje_error = None  
     try:
@@ -38,6 +44,7 @@ def SituacionDetailView(request, id):
     
     return render(request,'', {'situacion':situacion,'mensaje_error': mensaje_error})  
  
+@login_required
 def SituacionUpdate(request, id):
     mensaje_exito = None
     mensaje_error = None  
@@ -54,6 +61,7 @@ def SituacionUpdate(request, id):
     return render(request, 'edit.html', {'situacion': situacion,'mensaje_error': mensaje_error,
     'mensaje_exito':mensaje_exito})  
 
+@login_required
 def SituacionDestroy(request, id):
     mensaje_exito = None
     mensaje_error = None

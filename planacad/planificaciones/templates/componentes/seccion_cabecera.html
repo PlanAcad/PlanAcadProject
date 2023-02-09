@@ -1,0 +1,12 @@
+{% if seccion_url %}
+<a
+    href="{{seccion_url}}"
+    class="link-arrow mt-1 mb-4"
+    >{% include "iconos/chevron-left.html" %}<span>Volver</span></a
+>
+{% endif %}
+
+
+{% if titulo %}
+<h2 class="seccion__encabezado">{{titulo}}</h2>
+{% endif %}

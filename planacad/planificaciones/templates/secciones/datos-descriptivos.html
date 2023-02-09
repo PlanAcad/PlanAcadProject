@@ -1,14 +1,37 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <h2 class="seccion__encabezado">1. Datos descriptivos</h2>
+  {% if existen_correcciones_pendientes %}
+    <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
+  {% endif %}
 <div class="seccion__card">
+  {% if errores %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {% for e in errores %}
+      {% if e|get_type == 'str' %}
+        <strong><p>No se completaron en {{e|default:""}} los siguientes campos</p></strong>
+      {% else %}
+        {% for campo in e %}
+          <li>{{ campo|default:""}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+  </div>
+  {% endif %}
+
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
+  {% endif %}
+  {% if messages %}
+    {% for message in messages %}
+    <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+    {% endfor %}
   {% endif %}
   <form
     method="POST"
     class="mt-6"
-    action="{% url 'planificaciones:datos-descriptivos' planificacion.id %}"
+    action="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
   >
     {% csrf_token %} {{form.as_p}} {% comment %}
     <table class="seccion__table">
@@ -145,18 +168,23 @@
             </ul>
           </td>
         </tr>
+        <p>{{form.dias}}</p>
       </tbody>
     </table>
     {% endcomment %} {% if form.errors %}
     <div class="alert alert-danger">{{form.errors}}</div>
     {% endif %}
+
+    
+    {% if not planificacion.estado == "A" %} 
     <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
+    {% endif %}
+    
   </form>
 </div>
 
-<div class="py-4"></div>
-
-<h2 class="seccion__encabezado">Correcciones</h2>
-<div class="seccion__card">No posee correcciones.</div>
+{% with seccion=1 %}
+  {% include 'layouts/correcciones_layout.html' %}
+{% endwith %}
 
 {% endblock %}

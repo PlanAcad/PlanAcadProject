@@ -3,18 +3,32 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.modelos.modelPlanificacion import Planificacion
-from planificaciones.modelos.modelCondicion import CondicionAprobacionDirecta, CondicionAprobacionCursada
 from planificaciones.formularios.formCondicion import  CondicionAprobacionDirectaForm, CondicionAprobacionCursadaForm
+#Agregar
+from django.db.models import Q
+from planificaciones.modelos.modelCorrecciones import Correccion
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Correcciones
+from planificaciones.formularios.formCorreccion import CorreccionForm
+#Comentarios
+from planificaciones.formularios.formComentarios import ComentarioForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def AprobacionDirecta(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    condicion_aprobacion_directa = CondicionAprobacionDirecta.objects.get(id=planificacion.condicion_aprobacion_directa.id)
-    form = CondicionAprobacionDirectaForm(instance = condicion_aprobacion_directa)
+    form = CondicionAprobacionDirectaForm(instance = planificacion)
     mensaje_exito = None
     mensaje_error = None
+    #Agregar
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 71)).prefetch_related('comentarios')
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
+    
     
     if request.method == 'POST':  
-        form = CondicionAprobacionDirectaForm(request.POST,instance = condicion_aprobacion_directa)
+        form = CondicionAprobacionDirectaForm(request.POST,instance = planificacion)
         if form.is_valid():
             try:
                 form.save()                            
@@ -26,8 +40,12 @@ def AprobacionDirecta(request, id_planificacion):
 
     context = {
         'planificacion': planificacion,
-        'condicion_aprobacion_directa': condicion_aprobacion_directa, 
         'form': form, 
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
         'mensaje_exito': mensaje_exito, 
         'mensaje_error': mensaje_error
     }
@@ -35,16 +53,26 @@ def AprobacionDirecta(request, id_planificacion):
     return render(request, "secciones/condicion/aprobacion-directa.html", context)  
 
 
-
+@login_required
 def AprobacionCursada(request, id_planificacion):  
     planificacion = Planificacion.objects.get(id=id_planificacion)
-    condicion_aprobacion_cursada = CondicionAprobacionCursada.objects.get(id=planificacion.condicion_aprobacion_cursada.id)
-    form = CondicionAprobacionCursadaForm(instance = condicion_aprobacion_cursada)
+    form = CondicionAprobacionCursadaForm(instance = planificacion)
     mensaje_exito = None
     mensaje_error = None
+    #CORRECCIONES
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 72)).prefetch_related('comentarios')
+    existen_correcciones_pendientes = None
+    #Forms Correcciones y Comentarios
+    correccionForm = CorreccionForm()
+    comentarioForm = ComentarioForm()
     
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            
     if request.method == 'POST':  
-        form = CondicionAprobacionCursadaForm(request.POST,instance = condicion_aprobacion_cursada)
+        form = CondicionAprobacionCursadaForm(request.POST,instance = planificacion)
         if form.is_valid():
             try:
                 form.save()                            
@@ -56,8 +84,13 @@ def AprobacionCursada(request, id_planificacion):
 
     context = {
         'planificacion': planificacion,
-        'condicion_aprobacion_cursada': condicion_aprobacion_cursada, 
         'form': form, 
+        'correcciones':correcciones,
+        #Forms Correcciones
+        'correccion_form': correccionForm,
+        'comentario_form':comentarioForm,
+        #
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
         'mensaje_exito': mensaje_exito, 
         'mensaje_error': mensaje_error
     }

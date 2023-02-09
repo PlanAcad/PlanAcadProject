@@ -1,149 +1,243 @@
 {% extends 'base.html' %} {% block content %}
-
+{% load util %}
 <div class="layout d-flex flex-column min-vh-100">
-  <header class="pt-4 pb-4 border-bottom">
-    <div class="container-xl">
-      <div class="row">
-        <h1 class="col-md-3 h3">
-          <a class="item" href="{% url 'planificaciones:index' %}" style="text-decoration: none; color: inherit;">
-            PlanAcad
-          </a>
-        </h1>
-        <h2 class="col-md-9 h5 d-flex align-items-center">
-          <span class="text-truncate">
-            Universidad Tecnológica Nacional - Complejidad y Técnicas de diseño
-            de algoritmos</span
-          >
-        </h2>
-      </div>
+    {% include "layouts/navbar.html" with ano=planificacion.fecha_creacion.year %}
+    <div class="bg-light flex-grow-1">
+        <div class="container-xl">
+            <button
+                class="btn mt-2 collapseButton"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseSidebar"
+                aria-expanded="false"
+                aria-controls="collapseSidebar"
+            >
+                {% include "iconos/arrow-left.html" with size=30 %}
+            </button>
+            <div class="row">
+                <aside
+                    class="layout__sidebar col-3 py-3 px-2 show collapse"
+                    id="collapseSidebar"
+                >
+                    <div class="planif-state-card 
+                    {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
+                    {% if planificacion.estado == "R" %} planif-state-card--revision {% endif %}
+                    {% if planificacion.estado == "C" %} planif-state-card--correccion {% endif %}
+                    " style="position: initial;">
+                    <p>{{ planificacion.get_estado_display }}</p>
+                    </div>
+                    <h2 class="visually-hidden">Secciones</h2>
+
+                    <nav>
+                        <ol>
+                            <a
+                                href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
+                                class="active"
+                                title="Datos descriptivos"
+                                ><li class="section__title">
+                                    Datos descriptivos
+                                </li></a
+                            >
+                            <a
+                                href="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
+                                class=""
+                                title="Estructura de la cátedra"
+                                class="section__title"
+                                ><li>Estructura de la cátedra</li></a
+                            >
+                            <a
+                                href="{% url 'planificaciones:fundamentacion' planificacion.id %}"
+                                class="
+                                    {%
+                                    if
+                                    '/fundamentacion'
+                                    in
+                                    url
+                                    %}
+                                    active
+                                    {%
+                                    endif
+                                    %}
+                                "
+                                title="Fundamentación"
+                                ><li class="section__title">
+                                    Fundamentación
+                                </li></a
+                            >
+
+                            <a
+                                href="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
+                                class="
+                                    {%
+                                    if
+                                    '/resultados-de-aprendizaje'
+                                    in
+                                    url
+                                    %}
+                                    active
+                                    {%
+                                    endif
+                                    %}
+                                "
+                                title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
+                                ><li class="section-title">
+                                    Resultados de aprendizaje previos
+                                </li></a
+                            >
+
+                            <a
+                                href="{% url 'planificaciones:competencias' planificacion.id %}"
+                                class=""
+                                title="Competencias y capacidades vinculadas con la asignatura"
+                            >
+                                <li>Competencias y capacidades</li></a
+                            >
+
+                            <a
+                                href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}"
+                                class=""
+                                title="Propuestas para el desarrollo"
+                            >
+                                <li>Propuestas para el desarrollo</li></a
+                            >
+                            <a
+                                href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
+                                class=""
+                                title=""
+                                ><li>
+                                    Sistema de evaluación
+                                    <ol>
+                                        <a
+                                            href="{% url 'planificaciones:aprobacionDirecta' planificacion.id %}"
+                                            class="p-1 pt-0"
+                                            title=""
+                                        >
+                                            <li>
+                                                Condición aprobación directa
+                                            </li>
+                                        </a>
+                                        <a
+                                            href="{% url 'planificaciones:aprobacionCursada' planificacion.id %}"
+                                            class="p-1"
+                                            title=""
+                                        >
+                                            <li>
+                                                Condición aprobación cursada
+                                            </li>
+                                        </a>
+                                    </ol>
+                                </li>
+                            </a>
+                            <a
+                                href="{% url 'planificaciones:cronograma' planificacion.id %}"
+                                class=""
+                                title="Webgrafia"
+                                ><li>Cronograma</li>
+                            </a>
+                            <a
+                                href="{% url 'planificaciones:bibliografia' planificacion.id %}"
+                                class=""
+                                title="Bibliografia"
+                                ><li>Biliografia</li>
+                            </a>
+                            <a
+                                href="{% url 'planificaciones:webgrafia' planificacion.id %}"
+                                class=""
+                                title="Webgrafia"
+                                ><li>Webgrafia</li>
+                            </a>
+                            <a
+                                href="{% url 'planificaciones:contenido' planificacion.id %}"
+                                class=""
+                                title="-"
+                                ><li>Contenido</li></a
+                            >
+                            <a
+                                href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
+                                class=""
+                                title="Distribución de Tareas"
+                            >
+                                <li>Distribución de tareas</li>
+                            </a>
+
+                            <a
+                                href="{% url 'planificaciones:justificacionOrdenanza' planificacion.id %}"
+                                class=""
+                                title="Justificacion ordenanza"
+                                ><li>Justificación ordenanza 604</li></a
+                            >
+                        </ol>
+
+                        <hr >
+                        <a
+                        href="{% url 'planificaciones:exportar' planificacion.id %}"
+                        class=""
+                        title="EXPORTAR PLANIFICACION"
+                        >
+                        <div style="display: flex; align-items: center;">
+                            <svg style="margin-right: 10px; margin-left: 5px" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                            EXPORTAR PLANIFICACION
+                        </div>
+                        </a>
+                        {% if planificacion.estado == "P" %} 
+                        {% if request.user|has_group:"profesor" %}
+                            <a
+                            href="{% url 'planificaciones:revisarPlanif' planificacion.id %}"
+                            class=""
+                            title="REVISAR PLANIFICACION"
+                            >
+                            <div style="display: flex; align-items: center;">
+                                REVISAR PLANIFICACION
+                            </div>
+                            </a>   
+                        {% endif %}
+                      {% endif %}
+                      {% if planificacion.estado == "R" %}
+                        {% if request.user|has_group:"consejo" or request.user|has_group:"jefe de carrera"%}
+                            <a
+                            href="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"
+                            class=""
+                            title="APROBAR PLANIFICACION"
+                            >
+                            <div style="display: flex; align-items: center;">
+                                APROBAR PLANIFICACION
+                            </div>
+                            </a>   
+                            
+                            <a
+                            href="{% url 'planificaciones:corregirPlanif' planificacion.id %}"
+                            class=""
+                            title="CORREGIR PLANIFICACION"
+                            >
+                            <div style="display: flex; align-items: center;">
+                                CORREGIR PLANIFICACION
+                            </div>
+                            </a>
+                        {% endif %}
+                      {% endif %}
+                      {% if planificacion.estado == "C" %} 
+                          {% if request.user|has_group:"profesor" %}
+                            <a
+                            href="{% url 'planificaciones:revisarPlanif' planificacion.id %}"
+                            class=""
+                            title="REVISAR PLANIFICACION"
+                            >
+                            <div style="display: flex; align-items: center;">
+                                REVISAR PLANIFICACION
+                            </div>
+                            </a>   
+                          {% endif %}
+                      {% endif %}                  
+                    </nav>
+                </aside>
+                <main class="col seccion px-4">
+                    {% block seccion %} replace me {% endblock %}
+                </main>
+            </div>
+        </div>
     </div>
-  </header>
-  <div class="bg-light flex-grow-1">
-    <div class="container-xl">
-      <button
-        class="btn mt-2 collapseButton"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#collapseSidebar"
-        aria-expanded="false"
-        aria-controls="collapseSidebar"
-      >
-        {% include "iconos/arrow-left.html" with size=30 %}
-      </button>
-      <div class="row">
-        <aside
-          class="layout__sidebar col-3 py-3 px-2 show collapse"
-          id="collapseSidebar"
-        >
-          <h2 class="visually-hidden">Secciones</h2>
-
-          <nav>
-            <ol>
-              <a
-                href="./datos-descriptivos"
-                class="active"
-                title="Datos descriptivos"
-                ><li class="section__title">Datos descriptivos</li></a
-              >
-              <a
-                href="./estructura-de-la-catedra"
-                class=""
-                title="Estructura de la cátedra"
-                class="section__title"
-                ><li >Estructura de la cátedra</li></a
-              >
-              <a
-                href="./fundamentacion"
-                class="{% if '/fundamentacion' in url %} active {% endif %}"
-                title="Fundamentación"
-                ><li class="section__title">
-                  Fundamentación
-                </li></a
-              >
-
-              <a
-                href="./resultados-de-aprendizaje"
-                class="
-                  {%
-                  if
-                  '/resultados-de-aprendizaje'
-                  in
-                  url
-                  %}
-                  active
-                  {%
-                  endif
-                  %}
-                "
-                title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
-                ><li class="section-title">
-                    Resultados de aprendizaje previos
-                </li></a
-              >
-
-              <a 
-              href="{% url 'planificaciones:competencias' planificacion.id %}" 
-              class="" 
-              title="Competencias y capacidades vinculadas con la asignatura">
-                <li>
-                  Competencias y capacidades
-                </li></a>
-              <a href="#" class="" title="-"><li>Propuestas para el desarrollo</li></a>
-
-              <a
-                href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
-                class=""
-                title=""
-                ><li>
-                  Sistema de evaluación
-                  <ol>
-                    <a
-                      href="{% url 'planificaciones:aprobacionDirecta' planificacion.id %}"
-                      class="p-1 pt-0"
-                      title=""
-                    >
-                      <li>Condición aprobación directa</li>
-                    </a>
-                    <a
-                      href="{% url 'planificaciones:aprobacionCursada' planificacion.id %}"
-                      class="p-1"
-                      title=""
-                    >
-                      <li>Condición aprobación cursada</li>
-                    </a>
-                  </ol>
-                </li>
-              </a>
-
-              <a href="#" class="" title="-"><li>Cronograma</li></a>
-              <a href="{% url 'planificaciones:bibliografia' planificacion.id %}"
-                class=""
-                title="Bibliografia"><li>Biliografia</li>
-              </a>
-              <a href="{% url 'planificaciones:webgrafia' planificacion.id %}"
-                class=""
-                title="Webgrafia"><li>Webgrafia</li>
-              </a>
-              <a href="#" class="" title="-"><li>Contenido</li></a>
-              <a href="#" class="" title="-"><li>Distribución de tareas</li></a>
-
-
-               <a
-                href="{% url 'planificaciones:justificacionOrdenanza' planificacion.id %}"
-                class=""
-                title="Justificacion ordenanza"
-                ><li>
-                  Justificación ordenanza 604
-                </li></a
-              >
-            </ol>
-          </nav>
-        </aside>
-        <main class="col seccion px-4">
-          {% block seccion %} replace me {% endblock %}
-        </main>
-      </div>
-    </div>
-  </div>
 </div>
 {% endblock %}

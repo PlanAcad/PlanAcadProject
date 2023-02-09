@@ -1,44 +1,325 @@
 {% extends 'base.html' %} {% block content %}
+{% load util %}
+<div class="layout d-flex flex-column min-vh-100">
+    <!-- Add navbar -->
+    {% include "layouts/navbar.html" %}
+    <div class="bg-light flex-grow-1">
+        <div class="container-xl">
+            <div class="row">
+                <main class="col seccion px-4 py-3">
 
-<h1>Detalle de asignatura</h1>
+                    {% if error_message %}
+                    <p><strong>{{ error_message }}</strong></p>
+                    {% endif %} {% if form.subject.errors %}
+                    <ol>
+                      {% for error in form.subject.errors %}
+                      <li><strong>{{ error|escape }}</strong></li>
+                      {% endfor %}
+                    </ol>
+                    {% endif %} 
 
-{% if error_message %}
-<p><strong>{{ error_message }}</strong></p>
-{% endif %} {% if form.subject.errors %}
-<ol>
-  {% for error in form.subject.errors %}
-  <li><strong>{{ error|escape }}</strong></li>
-  {% endfor %}
-</ol>
-{% endif %} {% if asignatura %}
+                    {% if messages %}
+                      {% for message in messages %}
+                        {% if "success" in message.tags %}
+                          <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+                        {% endif %}
+                        {% if "error" in message.tags %}
+                          <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
 
-<h2 class="py-4">{{ asignatura.nombre_materia }}</h2>
-<dl>
-  <dt>Carrera:</dt>
-  <dd>{{ carrera.nombre_carrera }}</dd>
-</dl>
+                    {% if not planificaciones %}
+                      {% if not planificacionesDeAsignatura %}
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          <strong>No existen planificaciones!</strong>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                          </div>
+                      {% else %}
+                        <div class="alert alert-warning" role="alert">
+                          Existen planificaciones en otro estado actualmente
+                        </div>
+                        {% endif %}
+                    {% endif %}
 
-<form action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
-  {% csrf_token %} {{ form }}
-  <input
-    type="submit"
-    class="btn btn-primary my-5"
-    value="Nueva planificación"
-  />
-</form>
-{% if planificaciones %}
-<ul>
-  {% for planificacion in planificaciones %}
-  <li class="py-4">
-    <a href="/planificacion/{{ planificacion.id }}/datos-descriptivos"
-      >{{planificacion.id}} {{ planificacion.fecha_creacion }}</a
-    >   <a href="/planificacion/{{ planificacion.id }}/eliminar-planificacion" style="color: red;">Eliminar</a>
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No se encontraron planificaciones.</p>
-{% endif %} {% else %}
-<p>No existe la asignatura.</p>
+                    {% if asignatura %}
+                    <div class="d-flex justify-content-between mb-3">
+                      <div class="p-2"><span>Asignaturas / {{ asignatura.nombre_materia }}</span></div>
+                      {% if request.user|has_group:"jefe de carrera" or request.user|has_group:"profesor"%}
+                        <div class="p-2">
+                          <a
+                          href="{% url 'planificaciones:papelera' asignatura.id %}"
+                          class="icon-delete"
+                          style="text-decoration: none; color: #116ACC; display: flex; align-items: center; "
+                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#116ACC" class="bi bi-trash3-fill" viewBox="0 0 16 16" style="margin-right: 4px;">
+                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                          </svg>
+                            Papelera
+                          </a>
+                        </div>
+                      {% endif %}
+                      
+                    </div>
+                    
 
-{% endif %} {% endblock %}
+                  
+
+                    <form id="nueva-planificacion-form" action="{% url 'planificaciones:nueva' asignatura.id %}" method="post">
+                      {% csrf_token %} {{ form }}
+                    </form>
+                    {% if error %}
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Ha ocurrido un error!</strong> {{error}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                      </div>
+                    {% endif %}
+
+                    
+                     
+                    <div class="row mt-4">
+                    {% if request.user|has_group:"jefe de carrera" or request.user|has_group:"profesor" %}
+                            <div class="col-md-4" onclick="document.getElementById('nueva-planificacion-form').submit()" style="cursor: pointer;">
+                              <div class="card card-subject p-0 mb-5">
+                                <div class="p-3 text-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                  </svg>
+                                </div>
+                                <div class="card-footer p-2 m-0">                                
+                                    <p class="m-0">Crear planificación vacia</p>
+                                </div>
+                              </div>
+                            </div>
+                      {% endif %}
+                    {% if planificaciones %}
+                        {% for planificacion in planificaciones %}
+                          <div class="col-md-4">
+                            <div class="card card-subject p-0 mb-5">
+                              <a
+                              {% if not request.user|has_group:'alumno' %}href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"{% endif %}
+                              
+                              style="text-decoration: none"
+                              {% if request.user|has_group:'alumno' %}disabled{% endif %}
+                              >
+                              <div class="planif-state-card float-right 
+                              {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
+                              {% if planificacion.estado == "R" %} planif-state-card--revision {% endif %}
+                              {% if planificacion.estado == "C" %} planif-state-card--correccion {% endif %}
+                              ">
+                                <p>{{ planificacion.get_estado_display }}</p>
+                              </div>
+
+                              <div class="dropdown">
+                                  <button
+                                      type="button"
+                                      id="dropdownMenu2"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false"
+                                      class="three-dots-button"
+                                  >
+                                    <svg data-target="#modal-delete" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#D9DDE7" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                      <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                    </svg>
+                                  </button>
+                                <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
+                                  {% if request.user|has_group:"jefe de carrera" or request.user|has_group:"profesor"%}
+                                    <li><button  data-toggle="modal" data-target="#modal-delete">Eliminar</button></li>
+                                  {% endif %}
+                                  {% if planificacion.estado == "P" %} 
+                                    {% if request.user|has_group:"profesor" %}
+                                      <li><form
+                                        method="POST"
+                                        action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                    {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "R" %}
+                                    {% if request.user|has_group:"consejo" or request.user|has_group:"jefe de carrera"%}
+                                        <li><form
+                                          method="POST"
+                                          action="{% url 'planificaciones:aprobarPlanif' planificacion.id %}"><button type="submit">Aprobar planificación</button>{% csrf_token %}</form></li>
+                                        <li><form
+                                          method="POST"
+                                          action="{% url 'planificaciones:corregirPlanif' planificacion.id %}"><button type="submit">Corregir planificación</button>{% csrf_token %}</form></li>
+                                    {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "C" %} 
+                                      {% if request.user|has_group:"profesor" %}
+                                      <li><form
+                                        method="POST"
+                                        action="{% url 'planificaciones:revisarPlanif' planificacion.id %}"><button type="submit">Revisar planificación</button>{% csrf_token %}</form></li>
+                                      {% endif %}
+                                  {% endif %}
+                                  {% if planificacion.estado == "A" %}
+                                      {% if request.user|has_group:"alumno" %}
+                                          <li><form
+                                          method="POST"
+                                          action="{% url 'planificaciones:downloadPdf' planificacion.id %}"><button type="submit">Ver planificación</button>{% csrf_token %}</form></li>
+                                          {% if usuariosPlanificacion %}
+                                            {% for usuarioPlanificacion in usuariosPlanificacion %}
+                                              {% if usuarioPlanificacion.planificacion != planificacion %}
+                                                <li><form
+                                                  method="POST"
+                                                  action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>  
+                                                {% else %}
+                                                <li><form
+                                                  method="POST"
+                                                  action="{% url 'planificaciones:dessubcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Eliminar Parciales</button>{% csrf_token %}</form></li>    
+                                              {% endif %}
+                                            {% endfor %}
+                                          {% else %}
+                                            <li><form
+                                              method="POST"
+                                              action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>  
+                                          {% endif %}
+                                      {% endif %}
+                                    {% endif %}           
+                                      </ul>
+                              </div>  
+
+
+                              <div class="p-3 pt-2">
+                                <h5 class="card-subject-title">
+                                    {{ planificacion.asignatura.nombre_materia }} - {{ planificacion.fecha_creacion.year }}
+                                </h5>
+                                <p class="card-subject-subtitle mb-2 text-muted">
+                                    <b>Ultima modificación:</b> {{ planificacion.fecha_modificacion.date }}
+                                </p>
+                              </div>
+                              {% if not request.user|has_group:'alumno' %}
+                                {% if planificacion.estado == "A" %}
+                                  <form
+                                  method="POST"  class="card-footer" action="{% url 'planificaciones:copiarPlanif' planificacion.id %}">
+                                      <button 
+                                      style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                       type="submit">
+                                       <p class="m-0">Tomar como base para nueva planificación</p>
+                                      </button>
+                                      {% csrf_token %}
+                                  </form>
+                                  {% else %}
+                                  <div class="card-footer p-2 m-0"><p class="m-0">Ir a la planificación</p></div>
+                                  {% endif %}
+                                {% endif %}
+                               
+                              </a>
+
+                            </div>
+
+
+                            <!-- MODAL ELIMINAR PLANIFICACION -->
+                            <div
+                                class="modal fade"
+                                id="modal-delete"
+                                tabindex="-1"
+                                role="dialog"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true"
+                            >
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                Eliminar planificación
+                                            </h5>
+                                            <button
+                                                type="button"
+                                                class="btn-close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                            ></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <form
+                                            method="POST"
+                                            action="{% url 'planificaciones:deleteLogicPlanificacion' planificacion.id %}"
+
+                                          >
+                                            {% csrf_token %}
+                                              <p>Estás por eliminar la planificación:</p>
+                                              <ul>
+                                                <li>Materia: {{ planificacion.asignatura.nombre_materia }}</li>
+                                                <li>Año: {{ planificacion.fecha_creacion.year }}</li>
+                                                <li>Ultima modificación: {{ planificacion.fecha_modificacion.date }}</li>
+                                              </ul>
+
+                                              {% if form.errors %}
+                                              <div class="alert alert-danger">{{form.errors}}</div>
+                                              {% endif %}
+
+                                              <div class="modal-footer">
+                                                  <button
+                                                      type="button"
+                                                      class="btn btn-outline-primary"
+                                                      data-dismiss="modal"
+                                                  >
+                                                      Cancelar
+                                                  </button>
+                                                  <button
+                                                      id="delete-button"
+                                                      type="submit"
+                                                      class="btn btn-danger my-4"
+                                                  >
+                                                      Eliminar
+                                                  </button>
+                                              </div>
+                                          </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    {% else %}
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>No existe la asignatura.</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                      </div>
+                    {% endif %} 
+                </main>
+                <aside
+                    class="layout__sidebar col-3 py-3 px-2 show collapse aside-calendario"
+                > 
+                  <div class="container-card-calendario">
+                      <div style="text-align: center;">
+                          <h5 class="p-2">Calendario</h5>
+                      </div>
+
+                      {% if calendario %}
+                        {% for fecha in calendario %}
+                          <div class="calendario-card">
+                            <div class="calendario-card-dot-day">
+                              {% if fecha.fecha.day < 10 %}
+                                <span class="calendario-card-dot-day-text">0{{ fecha.fecha.day }}</span>
+                              {% else %}
+                                <span class="calendario-card-dot-day-text">{{ fecha.fecha.day }}</span>
+                              {% endif %}
+                            </div>
+                            <div>
+                              {% for actividad in fecha.actividades %}
+                                <p class="calendario-card-title">{{actividad}}</p>
+                              {% endfor %}
+                              {% if fecha.hay_clase %}
+                                <p class="calendario-card-subtitle">Sin suspensión de clases</p>
+                              {% else %}
+                                <p class="calendario-card-subtitle">Con suspensión de clases</p>
+                              {% endif %}
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% else %}
+                        <p class="text-center calendario-card-title">No tienes actividades del mes</p>
+                      {% endif %}
+                  </div>
+                </aside>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
