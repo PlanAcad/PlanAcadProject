@@ -6,15 +6,10 @@ SECRET_KEY = 'n%)qyk7n&3_uk+3zx&!z7ba1bykb1!9!0xhi$dw)n*v7kewn+9'
 # SECURITY WARNING: don't run with debug turned on in production!
 # Application definition
 
+ALLOWED_HOSTS = ['https://planacad.azurewebsites.net']
+DEBUG = False
 SCM_DO_BUILD_DURING_DEPLOYMENT=True
 WEBSITE_WEBDEPLOY_USE_SCM =True
-
-DEBUG = False
-
-ALLOWED_HOSTS = ['https://planacad.azurewebsites.net']
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -26,6 +21,9 @@ DATABASES = {
         'PORT': '',
     },
 }  
+# Database
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
 
 
 # Quick-start development settings - unsuitable for production
