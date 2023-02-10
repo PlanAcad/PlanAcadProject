@@ -23,7 +23,6 @@ jobs:
           platform: python
           platform-version: 3.8
           source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-          output-directory: /tmp/build-output
           
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v2
