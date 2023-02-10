@@ -28,7 +28,7 @@ jobs:
     - name: Building web app
       uses: azure/appservice-build@v2
       with:
-          platform: Python
+          platform: python
           platform-version: 3.8.16
           source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           output-directory: /tmp/build-output
