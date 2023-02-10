@@ -21,7 +21,7 @@ jobs:
       uses: azure/appservice-build@v1
       with:
           platform: python
-          platform-version: 3.8.16
+          platform-version: 3.8
           source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           output-directory: /tmp/build-output
           
