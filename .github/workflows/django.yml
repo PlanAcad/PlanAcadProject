@@ -27,6 +27,12 @@ jobs:
         pip install -r planacad/requeriments.txt
     - name: Building web app
       uses: azure/appservice-build@v2
+      with:
+          platform: Python
+          platform-version: 3.8.16
+          source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          output-directory: /tmp/build-output
+          
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v2
       with:
