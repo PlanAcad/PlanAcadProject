@@ -10,6 +10,7 @@ ALLOWED_HOSTS = ['https://planacad.azurewebsites.net']
 DEBUG = False
 SCM_DO_BUILD_DURING_DEPLOYMENT=True
 WEBSITE_WEBDEPLOY_USE_SCM =True
+ENABLE_ORYX_BUILD = True
 
 DATABASES = {
     'default': {

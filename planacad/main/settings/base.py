@@ -16,9 +16,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-
-ENABLE_ORYX_BUILD = True
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -26,7 +23,19 @@ ENABLE_ORYX_BUILD = True
 SECRET_KEY = 'n%)qyk7n&3_uk+3zx&!z7ba1bykb1!9!0xhi$dw)n*v7kewn+9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+ALLOWED_HOSTS = ['*']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ssrtmvzt',
+        'USER': 'ssrtmvzt',
+        'PASSWORD': 'n_c7YjoD3_deM1UAEtVcOp7UW7JotqC4',
+        'HOST': 'chunee.db.elephantsql.com',
+        'PORT': '',
+    },
+}  
 
 # Application definition
 
@@ -111,11 +120,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/")  
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage') 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL ="/static/"
 
 LOGIN_REDIRECT_URL = '/asignaturas/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
