@@ -24,6 +24,8 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install pip==9.0.1
+        sudo apt get remove libapache2-mod-wsgi
+        pip install mod_wsgi
         pip install -r planacad/requeriments.txt
     - name: Building web app
       uses: azure/appservice-build@v2
