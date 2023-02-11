@@ -2,9 +2,6 @@ __pycache__
 *.py[cod]
 *$py.class
 
-files de nico
-requirements.txt
-
 # Distribution / packaging 
 .Python build/ 
 develop-eggs/ 
