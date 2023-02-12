@@ -71,6 +71,8 @@ urlpatterns = [
 
     #Seccion4    
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeAnteriorNew, name='resultadosDeAprendizajes'),
+    path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje-manual', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeNewFirstPlanificacion, name='resultadosDeAprendizajesPrimeraPlanificacion'),
+    
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje/edit/<int:id_resultadodeaprendizaje>', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeAnteriorUpdate, name='resultadosDeAprendizajesUpdate'),
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje/delete/<int:id_resultadodeaprendizaje>', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeAnteriorDestroy, name='resultadosDeAprendizajesDestroy'),
     path('ajax/load-resultados/', viewResultadoDeApendizajeAnterior.ResultadosDeAprendizajePorAsignatura, name='ajax_load_resultados'),  # <-- this one here

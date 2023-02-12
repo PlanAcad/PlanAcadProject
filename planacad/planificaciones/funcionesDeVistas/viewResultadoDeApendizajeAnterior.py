@@ -6,6 +6,8 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
 from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior
 from planificaciones.formularios.formResultadoDeAprendizajeAnterior import  ResultadoDeAprendizajeAnteriorForm
+from planificaciones.formularios.formResultadoDeAprendizaje import  ResultadoDeAprendizajeForm
+
 from django.db.models import F
 from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
@@ -15,6 +17,22 @@ from planificaciones.formularios.formCorreccion import CorreccionForm
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
 
+@login_required
+def ResultadoDeAprendizajeNewFirstPlanificacion(request,id_planificacion): 
+    planificacion = Planificacion.objects.get(id=id_planificacion)
+    if request.method == "POST":  
+        formresultadoAprendizaje = ResultadoDeAprendizajeForm(request.POST)
+        formresultadoAprendizaje.fields['asignatura'].queryset = Asignatura.objects.filter(carrera=planificacion.asignatura.carrera).distinct().exclude(id = planificacion.asignatura_id)
+        
+        if formresultadoAprendizaje.is_valid():  
+            try:  
+                instance = formresultadoAprendizaje.save(commit=False)
+                instance.save()
+                instance.save_m2m()
+            except:  
+                 mensaje_error = "No pudimos añadir el resultado de aprendizaje."  
+
+    return redirect('planificaciones:resultadosDeAprendizajes', id_planificacion=id_planificacion)
 
 ##Define request for Resultado de Aprendizaje   
 @login_required
@@ -32,10 +50,9 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
     comentarioForm = ComentarioForm()
     
     for item in correcciones:
-        print(item.estado)
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
-
+    formresultadoAprendizaje = ResultadoDeAprendizajeForm()
     if request.method == "POST":  
         form = ResultadoDeAprendizajeAnteriorForm(request.POST)
         if form.is_valid():  
@@ -48,13 +65,16 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
                  mensaje_error = "No pudimos añadir el resultado de aprendizaje."    
     else:  
         form = ResultadoDeAprendizajeAnteriorForm()
-        form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
-      #Agregar
+        form.fields['asignatura'].queryset = Asignatura.objects.filter(carrera=planificacion.asignatura.carrera).distinct().exclude(id = planificacion.asignatura_id)
+        
+
+    #Agregar
     context = {
         'planificacion': planificacion,
         'resultados':resultados,
         'data':data,
         'form':form,
+        'formresultadoAprendizaje':formresultadoAprendizaje,
         'correcciones':correcciones,
         #Forms Correcciones
         'correccion_form': correccionForm,
@@ -72,8 +92,12 @@ def ResultadosDeAprendizajePorAsignatura(request):
     resultados = ResultadoDeAprendizaje.objects.none()
     if(asignatura_id):
         planificacionesAsignatura = Planificacion.objects.filter(asignatura_id=asignatura_id).filter(eliminada= False).filter(estado='A').order_by('fecha_creacion')
-        lastPlanificacionAsignatura = planificacionesAsignatura.last()    
-        resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).filter(planificacion_id = lastPlanificacionAsignatura.id).order_by('resultado')
+        lastPlanificacionAsignatura = planificacionesAsignatura.last()  
+        if(lastPlanificacionAsignatura):
+            resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).filter(planificacion_id = lastPlanificacionAsignatura.id).order_by('resultado')    
+        else:
+            resultados = ResultadoDeAprendizaje.objects.filter(asignatura_id=asignatura_id).order_by('resultado')
+    
     return render(request, 'secciones/resultado-de-aprendizaje-anterior/dropdown-ra-anteriores-options.html', {'resultados': resultados})
 
 @login_required

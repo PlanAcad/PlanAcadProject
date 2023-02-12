@@ -33,7 +33,7 @@ def ResultadoDeAprendizajeNew(request,id_planificacion):
         form = ResultadoDeAprendizajeForm()
         form.fields['asignatura'].queryset = Asignatura.objects.filter(id = planificacion.asignatura_id)  
     return render(request,'secciones/resultadosDeAprendizaje.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
-  
+
 @login_required
 def ResultadoDeAprendizajeViewbyPlanificacion(request,planificacion_id):
     mensaje_error = None

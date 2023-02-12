@@ -29,8 +29,12 @@ def PlanificacionNew(request, asignatura_id):
         current_year = datetime.now().year
         existePlanificacionAñoActual = False
         for planificacion in planificaciones:
-            if planificacion.fecha_creacion.year == current_year:
-                existePlanificacionAñoActual = True
+            if(planificacion):
+                if(planificacion.datos_descriptivos.ciclo_lectivo):
+                    if(planificacion.datos_descriptivos.ciclo_lectivo == current_year):
+                        existePlanificacionAñoActual = True 
+                elif planificacion.fecha_creacion.year == current_year:
+                    existePlanificacionAñoActual = True
 
         if not existePlanificacionAñoActual: 
             # create a form instance and populate it with data from the request:
