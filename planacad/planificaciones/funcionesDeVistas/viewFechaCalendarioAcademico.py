@@ -167,9 +167,10 @@ def CerrarCalendarioAcademico(request, ano):
 
                 users = User.objects.filter(Q(groups__name=prefesores.name) | Q(groups__name=jefes.name) | Q(groups__name=consejeros.name))
                 ## Me conecto al servidor
-                server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
-                server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
-                from_email = "carlitoslopezsoto495@gmail.com"
+                server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+                server.starttls()
+                server.login("victoria060298@ca.frre.utn.edu.ar", "Vi02cto0$$")
+                from_email = "victoria060298@ca.frre.utn.edu.ar"
                 for usuario in users:
                     to_email = usuario.email
                     message = 'Calendario Academico'

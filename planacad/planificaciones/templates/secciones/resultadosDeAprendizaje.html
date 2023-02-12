@@ -65,15 +65,27 @@
     </table>
 
     {% if not planificacion.estado == "A" %} 
+        <div class="d-flex">
         <!-- Abrir modal  -->
         <button
-            type="button"
-            class="btn btn-primary mt-4"
-            data-toggle="modal"
-            data-target="#modal-resultado-aprendizaje-previo"
+        type="button"
+        class="btn btn-primary mt-4"
+        data-toggle="modal"
+        data-target="#modal-resultado-aprendizaje-previo"
         >
             Añadir resultado de aprendizaje
+        </button> 
+
+        <!-- Abrir modal  -->
+        <button
+        type="button"
+        class="btn btn-primary mt-4 ms-2"
+        data-toggle="modal"
+        data-target="#modal-resultado-aprendizaje-previo-manual"
+        >
+            Añadir resultado de aprendizaje manualmente
         </button>
+        </div>
     {% endif %}
     
 
@@ -107,7 +119,8 @@
                 ></button>
             </div>
             <div class="modal-body">
-                <form
+                
+                    <form
                     data-resultados-url="{% url 'planificaciones:ajax_load_resultados' %}"
                     novalidate
                     method="POST"
@@ -115,6 +128,54 @@
                     action="{% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}"
                 >
                     {% csrf_token %} {{form.as_p}}
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal resultado de aprendizaje previo manual-->
+<div
+    class="modal fade"
+    id="modal-resultado-aprendizaje-previo-manual"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Añadir resultado de aprendizaje previo manualmente
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                
+                    <form
+                    method="POST"
+                    action="{% url 'planificaciones:resultadosDeAprendizajesPrimeraPlanificacion' planificacion.id %}"
+                >
+                    {% csrf_token %} {{formresultadoAprendizaje.as_p}}
 
                     <div class="modal-footer">
                         <button

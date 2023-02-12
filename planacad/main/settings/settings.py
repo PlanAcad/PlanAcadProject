@@ -52,12 +52,12 @@ WSGI_APPLICATION = 'main.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ssrtmvzt',
-        'USER': 'ssrtmvzt',
-        'PASSWORD': 'n_c7YjoD3_deM1UAEtVcOp7UW7JotqC4',
-        'HOST': 'chunee.db.elephantsql.com',
-        'PORT': '',
+        'ENGINE': 'mssql',
+        'NAME': 'PlanacadDB',
+        'USER': 'sqladmin',
+        'PASSWORD': 'CarlosIngeniero2023',
+        'HOST': 'planacad-server.database.windows.net',
+        'PORT': '1433'
     },
 }  
 
