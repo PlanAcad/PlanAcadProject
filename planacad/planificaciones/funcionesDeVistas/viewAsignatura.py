@@ -157,6 +157,8 @@ def AsignaturaDetailView(request, id, error = 'False'):
 
     # Mandarle el form para crear planificaciones
     form = PlanificacionForm()  
+    if(planificaciones):
+        planificaciones = planificaciones.order_by('-fecha_creacion')
 
     calendarioAcademico = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=datetime.now().year).filter(nombre_mes=datetime.now().strftime("%B")).exclude(actividad='DN').order_by('fecha')    
     
