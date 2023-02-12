@@ -108,7 +108,7 @@ def CalendarioAcademicoIndex(request, ano):
 
 @login_required
 def UpdateFechaCalendarioAcademico(request,ano):  
-    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    # locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     mensaje_exito = None
     mensaje_error = None
     form = FechaCalendarioAcademicoUpdateForm(request.POST)
