@@ -155,9 +155,10 @@ def AprobarPlanificacion(request, id):
 
 
             ## Me conecto al servidor
-            server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
-            server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
-            from_email = "carlitoslopezsoto495@gmail.com"
+            server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+            server.starttls()
+            server.login("victoria060298@ca.frre.utn.edu.ar", "Vi02cto0$$")
+            from_email = "victoria060298@ca.frre.utn.edu.ar"
             for usuario in planificacion.asignatura.profesor.all():
                 to_email = usuario.email
                 message = "Se ha aprobado la planificacion de " + planificacion.asignatura.nombre_materia + " de la comision " + str(planificacion.asignatura.comision) + " del año " + str(planificacion.datos_descriptivos.ciclo_lectivo) 
@@ -191,9 +192,10 @@ def RevisarPlanificacion(request, id):
             instance.save()
 
             ## Me conecto al servidor
-            server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
-            server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
-            from_email = "carlitoslopezsoto495@gmail.com"
+            server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+            server.starttls()
+            server.login("victoria060298@ca.frre.utn.edu.ar", "Vi02cto0$$")
+            from_email = "victoria060298@ca.frre.utn.edu.ar"
             for usuario in planificacion.asignatura.profesor.all():
                 to_email = usuario.email
                 message = "Se ha mandado a revisar la planificacion de " + planificacion.asignatura.nombre_materia + " de la comision " + str(planificacion.asignatura.comision) + " del año " + str(planificacion.datos_descriptivos.ciclo_lectivo) 
@@ -226,9 +228,10 @@ def CorregirPlanificacion(request, id):
         instance.save()
 
         ## Me conecto al servidor
-        server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
-        server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
-        from_email = "carlitoslopezsoto495@gmail.com"
+        server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+        server.starttls()
+        server.login("victoria060298@ca.frre.utn.edu.ar", "Vi02cto0$$")
+        from_email = "victoria060298@ca.frre.utn.edu.ar"
         for usuario in planificacion.asignatura.profesor.all():
             to_email = usuario.email
             message = "Se ha mandado a corregir la planificacion de " + planificacion.asignatura.nombre_materia + " de la comision " + str(planificacion.asignatura.comision) + " del año " + str(planificacion.datos_descriptivos.ciclo_lectivo) 

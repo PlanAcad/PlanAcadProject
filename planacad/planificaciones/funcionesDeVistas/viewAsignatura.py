@@ -217,17 +217,19 @@ def MandarAvisoFechaLimiteDePlanificacion(request):
     carreraUsuario = request.user.carrera.all()
     if(carreraUsuario.count()==1):
         carrera = Carrera.objects.get(id = carreraUsuario.first().id)
-    form = AsignaturaCarreraForm(carrera)
+    form = AsignaturaCarreraForm()
     if request.method == 'POST':
-        form = AsignaturaCarreraForm(carrera, request.POST)
+        form = AsignaturaCarreraForm(request.POST)
+        form.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carrera)
         if form.is_valid():
             asignaturas = form.cleaned_data['asignaturas']
             comentario = form.cleaned_data['comentario']
             for asignatura in asignaturas:
                  ## Me conecto al servidor
-                server = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
-                server.login("carlitoslopezsoto495@gmail.com", "WHQad6Er80AGNbxp")
-                from_email = "carlitoslopezsoto495@gmail.com"
+                server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+                server.starttls()
+                server.login("victoria060298@ca.frre.utn.edu.ar", "Vi02cto0$$")
+                from_email = "victoria060298@ca.frre.utn.edu.ar"
                 for usuario in asignatura.profesor.all():
                     to_email = usuario.email
                     message = comentario
@@ -240,3 +242,5 @@ def MandarAvisoFechaLimiteDePlanificacion(request):
                 ##Cierro conexion al servidor
                 server.quit()
             return redirect('planificaciones:asignaturas')
+    else:
+        form.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carrera)
