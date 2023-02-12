@@ -96,12 +96,6 @@
                         {% for planificacion in planificaciones %}
                           <div class="col-md-4">
                             <div class="card card-subject p-0 mb-5">
-                              <a
-                              {% if not request.user|has_group:'alumno' %}href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"{% endif %}
-                              
-                              style="text-decoration: none"
-                              {% if request.user|has_group:'alumno' %}disabled{% endif %}
-                              >
                               <div class="planif-state-card float-right 
                               {% if planificacion.estado == "A" %} planif-state-card--aprobado {% endif %}
                               {% if planificacion.estado == "R" %} planif-state-card--revision {% endif %}
@@ -125,7 +119,7 @@
                                   </button>
                                 <ul class="dropdown-menu options-menu" aria-labelledby="dropdownMenu2">
                                   {% if request.user|has_group:"jefe de carrera" or request.user|has_group:"profesor"%}
-                                    <li><button  data-toggle="modal" data-target="#modal-delete">Eliminar</button></li>
+                                    <li><button  data-toggle="modal" data-target="#modal-delete-{{ planificacion.id }}">Eliminar</button></li>
                                   {% endif %}
                                   {% if planificacion.estado == "P" %} 
                                     {% if request.user|has_group:"profesor" %}
@@ -178,7 +172,12 @@
                                       </ul>
                               </div>  
 
-
+                              <a
+                              {% if not request.user|has_group:'alumno' %}href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"{% endif %}
+                              
+                              style="text-decoration: none"
+                              {% if request.user|has_group:'alumno' %}disabled{% endif %}
+                              >
                               <div class="p-3 pt-2">
                                 <h5 class="card-subject-title">
                                     {{ planificacion.asignatura.nombre_materia }} - {{ planificacion.datos_descriptivos.ciclo_lectivo }}
@@ -211,7 +210,7 @@
                             <!-- MODAL ELIMINAR PLANIFICACION -->
                             <div
                                 class="modal fade"
-                                id="modal-delete"
+                                id="modal-delete-{{ planificacion.id }}"
                                 tabindex="-1"
                                 role="dialog"
                                 aria-labelledby="exampleModalLabel"
@@ -240,7 +239,7 @@
                                               <p>Estás por eliminar la planificación:</p>
                                               <ul>
                                                 <li>Materia: {{ planificacion.asignatura.nombre_materia }}</li>
-                                                <li>Año: {{ planificacion.fecha_creacion.year }}</li>
+                                                <li>Año: {{ planificacion.datos_descriptivos.ciclo_lectivo }}</li>
                                                 <li>Ultima modificación: {{ planificacion.fecha_modificacion.date }}</li>
                                               </ul>
 

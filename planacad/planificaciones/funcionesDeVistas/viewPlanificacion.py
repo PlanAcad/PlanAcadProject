@@ -101,6 +101,7 @@ def PlanificacionUpdate(request, id):
 def PlanificacionLogicDestroy(request, id):  
     mensaje_error = None
     try:
+        print(id)
         planificacion = Planificacion.objects.get(id=id)
         planificacion.eliminada = True
         planificacion.save(update_fields=['eliminada'])
@@ -117,11 +118,19 @@ def PlanificacionRestore(request, id):
     try:
         planificacionRestore = Planificacion.objects.get(id=id)
         planificaciones = Planificacion.objects.filter(asignatura_id = planificacionRestore.asignatura.id).filter(eliminada = False)
-        current_year = datetime.now().year
+        if(planificacionRestore):
+            if(planificacionRestore.datos_descriptivos.ciclo_lectivo):
+                current_year = planificacionRestore.datos_descriptivos.ciclo_lectivo
+            else:
+                current_year = datetime.now().year
+        
         existePlanificacionAñoActual = False
         for planificacion in planificaciones:
-            if planificacion.fecha_creacion.year == current_year:
-                existePlanificacionAñoActual = True
+            if(planificacion.datos_descriptivos.ciclo_lectivo):
+                if(planificacion.datos_descriptivos.ciclo_lectivo == current_year):
+                        existePlanificacionAñoActual = True 
+                elif planificacion.fecha_creacion.year == current_year:
+                    existePlanificacionAñoActual = True
 
         if not existePlanificacionAñoActual:
             planificacionRestore.eliminada = False
