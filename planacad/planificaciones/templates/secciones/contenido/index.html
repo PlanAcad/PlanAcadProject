@@ -43,6 +43,28 @@
   <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
 {% endif %}
 <div class="seccion__card p-5">
+  {% if not planificacion.estado == "A" %} 
+        <!-- Abrir modal contenido -->
+    <div class="d-flex-row">
+      <button
+      type="button"
+      class="btn btn-primary mt-4"
+      data-toggle="modal"
+      data-target="#modal-contenido"
+      >
+        Añadir contenido
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary mt-4"
+        data-toggle="modal"
+        data-target="#modal-unidad"
+      >
+        Añadir Unidad
+      </button>
+    </div>
+{% endif %}
+
   {% if contenidos %}
     {% for contenido in contenidos %}
       <div id="accordion">
@@ -81,29 +103,6 @@
   {% else %}
   <h5 class="text-center subtitle__message">Todavia no tiene contenidos agregados.</h5>
   {% endif %}
-
-  {% if not planificacion.estado == "A" %} 
-        <!-- Abrir modal contenido -->
-    <div class="d-flex-row">
-      <button
-      type="button"
-      class="btn btn-primary mt-4"
-      data-toggle="modal"
-      data-target="#modal-contenido"
-      >
-        Añadir contenido
-      </button>
-      <button
-        type="button"
-        class="btn btn-primary mt-4"
-        data-toggle="modal"
-        data-target="#modal-unidad"
-      >
-        Añadir Unidad
-      </button>
-    </div>
-{% endif %}
-
 
 </div>
 
