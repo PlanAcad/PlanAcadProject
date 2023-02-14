@@ -56,11 +56,11 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
                 mensaje_exito="Añadimos el docente correctamente."  
             except:  
                  mensaje_error = "No pudimos añadir el docente."    
-    else:  
-        form = DetalleProfesorCatedraForm()
-        asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
-        form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
-        form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
+    
+    form = DetalleProfesorCatedraForm()
+    asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
+    form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+    form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
     #Agregar
     context = {
         'planificacion': planificacion,
@@ -86,7 +86,9 @@ def ProfesoresPorSituacion(request):
         asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
         users = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
     elif(situacion == "3"):
-        users = User.objects.filter(groups = Group.objects.get(name='alumno'))
+        asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
+        users = User.objects.filter(groups = Group.objects.get(name='alumno')) | User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        
     return render(request, 'secciones/detalle-profesor-catedra-dropdown.html', {'users': users})
 
 
