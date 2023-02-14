@@ -31,7 +31,7 @@ def IndexBibliografia(request, id_planificacion):
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
-    form = BibliografiaForm()
+    
     if request.method == 'POST':
         form = BibliografiaForm(request.POST)
         if form.is_valid():
@@ -47,7 +47,7 @@ def IndexBibliografia(request, id_planificacion):
 
         else:
             mensaje_error = "No pudimos añadir la bibliografía." 
-
+    form = BibliografiaForm()
     context = {
         'planificacion': planificacion,
         'bibliografias': bibliografias,

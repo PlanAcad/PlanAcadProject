@@ -32,7 +32,7 @@ def IndexWebgrafia(request, id_planificacion):
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
-    form = WebgrafiaForm()
+    
     if request.method == 'POST':
         form = WebgrafiaForm(request.POST)
         if form.is_valid():
@@ -52,7 +52,7 @@ def IndexWebgrafia(request, id_planificacion):
             mensaje_error = "No pudimos añadir la webgrafía." 
             print(form.errors)
 
-
+    form = WebgrafiaForm()
     context = {
         'planificacion': planificacion,
         'webgrafias': webgrafias,
