@@ -67,7 +67,6 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
     form = ResultadoDeAprendizajeAnteriorForm()
     form.fields['asignatura'].queryset = Asignatura.objects.filter(carrera=planificacion.asignatura.carrera).distinct().exclude(id = planificacion.asignatura_id)
         
-
     #Agregar
     context = {
         'planificacion': planificacion,

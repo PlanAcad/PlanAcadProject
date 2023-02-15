@@ -25,7 +25,7 @@ def SubCompetenciaNew(request,id_planificacion,id_competencia):
                 instance.competencia_id=competencia.id
                 #Guardo
                 instance.save()
-                return redirect('planificaciones:competencias', id_planificacion=id_planificacion)
+                return redirect('planificaciones:competenciaUpdate', id_planificacion=id_planificacion,id_competencia=id_competencia)
             except:  
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
