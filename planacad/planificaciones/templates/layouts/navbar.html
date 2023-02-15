@@ -47,7 +47,7 @@
                 {% if planificacion.asignatura.comision %}<span>Comisión: {{planificacion.asignatura.comision|default:""}}</span><br />{% endif %}
                 {% if planificacion.asignatura %}
                 <span>
-                    <b>Asignatura:</b> {{planificacion.asignatura|default:""}}
+                    <b>Asignatura:</b> <a href="{% url 'planificaciones:asignaturaDetail' planificacion.asignatura.id %}">{{planificacion.asignatura|default:""}}</a>
                 </span>
                 {% endif %}
             </div>
