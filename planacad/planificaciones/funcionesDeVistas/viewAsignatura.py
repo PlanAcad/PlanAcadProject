@@ -67,8 +67,8 @@ def AsignaturasView(request):
         elif "alumno" in usergroup:
             carrerasUsuario = request.user.carrera.all()
             if(carrerasUsuario.count()==1):
-                carreraUsuario = Carrera.objects.get(Q(id = carrerasUsuario.first().id) | Q(nombre_carrera = "Basicas") ) 
-                asignaturas = Asignatura.objects.filter(carrera = carreraUsuario) 
+                carreraUsuario = Carrera.objects.get(Q(id = carrerasUsuario.first().id)) 
+                asignaturas = Asignatura.objects.filter(carrera = carreraUsuario) | Asignatura.objects.filter(carrera__nombre_carrera = "Basicas")
             for up in usuariosPlanificacion:
                 planificacion = Planificacion.objects.get(id = up.planificacion_id)
                 if(planificacion.datos_descriptivos.ciclo_lectivo == str(datetime.now().year) and planificacion.estado == 'A'):
