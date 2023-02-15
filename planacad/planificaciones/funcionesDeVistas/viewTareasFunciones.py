@@ -57,8 +57,7 @@ def TareasFuncionesIndex(request,id_planificacion):
                 mensaje_exito="Se ha guardado la tarea o unidad con exito"  
             except:  
                 mensaje_error="No se pudo guardar la tarea o funcion"  
-    else:
-        tareasFuncionesForm = TareasFuncionesForm()
+    tareasFuncionesForm = TareasFuncionesForm()
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 11)).prefetch_related('comentarios')
     existen_correcciones_pendientes = None
