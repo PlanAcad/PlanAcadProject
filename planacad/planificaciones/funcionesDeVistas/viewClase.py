@@ -65,12 +65,12 @@ def ClasesView(request,id_planificacion):
                 data =  Clase.objects.filter(planificacion=planificacion).order_by('fecha_clase')
             except:  
                  mensaje_error = "No pudimos añadir la clase."    
-    else:  
-        form = ClaseForm()
-        form_create = CronogramaCreateForm()
-        form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
-        form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
-        form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
+      
+    form = ClaseForm()
+    form_create = CronogramaCreateForm()
+    form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
+    form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
+    form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
     #Agregar
     context = {
         'planificacion': planificacion,

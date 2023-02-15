@@ -36,8 +36,8 @@ def UnidadNew(request,id_planificacion):
                 mensaje_exito="Se ha guardado la unidad con exito"  
             except:  
                 mensaje_error="No se pudo guardar la planificacion"  
-    else:
-        unidadForm = UnidadForm()
+    
+    unidadForm = UnidadForm()
 
     form.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=id_planificacion)
     contenidos = Contenido.objects.filter(planificacion=planificacion).order_by('id')

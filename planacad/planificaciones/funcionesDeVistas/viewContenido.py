@@ -35,7 +35,7 @@ def IndexContenido(request, id_planificacion):
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
-    form = ContenidoForm()
+    
     if request.method == 'POST':
         form = ContenidoForm(request.POST)
         if form.is_valid():
@@ -54,8 +54,9 @@ def IndexContenido(request, id_planificacion):
         else:
             mensaje_error = "No pudimos añadir el contenido." 
             print(form.errors)
-    else:
-        form.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=id_planificacion)
+    
+    form = ContenidoForm()
+    form.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=id_planificacion)
 
 
     context = {

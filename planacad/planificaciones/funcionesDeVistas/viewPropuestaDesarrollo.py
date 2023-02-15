@@ -47,13 +47,6 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
     # Bibliografias: Listar todos las Bibliografias que estén asociadas a la planificación. Puede seleccionar multiples.
     bibliografias_planificacion = Bibliografia.objects.filter(planificacion=planificacion)
     
-    form_resultado_aprendizaje = ResultadoDeAprendizajeForm()
-    form_propuesta_desarrollo = PropuestaDesarrolloForm()
-    form_propuesta_desarrollo.fields['subcompetencias'].queryset = subcompetencias_planificacion
-    form_propuesta_desarrollo.fields['resultados_de_aprendizaje'].queryset = resultados_aprendizaje_materia
-    form_propuesta_desarrollo.fields['unidades'].queryset = unidades
-    form_propuesta_desarrollo.fields['bibliografias'].queryset = bibliografias_planificacion
-
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 6)).prefetch_related('comentarios')
     existen_correcciones_pendientes = None
@@ -103,6 +96,13 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
             else:
                 mensaje_error = "No pudimos añadir la propuesta de desarrollo correctamente." 
                 print(form_propuesta_desarrollo.errors)
+
+    form_resultado_aprendizaje = ResultadoDeAprendizajeForm()
+    form_propuesta_desarrollo = PropuestaDesarrolloForm()
+    form_propuesta_desarrollo.fields['subcompetencias'].queryset = subcompetencias_planificacion
+    form_propuesta_desarrollo.fields['resultados_de_aprendizaje'].queryset = resultados_aprendizaje_materia
+    form_propuesta_desarrollo.fields['unidades'].queryset = unidades
+    form_propuesta_desarrollo.fields['bibliografias'].queryset = bibliografias_planificacion
 
     context = {
         'planificacion': planificacion,

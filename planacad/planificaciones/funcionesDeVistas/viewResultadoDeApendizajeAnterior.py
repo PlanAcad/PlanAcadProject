@@ -63,11 +63,10 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
                 mensaje_exito="Añadimos el resultado de aprendizaje correctamente."  
             except:  
                  mensaje_error = "No pudimos añadir el resultado de aprendizaje."    
-    else:  
-        form = ResultadoDeAprendizajeAnteriorForm()
-        form.fields['asignatura'].queryset = Asignatura.objects.filter(carrera=planificacion.asignatura.carrera).distinct().exclude(id = planificacion.asignatura_id)
+      
+    form = ResultadoDeAprendizajeAnteriorForm()
+    form.fields['asignatura'].queryset = Asignatura.objects.filter(carrera=planificacion.asignatura.carrera).distinct().exclude(id = planificacion.asignatura_id)
         
-
     #Agregar
     context = {
         'planificacion': planificacion,

@@ -31,7 +31,6 @@ def SistemaDeEvaluacion(request, planificacion_id):
         print(item.estado)
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
-    form = ActividadForm()
     if request.method == 'POST':
         form = ActividadForm(request.POST)
         if form.is_valid():
@@ -44,9 +43,9 @@ def SistemaDeEvaluacion(request, planificacion_id):
         else:
             print('not valid')
             print(form.errors)
-    else:
-        form.fields['unidad_tematica'].queryset = Unidad.objects.filter(planificacion_id=planificacion_id)
-        form.fields['resultados_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion_id = planificacion_id)
+    form = ActividadForm()
+    form.fields['unidad_tematica'].queryset = Unidad.objects.filter(planificacion_id=planificacion_id)
+    form.fields['resultados_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion_id = planificacion_id)
 
 
     context = {
