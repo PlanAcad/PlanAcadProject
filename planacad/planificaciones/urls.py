@@ -33,6 +33,7 @@ urlpatterns = [
 
     #Asignaturas
     path('asignaturas/', viewAsignatura.AsignaturasView, name='asignaturas'),
+    path('asignaturas/bulk-create',viewAsignatura.bulkAsignaturaNew,name = "CargarAsignaturas" ),
     path('asignaturas/<int:id>', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:id>/actualizar', viewAsignatura.AsignaturaUpdate, name='updateAsignatura'),
     path('asignaturas/crear', viewAsignatura.AsignaturaNew, name='newAsignatura'),
