@@ -124,6 +124,10 @@ def AsignaturasView(request):
         asignaturasIQ = None
         asignaturasIEM = None
         asignaturasLAR = None
+        asignaturasBasicas = None
+        carrera = Carrera.objects.filter(nombre_carrera="Basicas").first()
+        if(carrera):
+            asignaturasBasicas = Asignatura.objects.filter(carrera = carrera)
         carrera = Carrera.objects.filter(nombre_carrera="ISI").first()
         if(carrera):
             asignaturasISI = Asignatura.objects.filter(carrera = carrera)
@@ -141,6 +145,7 @@ def AsignaturasView(request):
                 'asignaturasIQ': asignaturasIQ,
                 'asignaturasIEM': asignaturasIEM,
                 'asignaturasLAR': asignaturasLAR,
+                'asignaturasBasicas':asignaturasBasicas
                 
             }  
         return render(request,'asignaturas/index.html', context)
