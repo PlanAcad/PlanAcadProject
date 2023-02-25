@@ -25,6 +25,7 @@ urlpatterns = [
     path('register/', viewRegister.registerView, name='register_url'),
     path('logout', LogoutView.as_view(), name='logout'),
     path('users/',viewUsers.usersView,name = "usuarios" ),
+    path('users/bulk-create',viewRegister.bulkRegister,name = "Cargarusuarios" ),
     path('users/<int:id>/edit',viewEditProfile.editUserView,name = "edit_profile" ),
     
     #Componentes

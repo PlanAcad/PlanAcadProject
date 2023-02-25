@@ -34,6 +34,27 @@
                                         </a>
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="card card-subject p-0 mb-5">
+                                        <a data-toggle="modal"
+                                        data-target="#modal-usuarios"
+                                         style="text-decoration: none">
+                                            <div class="p-3 text-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#116ACC" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                                </svg>
+                                            </div>
+                                        {% csrf_token %}
+                                        </a>
+                                        <a class="card-footer p-0 m-0" data-toggle="modal"
+                                        data-target="#modal-usuarios" style="text-decoration: none">
+                                            <div class="p-2 m-0">                                
+                                                <p class="m-0">Cargar Usuario</p>
+                                            </div>
+                                            {% csrf_token %}
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             <h3>Carreras</span>
                             <h4>ISI</h4>
@@ -506,6 +527,66 @@
                             </div>
                         {% endif %}
                     {% endif %} 
+
+
+<!-- Modal cargar usuarios -->
+<div
+    class="modal fade"
+    id="modal-usuarios"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Cargar Usuarios
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                method="POST"
+                action="{% url 'planificaciones:Cargarusuarios' %}" enctype="multipart/form-data"
+                >
+                    {% csrf_token %}
+                    <label for="role">Rol del usuario:</label>
+                    <select name="role">
+                        {% for role in roles %}
+                        <option value="{{ role }}">{{ role }}</option>
+                        {% endfor %}
+                    </select>
+                    <br><br>
+                    <input type="file" name="excel_file" accept=".xls,.xlsx,.xlsm">
+                
+                    {% if form.errors %}
+                    <div class="alert alert-danger">{{form.errors}}</div>
+                    {% endif %}
+                
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Cargar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
                 </main>
             </div>
         </div>

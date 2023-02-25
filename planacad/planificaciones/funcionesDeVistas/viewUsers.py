@@ -42,7 +42,8 @@ def usersView(request):
         alumnosLAR = User.objects.filter(Q(groups = Group.objects.get(name='alumno')) & Q(carrera = carrera))
  
     usuarios = User.objects.all()
-    
+    # Obtener la lista de roles disponibles desde la base de datos
+    roles = Group.objects.values_list('name', flat=True)    
     
     context = {
     'jefeDeCarreraISI': jefeDeCarreraISI,
@@ -63,6 +64,7 @@ def usersView(request):
     'alumnosLAR': alumnosLAR,
     
     'usuarios': usuarios,
+    'roles': roles
     
      
 }
