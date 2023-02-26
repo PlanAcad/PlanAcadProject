@@ -5,9 +5,14 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 ## import model and form
 from planificaciones.formularios.formDetalleProfesorCatedra import DetalleProfesorCatedraForm
+from planificaciones.formularios.formTareasFunciones import TareasFuncionesForm
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 from planificaciones.modelos.modelPlanificacion import Planificacion
+from planificaciones.modelos.modelCategoria import Categoria
+from planificaciones.modelos.modelSituacion import Situacion
+from planificaciones.modelos.modelDedicacion import Dedicacion
+
 #Agregar
 from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
@@ -22,6 +27,9 @@ from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorC
 from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 
+import pandas as pd
+import numpy as np
+
 
 
 ##Define request for Asignatura   
@@ -32,6 +40,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     
     planificacion = Planificacion.objects.get(id=id_planificacion)
     data = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
+    tareasFuncionesForm = TareasFuncionesForm()
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 2)).prefetch_related('comentarios')
     existen_correcciones_pendientes = None
@@ -66,6 +75,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
         'planificacion': planificacion,
         'data': data,
         'form':form,
+        'tareasFuncionesForm':tareasFuncionesForm,
         'correcciones':correcciones,
         #Forms Correcciones
         'correccion_form': correccionForm,
@@ -77,6 +87,35 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     }  
     return render(request,'secciones/detalles-profesor-catedra.html', context) 
   
+
+@login_required
+def ImportDetalleProfesorCatedra(request, id_planificacion):
+    if request.method == 'POST':
+        planificacion = Planificacion.objects.get(id=id_planificacion)
+        # Leer el archivo Excel y convertirlo en un DataFrame
+        df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
+        # df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(np.int64)
+        # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+        for _, row in df.iterrows():
+            legajo = row['legajoProfesor']
+            if not pd.isna(legajo):
+                detalleProfesorCatedra = DetalleProfesorCatedra()
+                categoria = Categoria.objects.get(categoria= row['categoria'])
+                situacion = Situacion.objects.get(situacion= row['situacion'])
+                dedicacion = Dedicacion.objects.get(dedicacion= row['dedicacion'])
+                profesor = User.objects.get(username = legajo)
+
+                detalleProfesorCatedra.planificacion = planificacion
+                detalleProfesorCatedra.categoria = categoria
+                detalleProfesorCatedra.situacion = situacion
+                detalleProfesorCatedra.dedicacion = dedicacion
+                detalleProfesorCatedra.profesor = profesor
+                detalleProfesorCatedra.save()
+
+        
+        return redirect(reverse('planificaciones:detallesprofesorcatedra', args=[planificacion.id]) )
+
+
 @login_required
 def ProfesoresPorSituacion(request):
     planificacion_id = request.GET.get('planificacion')

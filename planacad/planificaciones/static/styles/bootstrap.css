@@ -5134,7 +5134,10 @@ fieldset:disabled .btn {
 .badge:empty {
     display: none;
 }
-
+.badge-warning {
+    color: #212529;
+    background-color: #ffc107;
+}
 .btn .badge {
     position: relative;
     top: -1px;

@@ -1,6 +1,7 @@
 # Para usar los objetos y/o funciones de 'redirect'
 from planificaciones.modelos.modelCategoria import Categoria
-from django.shortcuts import render, redirect  
+from django.shortcuts import render, redirect 
+from django.urls import reverse
 ## import model and form
 from planificaciones.formularios.formTareasFunciones import TareasFuncionesForm
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
@@ -88,3 +89,21 @@ def TareasFuncionesIndex(request,id_planificacion):
     }
 
     return render(request,"secciones/distribucion-de-tareas/index.html", context)  
+
+
+@login_required 
+def TareasFuncionesNew(request,id_planificacion):
+    if request.method == "POST":  
+        tareasFuncionesForm = TareasFuncionesForm(request.POST)  
+        if tareasFuncionesForm.is_valid():  
+            try:  
+                # Creo una instancia y no lo guardo aun
+                instance = tareasFuncionesForm.save(commit=False)
+                instance.planificacion_id = id_planificacion
+                # Guardo el objeto definitivamente
+                instance.save()
+                mensaje_exito="Se ha guardado la tarea o unidad con exito"  
+            except:  
+                mensaje_error="No se pudo guardar la tarea o funcion"  
+
+    return redirect(reverse('planificaciones:detallesprofesorcatedra', args=[id_planificacion]) )

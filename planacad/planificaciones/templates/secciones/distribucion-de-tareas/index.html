@@ -151,14 +151,6 @@
       >
           Añadir docente
       </button>
-      <button
-              type="button"
-              class="btn btn-primary mt-4"
-              data-toggle="modal"
-              data-target="#modal-tarea"
-        >
-              Añadir tarea
-      </button>
     </div> 
     {% endif %}
     
@@ -253,60 +245,6 @@
         </div>
     </div>
 </div>
-<!-- Modal tarea -->
-<div
-    class="modal fade"
-    id="modal-tarea"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabelTarea"
-    aria-hidden="true"
->
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabelTarea">
-                    Añadir tarea
-                </h5>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                ></button>
-            </div>
-            <div class="modal-body">
-              <form
-              method="POST"
-              action="{% url 'planificaciones:tareaYFunciones' planificacion.id %}"
-              >
-                  {% csrf_token %} 
-                  
-                
-                  {{tareasFuncionesForm.as_p}}
-              
-                  {% if form.errors %}
-                  <div class="alert alert-danger">{{form.errors}}</div>
-                  {% endif %}
-              
-                  <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-outline-primary"
-                            data-dismiss="modal"
-                        >
-                            Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            Guardar
-                        </button>
-                    </div>
-              </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <script>
     $("#id_situacion").change(function () {

@@ -25,6 +25,7 @@ urlpatterns = [
     path('register/', viewRegister.registerView, name='register_url'),
     path('logout', LogoutView.as_view(), name='logout'),
     path('users/',viewUsers.usersView,name = "usuarios" ),
+    path('users/bulk-create',viewRegister.bulkRegister,name = "Cargarusuarios" ),
     path('users/<int:id>/edit',viewEditProfile.editUserView,name = "edit_profile" ),
     
     #Componentes
@@ -32,6 +33,7 @@ urlpatterns = [
 
     #Asignaturas
     path('asignaturas/', viewAsignatura.AsignaturasView, name='asignaturas'),
+    path('asignaturas/bulk-create',viewAsignatura.bulkAsignaturaNew,name = "CargarAsignaturas" ),
     path('asignaturas/<int:id>', viewAsignatura.AsignaturaDetailView, name='asignaturaDetail'),
     path('asignaturas/<int:id>/actualizar', viewAsignatura.AsignaturaUpdate, name='updateAsignatura'),
     path('asignaturas/crear', viewAsignatura.AsignaturaNew, name='newAsignatura'),
@@ -60,12 +62,19 @@ urlpatterns = [
     ### Secciones ###
     #Seccion 1
     path('planificacion/<int:id_planificacion>/datos-descriptivos/', viewDatosDescriptivos.DatosDescriptivosUpdate, name='datosDescriptivos'),
+    path('planificacion/<int:id_planificacion>/datos-descriptivos/Import', viewDatosDescriptivos.ImportDatosDescriptivos, name='importDatosDescriptivos'),
+    
     #Seccion2    
     path('planificacion/<int:id_planificacion>/estructura-de-la-catedra', viewDetalleProfesorCatedra.DetalleProfesorCatedraNew, name='detallesprofesorcatedra'),
+    path('planificacion/<int:id_planificacion>/estructura-de-la-catedra/ImportData', viewDetalleProfesorCatedra.ImportDetalleProfesorCatedra, name='importDetallesprofesorcatedra'),
+
     path('planificacion/<int:id_planificacion>/detalles-profesor-catedra/edit/<int:id_detalleprofesorcatedra>', viewDetalleProfesorCatedra.DetalleProfesorCatedraUpdate, name='detallesprofesorcatedraupdate'),
     path('planificacion/<int:id_planificacion>/detalles-profesor-catedra/delete/<int:id_detalleprofesorcatedra>', viewDetalleProfesorCatedra.DetalleProfesorCatedraDestroy, name='detallesprofesorcatedradestroy'),
     path('ajax/load-resultados-profesores/', viewDetalleProfesorCatedra.ProfesoresPorSituacion, name='ajax_load_profesores'),  # <-- this one here
     
+    path('planificacion/<int:id_planificacion>/tareas-funciones', viewTareasFunciones.TareasFuncionesNew, name='tareaYFunciones'),
+    
+
     #Seccion 3
     path('planificacion/<int:id_planificacion>/fundamentacion', viewFundamentacion.FundamentacionUpdate, name='fundamentacion'),
 
@@ -113,9 +122,12 @@ urlpatterns = [
     
     # Seccion 9 - Bibliografia
     path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.IndexBibliografia, name='bibliografia'),
+    path('planificacion/bibliografia/addFromImport', viewBibliografia.AddBibliografiaFromFile, name='AddBibliografiaFromFile'),
+
     path('planificacion/<int:id_planificacion>/bibliografia/edit/<int:id_bibliografia>', viewBibliografia.UpdateBibliografia, name='updateBibliografia'),
     path('planificacion/<int:id_planificacion>/bibliografia/delete/<int:id_bibliografia>', viewBibliografia.Deletebibliografia, name='deleteBibliografia'),
-
+    path('ajax/load-bibliografia/', viewBibliografia.ReadBibliografiaFromFile, name='ajax_load_bibliografia'),  # <-- this one here
+    
     # Seccion 10 - Webgrafia
     path('planificacion/<int:id_planificacion>/webgrafia', viewWebgrafia.IndexWebgrafia, name='webgrafia'),
     path('planificacion/<int:id_planificacion>/webgrafia/edit/<int:id_webgrafia>', viewWebgrafia.UpdateWebgrafia, name='updateWebgrafia'),
@@ -133,7 +145,6 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/edit/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.UpdateDistribucionDeTareas, name='updateDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/delete/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.DeleteDistribucionDeTareas, name='deleteDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas-planif', viewDistribucionDeTareas.UpdateDistribucionDeTareasPlanif, name='distribucionTareasPlanif'),
-    path('planificacion/<int:id_planificacion>/tareas-funciones', viewTareasFunciones.TareasFuncionesIndex, name='tareaYFunciones'),
     
  
     # Seccion 13 - Justificacion (Ordenanza 604)

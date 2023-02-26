@@ -10,13 +10,16 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelClase import Clase
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelUsuarioPlanificacion import PlanificacionUsuario
+from django.contrib.auth.models import User
 
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
 from planificaciones.funcionesDeVistas import viewCalendario
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+import numpy as np
 import smtplib
 from email.mime.text import MIMEText
+import pandas as pd
 
 @login_required
 def AsignaturaNew(request):
@@ -33,6 +36,30 @@ def AsignaturaNew(request):
         'form':form, 
     }      
     return render(request, 'asignaturas/add.html', context)
+
+@login_required
+def bulkAsignaturaNew(request):
+    if request.method == 'POST':
+        # Leer el archivo Excel y convertirlo en un DataFrame
+        df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
+        df['ano'] = pd.to_numeric(df['ano'], errors='coerce').fillna(0).astype(np.int64)
+        # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+        for _, row in df.iterrows():
+            nombreCarrera = row['carrera']
+            if not pd.isna(nombreCarrera):
+                carrera = Carrera.objects.get(nombre_carrera = row['carrera'])
+                asignatura = Asignatura.objects.create(
+                    nombre_materia= row['name'],
+                    ano=row['ano'],
+                    comision=row['comision'],
+                    carrera_id= carrera.id
+                )
+                for userNameProfesor in row['profesores'].split(','):
+                        if(userNameProfesor):
+                            prof = User.objects.get(username=userNameProfesor.strip('"'))
+                            asignatura.profesor.add(prof)
+                            asignatura.save()
+        return redirect('planificaciones:asignaturas')
 
 @login_required
 def AsignaturasView(request):
@@ -94,6 +121,10 @@ def AsignaturasView(request):
         asignaturasIQ = None
         asignaturasIEM = None
         asignaturasLAR = None
+        asignaturasBasicas = None
+        carrera = Carrera.objects.filter(nombre_carrera="Basicas").first()
+        if(carrera):
+            asignaturasBasicas = Asignatura.objects.filter(carrera = carrera)
         carrera = Carrera.objects.filter(nombre_carrera="ISI").first()
         if(carrera):
             asignaturasISI = Asignatura.objects.filter(carrera = carrera)
@@ -111,6 +142,7 @@ def AsignaturasView(request):
                 'asignaturasIQ': asignaturasIQ,
                 'asignaturasIEM': asignaturasIEM,
                 'asignaturasLAR': asignaturasLAR,
+                'asignaturasBasicas':asignaturasBasicas
                 
             }  
         return render(request,'asignaturas/index.html', context)

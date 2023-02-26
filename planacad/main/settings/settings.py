@@ -58,6 +58,7 @@ DATABASES = {
         'PASSWORD': 'CarlosIngeniero2023',
         'HOST': 'planacad-server.database.windows.net',
         'PORT': '1433'
+        
     },
 }  
 

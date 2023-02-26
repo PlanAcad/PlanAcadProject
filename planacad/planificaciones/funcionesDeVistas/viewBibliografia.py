@@ -1,5 +1,6 @@
 # Para usar los objetos y/o funciones de 'redirect'
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelBibliografia import Bibliografia
 from planificaciones.formularios.formBibliografia import BibliografiaForm
@@ -11,6 +12,11 @@ from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+
+import pandas as pd
+import numpy as np
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 # To show and to add new one
@@ -62,6 +68,58 @@ def IndexBibliografia(request, id_planificacion):
         "mensaje_error": mensaje_error,
     }
     return render(request,"secciones/bibliografia/index.html", context) 
+
+
+
+@login_required
+@csrf_exempt
+def ReadBibliografiaFromFile(request):
+    file_excel = request.FILES.get('excel_file')
+    print(file_excel)
+    # Leer el archivo Excel y convertirlo en un DataFrame
+    df = pd.read_excel(file_excel,engine='openpyxl')
+    # df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(np.int64)
+    # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+    bibliografiaToAdd = []
+    for _, row in df.iterrows():
+        titulo = row['titulo_libro']
+        if not pd.isna(titulo):
+            libro = Bibliografia()
+            libro.autor = row['autor']
+            libro.titulo_libro = row['titulo_libro']
+            libro.editor = row['editor']
+            libro.año_publicacion = row['año_publicacion']
+            bibliografiaToAdd.append(libro)
+    
+    return render(request, 'secciones/bibliografia/bibliografia-dropdown.html', {'bibliografiaToAdd': bibliografiaToAdd})
+
+@login_required
+@csrf_exempt
+def AddBibliografiaFromFile(request):
+    if request.method == 'POST':
+        file_excel = request.FILES.get('excel_file')
+        libro = request.POST.get('titulo_libro')
+        planificacion_id = request.POST.get('planificacion_id')
+        planificacion = Planificacion.objects.get(id=planificacion_id)
+        # Leer el archivo Excel y convertirlo en un DataFrame
+        df = pd.read_excel(file_excel,engine='openpyxl')
+        df['año_publicacion'] = pd.to_numeric(df['año_publicacion'], errors='coerce').fillna(0).astype(np.int64)
+        # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+        for _, row in df.iterrows():
+            titulo = row['titulo_libro']
+            if not pd.isna(titulo):
+                if(titulo == libro):
+                    libro = Bibliografia()
+                    libro.autor = row['autor']
+                    libro.titulo_libro = row['titulo_libro']
+                    libro.editor = row['editor']
+                    libro.año_publicacion = row['año_publicacion']
+                    libro.planificacion = planificacion
+                    libro.save()
+                    
+        redirect_url = reverse('planificaciones:bibliografia', kwargs={'id_planificacion': planificacion.id})
+        response = HttpResponse(redirect_url)
+        return response
 
 
 
