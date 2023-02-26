@@ -62,6 +62,8 @@ urlpatterns = [
     ### Secciones ###
     #Seccion 1
     path('planificacion/<int:id_planificacion>/datos-descriptivos/', viewDatosDescriptivos.DatosDescriptivosUpdate, name='datosDescriptivos'),
+    path('planificacion/<int:id_planificacion>/datos-descriptivos/Import', viewDatosDescriptivos.ImportDatosDescriptivos, name='importDatosDescriptivos'),
+    
     #Seccion2    
     path('planificacion/<int:id_planificacion>/estructura-de-la-catedra', viewDetalleProfesorCatedra.DetalleProfesorCatedraNew, name='detallesprofesorcatedra'),
     path('planificacion/<int:id_planificacion>/detalles-profesor-catedra/edit/<int:id_detalleprofesorcatedra>', viewDetalleProfesorCatedra.DetalleProfesorCatedraUpdate, name='detallesprofesorcatedraupdate'),

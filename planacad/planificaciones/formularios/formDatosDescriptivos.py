@@ -11,8 +11,7 @@ class DatosDescriptivosForm(forms.ModelForm):
     ], widget=forms.RadioSelect())
     dias = forms.ModelMultipleChoiceField(
             queryset=DiasCursado.objects.all(),
-            widget=forms.CheckboxSelectMultiple(),
-            required=True) 
+            widget=forms.CheckboxSelectMultiple()) 
     class Meta:  
         model = DatosDescriptivos  
         exclude = ['carrera', 'asignatura']        

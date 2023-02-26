@@ -46,9 +46,7 @@ def bulkAsignaturaNew(request):
         # Iterar sobre cada fila del DataFrame y crear usuarios de Django
         for _, row in df.iterrows():
             nombreCarrera = row['carrera']
-            print(nombreCarrera) 
             if not pd.isna(nombreCarrera):
-                print("entro a crear nueva asignatura")
                 carrera = Carrera.objects.get(nombre_carrera = row['carrera'])
                 asignatura = Asignatura.objects.create(
                     nombre_materia= row['name'],
@@ -56,7 +54,6 @@ def bulkAsignaturaNew(request):
                     comision=row['comision'],
                     carrera_id= carrera.id
                 )
-                print("creo")
                 for userNameProfesor in row['profesores'].split(','):
                         if(userNameProfesor):
                             prof = User.objects.get(username=userNameProfesor.strip('"'))

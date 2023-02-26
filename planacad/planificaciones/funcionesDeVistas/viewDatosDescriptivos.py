@@ -16,6 +16,8 @@ from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
+import pandas as pd
+import numpy as np
 
 
 ##Define request for Asignatura
@@ -30,6 +32,33 @@ def DatosDescriptivosNew(asignatura_id, carrera_id):
         # redirect to a new URL:
         return  form
 
+
+@login_required
+def ImportDatosDescriptivos(request, id_planificacion):
+    if request.method == 'POST':
+        planificacion = Planificacion.objects.get(id=id_planificacion)
+        datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
+        # Leer el archivo Excel y convertirlo en un DataFrame
+        df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
+        df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(np.int64)
+        # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+        for _, row in df.iterrows():
+            institucion = row['institucion']
+            if not pd.isna(institucion):
+                datosDescriptivos.institucion = row['institucion']
+                datosDescriptivos.departamento = row['departamento']
+                datosDescriptivos.area_bloque = row['area_bloque']
+                datosDescriptivos.porcentaje_horas_en_carrera = row['porcentaje_horas_en_carrera']
+                datosDescriptivos.porcentaje_horas_en_area = row['porcentaje_horas_en_area']
+                datosDescriptivos.nivel = row['nivel']
+                datosDescriptivos.ciclo_lectivo = datetime.now().year
+                datosDescriptivos.carga_horaria_total = row['carga_horaria_total']
+                datosDescriptivos.carga_horaria_semanal = row['carga_horaria_semanal']
+                datosDescriptivos.cursado = row['cursado'].strip('"')
+                datosDescriptivos.save()
+
+        
+        return redirect(reverse('planificaciones:datosDescriptivos', args=[planificacion.id]) )
 
 # Esto muestro en /seccion1
 # Si es un POST actualiza
@@ -59,13 +88,12 @@ def DatosDescriptivosUpdate(request, id_planificacion):
         data = json.loads(data_json)
     if request.method == 'POST':  
         form = DatosDescriptivosForm(request.POST,instance = datosDescriptivos)
-        if form.is_valid():
-            try:
-                form.save()                            
-                mensaje_exito = "Guardamos los cambios correctamente."
-               
-            except:
-                mensaje_error = "No pudimos guardar los cambios."
+        try:
+            form.save()                            
+            mensaje_exito = "Guardamos los cambios correctamente."
+            
+        except:
+            mensaje_error = "No pudimos guardar los cambios."
     #Agregar
     context = {
         'planificacion': planificacion,
