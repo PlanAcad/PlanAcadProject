@@ -122,9 +122,12 @@ urlpatterns = [
     
     # Seccion 9 - Bibliografia
     path('planificacion/<int:id_planificacion>/bibliografia', viewBibliografia.IndexBibliografia, name='bibliografia'),
+    path('planificacion/bibliografia/addFromImport', viewBibliografia.AddBibliografiaFromFile, name='AddBibliografiaFromFile'),
+
     path('planificacion/<int:id_planificacion>/bibliografia/edit/<int:id_bibliografia>', viewBibliografia.UpdateBibliografia, name='updateBibliografia'),
     path('planificacion/<int:id_planificacion>/bibliografia/delete/<int:id_bibliografia>', viewBibliografia.Deletebibliografia, name='deleteBibliografia'),
-
+    path('ajax/load-bibliografia/', viewBibliografia.ReadBibliografiaFromFile, name='ajax_load_bibliografia'),  # <-- this one here
+    
     # Seccion 10 - Webgrafia
     path('planificacion/<int:id_planificacion>/webgrafia', viewWebgrafia.IndexWebgrafia, name='webgrafia'),
     path('planificacion/<int:id_planificacion>/webgrafia/edit/<int:id_webgrafia>', viewWebgrafia.UpdateWebgrafia, name='updateWebgrafia'),

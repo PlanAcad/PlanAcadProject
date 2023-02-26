@@ -56,6 +56,9 @@
                     {% if bibliografia.ubicacion|length > 1 %}
                         {{ bibliografia.ubicacion }}.
                     {% endif %}
+                    {% if not bibliografia.autor or not bibliografia.titulo_libro or not bibliografia.año_publicacion or not bibliografia.nombre_capitulo or not bibliografia.ubicacion%}
+                      <span class="badge badge-warning">Datos Incompletos</span>
+                    {% endif %}
                 </li>
             </td>
             <th>
@@ -92,6 +95,7 @@
     {% endif %}
 
     {% if not planificacion.estado == "A" %} 
+    <div class="d-flex-row">
       <button
       type="button"
       class="btn btn-primary mt-4"
@@ -100,6 +104,16 @@
       >
           Añadir bibliografia
       </button>
+      <button
+              type="button"
+              class="btn btn-primary mt-4"
+              data-toggle="modal"
+              data-target="#modal-import-bibliografia"
+        >
+              Cargar bibliografia
+      </button>
+    </div> 
+      
     {% endif %}
     
 </div>
@@ -108,7 +122,7 @@
   {% include 'layouts/correcciones_layout.html' %}
 {% endwith %}
 
-<!-- Modal resultado de aprendizaje -->
+<!-- Modal añadir libro -->
 <div
     class="modal fade"
     id="modal-bibliografia"
@@ -161,24 +175,129 @@
     </div>
 </div>
 
+<!-- Modal cargar bibliografia -->
+<div
+class="modal fade"
+id="modal-import-bibliografia"
+tabindex="-1"
+role="dialog"
+aria-labelledby="exampleModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+                Cargar Bibliografia
+            </h5>
+            <button
+                type="button"
+                class="btn-close"
+                data-dismiss="modal"
+                aria-label="Close"
+            ></button>
+        </div>
+        <div class="modal-body">
+            <form
+            data-bibliografia-url="{% url 'planificaciones:ajax_load_bibliografia' %}"
+            method="POST"
+            id="bibliografiaForm"
+            add-action="{% url 'planificaciones:AddBibliografiaFromFile'%}" 
+            enctype="multipart/form-data"
+            >
+                {% csrf_token %}
+                <br><br>
+                <input type="file" id="bibliografia_from_excel" name="excel_file" accept=".xls,.xlsx,.xlsm">
+                <select name="profesor" required="" id="id_bibliografia" class="form-select mt-2">
+                  <option value="">---------</option>
+                  </select>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        data-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="CargarBibliografia()">
+                        Cargar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
 
 
 <script>
+  $("#bibliografia_from_excel").change(function () {
+      var url = $("#bibliografiaForm").attr(
+          "data-bibliografia-url"
+      ); // get the url of the `load_cities` view
+      var file = this.files[0]; // get the selected country ID from the HTML input
+      if (file) {
+        var formData = new FormData();
+        formData.append("excel_file", file);
+        $.ajax({
+            // initialize an AJAX request
+            url: url, // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+              // `data` is the return of the `load_cities` view function
+              $("#id_bibliografia").html(data); // replace the contents of the city input with the data that came from the server
+            },
+        });
+      }
+  });
+
+  function CargarBibliografia () {
+  var url = $("#bibliografiaForm").attr("add-action"); // obtener la URL del servidor para enviar la solicitud
+  var file = $("#bibliografia_from_excel")[0].files[0];
+  var formData = new FormData();
+  formData.append("excel_file", file);
+  formData.append("titulo_libro", $("#id_bibliografia").val());
+  formData.append("planificacion_id", {{planificacion.id}});
+  // obtener los datos del formulario como FormData
+  $.ajax({
+    url: url,
+    type: "POST", // enviar una solicitud POST al servidor
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function(data) {
+      // manejar la respuesta del servidor aquí
+
+      $('#modal-import-bibliografia').modal('hide')
+      window.location.href = data;
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      // manejar errores de solicitud aquí
+    }
+  });
+};
+</script>
+
+<script>
 const modal = document.getElementById("modal-bibliografia");
-const addButton = document.getElementById("añadir-bibliografia-button");
+// const addButton = document.getElementById("añadir-bibliografia-button");
 const closeSpan = document.getElementsByClassName("close")[0];
 const closeButton = document.getElementById("cerrar-modal");
 
 
 // When the user clicks on the button, open the modal 
-addButton.onclick = function() {
-  modal.style.display = "block";
-}
+// addButton.onclick = function() {
+//   modal.style.display = "block";
+// }
 
 // When the user clicks on <span> (x), close the modal
-closeSpan.onclick = function() {
-  modal.style.display = "none";
-}
+// closeSpan.onclick = function() {
+//   modal.style.display = "none";
+// }
 
 closeButton.onclick = function() {
   modal.style.display = "none";
