@@ -88,12 +88,13 @@ def DatosDescriptivosUpdate(request, id_planificacion):
         data = json.loads(data_json)
     if request.method == 'POST':  
         form = DatosDescriptivosForm(request.POST,instance = datosDescriptivos)
-        try:
-            form.save()                            
-            mensaje_exito = "Guardamos los cambios correctamente."
-            
-        except:
-            mensaje_error = "No pudimos guardar los cambios."
+        if form.is_valid():
+            try:
+                form.save()                            
+                mensaje_exito = "Guardamos los cambios correctamente."
+               
+            except:
+                mensaje_error = "No pudimos guardar los cambios."
     #Agregar
     context = {
         'planificacion': planificacion,

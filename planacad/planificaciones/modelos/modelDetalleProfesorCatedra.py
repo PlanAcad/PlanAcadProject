@@ -13,6 +13,7 @@ class DetalleProfesorCatedra(models.Model):
    situacion = models.ForeignKey(Situacion, on_delete=models.CASCADE, null=True, blank=True)
    dedicacion = models.ForeignKey(Dedicacion, on_delete=models.CASCADE, null=True, blank=True)  
    profesor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+   
    tareas = models.ManyToManyField(TareasFunciones, blank=True)
    
    actividades = models.CharField(max_length=3000, null=True, blank=True)

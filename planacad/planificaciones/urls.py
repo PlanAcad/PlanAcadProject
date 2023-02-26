@@ -66,10 +66,15 @@ urlpatterns = [
     
     #Seccion2    
     path('planificacion/<int:id_planificacion>/estructura-de-la-catedra', viewDetalleProfesorCatedra.DetalleProfesorCatedraNew, name='detallesprofesorcatedra'),
+    path('planificacion/<int:id_planificacion>/estructura-de-la-catedra/ImportData', viewDetalleProfesorCatedra.ImportDetalleProfesorCatedra, name='importDetallesprofesorcatedra'),
+
     path('planificacion/<int:id_planificacion>/detalles-profesor-catedra/edit/<int:id_detalleprofesorcatedra>', viewDetalleProfesorCatedra.DetalleProfesorCatedraUpdate, name='detallesprofesorcatedraupdate'),
     path('planificacion/<int:id_planificacion>/detalles-profesor-catedra/delete/<int:id_detalleprofesorcatedra>', viewDetalleProfesorCatedra.DetalleProfesorCatedraDestroy, name='detallesprofesorcatedradestroy'),
     path('ajax/load-resultados-profesores/', viewDetalleProfesorCatedra.ProfesoresPorSituacion, name='ajax_load_profesores'),  # <-- this one here
     
+    path('planificacion/<int:id_planificacion>/tareas-funciones', viewTareasFunciones.TareasFuncionesNew, name='tareaYFunciones'),
+    
+
     #Seccion 3
     path('planificacion/<int:id_planificacion>/fundamentacion', viewFundamentacion.FundamentacionUpdate, name='fundamentacion'),
 
@@ -137,7 +142,6 @@ urlpatterns = [
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/edit/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.UpdateDistribucionDeTareas, name='updateDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas/delete/<int:id_detalleprofesorcatedra>', viewDistribucionDeTareas.DeleteDistribucionDeTareas, name='deleteDistribucionDeTareas'),
     path('planificacion/<int:id_planificacion>/distribucion-de-tareas-planif', viewDistribucionDeTareas.UpdateDistribucionDeTareasPlanif, name='distribucionTareasPlanif'),
-    path('planificacion/<int:id_planificacion>/tareas-funciones', viewTareasFunciones.TareasFuncionesIndex, name='tareaYFunciones'),
     
  
     # Seccion 13 - Justificacion (Ordenanza 604)
