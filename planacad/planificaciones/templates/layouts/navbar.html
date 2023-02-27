@@ -28,7 +28,15 @@
                     Consejero de {{user.carrera.first.nombre_carrera}} : 
                     {% endif %}
                     
+                    {% if user.is_staff %}
+                    Admin
+                    {% else %}
+                    
                     {{ user.last_name }}
+                    
+                    {% endif %}
+                    
+                    
                 </h6>
                 <a class="item icon" href="{% url 'planificaciones:logout' %}">
                     <svg
