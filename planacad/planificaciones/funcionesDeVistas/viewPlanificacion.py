@@ -129,8 +129,8 @@ def PlanificacionRestore(request, id):
             if(planificacion.datos_descriptivos.ciclo_lectivo):
                 if(planificacion.datos_descriptivos.ciclo_lectivo == current_year):
                         existePlanificacionAñoActual = True 
-                elif planificacion.fecha_creacion.year == current_year:
-                    existePlanificacionAñoActual = True
+            elif planificacion.fecha_creacion.year == current_year:
+                existePlanificacionAñoActual = True
 
         if not existePlanificacionAñoActual:
             planificacionRestore.eliminada = False
