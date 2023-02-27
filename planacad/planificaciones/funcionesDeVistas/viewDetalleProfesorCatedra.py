@@ -123,10 +123,10 @@ def ProfesoresPorSituacion(request):
     situacion=request.GET.get('situacion')
     if(situacion == "2"):
         asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
-        users = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        users = User.objects.filter(Q(groups = Group.objects.get(name='profesor')) | Q(groups = Group.objects.get(name='jefe de carrera'))).intersection(asignatura.profesor.all())
     elif(situacion == "3"):
         asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
-        users = User.objects.filter(groups = Group.objects.get(name='alumno')) | User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        users = User.objects.filter(Q(groups = Group.objects.get(name='alumno')) | Q(groups = Group.objects.get(name='profesor'))| Q(groups = Group.objects.get(name='jefe de carrera'))).intersection(asignatura.profesor.all())
         
     return render(request, 'secciones/detalle-profesor-catedra-dropdown.html', {'users': users})
 
