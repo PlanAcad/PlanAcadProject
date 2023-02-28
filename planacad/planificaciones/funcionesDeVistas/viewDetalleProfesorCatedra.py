@@ -28,7 +28,6 @@ from planificaciones.modelos.modelAsignatura import Asignatura
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 
 import pandas as pd
-import numpy as np
 
 
 
