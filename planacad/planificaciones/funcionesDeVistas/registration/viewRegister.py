@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from planificaciones.formularios.registration.formRegistration import CreateUserForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-import numpy as np
 
 @login_required
 def registerView(request):
@@ -41,8 +40,8 @@ def bulkRegister(request):
         role = request.POST.get('role')
         # Leer el archivo Excel y convertirlo en un DataFrame
         df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
-        df['legajo'] = pd.to_numeric(df['legajo'], errors='coerce').fillna(0).astype(bool).astype(np.int64)
-        df['dni'] = pd.to_numeric(df['dni'], errors='coerce').fillna(0).astype(bool).astype(np.int64)
+        df['legajo'] = pd.to_numeric(df['legajo'], errors='coerce').fillna(0).astype(int)
+        df['dni'] = pd.to_numeric(df['dni'], errors='coerce').fillna(0).astype(int)
         # Iterar sobre cada fila del DataFrame y crear usuarios de Django
         for _, row in df.iterrows():
             if row['legajo']:

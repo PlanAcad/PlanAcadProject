@@ -15,7 +15,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 import pandas as pd
-import numpy as np
 from django.views.decorators.csrf import csrf_exempt
 
 @login_required
@@ -102,7 +101,7 @@ def AddBibliografiaFromFile(request):
         planificacion = Planificacion.objects.get(id=planificacion_id)
         # Leer el archivo Excel y convertirlo en un DataFrame
         df = pd.read_excel(file_excel,engine='openpyxl')
-        df['año_publicacion'] = pd.to_numeric(df['año_publicacion'], errors='coerce').fillna(0).astype(bool).astype(np.int64)
+        df['año_publicacion'] = pd.to_numeric(df['año_publicacion'], errors='coerce').fillna(0).astype(int)
         # Iterar sobre cada fila del DataFrame y crear usuarios de Django
         for _, row in df.iterrows():
             titulo = row['titulo_libro']

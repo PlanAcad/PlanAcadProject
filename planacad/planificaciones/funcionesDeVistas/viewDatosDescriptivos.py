@@ -17,7 +17,6 @@ from planificaciones.formularios.formCorreccion import CorreccionForm
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
 import pandas as pd
-import numpy as np
 
 
 ##Define request for Asignatura
@@ -40,7 +39,7 @@ def ImportDatosDescriptivos(request, id_planificacion):
         datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
         # Leer el archivo Excel y convertirlo en un DataFrame
         df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
-        df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(bool).astype(np.int64)
+        df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(int)
         # Iterar sobre cada fila del DataFrame y crear usuarios de Django
         for _, row in df.iterrows():
             institucion = row['institucion']
