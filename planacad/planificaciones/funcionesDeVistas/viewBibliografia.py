@@ -78,7 +78,6 @@ def ReadBibliografiaFromFile(request):
     print(file_excel)
     # Leer el archivo Excel y convertirlo en un DataFrame
     df = pd.read_excel(file_excel,engine='openpyxl')
-    # df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(np.int64)
     # Iterar sobre cada fila del DataFrame y crear usuarios de Django
     bibliografiaToAdd = []
     for _, row in df.iterrows():
@@ -103,7 +102,7 @@ def AddBibliografiaFromFile(request):
         planificacion = Planificacion.objects.get(id=planificacion_id)
         # Leer el archivo Excel y convertirlo en un DataFrame
         df = pd.read_excel(file_excel,engine='openpyxl')
-        df['año_publicacion'] = pd.to_numeric(df['año_publicacion'], errors='coerce').fillna(0).astype(np.int64)
+        df['año_publicacion'] = pd.to_numeric(df['año_publicacion'], errors='coerce').fillna(0).astype(bool).astype(np.int64)
         # Iterar sobre cada fila del DataFrame y crear usuarios de Django
         for _, row in df.iterrows():
             titulo = row['titulo_libro']
