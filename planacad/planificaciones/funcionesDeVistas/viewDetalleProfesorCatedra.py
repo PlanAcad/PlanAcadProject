@@ -68,6 +68,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     form = DetalleProfesorCatedraForm()
     asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
     form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+    
     form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
     #Agregar
     context = {

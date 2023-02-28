@@ -69,6 +69,8 @@ def ClasesView(request,id_planificacion):
     form = ClaseForm()
     form_create = CronogramaCreateForm()
     form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
+    form.fields['profesor_a_cargo'].choices  = [(user.username, f"{user.first_name} {user.last_name}") for user in form.fields['profesor_a_cargo'].queryset]
+    
     form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
     form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
     #Agregar
@@ -125,6 +127,8 @@ def ClaseUpdate(request, id_planificacion, id_clase):
                 print(mensaje_error)
                 form = ClaseForm(instance=data)
                 form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
+                form.fields['profesor_a_cargo'].choices = [(user.username, f"{user.first_name} {user.last_name}") for user in form.fields['profesor_a_cargo'].queryset]
+
                 form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
                 form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion) 
         else:
@@ -132,11 +136,13 @@ def ClaseUpdate(request, id_planificacion, id_clase):
             print("form invalid")
             form = ClaseForm(instance=data)
             form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
+            form.fields['profesor_a_cargo'].choices = [(user.username, f"{user.first_name} {user.last_name}") for user in form.fields['profesor_a_cargo'].queryset]
             form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
             form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
     else:  
         form = ClaseForm(instance=data)
         form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
+        form.fields['profesor_a_cargo'].choices = [(user.username, f"{user.first_name} {user.last_name}") for user in form.fields['profesor_a_cargo'].queryset]
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
         form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
        
