@@ -42,7 +42,7 @@ def bulkAsignaturaNew(request):
     if request.method == 'POST':
         # Leer el archivo Excel y convertirlo en un DataFrame
         df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
-        df['ano'] = pd.to_numeric(df['ano'], errors='coerce').fillna(0).astype(np.int64)
+        df['ano'] = pd.to_numeric(df['ano'], errors='coerce').fillna(0).astype(bool).astype(np.int64)
         # Iterar sobre cada fila del DataFrame y crear usuarios de Django
         for _, row in df.iterrows():
             nombreCarrera = row['carrera']

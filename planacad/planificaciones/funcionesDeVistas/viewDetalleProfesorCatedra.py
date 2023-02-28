@@ -94,7 +94,6 @@ def ImportDetalleProfesorCatedra(request, id_planificacion):
         planificacion = Planificacion.objects.get(id=id_planificacion)
         # Leer el archivo Excel y convertirlo en un DataFrame
         df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
-        # df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(np.int64)
         # Iterar sobre cada fila del DataFrame y crear usuarios de Django
         for _, row in df.iterrows():
             legajo = row['legajoProfesor']
@@ -123,10 +122,10 @@ def ProfesoresPorSituacion(request):
     situacion=request.GET.get('situacion')
     if(situacion == "2"):
         asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
-        users = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        users = User.objects.filter(Q(groups = Group.objects.get(name='profesor')) | Q(groups = Group.objects.get(name='jefe de carrera'))).intersection(asignatura.profesor.all())
     elif(situacion == "3"):
         asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
-        users = User.objects.filter(groups = Group.objects.get(name='alumno')) | User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+        users = User.objects.filter(Q(groups = Group.objects.get(name='alumno')) | Q(groups = Group.objects.get(name='profesor'))| Q(groups = Group.objects.get(name='jefe de carrera'))).intersection(asignatura.profesor.all())
         
     return render(request, 'secciones/detalle-profesor-catedra-dropdown.html', {'users': users})
 

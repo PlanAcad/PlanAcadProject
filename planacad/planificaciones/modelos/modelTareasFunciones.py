@@ -5,7 +5,7 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 
 class TareasFunciones(models.Model): 
    id = models.AutoField(primary_key=True)
-   tarea_funcion = models.CharField(max_length=50) 
+   tarea_funcion = models.CharField(max_length=3000) 
     # categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True, blank=True) 
    planificacion = models.ForeignKey(Planificacion, on_delete=models.CASCADE, null=True, blank=True) 
 

@@ -49,9 +49,11 @@
           </td>
           <td>{{ actividad.get_actividad_display }}</td>
           {% if actividad.unidad_tematica.all %}
-              {% for unidad in actividad.unidad_tematica.all %}
-               <td>{{unidad.titulo}}</td>
-              {% endfor %}
+            <td>     
+                {% for unidad in actividad.unidad_tematica.all %}
+                <p><li>{{unidad.titulo}}</li></p>
+                {% endfor %}
+            </td>
           {% else %}
             <p>-</p>
           {% endif %}

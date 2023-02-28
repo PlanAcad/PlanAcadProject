@@ -14,7 +14,30 @@
             </h1>
             <div class="flex__between__center">
                 
-                <h6 class="mb-0 px-2">{{ user.last_name }}</h6>
+                <h6 class="mb-0 px-2">
+                    {% if  request.user|has_group:"alumno" %}
+                    Alumno : 
+                    {% endif %}
+                    {% if  request.user|has_group:"profesor" %}
+                    Profesor : 
+                    {% endif %}
+                    {% if  request.user|has_group:"jefe de carrera" %}
+                    Jefe de {{user.carrera.first.nombre_carrera}} : 
+                    {% endif %}
+                    {% if  request.user|has_group:"consejo" %}
+                    Consejero de {{user.carrera.first.nombre_carrera}} : 
+                    {% endif %}
+                    
+                    {% if user.is_staff %}
+                    Admin
+                    {% else %}
+                    
+                    {{ user.last_name }}
+                    
+                    {% endif %}
+                    
+                    
+                </h6>
                 <a class="item icon" href="{% url 'planificaciones:logout' %}">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

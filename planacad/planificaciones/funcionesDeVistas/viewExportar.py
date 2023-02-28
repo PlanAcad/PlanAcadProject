@@ -90,7 +90,7 @@ def print_datos_descriptivos(Story,datos_descriptivos):
         ['Cursado', datos_descriptivos.cursado],
         ]
 
-    t = Table(data, colWidths=200)
+    t = Table(data)
     t.setStyle(TableStyle([("BOX", (0, 0), (-1, -1), 0.25, colors.black),
                         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                         ('VALIGN', (0, 0), (-1, -1), 'TOP')
@@ -285,7 +285,7 @@ def print_propuesta_desarrollo(Story, resultados_aprendizaje, propuestas_desarro
         new_row = [p_subcompetencias, p_resultados_aprendizaje, p_unidades, Paragraph(propuesta.actividad_dentro_aula, style), Paragraph(propuesta.actividad_fuera_aula, style), Paragraph(propuesta.tiempo_dentro_aula, style), Paragraph(propuesta.tiempo_fuera_aula, style), p_bibliografias, p_estrategias_ens, Paragraph(propuesta.modo_agrupamiento or "", style), Paragraph(propuesta.materiales_equipamiento or "", style)]
         data.append(new_row)
 
-    t = Table(data, colWidths=40)
+    t = Table(data, colWidths=50)
     t.setStyle(
         TableStyle(
             [   ("BOX", (0, 0), (-1, -1), 0.25, colors.black),
@@ -303,7 +303,7 @@ def print_propuesta_desarrollo(Story, resultados_aprendizaje, propuestas_desarro
             ]
             )
         )
-    
+
     Story.append(t)
     Story.append(Spacer(1,0.2*inch))
 
