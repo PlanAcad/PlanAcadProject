@@ -11,8 +11,8 @@ class Actividad(models.Model):
         max_length=2,
         choices=[('A', 'Autoevaluación'),('C', 'Coevaluación'),('H', 'Heteroevaluación')])
     lugar = models.CharField(max_length=20)
-    indicadores_de_logro = models.CharField(max_length=100)
-    tecnicas_de_evaluacion = models.CharField(max_length=100)
+    indicadores_de_logro = models.CharField(max_length=3000)
+    tecnicas_de_evaluacion = models.CharField(max_length=3000)
 
      # Relations 
     planificacion = models.ForeignKey(Planificacion, on_delete=models.CASCADE)

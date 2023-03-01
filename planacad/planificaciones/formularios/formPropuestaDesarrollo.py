@@ -3,6 +3,8 @@ from planificaciones.modelos.modelPropuestaDesarrollo import PropuestaDesarrollo
 
 class PropuestaDesarrolloForm(forms.ModelForm):  
 
+    actividad_dentro_aula = forms.CharField(widget=forms.Textarea()) 
+    actividad_fuera_aula = forms.CharField(widget=forms.Textarea()) 
     class Meta:  
         model = PropuestaDesarrollo  
         exclude = ['planificacion']
