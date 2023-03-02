@@ -78,6 +78,7 @@
     </table>
 
     {% if not planificacion.estado == "A" %} 
+        <div class="d-flex-row">
         <!-- Abrir modal añadir competencia -->
         <button
             type="button"
@@ -87,6 +88,17 @@
         >
             Añadir competencia
         </button>
+        {% if competenciaAnterior %} 
+        <button
+            type="button"
+            class="btn btn-primary mt-4"
+            data-toggle="modal"
+            data-target="#modal-cargar-competencia"
+        >
+            Cargar competencia
+        </button>
+        {% endif %}
+    </div>
     {% endif %}
     
 
@@ -133,6 +145,64 @@
                         </button>
                         <button type="submit" class="btn btn-primary">
                             Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal competencia -->
+<div
+    class="modal fade"
+    id="modal-cargar-competencia"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Cargar competencia
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    method="POST"
+                    action="{% url 'planificaciones:cargarCompetencias' planificacion.id %}"
+                >
+                    {% csrf_token %}
+                    <ul class="multiple-select-list">
+                        {% for ca in competenciaAnterior %}
+                        <li>
+                            <label for="{{ ca.pk }}">{{ opcion.label }}
+                                <input type="checkbox" id="{{ ca.pk }}" name="competencias" value="{{ ca.pk }}">
+                                {{ca}}
+                            </label>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+                    
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Cargar
                         </button>
                     </div>
                 </form>

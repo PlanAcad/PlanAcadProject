@@ -46,12 +46,17 @@ def CompetenciaNew(request,id_planificacion):
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
         form = CompetenciaForm()
+    competenciaAnterior = None
+    ultimaPlanificacionAprobada = Planificacion.objects.filter(asignatura = planificacion.asignatura).filter(estado = 'A').last()
+    if (ultimaPlanificacionAprobada):
+        competenciaAnterior = Competencia.objects.filter(planificacion = ultimaPlanificacionAprobada)
     #Agregar
     context = {
         'planificacion': planificacion,
         'data':data,
         'form':form,
         'correcciones':correcciones,
+        'competenciaAnterior':competenciaAnterior,
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
@@ -73,6 +78,29 @@ def CompetenciaView(request,id_planificacion):
          mensaje_error = ""  
     
     return render(request,"secciones/",{'competencias':competencias,'mensaje_error': mensaje_error})  
+
+@login_required
+def CargarCompetencia(request,id_planificacion):
+    if request.method == "POST": 
+        opcion_seleccionada = request.POST.getlist('competencias', None)
+        if(opcion_seleccionada):
+            for comp in opcion_seleccionada:
+                if(comp):
+                    competencia = Competencia.objects.get(id = str(comp))
+                    if(competencia):
+                        competenciaNueva = Competencia()
+                        competenciaNueva.tipo_competencia = competencia.tipo_competencia
+                        competenciaNueva.descripcion = competencia.descripcion
+                        competenciaNueva.planificacion_id = id_planificacion
+                        competenciaNueva.save()
+                        for subComp in competencia.subcompetencia_set.all():
+                            if(subComp):
+                                subCompeteneciaNueva = SubCompetencia()
+                                subCompeteneciaNueva.descripcion = subComp.descripcion
+                                subCompeteneciaNueva.competencia = competenciaNueva
+                                subCompeteneciaNueva.save()
+    return redirect('planificaciones:competencias', id_planificacion=id_planificacion)
+
 
 @login_required
 def CompetenciabyTypeView(request,planificacion_id,type):
