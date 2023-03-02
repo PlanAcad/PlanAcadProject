@@ -2,24 +2,34 @@
 
 <body id="body-login">
     <div class="main-login">
-        
+
         <form method="POST">
             {% csrf_token %}
             <h1 class="title-login">PlanAcad</h1>
             <h6 class="subtitle-login">Universidad Tecnológica Nacional - FRRE UTN</h6>
 
             <form class="form-login">
-                {{form.as_p}}
-                <!-- <input class="input-user" type="text"  placeholder="Usuario">
-                <input class="input-password" type="password" placeholder="Contraseña"> -->
+                {% csrf_token %}
+                <br />
+
+                <label>{{ form.username.label_tag }}</label>
+                <p>{{ form.username }}</p>
+
+                <label>{{ form.password.label_tag }}</label>
+                <p>{{ form.password }}</p>
+
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    El usuario y/o contraseña ingresados son incorrectos. Por favor, vuelva a intentarlo.
+                </div>
+                {% endif %}
+
                 <div style="text-align: center;">
-                    <button type="submit" class="mt-4 btn btn-primary" >Ingresar</button>
+                    <button type="submit" class="mt-4 btn btn-primary">Ingresar</button>
                 </div>
             </form>
         </form>
-    </div>   
+    </div>
 </body>
 
 {% endblock %}
-
-
