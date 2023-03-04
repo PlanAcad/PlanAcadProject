@@ -27,6 +27,14 @@
     color: var(--blue);
 }
 
+.navbar-user {
+    margin-right: 12px;
+}
+
+.navbar-user p {
+    font-size: 12px;
+}
+
 /**************
 *** SIDEBAR ***
 ***************/
