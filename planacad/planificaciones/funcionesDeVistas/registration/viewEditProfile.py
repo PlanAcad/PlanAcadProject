@@ -14,9 +14,11 @@ def editUserView(request,id):
         if form.is_valid():
             user =form.save(commit=False)
             group = Group.objects.filter(id=request.POST["groups"])
+            print(group)
             user.groups.clear()
             user.groups.set(group)
             carreras = Carrera.objects.filter(id = request.POST["carrera"])
+            print(carreras)
             user.carrera.clear()
             user.carrera.set(carreras)
             user.save()

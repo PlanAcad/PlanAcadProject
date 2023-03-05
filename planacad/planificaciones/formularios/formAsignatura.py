@@ -10,6 +10,7 @@ queryset = User.objects.filter(groups__in=[profesor_group, jefe_carrera_group])
 # queryset = queryset.filter(Q(groups=profesor_group) | Q(groups=jefe_carrera_group))
 
 class AsignaturaForm(forms.ModelForm):
+    
     profesor = forms.ModelMultipleChoiceField(
         queryset= queryset,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'}))  

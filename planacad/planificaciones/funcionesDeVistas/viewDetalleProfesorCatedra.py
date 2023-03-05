@@ -68,6 +68,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     form = DetalleProfesorCatedraForm()
     asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
     form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='profesor')).intersection(asignatura.profesor.all())
+    
     form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
     #Agregar
     context = {
@@ -124,7 +125,8 @@ def ProfesoresPorSituacion(request):
         users = User.objects.filter(Q(groups = Group.objects.get(name='profesor')) | Q(groups = Group.objects.get(name='jefe de carrera'))).intersection(asignatura.profesor.all())
     elif(situacion == "3"):
         asignatura = Asignatura.objects.get(id= planificacion.asignatura.id)
-        users = User.objects.filter(Q(groups = Group.objects.get(name='alumno')) | Q(groups = Group.objects.get(name='profesor'))| Q(groups = Group.objects.get(name='jefe de carrera'))).intersection(asignatura.profesor.all())
+        users = User.objects.filter(Q(groups = Group.objects.get(name='profesor'))| Q(groups = Group.objects.get(name='jefe de carrera'))).intersection(asignatura.profesor.all())
+        users = User.objects.filter(Q(groups = Group.objects.get(name='alumno')) | Q(groups = Group.objects.get(name='consejo'))).union(users)
         
     return render(request, 'secciones/detalle-profesor-catedra-dropdown.html', {'users': users})
 
