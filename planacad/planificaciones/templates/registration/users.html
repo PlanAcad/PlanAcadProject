@@ -57,6 +57,123 @@
                                 </div>
                             </div>
                             <h3>Carreras</span>
+                                <h4>Basicas</h4>
+                                <span>Jefe de Carrera</span>
+                                <div class="row mt-4">
+                                    {% if jefeDeCarreraBasicas %} 
+                                        {% for jefeCarrera in jefeDeCarreraBasicas %}
+                                            <div class="col-md-3">    
+                                                <div class="card card-subject p-0 mb-4">
+                                                    <div class="p-3">
+                                                        <h5 class="card-subject-title">
+                                                            {{ jefeCarrera.first_name }} {{ jefeCarrera.last_name }}
+                                                        </h5>
+                                                    </div>
+                                                        <a class="card-footer" href="{% url 'planificaciones:edit_profile' jefeCarrera.id %}">
+                                                            <button 
+                                                            style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                            type="submit">
+                                                            <p class="m-0">Modificar Usuario</p>
+                                                            </button>
+                                                            {% csrf_token %}
+                                                        </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>No existe jefe de carrera en Basicas</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        </div>
+                                    {% endif %} 
+                                </div>
+                                <span>Profesores</span>
+                                <div class="row mt-4">
+                                    {% if profesoresBasicas %}  
+                                        {% for profesor in profesoresBasicas %}
+                                            <div class="col-md-3">    
+                                                <div class="card card-subject p-0 mb-4">
+                                                    <div class="p-3">
+                                                        <h5 class="card-subject-title">
+                                                            {{ profesor.first_name }} {{ profesor.last_name }}
+                                                        </h5>
+                                                    </div>
+                                                        <a class="card-footer" href="{% url 'planificaciones:edit_profile' profesor.id %}">
+                                                            <button 
+                                                            style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                            type="submit">
+                                                            <p class="m-0">Modificar Usuario</p>
+                                                            </button>
+                                                            {% csrf_token %}
+                                                        </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>No existen profesores en Basicas</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <span>Consejeros</span>
+                                <div class="row mt-4">
+                                    {% if consejerosBasicas %}  
+                                        {% for consejero in consejerosBasicas %}
+                                            <div class="col-md-3">    
+                                                <div class="card card-subject p-0 mb-4">
+                                                    <div class="p-3">
+                                                        <h5 class="card-subject-title">
+                                                            {{ consejero.first_name }} {{ consejero.last_name }}
+                                                        </h5>
+                                                    </div>
+                                                        <a class="card-footer" href="{% url 'planificaciones:edit_profile' consejero.id %}">
+                                                            <button 
+                                                            style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                            type="submit">
+                                                            <p class="m-0">Modificar Usuario</p>
+                                                            </button>
+                                                            {% csrf_token %}
+                                                        </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>No existen consejeros en Basicas</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        </div>
+                                    {% endif %} 
+                                </div>
+                                <span>Alumnos</span>
+                                <div class="row mt-4">
+                                    {% if alumnosBasicas %}  
+                                        {% for alumno in alumnosBasicas %}
+                                            <div class="col-md-3">    
+                                                <div class="card card-subject p-0 mb-4">
+                                                    <div class="p-3">
+                                                        <h5 class="card-subject-title">
+                                                            {{ alumno.first_name }} {{ alumno.last_name }}
+                                                        </h5>
+                                                    </div>
+                                                        <a class="card-footer" href="{% url 'planificaciones:edit_profile' alumno.id %}">
+                                                            <button 
+                                                            style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                            type="submit">
+                                                            <p class="m-0">Modificar Usuario</p>
+                                                            </button>
+                                                            {% csrf_token %}
+                                                        </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>No existen alumnos en Basicas</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        </div>
+                                    {% endif %} 
+                                </div>
                             <h4>ISI</h4>
                             <span>Jefe de Carrera</span>
                             <div class="row mt-4">
