@@ -4,7 +4,7 @@ from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorC
 from planificaciones.modelos.modelTareasFunciones import TareasFunciones
 from planificaciones.modelos.modelFundamentacion import Fundamentacion
 from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje
-from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior
+from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior, ResultadoDeAprendizajeAnteriorPrimerNivel
 from planificaciones.modelos.modelSubCompetencia import SubCompetencia, Competencia
 from planificaciones.modelos.modelPropuestaDesarrollo import PropuestaDesarrollo
 from planificaciones.modelos.modelActividad import Actividad
@@ -85,13 +85,22 @@ def CopiarIndex(request,id_planificacion):
             ##Save planificacion
             planificacion.save()
             #Seccion 4 --Hecho
-            resultadosAnteriores = ResultadoDeAprendizajeAnterior.objects.filter(planificacion_id=id_planificacion)
-            for item in resultadosAnteriores:
-                item.pk = None
-                item._state.adding = True
-                item.planificacion = planificacion
-                item.save()
-            print("Seccion 4")
+            if planificacion.asignatura.ano == '1':
+                resultadosAnteriores = ResultadoDeAprendizajeAnteriorPrimerNivel.objects.filter(planificacion_id=id_planificacion)
+                for item in resultadosAnteriores:
+                    item.pk = None
+                    item._state.adding = True
+                    item.planificacion = planificacion
+                    item.save()
+            else:
+                resultadosAnteriores = ResultadoDeAprendizajeAnterior.objects.filter(planificacion_id=id_planificacion)
+                for item in resultadosAnteriores:
+                    item.pk = None
+                    item._state.adding = True
+                    item.planificacion = planificacion
+                    item.save()
+                print("Seccion 4")
+
             #Seccion 5 --Hecho
             competencias = Competencia.objects.filter(planificacion_id=id_planificacion)
             for item in competencias:
