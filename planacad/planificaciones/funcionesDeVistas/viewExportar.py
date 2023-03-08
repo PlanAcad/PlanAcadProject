@@ -2,7 +2,7 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos  
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra 
 from planificaciones.modelos.modelFundamentacion import Fundamentacion 
-from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior 
+from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior, ResultadoDeAprendizajeAnteriorPrimerNivel
 from planificaciones.modelos.modelCompetencia import Competencia
 from planificaciones.modelos.modelSubCompetencia import SubCompetencia 
 from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje 
@@ -155,7 +155,7 @@ def print_resultados_aprendizaje_previos(Story, resultados_aprendizaje_previos, 
 
         style = styles["Normal"]
         for resultado in resultados_aprendizaje_previos:
-            new_row = [Paragraph(resultado.resultado.resultado, style)]
+            new_row = [Paragraph(resultado.resultado, style)]
             data.append(new_row)
 
     else:
@@ -630,7 +630,12 @@ def DownloadPDF(request, id_planificacion):
         datos_descriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos.id)
         estructuras_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
         fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
-        resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
+        
+        if (planificacion.asignatura.ano=='1'):
+            resultados_aprendizaje_previos = ResultadoDeAprendizajeAnteriorPrimerNivel.objects.filter(planificacion=planificacion)
+        else:
+            resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
+        
         competencias = Competencia.objects.filter(planificacion = planificacion)
 
         resultados_aprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
@@ -704,7 +709,10 @@ def PrintPDF(request, id_planificacion):
         datos_descriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos.id)
         estructuras_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
         fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
-        resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
+        if (planificacion.asignatura.ano=='1'):
+            resultados_aprendizaje_previos = ResultadoDeAprendizajeAnteriorPrimerNivel.objects.filter(planificacion=planificacion)
+        else:
+            resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
         competencias = Competencia.objects.filter(planificacion = planificacion)
 
         resultados_aprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
