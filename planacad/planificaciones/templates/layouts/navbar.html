@@ -78,12 +78,22 @@
             </div>
             <div> 
                     {% if user.is_staff %}
+                    {% if 'users' in request.path or 'register' in request.path%}
+                        <a
+                        class="item-subnavbar"
+                        href="{% url 'planificaciones:asignaturas' %}"
+                        >
+                            Asignaturas
+                        </a>
+                    {% else %}
                         <a
                         class="item-subnavbar"
                         href="{% url 'planificaciones:usuarios' %}"
                         >
                             Usuarios
                         </a>
+                    {% endif %}
+                        
 
                     {% endif %}
                     {% if not  request.user|has_group:"alumno" and not user.is_staff %}
