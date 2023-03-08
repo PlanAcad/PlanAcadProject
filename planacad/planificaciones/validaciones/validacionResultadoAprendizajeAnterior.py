@@ -1,4 +1,4 @@
-from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior
+from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior, ResultadoDeAprendizajeAnteriorPrimerNivel
 from planificaciones.modelos.modelPlanificacion import Planificacion
 
 def ValidarSeccion(id_planificacion):
@@ -15,11 +15,15 @@ def ValidarSeccion(id_planificacion):
     if(planificacion is not None):
         resultadosAnteriores = None
         try:
-            resultadosAnteriores = ResultadoDeAprendizajeAnterior.objects.filter(planificacion_id=id_planificacion)
-        except:
+            if(planificacion.asignatura.ano == '1'):
+                resultadosAnteriores = ResultadoDeAprendizajeAnteriorPrimerNivel.objects.filter(planificacion_id = planificacion.id)
+            else:
+                resultadosAnteriores = ResultadoDeAprendizajeAnterior.objects.filter(planificacion_id=id_planificacion)
+        except Exception as error:
             validacion_ok=False
             validacion_bad=True
             errores.append("No existe ningun resultado de aprendizaje anterior")
+            print(error)
         if(not resultadosAnteriores):
             validacion_ok=False
             validacion_bad=True
@@ -27,6 +31,12 @@ def ValidarSeccion(id_planificacion):
         else:
             for resultadoAnterior in resultadosAnteriores:
                 if(resultadoAnterior is not None):
+                    if(planificacion.asignatura.ano == '1'):
+                        if(not resultadoAnterior.resultado):
+                            validacion_ok=False
+                            validacion_bad=True
+                            errores.append("numero en el resultado"+str(resultadoAnterior.resultado.id)+"en el resultado anterior "+str(resultadoAnterior.id))
+                    else:
                         if resultadoAnterior.asignatura is not None:
                             if(not resultadoAnterior.asignatura.nombre_materia):
                                 validacion_ok=False
@@ -37,6 +47,7 @@ def ValidarSeccion(id_planificacion):
                             if(not resultadoAnterior.resultado.resultado):
                                 validacion_ok=False
                                 validacion_bad=True
-                                errores.append("numero en el resultado"+str(resultadoAnterior.resultado.id)+"en el resultado anterior "+str(resultadoAnterior.id))  
+                                errores.append("numero en el resultado"+str(resultadoAnterior.resultado.id)+"en el resultado anterior "+str(resultadoAnterior.id)) 
+ 
                             
     return [validacion_ok,validacion_bad,errores]

@@ -1,7 +1,7 @@
 from django.urls import path
 from django.shortcuts import render
 from . import views
-from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje
+from planificaciones.funcionesDeVistas import viewProfesor, viewAsignatura,viewPlanificacion,viewDetalleProfesorCatedra, viewResultadoDeAprendizaje, viewResultadoDeApendizajePrimerNivelAnterior
 from planificaciones.funcionesDeVistas import viewDatosDescriptivos, viewFundamentacion, viewSistemaDeEvaluacion, viewCondicion, viewCompetencia, viewSubCompetencia
 from planificaciones.funcionesDeVistas import viewClase
 from planificaciones.funcionesDeVistas import viewJustificacionOrdenanza, viewWebgrafia, viewBibliografia, viewResultadoDeApendizajeAnterior, viewDistribucionDeTareas, viewContenido
@@ -81,11 +81,16 @@ urlpatterns = [
     #Seccion4    
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeAnteriorNew, name='resultadosDeAprendizajes'),
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje-manual', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeNewFirstPlanificacion, name='resultadosDeAprendizajesPrimeraPlanificacion'),
-    
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje/edit/<int:id_resultadodeaprendizaje>', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeAnteriorUpdate, name='resultadosDeAprendizajesUpdate'),
     path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje/delete/<int:id_resultadodeaprendizaje>', viewResultadoDeApendizajeAnterior.ResultadoDeAprendizajeAnteriorDestroy, name='resultadosDeAprendizajesDestroy'),
     path('ajax/load-resultados/', viewResultadoDeApendizajeAnterior.ResultadosDeAprendizajePorAsignatura, name='ajax_load_resultados'),  # <-- this one here
     
+    #Primer nivel 
+    path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje-primer-nivel', viewResultadoDeApendizajePrimerNivelAnterior.ResultadoDeAprendizajeAnteriorPrimerNivelNew, name='resultadosDeAprendizajesAnteriorPrimerNivel'),
+    path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje-primer-nivel/edit/<int:id_resultadodeaprendizaje>', viewResultadoDeApendizajePrimerNivelAnterior.ResultadoDeAprendizajeAnteriorPrimerNivelUpdate, name='resultadosDeAprendizajesAnteriorPrimerNivelUpdate'),
+    path('planificacion/<int:id_planificacion>/resultados-de-aprendizaje-primer-nivel/delete/<int:id_resultadodeaprendizaje>', viewResultadoDeApendizajePrimerNivelAnterior.ResultadoDeAprendizajeAnteriorPrimerNivelDestroy, name='resultadosDeAprendizajesAnteriorPrimerNivelDestroy'),
+    
+
     #Seccion5 - Competencias y capacidades vinculadas con la asignatura    
     path('planificacion/<int:id_planificacion>/competencias', viewCompetencia.CompetenciaNew, name='competencias'),
     path('planificacion/<int:id_planificacion>/competencias/edit/<int:id_competencia>', viewCompetencia.CompetenciaUpdate, name='competenciaUpdate'),

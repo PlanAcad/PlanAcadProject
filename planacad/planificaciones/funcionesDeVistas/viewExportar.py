@@ -2,7 +2,7 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos  
 from planificaciones.modelos.modelDetalleProfesorCatedra import DetalleProfesorCatedra 
 from planificaciones.modelos.modelFundamentacion import Fundamentacion 
-from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior 
+from planificaciones.modelos.modelResultadoDeAprendizajeAnterior import ResultadoDeAprendizajeAnterior, ResultadoDeAprendizajeAnteriorPrimerNivel
 from planificaciones.modelos.modelCompetencia import Competencia
 from planificaciones.modelos.modelSubCompetencia import SubCompetencia 
 from planificaciones.modelos.modelResultadoAprendizaje import ResultadoDeAprendizaje 
@@ -142,20 +142,31 @@ def print_fundamentacion(Story, fundamentacion):
     Story.append(p)
     Story.append(Spacer(1,0.2*inch))
 
-def print_resultados_aprendizaje_previos(Story, resultados_aprendizaje_previos):
+def print_resultados_aprendizaje_previos(Story, resultados_aprendizaje_previos, asignaturaPrimerNivel):
     titleSection = "4. Resultados de Aprendizajes previos requeridos para iniciar/ continuar el desarrollo de los Resultados de Aprendizaje de la asignatura en relación con el nivel de aporte a las sub-competencias y Competencias."
     p = Paragraph(titleSection, styleSectionTitle)
     Story.append(p)
     Story.append(Spacer(1,0.2*inch))
+    data = None
+    if(asignaturaPrimerNivel):
+        data = [
+            [Paragraph('Resultados de Aprendizaje Alcanzados', styleTitleTable)],
+        ]
 
-    data = [
-        [Paragraph('Asignaturas Aprobadas y/o Regularizadas', styleTitleTable), Paragraph('Resultados de Aprendizaje Alcanzados', styleTitleTable)],
-    ]
+        style = styles["Normal"]
+        for resultado in resultados_aprendizaje_previos:
+            new_row = [Paragraph(resultado.resultado, style)]
+            data.append(new_row)
 
-    style = styles["Normal"]
-    for resultado in resultados_aprendizaje_previos:
-        new_row = [Paragraph(resultado.asignatura.nombre_materia, style), Paragraph(resultado.resultado.resultado, style)]
-        data.append(new_row)
+    else:
+        data = [
+            [Paragraph('Asignaturas Aprobadas y/o Regularizadas', styleTitleTable), Paragraph('Resultados de Aprendizaje Alcanzados', styleTitleTable)],
+        ]
+
+        style = styles["Normal"]
+        for resultado in resultados_aprendizaje_previos:
+            new_row = [Paragraph(resultado.asignatura.nombre_materia, style), Paragraph(resultado.resultado.resultado, style)]
+            data.append(new_row)
 
     t = Table(data)
     t.setStyle(
@@ -619,7 +630,12 @@ def DownloadPDF(request, id_planificacion):
         datos_descriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos.id)
         estructuras_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
         fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
-        resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
+        
+        if (planificacion.asignatura.ano=='1'):
+            resultados_aprendizaje_previos = ResultadoDeAprendizajeAnteriorPrimerNivel.objects.filter(planificacion=planificacion)
+        else:
+            resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
+        
         competencias = Competencia.objects.filter(planificacion = planificacion)
 
         resultados_aprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
@@ -651,7 +667,7 @@ def DownloadPDF(request, id_planificacion):
         print_datos_descriptivos(Story=Story, datos_descriptivos=datos_descriptivos)
         print_estructura_catedra(Story=Story, estructuras_catedra=estructuras_catedra)
         print_fundamentacion(Story=Story, fundamentacion=fundamentacion.fundamentos)
-        print_resultados_aprendizaje_previos(Story=Story, resultados_aprendizaje_previos=resultados_aprendizaje_previos)
+        print_resultados_aprendizaje_previos(Story=Story, resultados_aprendizaje_previos=resultados_aprendizaje_previos, asignaturaPrimerNivel= planificacion.asignatura.ano=='1')
         print_competencias(Story=Story, competencias=competencias)
         print_propuesta_desarrollo(Story=Story, resultados_aprendizaje=resultados_aprendizaje_materia, propuestas_desarrollo=propuestas_desarrollo)
         print_sistema_evaluacion(Story=Story, actividades=actividades)
@@ -693,7 +709,10 @@ def PrintPDF(request, id_planificacion):
         datos_descriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos.id)
         estructuras_catedra = DetalleProfesorCatedra.objects.filter(planificacion = planificacion)
         fundamentacion = Fundamentacion.objects.get(id=planificacion.fundamentacion_id)
-        resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
+        if (planificacion.asignatura.ano=='1'):
+            resultados_aprendizaje_previos = ResultadoDeAprendizajeAnteriorPrimerNivel.objects.filter(planificacion=planificacion)
+        else:
+            resultados_aprendizaje_previos = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
         competencias = Competencia.objects.filter(planificacion = planificacion)
 
         resultados_aprendizaje = ResultadoDeAprendizaje.objects.filter(planificacion=planificacion) 
@@ -725,7 +744,7 @@ def PrintPDF(request, id_planificacion):
         print_datos_descriptivos(Story=Story, datos_descriptivos=datos_descriptivos)
         print_estructura_catedra(Story=Story, estructuras_catedra=estructuras_catedra)
         print_fundamentacion(Story=Story, fundamentacion=fundamentacion.fundamentos)
-        print_resultados_aprendizaje_previos(Story=Story, resultados_aprendizaje_previos=resultados_aprendizaje_previos)
+        print_resultados_aprendizaje_previos(Story=Story, resultados_aprendizaje_previos=resultados_aprendizaje_previos,asignaturaPrimerNivel= planificacion.asignatura.ano=='1')
         print_competencias(Story=Story, competencias=competencias)
         print_propuesta_desarrollo(Story=Story, resultados_aprendizaje=resultados_aprendizaje_materia, propuestas_desarrollo=propuestas_desarrollo)
         print_sistema_evaluacion(Story=Story, actividades=actividades)
