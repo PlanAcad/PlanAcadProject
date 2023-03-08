@@ -4,12 +4,21 @@
     {% include "layouts/navbar.html" %}
     <div class="bg-light flex-grow-1">
         <div class="container-xl">
-            <h2  style="font-weight: bold;padding-top: 40px;">Modificar Asignatura</h1>
+            <h2  style="font-weight: bold;padding-top: 40px;">Agregar Asignatura</h1>
                 <div class="seccion__card">
                 
                 <form class="form-register" method="POST" action="{% url 'planificaciones:newAsignatura' %}">
                     {% csrf_token %}
-                    {{form.as_p}}
+
+                    <label class="form-label">Nombre materia:</label>
+                    <p>{{form.nombre_materia}}</p>
+                    <label class="form-label">Carrera:</label>
+                    <p>{{form.carrera}}</p>
+                    <label class="form-label">Año:</label>
+                    <p>{{form.ano}}</p>
+                    <label class="form-label">Comision:</label>
+                    <p>{{form.comision}}</p>
+
                     <div style="text-align: center;">
                         <button type="submit" class="mt-4 btn btn-primary" >Aceptar</button>
                     </div>

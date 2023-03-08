@@ -8,7 +8,30 @@
             <div class="seccion__card">
                 <form class="form-register" method="POST" action="{% url 'planificaciones:updateAsignatura' asignatura.id %}">
                     {% csrf_token %}
-                    {{form.as_p}}
+
+                    <label class="form-label">Nombre materia:</label>
+                    <p>{{form.nombre_materia}}</p>
+                    <label class="form-label">Carrera:</label>
+                    <p>{{form.carrera}}</p>
+                    <div class= "mb-3">    
+                        <label class="form-label">Profesor:</label>
+                        {% if profesoresCarrera %}
+                            {{form.profesor}}
+                            {% else %}
+                            <input disabled></input>
+                            <span>No posee profesores de esta carrera.
+                                <a href="{% url 'planificaciones:register_url' %}" class="link-primary">
+                                Ir a crear profesor</a>
+                            </span>
+                        {% endif %}    
+                    </div>
+
+                    <label class="form-label">Año:</label>
+                    <p>{{form.ano}}</p>
+                    <label class="form-label">Comision:</label>
+                    <p>{{form.comision}}</p>
+                    
+                    
                     <button type="submit" class="mt-4 btn btn-primary" >Actualizar</button>
                     {% if form.errors %}
                         <p>{{form.errors}}</p>

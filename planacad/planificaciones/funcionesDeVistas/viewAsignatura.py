@@ -30,9 +30,11 @@ def AsignaturaNew(request):
             asig = form.save(commit=False)
             asig.save()
             form.save_m2m()
-            return redirect('planificaciones:asignaturas')
+            return redirect('planificaciones:updateAsignatura')
+
     context = {
-        'form':form, 
+        'form':form,
+         
     }      
     return render(request, 'asignaturas/add.html', context)
 
@@ -234,9 +236,13 @@ def AsignaturaUpdate(request, id):
             asig.save()
             form.save_m2m()
             return redirect('planificaciones:asignaturas')
+    profesoresCarrera = User.objects.filter(carrera = asignatura.carrera)
+    form.fields['profesor'].queryset = User.objects.filter(carrera = asignatura.carrera)
+    form.fields['profesor'].choices  = [(user.id, f"{user.first_name} {user.last_name}") for user in form.fields['profesor'].queryset]
     context = {
         'asignatura': asignatura,
-        'form':form, 
+        'form':form,
+        'profesoresCarrera':profesoresCarrera
     }      
     return render(request, 'asignaturas/update.html', context)  
 
