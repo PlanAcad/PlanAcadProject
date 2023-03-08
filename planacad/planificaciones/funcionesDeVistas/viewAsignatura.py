@@ -76,12 +76,12 @@ def AsignaturasView(request):
             carreraUsuario = Carrera.objects.get(id = carrerasUsuario.first().id)
         formAsignaturaCarrera = AsignaturaCarreraForm()
 
-        if "profesor" in  usergroup or "consejo" in  usergroup :
+        if "profesor" in  usergroup  :
             asignaturas = Asignatura.objects.filter(profesor=request.user)
             for asig in asignaturas:
                 planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
-        elif "jefe de carrera" in  usergroup :
+        elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
             carrerasUsuario = request.user.carrera.all()
             if(carrerasUsuario.count()==1):
                 carreraUsuario = Carrera.objects.get(id = carrerasUsuario.first().id) 
