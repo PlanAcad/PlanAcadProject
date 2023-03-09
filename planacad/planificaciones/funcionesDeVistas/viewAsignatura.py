@@ -164,7 +164,7 @@ def AsignaturaDetailView(request, id, error = 'False'):
     usuariosPlanificacion = PlanificacionUsuario.objects.filter(usuario_id = request.user.id)
     fechasParciales = None
     if "profesor" in  usergroup  :
-        planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('fecha_creacion')
+        planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).exclude(estado = 'R').order_by('fecha_creacion')
         asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
         for asig in asignaturasProfesor:
             planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
