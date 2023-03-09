@@ -8,13 +8,15 @@
             <div class="row">
                 <main class="col seccion px-4 py-3">
                     {% if user.is_authenticated  %}
-                      
+                    <h2 style="margin-bottom: 0">
+                        Usuarios
+                      </h2>
                       {% if not usuarios %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                           <strong>No existen usuarios!</strong>
                           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                         </div>
-                      {% else %}    
+                      {% else %}   
                             <div class="row mt-4">
                                 <div class="col-md-3">
                                     <div class="card card-subject p-0 mb-5">
@@ -56,9 +58,34 @@
                                     </div>
                                 </div>
                             </div>
-                            <h3>Carreras</span>
-                                <h4>Basicas</h4>
-                                <span>Jefe de Carrera</span>
+                            <h3>Carreras</h3>
+                          <div class="accordion" id="accordionExample">
+                            <div class="card">
+                              <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                  <button class="btn d-inline-flex justify-content-between btn-link btn-lg btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" 
+                                  aria-expanded="true" aria-controls="collapseOne"
+                                  style="width: 100%;text-decoration: none;color: black;">
+                                    Basicas
+                                    <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    class="bi bi-caret-up"
+                                    viewBox="0 0 16 16"
+                                    >
+                                    <path
+                                        d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"
+                                    />
+                                </svg>
+                                  </button>
+                                    
+                                </h2>
+                              </div>
+                          
+                              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <span>Jefe de Carrera</span>
                                 <div class="row mt-4">
                                     {% if jefeDeCarreraBasicas %} 
                                         {% for jefeCarrera in jefeDeCarreraBasicas %}
@@ -174,8 +201,33 @@
                                         </div>
                                     {% endif %} 
                                 </div>
-                            <h4>ISI</h4>
-                            <span>Jefe de Carrera</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                  <button class="btn d-inline-flex justify-content-between btn-link btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" 
+                                  aria-expanded="false" aria-controls="collapseTwo"
+                                  style="width: 100%;text-decoration: none;color: black;">
+                                    ISI
+                                    <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    class="bi bi-caret-up"
+                                    viewBox="0 0 16 16"
+                                    >
+                                    <path
+                                        d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"
+                                    />
+                                </svg>
+                                  </button>
+                                </h2>
+                              </div>
+                              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <span>Jefe de Carrera</span>
                             <div class="row mt-4">
                                 {% if jefeDeCarreraISI %} 
                                     {% for jefeCarrera in jefeDeCarreraISI %}
@@ -291,357 +343,438 @@
                                     </div>
                                 {% endif %} 
                             </div>
-                            <h4>IQ</h4>
-                            <span>Jefe de Carrera</span>
-                            <div class="row mt-4">
-                                {% if jefeDeCarreraIQ %} 
-                                    {% for jefeCarrera in jefeDeCarreraIQ %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ jefeCarrera.first_name }} {{ jefeCarrera.last_name }}
-                                                    </h5>
-                                                </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' jefeCarrera.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existe jefe de carrera en IQ</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                                    </div>
-                                {% endif %} 
+                                </div>
+                              </div>
                             </div>
-                            <span>Profesores</span>
-                            <div class="row mt-4">
-                                {% if profesoresIQ %}  
-                                    {% for profesor in profesoresIQ %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ profesor.first_name }} {{ profesor.last_name }}
-                                                    </h5>
+                            <div class="card">
+                              <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                  <button class="btn d-inline-flex justify-content-between btn-link btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" 
+                                  aria-expanded="false" aria-controls="collapseThree"
+                                  style="width: 100%;text-decoration: none;color: black;">
+                                    IQ
+                                    <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    class="bi bi-caret-up"
+                                    viewBox="0 0 16 16"
+                                    >
+                                    <path
+                                        d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"
+                                    />
+                                </svg>
+                                  </button>
+                                </h2>
+                              </div>
+                              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <span>Jefe de Carrera</span>
+                                    <div class="row mt-4">
+                                        {% if jefeDeCarreraIQ %} 
+                                            {% for jefeCarrera in jefeDeCarreraIQ %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ jefeCarrera.first_name }} {{ jefeCarrera.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' jefeCarrera.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' profesor.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existe jefe de carrera en IQ</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen profesores en IQ</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %} 
                                     </div>
-                                {% endif %}
-                            </div>
-                            <span>Consejeros</span>
-                            <div class="row mt-4">
-                                {% if consejerosIQ %}  
-                                    {% for consejero in consejerosIQ %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ consejero.first_name }} {{ consejero.last_name }}
-                                                    </h5>
+                                    <span>Profesores</span>
+                                    <div class="row mt-4">
+                                        {% if profesoresIQ %}  
+                                            {% for profesor in profesoresIQ %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ profesor.first_name }} {{ profesor.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' profesor.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' consejero.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen profesores en IQ</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen consejeros en IQ</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %}
                                     </div>
-                                {% endif %} 
-                            </div>
-                            <span>Alumnos</span>
-                            <div class="row mt-4">
-                                {% if alumnosIQ %}  
-                                    {% for alumno in alumnosIQ %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ alumno.first_name }} {{ alumno.last_name }}
-                                                    </h5>
+                                    <span>Consejeros</span>
+                                    <div class="row mt-4">
+                                        {% if consejerosIQ %}  
+                                            {% for consejero in consejerosIQ %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ consejero.first_name }} {{ consejero.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' consejero.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' alumno.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen consejeros en IQ</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen alumnos en IQ</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %} 
                                     </div>
-                                {% endif %} 
-                            </div>
-                            <h4>IEM</h4>
-                            <span>Jefe de Carrera</span>
-                            <div class="row mt-4">
-                                {% if jefeDeCarreraIEM %} 
-                                    {% for jefeCarrera in jefeDeCarreraIEM %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ jefeCarrera.first_name }} {{ jefeCarrera.last_name }}
-                                                    </h5>
+                                    <span>Alumnos</span>
+                                    <div class="row mt-4">
+                                        {% if alumnosIQ %}  
+                                            {% for alumno in alumnosIQ %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ alumno.first_name }} {{ alumno.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' alumno.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' jefeCarrera.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen alumnos en IQ</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existe jefe de carrera en IEM</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %} 
                                     </div>
-                                {% endif %} 
+                                </div>
+                              </div>
                             </div>
-                            <span>Profesores</span>
-                            <div class="row mt-4">
-                                {% if profesoresIEM %}  
-                                    {% for profesor in profesoresIEM %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ profesor.first_name }} {{ profesor.last_name }}
-                                                    </h5>
+                            <div class="card">
+                              
+                              <div class="card-header" id="headingFour">
+                                <h2 class="mb-0">
+                                  <button class="btn d-inline-flex justify-content-between btn-link btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" 
+                                  aria-expanded="false" aria-controls="collapseFour"
+                                  style="width: 100%;text-decoration: none;color: black;">
+                                    IEM
+                                    <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    class="bi bi-caret-up"
+                                    viewBox="0 0 16 16"
+                                    >
+                                    <path
+                                        d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"
+                                    />
+                                </svg>
+                                  </button>
+                                </h2>
+                              </div>
+                              <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <span>Jefe de Carrera</span>
+                                    <div class="row mt-4">
+                                        {% if jefeDeCarreraIEM %} 
+                                            {% for jefeCarrera in jefeDeCarreraIEM %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ jefeCarrera.first_name }} {{ jefeCarrera.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' jefeCarrera.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' profesor.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existe jefe de carrera en IEM</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen profesores en IEM</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %} 
                                     </div>
-                                {% endif %}
-                            </div>
-                            <span>Consejeros</span>
-                            <div class="row mt-4">
-                                {% if consejerosIEM %}  
-                                    {% for consejero in consejerosIEM %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ consejero.first_name }} {{ consejero.last_name }}
-                                                    </h5>
+                                    <span>Profesores</span>
+                                    <div class="row mt-4">
+                                        {% if profesoresIEM %}  
+                                            {% for profesor in profesoresIEM %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ profesor.first_name }} {{ profesor.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' profesor.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' consejero.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen profesores en IEM</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen consejeros en IEM</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %}
                                     </div>
-                                {% endif %} 
-                            </div>
-                            <span>Alumnos</span>
-                            <div class="row mt-4">
-                                {% if alumnosIEM %}  
-                                    {% for alumno in alumnosIEM %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ alumno.first_name }} {{ alumno.last_name }}
-                                                    </h5>
+                                    <span>Consejeros</span>
+                                    <div class="row mt-4">
+                                        {% if consejerosIEM %}  
+                                            {% for consejero in consejerosIEM %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ consejero.first_name }} {{ consejero.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' consejero.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' alumno.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen consejeros en IEM</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen alumnos en IEM</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %} 
                                     </div>
-                                {% endif %} 
-                            </div>
-                            <h4>LAR</h4>
-                            <span>Jefe de Carrera</span>
-                            <div class="row mt-4">
-                                {% if jefeDeCarreraLAR %} 
-                                    {% for jefeCarrera in jefeDeCarreraLAR %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ jefeCarrera.first_name }} {{ jefeCarrera.last_name }}
-                                                    </h5>
+                                    <span>Alumnos</span>
+                                    <div class="row mt-4">
+                                        {% if alumnosIEM %}  
+                                            {% for alumno in alumnosIEM %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ alumno.first_name }} {{ alumno.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' alumno.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' jefeCarrera.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen alumnos en IEM</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existe jefe de carrera en LAR</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %} 
                                     </div>
-                                {% endif %} 
+                                </div>
+                              </div>
                             </div>
-                            <span>Profesores</span>
-                            <div class="row mt-4">
-                                {% if profesoresLAR %}  
-                                    {% for profesor in profesoresLAR %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ profesor.first_name }} {{ profesor.last_name }}
-                                                    </h5>
+                            <div class="card">
+                              <div class="card-header" id="headingFive">
+                                <h2 class="mb-0">
+                                  <button class="btn d-inline-flex justify-content-between btn-link btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" 
+                                  aria-expanded="false" aria-controls="collapseFive"
+                                  style="width: 100%;text-decoration: none;color: black;">
+                                    LAR
+                                    <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    class="bi bi-caret-up"
+                                    viewBox="0 0 16 16"
+                                    >
+                                    <path
+                                        d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"
+                                    />
+                                </svg>
+                                  </button>
+                                </h2>
+                              </div>
+                              <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <span>Jefe de Carrera</span>
+                                    <div class="row mt-4">
+                                        {% if jefeDeCarreraLAR %} 
+                                            {% for jefeCarrera in jefeDeCarreraLAR %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ jefeCarrera.first_name }} {{ jefeCarrera.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' jefeCarrera.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' profesor.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existe jefe de carrera en LAR</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen profesores en LAR</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %} 
                                     </div>
-                                {% endif %}
-                            </div>
-                            <span>Consejeros</span>
-                            <div class="row mt-4">
-                                {% if consejerosLAR %}  
-                                    {% for consejero in consejerosLAR %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ consejero.first_name }} {{ consejero.last_name }}
-                                                    </h5>
+                                    <span>Profesores</span>
+                                    <div class="row mt-4">
+                                        {% if profesoresLAR %}  
+                                            {% for profesor in profesoresLAR %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ profesor.first_name }} {{ profesor.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' profesor.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' consejero.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen profesores en LAR</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen consejeros en LAR</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %}
                                     </div>
-                                {% endif %} 
-                            </div>
-                            <span>Alumnos</span>
-                            <div class="row mt-4">
-                                {% if alumnosLAR %}  
-                                    {% for alumno in alumnosLAR %}
-                                        <div class="col-md-3">    
-                                            <div class="card card-subject p-0 mb-4">
-                                                <div class="p-3">
-                                                    <h5 class="card-subject-title">
-                                                        {{ alumno.first_name }} {{ alumno.last_name }}
-                                                    </h5>
+                                    <span>Consejeros</span>
+                                    <div class="row mt-4">
+                                        {% if consejerosLAR %}  
+                                            {% for consejero in consejerosLAR %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ consejero.first_name }} {{ consejero.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' consejero.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
                                                 </div>
-                                                    <a class="card-footer" href="{% url 'planificaciones:edit_profile' alumno.id %}">
-                                                        <button 
-                                                        style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
-                                                        type="submit">
-                                                        <p class="m-0">Modificar Usuario</p>
-                                                        </button>
-                                                        {% csrf_token %}
-                                                    </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen consejeros en LAR</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>No existen alumnos en LAR</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                        {% endif %} 
                                     </div>
-                                {% endif %} 
+                                    <span>Alumnos</span>
+                                    <div class="row mt-4">
+                                        {% if alumnosLAR %}  
+                                            {% for alumno in alumnosLAR %}
+                                                <div class="col-md-3">    
+                                                    <div class="card card-subject p-0 mb-4">
+                                                        <div class="p-3">
+                                                            <h5 class="card-subject-title">
+                                                                {{ alumno.first_name }} {{ alumno.last_name }}
+                                                            </h5>
+                                                        </div>
+                                                            <a class="card-footer" href="{% url 'planificaciones:edit_profile' alumno.id %}">
+                                                                <button 
+                                                                style="appearance: none; background:transparent; border:0; width: 100%; height: 100%; cursor: pointer;"
+                                                                type="submit">
+                                                                <p class="m-0">Modificar Usuario</p>
+                                                                </button>
+                                                                {% csrf_token %}
+                                                            </a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>No existen alumnos en LAR</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                                            </div>
+                                        {% endif %} 
+                                    </div>
+                                </div>
+                              </div>
                             </div>
+                          </div>
+
                         {% endif %}
                     {% endif %} 
 
