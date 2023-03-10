@@ -19,7 +19,7 @@ class EditUserForm(UserChangeForm):
             'username', 'first_name', 'last_name', 'email', 'groups', 'carrera'
         ]
         labels = {
-            'username': _('Nombre de Usuario'),
+            'username': _('Nombre de Usuario (Legajo)'),
             'first_name': _('Nombre/s'),
             'last_name': _('Apellido/s'),
             'groups': _('Rol')

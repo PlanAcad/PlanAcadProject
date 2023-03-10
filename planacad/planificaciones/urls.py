@@ -10,7 +10,7 @@ from planificaciones.funcionesDeVistas import viewExportar, viewUnidad, viewTare
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios, viewUsers
-from planificaciones.funcionesDeVistas.registration import  viewRegister, viewEditProfile
+from planificaciones.funcionesDeVistas.registration import  viewRegister, viewEditProfile,viewDeleteUser
 from django.contrib.auth.views import LoginView,LogoutView
 import planificaciones
 
@@ -27,6 +27,8 @@ urlpatterns = [
     path('users/',viewUsers.usersView,name = "usuarios" ),
     path('users/bulk-create',viewRegister.bulkRegister,name = "Cargarusuarios" ),
     path('users/<int:id>/edit',viewEditProfile.editUserView,name = "edit_profile" ),
+    path('users/<int:id>/delete',viewDeleteUser.delete_user,name = "delete_profile" ),
+    
     
     #Componentes
     path('componentes', views.ComponentesView, name='componentes'),

@@ -25,12 +25,14 @@ def editUserView(request,id):
             return redirect('planificaciones:usuarios')
         else:
             context = {
+            'user': user,
             'form': form 
         }
             return render(request,'registration/edit_profile.html', context)
     else:
         form = EditUserForm(instance = user)
         context = {
+            'user': user,
             'form': form 
         }
         return render(request,'registration/edit_profile.html', context)
