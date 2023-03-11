@@ -54,9 +54,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'PlanacadDB',
-        'USER': 'sqladmin',
-        'PASSWORD': 'CarlosIngeniero2023',
-        'HOST': 'planacad-server.database.windows.net',
+        'USER': 'Planacad',
+        'PASSWORD': 'Carlosingeniero2023',
+        'HOST': 'planacad-server-sql.database.windows.net',
         'PORT': '1433'
         
     },
