@@ -4,7 +4,7 @@ on:
   push:
     branches: "develop"
 env:
-  AZURE_WEBAPP_NAME: Planacad # set this to your application's name
+  AZURE_WEBAPP_NAME: planacadweb # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: 'planacad/' # set this to the path to your web app project, defaults to the repository root
 
 
