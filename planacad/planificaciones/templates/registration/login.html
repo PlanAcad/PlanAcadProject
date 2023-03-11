@@ -5,14 +5,21 @@
 
         <form method="POST">
             {% csrf_token %}
-            <h1 class="title-login">PlanAcad</h1>
-            <h6 class="subtitle-login">Universidad Tecnológica Nacional - FRRE UTN</h6>
+            <div class="planacad-logo-login">
+                {% load static %} <img  src="{% static 'images/planacad3x.png' %}" alt="planacad" width="200"/>
+            </div>
+
+            <div class="planacad-logo-login">
+                {% load static %} <img src="{% static 'images/logo-utn-1x.png' %}" alt="utn" width="60" />
+            </div>
+
+            <h6 class="subtitle-login" style="font-size: inherit; font-weight: 500;">Facultad Regional Resistencia</h6>
 
             <form class="form-login">
                 {% csrf_token %}
                 <br />
 
-                <label>Legajo</label>
+                <label>Legajo:</label>
                 <p>{{ form.username }}</p>
 
                 <label>{{ form.password.label_tag }}</label>

@@ -3,15 +3,12 @@
     <div class="pt-2 pb-2 separator">
         <div class="container-xl ">
         <div class="flex__between__center m-1">
-            <h1 class="col-md-3 h3 mb-0">
-                <a
-                    class="item"
-                    href="{% url 'planificaciones:asignaturas' %}"
-                    style="text-decoration: none; color: inherit"
-                >
-                    PlanAcad
-                </a>
-            </h1>
+            <div>
+                {% load static %} <img src="{% static 'images/planacad.png' %}" style="color: black;" alt="planacad" /> 
+                |
+                <img src="{% static 'images/logo-utn-3x.png' %}" alt="utn" width="50"/>
+            </div>
+
             <div class="flex__between__center">
                 <div class="navbar-user">
                     <h6 class="mb-0 px-0">
