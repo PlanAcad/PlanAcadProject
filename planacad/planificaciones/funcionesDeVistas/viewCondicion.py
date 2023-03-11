@@ -10,6 +10,7 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
+from planificaciones.funcionesDeVistas import viewCorreccion
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
@@ -22,11 +23,17 @@ def AprobacionDirecta(request, id_planificacion):
     mensaje_error = None
     #Agregar
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 71)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+    existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
     comentarioForm = ComentarioForm()
     
-    
+    for item in correcciones:
+        print(item.estado)
+        if(item.estado == "G"):
+            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+
     if request.method == 'POST':  
         form = CondicionAprobacionDirectaForm(request.POST,instance = planificacion)
         if form.is_valid():
@@ -45,7 +52,9 @@ def AprobacionDirecta(request, id_planificacion):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
+        'existen_correcciones_pendientes':existen_correcciones_pendientes,
         'mensaje_exito': mensaje_exito, 
         'mensaje_error': mensaje_error
     }
@@ -61,6 +70,7 @@ def AprobacionCursada(request, id_planificacion):
     mensaje_error = None
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 72)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
@@ -89,6 +99,7 @@ def AprobacionCursada(request, id_planificacion):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
         'existen_correcciones_pendientes':existen_correcciones_pendientes,
         'mensaje_exito': mensaje_exito, 

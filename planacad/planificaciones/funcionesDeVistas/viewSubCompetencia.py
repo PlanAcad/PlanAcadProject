@@ -6,6 +6,7 @@ from django.urls import reverse
 
 ## import model and form
 from planificaciones.formularios.formSubCompetencia import SubCompetenciaForm
+from planificaciones.funcionesDeVistas import viewCorreccion
 from planificaciones.modelos.modelSubCompetencia import SubCompetencia 
 from planificaciones.modelos.modelPlanificacion import Planificacion 
 from django.contrib.auth.decorators import login_required
@@ -30,7 +31,8 @@ def SubCompetenciaNew(request,id_planificacion,id_competencia):
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
         form = SubCompetenciaForm()  
-    return render(request,'secciones/subcompetencias/index.html',{'planificacion':planificacion,'competencia':competencia,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+    return render(request,'secciones/subcompetencias/index.html',{'planificacion':planificacion,'competencia':competencia,'form':form, 'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 @login_required
 def SubCompetenciaUpdate(request, id_planificacion, id_competencia, id_subcompetencia):  
@@ -54,7 +56,8 @@ def SubCompetenciaUpdate(request, id_planificacion, id_competencia, id_subcompet
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = SubCompetenciaForm(instance=data)  
-    return render(request,'secciones/subcompetencias/editar.html',{'data':data,'competencia':competencia,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+    return render(request,'secciones/subcompetencias/editar.html',{'data':data,'competencia':competencia,'planificacion':planificacion,'form':form, 'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 @login_required
 def SubCompetenciaDestroy(request, id_planificacion, id_competencia, id_subcompetencia):

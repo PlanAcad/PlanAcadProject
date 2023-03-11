@@ -16,6 +16,7 @@ from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
+from planificaciones.funcionesDeVistas import viewCorreccion
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
@@ -49,6 +50,7 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
     
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 6)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
@@ -116,6 +118,7 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
         'existen_correcciones_pendientes':existen_correcciones_pendientes,
         "mensaje_exito": mensaje_exito,
@@ -154,11 +157,12 @@ def UpdateResultadoAprendizaje(request, id_planificacion, id_resultado_aprendiza
             mensaje_error = "No pudimos añadir el resultado de aprendizaje." 
             print(form.errors)
 
-
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {
         'planificacion': planificacion,
         'resultado_aprendizaje': resultado_aprendizaje,
         "form": form,
+        'correccionesEnSecciones':correccionesEnSecciones,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }
@@ -231,7 +235,7 @@ def UpdatePropuestaDesarrollo(request, id_planificacion, id_propuesta_desarrollo
             mensaje_error = "No pudimos actualizar la propuesta de desarrollo." 
             print(form_propuesta_desarrollo.errors)
 
-
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {
         'planificacion': planificacion,
         'resultados_aprendizaje_materia': resultados_aprendizaje_materia,
@@ -240,6 +244,7 @@ def UpdatePropuestaDesarrollo(request, id_planificacion, id_propuesta_desarrollo
         "subcompetencias_planificacion": subcompetencias_planificacion,
         "unidades_planificacion": unidades,
         "bibliografias_planificacion": bibliografias_planificacion,
+        'correccionesEnSecciones':correccionesEnSecciones,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }

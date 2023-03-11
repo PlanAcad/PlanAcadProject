@@ -13,6 +13,7 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formDatosDescriptivos import  DatosDescriptivosForm
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
+from planificaciones.funcionesDeVistas import viewCorreccion
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
@@ -71,6 +72,7 @@ def DatosDescriptivosUpdate(request, id_planificacion):
     form = DatosDescriptivosForm(instance = datosDescriptivos)
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 1)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
@@ -102,6 +104,7 @@ def DatosDescriptivosUpdate(request, id_planificacion):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
         'datosDescriptivos': datosDescriptivos,
         'existen_correcciones_pendientes': existen_correcciones_pendientes,

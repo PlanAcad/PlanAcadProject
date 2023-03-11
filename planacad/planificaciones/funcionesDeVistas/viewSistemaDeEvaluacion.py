@@ -10,6 +10,7 @@ from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
+from planificaciones.funcionesDeVistas import viewCorreccion
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
@@ -23,6 +24,7 @@ def SistemaDeEvaluacion(request, planificacion_id):
     unidades = Unidad.objects.filter(planificacion_id=planificacion_id)
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = planificacion_id) & Q(seccion = 7)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(planificacion_id)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
@@ -57,6 +59,7 @@ def SistemaDeEvaluacion(request, planificacion_id):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
         'existen_correcciones_pendientes':existen_correcciones_pendientes
     }
@@ -83,9 +86,12 @@ def UpdateActividad(request, planificacion_id, actividad_id):
     else:
         form.fields['unidad_tematica'].queryset = Unidad.objects.filter(planificacion_id=planificacion_id)
         form.fields['resultados_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion_id = planificacion_id)
+        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(planificacion_id)
+
     context = {
         "planificacion": planificacion,
         "form": form,
+        'correccionesEnSecciones':correccionesEnSecciones,
         "actividad": actividad,
     }
     return render(request, "secciones/sistema-de-evaluacion/update-actividad.html", context)

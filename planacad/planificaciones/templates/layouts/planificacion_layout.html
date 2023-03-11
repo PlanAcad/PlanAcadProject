@@ -1,5 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 {% load util %}
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+    </script>
 <div class="layout d-flex flex-column min-vh-100">
     {% include "layouts/navbar.html" with ano=planificacion.fecha_creacion.year %}
     <div class="bg-light flex-grow-1">
@@ -35,7 +40,15 @@
                                 class="active"
                                 title="Datos descriptivos"
                                 ><li class="section__title">
-                                    Datos descriptivos
+                                    Datos descriptivos 
+                                    {% if "1" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
                                 </li></a
                             >
                             <a
@@ -43,7 +56,16 @@
                                 class=""
                                 title="Estructura de la cátedra"
                                 class="section__title"
-                                ><li>Estructura de la cátedra</li></a
+                                ><li>Estructura de la cátedra
+                                    {% if "2" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li></a
                             >
                             <a
                                 href="{% url 'planificaciones:fundamentacion' planificacion.id %}"
@@ -62,6 +84,14 @@
                                 title="Fundamentación"
                                 ><li class="section__title">
                                     Fundamentación
+                                    {% if "3" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
                                 </li></a
                             >
 
@@ -87,6 +117,14 @@
                                 title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
                                 ><li class="section-title">
                                     Resultados de aprendizaje previos
+                                    {% if "4" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
                                 </li></a
                             >
 
@@ -95,7 +133,16 @@
                                 class=""
                                 title="Competencias y capacidades vinculadas con la asignatura"
                             >
-                                <li>Competencias y capacidades</li></a
+                                <li>Competencias y capacidades
+                                    {% if "5" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li></a
                             >
 
                             <a
@@ -103,7 +150,16 @@
                                 class=""
                                 title="Propuestas para el desarrollo"
                             >
-                                <li>Propuestas para el desarrollo</li></a
+                                <li>Propuestas para el desarrollo
+                                    {% if "6" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li></a
                             >
                             <a
                                 href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
@@ -111,6 +167,14 @@
                                 title=""
                                 ><li>
                                     Sistema de evaluación
+                                    {% if "7" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
                                     <ol>
                                         <a
                                             href="{% url 'planificaciones:aprobacionDirecta' planificacion.id %}"
@@ -119,6 +183,14 @@
                                         >
                                             <li>
                                                 Condición aprobación directa
+                                                {% if "7.1" in correccionesEnSecciones %}
+                                                <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                                        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                                    </svg>
+                                                </span>
+                                                {% endif %}
                                             </li>
                                         </a>
                                         <a
@@ -128,6 +200,14 @@
                                         >
                                             <li>
                                                 Condición aprobación cursada
+                                                {% if "7.2" in correccionesEnSecciones %}
+                                                <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                                        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                                    </svg>
+                                                </span>
+                                                {% endif %}
                                             </li>
                                         </a>
                                     </ol>
@@ -137,39 +217,93 @@
                                 href="{% url 'planificaciones:cronograma' planificacion.id %}"
                                 class=""
                                 title="Webgrafia"
-                                ><li>Cronograma</li>
+                                ><li>Cronograma
+                                    {% if "8" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li>
                             </a>
                             <a
                                 href="{% url 'planificaciones:bibliografia' planificacion.id %}"
                                 class=""
                                 title="Bibliografia"
-                                ><li>Biliografia</li>
+                                ><li>Biliografia
+                                    {% if "9" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li>
                             </a>
                             <a
                                 href="{% url 'planificaciones:webgrafia' planificacion.id %}"
                                 class=""
                                 title="Webgrafia"
-                                ><li>Webgrafia</li>
+                                ><li>Webgrafia
+                                    {% if "10" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li>
                             </a>
                             <a
                                 href="{% url 'planificaciones:contenido' planificacion.id %}"
                                 class=""
                                 title="-"
-                                ><li>Contenido</li></a
+                                ><li>Contenido
+                                    {% if "11" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li></a
                             >
                             <a
                                 href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
                                 class=""
                                 title="Distribución de Tareas"
                             >
-                                <li>Distribución de tareas</li>
+                                <li>Distribución de tareas
+                                    {% if "12" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li>
                             </a>
 
                             <a
                                 href="{% url 'planificaciones:justificacionOrdenanza' planificacion.id %}"
                                 class=""
                                 title="Justificacion ordenanza"
-                                ><li>Justificación ordenanza 604</li></a
+                                ><li>Justificación ordenanza 604
+                                    {% if "13" in correccionesEnSecciones %}
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                          </svg>
+                                    </span>
+                                    {% endif %}
+                                </li></a
                             >
                         </ol>
 

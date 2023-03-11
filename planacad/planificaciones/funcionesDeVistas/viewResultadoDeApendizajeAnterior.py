@@ -13,6 +13,7 @@ from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
+from planificaciones.funcionesDeVistas import viewCorreccion
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
@@ -44,6 +45,7 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
     data = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 4)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
@@ -78,6 +80,7 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
         'existen_correcciones_pendientes':existen_correcciones_pendientes,
         'mensaje_exito': mensaje_exito, 
@@ -134,8 +137,9 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
     else:  
         form = ResultadoDeAprendizajeAnteriorForm(instance = data)
         form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
+        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 
-    return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form,'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
 @login_required

@@ -1,6 +1,7 @@
 from django.db.models import Q
 # Para usar los objetos y/o funciones de 'redirect'
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
+from django.urls import reverse
 from django.shortcuts import render, redirect  
 ## import model and form
 from planificaciones.formularios.formAsignatura import AsignaturaForm 
@@ -23,6 +24,7 @@ import pandas as pd
 @login_required
 def AsignaturaNew(request):
     form = AsignaturaForm()
+    print("entro")
     if request.method == "POST":
         form = AsignaturaForm(request.POST)  
         if form.is_valid():
@@ -30,8 +32,10 @@ def AsignaturaNew(request):
             asig = form.save(commit=False)
             asig.save()
             form.save_m2m()
-            return redirect('planificaciones:updateAsignatura')
-
+            asignatura_id = asig.id
+            return redirect('planificaciones:updateAsignatura', id=asignatura_id)
+        else: 
+            print("no valido")
     context = {
         'form':form,
          

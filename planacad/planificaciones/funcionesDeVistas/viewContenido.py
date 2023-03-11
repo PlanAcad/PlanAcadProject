@@ -11,6 +11,7 @@ from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
+from planificaciones.funcionesDeVistas import viewCorreccion
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
@@ -25,6 +26,7 @@ def IndexContenido(request, id_planificacion):
     mensaje_error = None
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 11)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
@@ -68,6 +70,7 @@ def IndexContenido(request, id_planificacion):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
         'existen_correcciones_pendientes':existen_correcciones_pendientes,
         "mensaje_exito": mensaje_exito,
@@ -109,15 +112,16 @@ def UpdateContenido(request, id_planificacion, id_contenido):
             print(form.errors)
     else:
         form.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=id_planificacion)
-
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+    
     context = {
         'planificacion': planificacion,
         'contenido': contenido,
         "form": form,
+        'correccionesEnSecciones':correccionesEnSecciones,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }
-
     return render(request,"secciones/contenido/update.html", context) 
 
 
