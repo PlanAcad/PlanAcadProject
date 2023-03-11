@@ -11,6 +11,7 @@ from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios, viewUsers
 from planificaciones.funcionesDeVistas.registration import  viewRegister, viewEditProfile,viewDeleteUser
+from planificaciones.funcionesDeVistas.viewPrintPdf import ViewPdfLibroRojo, ViewPdfVerbosBloom
 from django.contrib.auth.views import LoginView,LogoutView
 import planificaciones
 
@@ -186,5 +187,8 @@ urlpatterns = [
     path('planificacion/<int:id_correccion>/<int:id_seccion>/agregar-comentario', viewComentarios.ComentarioNew, name='agrergarComentario'),
     #Email
     path('planificacion/mandar-Aviso', viewAsignatura.MandarAvisoFechaLimiteDePlanificacion, name='mandarAviso'),
+    #PDF
+    path('pdf/verbos-bloom', ViewPdfVerbosBloom.as_view(), name='pdfVerbosBloom'),
+    path('pdf/libro-rojo', ViewPdfLibroRojo.as_view(), name='pdf_LibroRojo'),
     
 ]

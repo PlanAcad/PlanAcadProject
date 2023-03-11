@@ -99,7 +99,7 @@
                     {% if not  request.user|has_group:"alumno" and not user.is_staff %}
                     <a
                     class="item-subnavbar"
-                    href="#"
+                    href="{% url 'planificaciones:pdf_LibroRojo' %}" target="_blank"
                     >
                         Libro Rojo
                     </a>
@@ -116,7 +116,7 @@
                     {% if not  request.user|has_group:"alumno" and not user.is_staff %}
                     <a
                         class="item-subnavbar"
-                        href="#"
+                        href="{% url 'planificaciones:pdfVerbosBloom' %}" target="_blank"
                        >
                         Verbos de la taxonomia de Bloom
                     </a>
