@@ -30,9 +30,11 @@ def AsignaturaNew(request):
             asig = form.save(commit=False)
             asig.save()
             form.save_m2m()
-            return redirect('planificaciones:asignaturas')
+            return redirect('planificaciones:updateAsignatura')
+
     context = {
-        'form':form, 
+        'form':form,
+         
     }      
     return render(request, 'asignaturas/add.html', context)
 
@@ -76,12 +78,12 @@ def AsignaturasView(request):
             carreraUsuario = Carrera.objects.get(id = carrerasUsuario.first().id)
         formAsignaturaCarrera = AsignaturaCarreraForm()
 
-        if "profesor" in  usergroup or "consejo" in  usergroup :
+        if "profesor" in  usergroup  :
             asignaturas = Asignatura.objects.filter(profesor=request.user)
             for asig in asignaturas:
                 planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
                 fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A')).filter(fecha_clase__month =datetime.now().month)
-        elif "jefe de carrera" in  usergroup :
+        elif "jefe de carrera" in  usergroup or "consejo" in  usergroup :
             carrerasUsuario = request.user.carrera.all()
             if(carrerasUsuario.count()==1):
                 carreraUsuario = Carrera.objects.get(id = carrerasUsuario.first().id) 
@@ -162,7 +164,7 @@ def AsignaturaDetailView(request, id, error = 'False'):
     usuariosPlanificacion = PlanificacionUsuario.objects.filter(usuario_id = request.user.id)
     fechasParciales = None
     if "profesor" in  usergroup  :
-        planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).order_by('fecha_creacion')
+        planificaciones = Planificacion.objects.filter(asignatura=asignatura).filter(eliminada=False).exclude(estado = 'R').order_by('fecha_creacion')
         asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
         for asig in asignaturasProfesor:
             planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = str(datetime.now().year) , estado = 'A').last()
@@ -234,9 +236,13 @@ def AsignaturaUpdate(request, id):
             asig.save()
             form.save_m2m()
             return redirect('planificaciones:asignaturas')
+    profesoresCarrera = User.objects.filter(carrera = asignatura.carrera)
+    form.fields['profesor'].queryset = User.objects.filter(carrera = asignatura.carrera)
+    form.fields['profesor'].choices  = [(user.id, f"{user.first_name} {user.last_name}") for user in form.fields['profesor'].queryset]
     context = {
         'asignatura': asignatura,
-        'form':form, 
+        'form':form,
+        'profesoresCarrera':profesoresCarrera
     }      
     return render(request, 'asignaturas/update.html', context)  
 

@@ -660,7 +660,7 @@ def DownloadPDF(request, id_planificacion):
         # ------------ 
         # GENERATE PDF
         # ------------ 
-        doc = SimpleDocTemplate("planificacion.pdf")
+        doc = SimpleDocTemplate("planificaciones/pdf/planificacion.pdf")
         # Story = [Spacer(1,2*inch)]
         Story = []
 
@@ -689,7 +689,7 @@ def DownloadPDF(request, id_planificacion):
         # ------------ 
         # TO OPEN PDF IN BROWSER
         # ------------ 
-        return FileResponse(open('planificacion.pdf', 'rb'), as_attachment=True, content_type='application/pdf', filename='planificacion.pdf')
+        return FileResponse(open('planificaciones/pdf/planificacion.pdf', 'rb'), as_attachment=True, content_type='application/pdf', filename='planificaciones/pdf/planificacion.pdf')
     else:
         print("no todos los campos activos")
         data_json = json.dumps(errores)
@@ -737,7 +737,7 @@ def PrintPDF(request, id_planificacion):
         # ------------ 
         # GENERATE PDF
         # ------------ 
-        doc = SimpleDocTemplate("planificacion.pdf")
+        doc = SimpleDocTemplate("planificaciones/pdf/planificacion.pdf")
         # Story = [Spacer(1,2*inch)]
         Story = []
 
@@ -766,7 +766,7 @@ def PrintPDF(request, id_planificacion):
         # ------------ 
         # TO OPEN PDF IN BROWSER
         # ------------ 
-        return FileResponse(open('planificacion.pdf', 'rb'), as_attachment=False, content_type='application/pdf', filename='planificacion.pdf')
+        return FileResponse(open('planificaciones/pdf/planificacion.pdf', 'rb'), as_attachment=False, content_type='application/pdf', filename='planificaciones/pdf/planificacion.pdf')
     else: 
         print("no todos los campos activos")
         data_json = json.dumps(errores)

@@ -10,7 +10,8 @@ from planificaciones.funcionesDeVistas import viewExportar, viewUnidad, viewTare
 from planificaciones.validaciones import validacionSecciones
 from planificaciones.CopiarPlanificaciones import copiarPlanificacion
 from planificaciones.funcionesDeVistas import viewCorreccion, viewComentarios, viewUsers
-from planificaciones.funcionesDeVistas.registration import  viewRegister, viewEditProfile
+from planificaciones.funcionesDeVistas.registration import  viewRegister, viewEditProfile,viewDeleteUser
+from planificaciones.funcionesDeVistas.viewPrintPdf import ViewPdfLibroRojo, ViewPdfVerbosBloom
 from django.contrib.auth.views import LoginView,LogoutView
 import planificaciones
 
@@ -27,6 +28,8 @@ urlpatterns = [
     path('users/',viewUsers.usersView,name = "usuarios" ),
     path('users/bulk-create',viewRegister.bulkRegister,name = "Cargarusuarios" ),
     path('users/<int:id>/edit',viewEditProfile.editUserView,name = "edit_profile" ),
+    path('users/<int:id>/delete',viewDeleteUser.delete_user,name = "delete_profile" ),
+    
     
     #Componentes
     path('componentes', views.ComponentesView, name='componentes'),
@@ -184,5 +187,8 @@ urlpatterns = [
     path('planificacion/<int:id_correccion>/<int:id_seccion>/agregar-comentario', viewComentarios.ComentarioNew, name='agrergarComentario'),
     #Email
     path('planificacion/mandar-Aviso', viewAsignatura.MandarAvisoFechaLimiteDePlanificacion, name='mandarAviso'),
+    #PDF
+    path('pdf/verbos-bloom', ViewPdfVerbosBloom.as_view(), name='pdfVerbosBloom'),
+    path('pdf/libro-rojo', ViewPdfLibroRojo.as_view(), name='pdf_LibroRojo'),
     
 ]

@@ -154,9 +154,7 @@
                         {{ form.tareas }}
                     {% else %}
                         <input disabled></input>
-                        <span>No posee funciones y/o tareas agregadas. 
-                            <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}" class="link-primary">
-                            Ir a sección 12: Distribucion de tareas</a>
+                        <span>No posee funciones y/o tareas agregadas. Cierre el modal y cargue las funciones y/o tareas
                         </span>
                     {% endif %}
                     </div>
