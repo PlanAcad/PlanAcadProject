@@ -18,6 +18,7 @@ from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
+from planificaciones.funcionesDeVistas import viewCorreccion
 #Comentarios
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
@@ -42,13 +43,13 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     tareasFuncionesForm = TareasFuncionesForm()
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 2)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
     comentarioForm = ComentarioForm()
     
     for item in correcciones:
-        print(item.estado)
         if(item.estado == "G"):
             existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
 
@@ -80,6 +81,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
         'existen_correcciones_pendientes':existen_correcciones_pendientes,
         'mensaje_exito': mensaje_exito, 
@@ -159,8 +161,9 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
         elif(data.situacion == "3"):
             form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='alumno'))
         form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
+        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 
-    return render(request,'secciones/detalles-profesor-catedra-update.html',{'data':data,'planificacion':planificacion,'form':form, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
+    return render(request,'secciones/detalles-profesor-catedra-update.html',{'data':data,'planificacion':planificacion,'form':form,'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
     
 @login_required

@@ -40,7 +40,7 @@ def CorreccionNew(request, id_planificacion, id_seccion):
         elif id_seccion==6:
             return redirect('planificaciones:propuestaDesarrollo', id_planificacion=planificacion.id)
         elif id_seccion==7:
-            return redirect('planificaciones:sistemaDeEvaluacion', id_planificacion=planificacion.id)
+            return redirect('planificaciones:sistemaDeEvaluacion', planificacion_id=planificacion.id)
         elif id_seccion==71:
             return redirect('planificaciones:aprobacionDirecta', id_planificacion=planificacion.id)
         elif id_seccion==72:
@@ -80,7 +80,7 @@ def CorreccionUpdate(request, id_correccion):
         elif data.seccion ==6:
             return redirect('planificaciones:propuestaDesarrollo', id_planificacion=data.planificacion.id)
         elif data.seccion ==7:
-            return redirect('planificaciones:sistemaDeEvaluacion', id_planificacion=data.planificacion.id)
+            return redirect('planificaciones:sistemaDeEvaluacion', planificacion_id=data.planificacion.id)
         elif data.seccion ==71:
             return redirect('planificaciones:aprobacionDirecta', id_planificacion=data.planificacion.id)
         elif data.seccion ==72:
@@ -97,3 +97,42 @@ def CorreccionUpdate(request, id_correccion):
             return redirect('planificaciones:distribucionDeTareas', id_planificacion=data.planificacion.id)
         elif data.seccion ==13:
             return redirect('planificaciones:justificacionOrdenanza', id_planificacion=data.planificacion.id)
+
+
+
+# To to add new one
+def CorreccionesEnSecciones(id_planificacion):
+    correccionesEnSecciones = []
+    correcciones = Correccion.objects.filter(planificacion_id = id_planificacion)
+    if(correcciones.filter(seccion = 1).exists()):
+        correccionesEnSecciones.append("1")
+    if(correcciones.filter(seccion = 2).exists()):
+        correccionesEnSecciones.append("2")
+    if(correcciones.filter(seccion = 3).exists()):
+        correccionesEnSecciones.append("3")
+    if(correcciones.filter(seccion = 4).exists()):
+        correccionesEnSecciones.append("4")
+    if(correcciones.filter(seccion = 5).exists()):
+        correccionesEnSecciones.append("5")
+    if(correcciones.filter(seccion = 6).exists()):
+        correccionesEnSecciones.append("6")
+    if(correcciones.filter(seccion = 7).exists()):
+        correccionesEnSecciones.append("7")
+    if(correcciones.filter(seccion = 71).exists()):
+        correccionesEnSecciones.append("7.1")
+    if(correcciones.filter(seccion = 72).exists()):
+        correccionesEnSecciones.append("7.2")
+    if(correcciones.filter(seccion = 8).exists()):
+        correccionesEnSecciones.append("8")
+    if(correcciones.filter(seccion = 9).exists()):
+        correccionesEnSecciones.append("9")
+    if(correcciones.filter(seccion = 10).exists()):
+        correccionesEnSecciones.append("10")
+    if(correcciones.filter(seccion = 11).exists()):
+        correccionesEnSecciones.append("11")
+    if(correcciones.filter(seccion = 12).exists()):
+        correccionesEnSecciones.append("12")
+    if(correcciones.filter(seccion = 13).exists()):
+        correccionesEnSecciones.append("13")
+    return correccionesEnSecciones
+        

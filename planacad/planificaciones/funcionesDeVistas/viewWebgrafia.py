@@ -6,6 +6,7 @@ from planificaciones.formularios.formWebgrafia import WebgrafiaForm
 #Agregar
 from django.db.models import Q
 from planificaciones.modelos.modelCorrecciones import Correccion
+from planificaciones.funcionesDeVistas import viewCorreccion
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
 #Comentarios
@@ -22,6 +23,7 @@ def IndexWebgrafia(request, id_planificacion):
     mensaje_error = None
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 10)).prefetch_related('comentarios')
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
     correccionForm = CorreccionForm()
@@ -61,6 +63,7 @@ def IndexWebgrafia(request, id_planificacion):
         #Forms Correcciones
         'correccion_form': correccionForm,
         'comentario_form':comentarioForm,
+        'correccionesEnSecciones':correccionesEnSecciones,
         #
         'existen_correcciones_pendientes':existen_correcciones_pendientes,
         "mensaje_exito": mensaje_exito,
@@ -101,11 +104,12 @@ def UpdateWebgrafia(request, id_planificacion, id_webgrafia):
             mensaje_error = "No pudimos añadir la webgrafía." 
             print(form.errors)
 
-
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {
         'planificacion': planificacion,
         'webgrafia': webgrafia,
         "form": form,
+        'correccionesEnSecciones':correccionesEnSecciones,
         "mensaje_exito": mensaje_exito,
         "mensaje_error": mensaje_error,
     }
