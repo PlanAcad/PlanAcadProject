@@ -11,12 +11,10 @@ def editUserView(request,id):
         form = EditUserForm(request.POST, instance = user)
         if form.is_valid():
             user =form.save(commit=False)
-            group = Group.objects.filter(id=request.POST["groups"])
-            print(group)
+            group = Group.objects.filter(id=request.POST["rol"])
             user.groups.clear()
             user.groups.set(group)
             carreras = Carrera.objects.filter(id = request.POST["carrera"])
-            print(carreras)
             user.carrera.clear()
             user.carrera.set(carreras)
             user.save()
@@ -34,12 +32,9 @@ def editUserView(request,id):
     else:
         form = EditUserForm(instance = user)
 
-        print(user.groups.all().first())
-        print(user.groups.all().first().id)
         
         form.fields['carrera'].initial = user.carrera.all().first()
         form.fields['rol'].initial = user.groups.all().first() or None
-        print(form.fields)
         
         context = {
             'user': user,

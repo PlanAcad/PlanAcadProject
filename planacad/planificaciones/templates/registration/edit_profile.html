@@ -5,12 +5,16 @@
     <div class="bg-light flex-grow-1">
         <div class="container-xl">
             <body id="body-register">
-                <div class="d-flex  justify-content-between">
-                    <h2  style="font-weight: bold;padding-top: 40px;">Editar Usuario</h2>
-                    <form action="{% url 'planificaciones:delete_profile' user.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="mt-4 ms-2 btn btn-danger">Eliminar usuario</button>
-                    </form>
+                <div class="d-flex mt-4 justify-content-between">
+                    <h2  style="font-weight: bold;" class="m-0">Editar Usuario</h2>
+                    <div class="d-inline-flex">
+                        <a type="submit" class=" btn btn-primary" href="{% url 'planificaciones:cambiarContraseña' user.id %}">Cambiar contraeña</a>
+                        <form action="{% url 'planificaciones:delete_profile' user.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="ms-2 btn btn-danger">Eliminar usuario</button>
+                        </form>
+                    </div>
+                    
                 </div>
                     <div class="seccion__card">  
                     <form class="form-register" method="POST">
