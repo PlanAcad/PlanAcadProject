@@ -23,7 +23,7 @@ def ResultadoDeAprendizajeNewFirstPlanificacion(request,id_planificacion):
     planificacion = Planificacion.objects.get(id=id_planificacion)
     if request.method == "POST":  
         formresultadoAprendizaje = ResultadoDeAprendizajeForm(request.POST)
-        formresultadoAprendizaje.fields['asignatura'].queryset = Asignatura.objects.filter(carrera=planificacion.asignatura.carrera).distinct().exclude(id = planificacion.asignatura_id)
+        formresultadoAprendizaje.fields['asignatura'].queryset = Asignatura.objects.filter(Q(carrera=planificacion.asignatura.carrera) or Q(carrera="Basicas")).distinct().exclude(id = planificacion.asignatura_id)
         
         if formresultadoAprendizaje.is_valid():  
             try:  
@@ -67,8 +67,12 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
                  mensaje_error = "No pudimos añadir el resultado de aprendizaje."    
       
     form = ResultadoDeAprendizajeAnteriorForm()
-    form.fields['asignatura'].queryset = Asignatura.objects.filter(carrera=planificacion.asignatura.carrera).distinct().exclude(id = planificacion.asignatura_id)
-        
+    asignaturasConPlanificacionesAprobadas = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
+    asignaturasDeLaCarreraDeLaPlanificacionOBasicas = Asignatura.objects.filter(Q(carrera=planificacion.asignatura.carrera) | Q(carrera__nombre_carrera="Basicas")).distinct().exclude(id = planificacion.asignatura_id)
+    
+    form.fields['asignatura'].queryset = asignaturasDeLaCarreraDeLaPlanificacionOBasicas
+    formresultadoAprendizaje.fields['asignatura'].queryset = asignaturasDeLaCarreraDeLaPlanificacionOBasicas
+    
     #Agregar
     context = {
         'planificacion': planificacion,
@@ -136,7 +140,8 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = ResultadoDeAprendizajeAnteriorForm(instance = data)
-        form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
+        form.fields['asignatura'].queryset = Asignatura.objects.filter(Q(carrera=planificacion.asignatura.carrera) | Q(carrera__nombre_carrera="Basicas")).distinct().exclude(id = planificacion.asignatura_id)
+        # form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
         correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 
     return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form,'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
