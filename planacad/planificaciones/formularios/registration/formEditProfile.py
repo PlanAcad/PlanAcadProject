@@ -24,3 +24,6 @@ class EditUserForm(UserChangeForm):
             'last_name': _('Apellido/s'),
             'rol': _('Rol')
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('password')
