@@ -296,10 +296,19 @@ ul.multiple-select-list {
     cursor:pointer;
 }
 
+.card-subject-subcontainer {
+    min-height: 11rem;
+}
+
 .card-subject-title {
-    margin-top: 1.4rem;
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.2rem;
     color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .card-subject-subtitle {

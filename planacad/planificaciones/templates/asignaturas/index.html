@@ -91,7 +91,7 @@
                                     {% for asignatura in asignaturasBasicas %}
                                         <div class="col-md-3">
                                           <div class="card card-subject p-0 mb-4">
-                                              <div class="p-3">
+                                              <div class=" card-subject-subcontainer p-3">
                                                 <a
                                                 href="{% url 'planificaciones:updateAsignatura' asignatura.id %}"
                                                 style="text-decoration: none"
@@ -99,13 +99,13 @@
                                                   <h5 class="card-subject-title">
                                                       {{ asignatura.nombre_materia }}
                                                   </h5>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Año:</b> {{ asignatura.ano }}
                                                   </p>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Comisión:</b> {{ asignatura.comision }}
                                                   </p>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
                                                   </p>
                                                 </a>
@@ -159,7 +159,7 @@
                                     {% for asignatura in asignaturasISI %}
                                         <div class="col-md-3">
                                           <div class="card card-subject p-0 mb-4">
-                                              <div class="p-3">
+                                              <div class="card-subject-subcontainer p-3">
                                                 <a
                                                   href="{% url 'planificaciones:updateAsignatura' asignatura.id %}"
                                                   style="text-decoration: none"
@@ -167,13 +167,13 @@
                                                   <h5 class="card-subject-title">
                                                       {{ asignatura.nombre_materia }}
                                                   </h5>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Año:</b> {{ asignatura.ano }}
                                                   </p>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Comisión:</b> {{ asignatura.comision }}
                                                   </p>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
                                                   </p>
                                                 </a>
@@ -227,7 +227,7 @@
                                   {% for asignatura in asignaturasIQ %}
                                       <div class="col-md-3">
                                         <div class="card card-subject p-0 mb-4">
-                                            <div class="p-3">
+                                            <div class="card-subject-subcontainer p-3">
                                               <a
                                                 href="{% url 'planificaciones:updateAsignatura' asignatura.id %}"
                                                 style="text-decoration: none"
@@ -235,13 +235,13 @@
                                                 <h5 class="card-subject-title">
                                                     {{ asignatura.nombre_materia }}
                                                 </h5>
-                                                <p class="card-subject-subtitle mb-2 text-muted">
+                                                <p class="card-subject-subtitle mb-1 text-muted">
                                                     <b>Año:</b> {{ asignatura.ano }}
                                                 </p>
-                                                <p class="card-subject-subtitle mb-2 text-muted">
+                                                <p class="card-subject-subtitle mb-1 text-muted">
                                                     <b>Comisión:</b> {{ asignatura.comision }}
                                                 </p>
-                                                <p class="card-subject-subtitle mb-2 text-muted">
+                                                <p class="card-subject-subtitle mb-1 text-muted">
                                                     <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
                                                 </p>
                                               </a>
@@ -297,7 +297,7 @@
                                     {% for asignatura in asignaturasIEM %}
                                       <div class="col-md-3">
                                           <div class="card card-subject p-0 mb-4">
-                                              <div class="p-3">
+                                              <div class="card-subject-subcontainer p-3">
                                                 <a
                                                   href="{% url 'planificaciones:updateAsignatura' asignatura.id %}"
                                                   style="text-decoration: none"
@@ -305,13 +305,13 @@
                                                   <h5 class="card-subject-title">
                                                       {{ asignatura.nombre_materia }}
                                                   </h5>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Año:</b> {{ asignatura.ano }}
                                                   </p>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Comisión:</b> {{ asignatura.comision }}
                                                   </p>
-                                                  <p class="card-subject-subtitle mb-2 text-muted">
+                                                  <p class="card-subject-subtitle mb-1 text-muted">
                                                       <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
                                                   </p>
                                                 </a>
@@ -367,7 +367,7 @@
                                   {% for asignatura in asignaturasLAR %}
                                     <div class="col-md-3">
                                         <div class="card card-subject p-0 mb-4">
-                                            <div class="p-3">
+                                            <div class="card-subject-subcontainer p-3">
                                               <a
                                                 href="{% url 'planificaciones:updateAsignatura' asignatura.id %}"
                                                 style="text-decoration: none"
@@ -375,13 +375,13 @@
                                                 <h5 class="card-subject-title">
                                                     {{ asignatura.nombre_materia }}
                                                 </h5>
-                                                <p class="card-subject-subtitle mb-2 text-muted">
+                                                <p class="card-subject-subtitle mb-1 text-muted">
                                                     <b>Año:</b> {{ asignatura.ano }}
                                                 </p>
-                                                <p class="card-subject-subtitle mb-2 text-muted">
+                                                <p class="card-subject-subtitle mb-1 text-muted">
                                                     <b>Comisión:</b> {{ asignatura.comision }}
                                                 </p>
-                                                <p class="card-subject-subtitle mb-2 text-muted">
+                                                <p class="card-subject-subtitle mb-1 text-muted">
                                                     <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
                                                 </p>
                                               </a>
@@ -437,17 +437,17 @@
                                                   style="text-decoration: none"
                                               >
                                                   <div class="card card-subject p-0 mb-4">
-                                                      <div class="p-3">
+                                                      <div class="card-subject-subcontainer p-3">
                                                           <h5 class="card-subject-title">
                                                               {{ asignatura.nombre_materia }}
                                                           </h5>
-                                                          <p class="card-subject-subtitle mb-2 text-muted">
+                                                          <p class="card-subject-subtitle mb-1 text-muted">
                                                               <b>Año:</b> {{ asignatura.ano }}
                                                           </p>
-                                                          <p class="card-subject-subtitle mb-2 text-muted">
+                                                          <p class="card-subject-subtitle mb-1 text-muted">
                                                               <b>Comisión:</b> {{ asignatura.comision }}
                                                           </p>
-                                                          <p class="card-subject-subtitle mb-2 text-muted">
+                                                          <p class="card-subject-subtitle mb-1 text-muted">
                                                               <b>Carrera:</b> {{asignatura.carrera.nombre_carrera}}
                                                           </p>
                                                       </div>
