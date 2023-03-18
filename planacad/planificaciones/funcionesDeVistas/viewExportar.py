@@ -24,6 +24,7 @@ from reportlab.lib.pagesizes import letter, A4
 from reportlab.platypus import Table, TableStyle, Paragraph, PageBreak, SimpleDocTemplate, Spacer, ListFlowable, ListItem, KeepTogether
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.units import inch
 from reportlab.rl_config import defaultPageSize
 from django.contrib.auth.decorators import login_required
@@ -36,7 +37,7 @@ styles = getSampleStyleSheet()
 styleSectionTitle = ParagraphStyle(
         'titleSection',
         fontName='Helvetica-Bold',
-        fontSize=12,
+        fontSize=10,
         leading=12,
         spaceAfter=6,
     )
@@ -52,18 +53,18 @@ styleSectionSubtitle = ParagraphStyle(
 styleTitleTable = ParagraphStyle(
         'titleSection',
         fontName='Helvetica-Bold',
-        fontSize=10,
+        fontSize=8,
         leading=12,
         spaceAfter=6,
+        alignment=TA_CENTER
     )
 styleTitlePropDesarrolloTable = ParagraphStyle(
         'titleSection',
         fontName='Helvetica-Bold',
-        fontSize=8,
+        fontSize=6.5,
         leading=12,
-        spaceAfter=2,
-        RIGHTPADDING = 2,
-        LEFTPADDING = 2
+        spaceAfter=6,
+        alignment=TA_CENTER
     )
 
 styleBlackText = ParagraphStyle(
@@ -183,7 +184,7 @@ def print_resultados_aprendizaje_previos(Story, resultados_aprendizaje_previos, 
     Story.append(Spacer(1,0.2*inch))
 
 def print_competencias(Story, competencias):
-    p = Paragraph("5. competencias y capacidades vinculadas con la Asignatura.", styleSectionTitle)
+    p = Paragraph("5. Competencias y capacidades vinculadas con la Asignatura.", styleSectionTitle)
     Story.append(p)
     Story.append(Spacer(1,0.2*inch))
 
@@ -258,42 +259,46 @@ def print_propuesta_desarrollo(Story, resultados_aprendizaje, propuestas_desarro
     Story.append(p)
 
     data = [
-        [Paragraph('Sub Comp.', styleTitlePropDesarrolloTable), Paragraph('RA', styleTitlePropDesarrolloTable), Paragraph('Unidades Tematicas', styleTitlePropDesarrolloTable), Paragraph('Actividades Formativas', styleTitlePropDesarrolloTable), '', Paragraph('Tiempo aprox hora reloj', styleTitlePropDesarrolloTable), '', Paragraph('Bibliografia propuesta por RA', styleTitlePropDesarrolloTable), Paragraph('Estrategias de enseñanza', styleTitlePropDesarrolloTable), Paragraph('Modo de agrupamiento', styleTitlePropDesarrolloTable), Paragraph('Materiales y/o equipamiento', styleTitlePropDesarrolloTable)],
+        [Paragraph('Sub. Competencias', styleTitlePropDesarrolloTable), Paragraph('Resultados de Aprendizaje', styleTitlePropDesarrolloTable), Paragraph('Unidades Tematicas', styleTitlePropDesarrolloTable), Paragraph('Actividades Formativas', styleTitlePropDesarrolloTable), '', Paragraph('Tiempo aprox. hora reloj', styleTitlePropDesarrolloTable), '', Paragraph('Bibliografia propuesta por RA', styleTitlePropDesarrolloTable), Paragraph('Estrategias de enseñanza', styleTitlePropDesarrolloTable), Paragraph('Modo <br/> de <br/> agrupamiento', styleTitlePropDesarrolloTable), Paragraph('Materiales y/o <br/> equipamiento', styleTitlePropDesarrolloTable)],
         ['', '', '', Paragraph('Dentro del aula virtual', styleTitlePropDesarrolloTable), Paragraph('Fuera del aula virtual', styleTitlePropDesarrolloTable), Paragraph('Dentro del aula virtual', styleTitlePropDesarrolloTable), Paragraph('Fuera del aula virtual', styleTitlePropDesarrolloTable), '', '', '', '']
     ]
 
 
-    style = styles["Normal"]
+
+    propuestasContentTableStyle = ParagraphStyle(
+    'propuestasContentTable',
+    fontSize=6.5,
+    )
     for propuesta in propuestas_desarrollo:
 
         p_subcompetencias = []
         for subcompetencia in propuesta.subcompetencias.all():
-            p_subcompetencia = Paragraph(subcompetencia.descripcion, style, bulletText='-')
+            p_subcompetencia = Paragraph(subcompetencia.descripcion, propuestasContentTableStyle, bulletText='-')
             p_subcompetencias.append(p_subcompetencia)
 
         p_resultados_aprendizaje = []
         for resultado in propuesta.resultados_de_aprendizaje.all():
-            p_resultado = Paragraph(resultado.resultado, style, bulletText='-')
+            p_resultado = Paragraph(resultado.resultado, propuestasContentTableStyle, bulletText='-')
             p_resultados_aprendizaje.append(p_resultado)
 
         p_unidades = []
         for unidad in propuesta.unidades.all():
-            p_unidad = Paragraph(unidad.descripcion, style, bulletText='-')
+            p_unidad = Paragraph(unidad.descripcion, propuestasContentTableStyle, bulletText='-')
             p_unidades.append(p_unidad)
 
         p_bibliografias = []
         for bibliografia in propuesta.bibliografias.all():
-            p_bibliografia = Paragraph(bibliografia.autor + ', ' + bibliografia.titulo_libro, style, bulletText='-')
+            p_bibliografia = Paragraph(bibliografia.autor + ', ' + bibliografia.titulo_libro, propuestasContentTableStyle, bulletText='-')
             p_bibliografias.append(p_bibliografia)
 
         p_estrategias_ens = []
         for estrategia in propuesta.estrategias_ens.all():
-            p_estrategia = Paragraph(estrategia.estrategia, style, bulletText='-')
+            p_estrategia = Paragraph(estrategia.estrategia, propuestasContentTableStyle, bulletText='-')
             p_estrategias_ens.append(p_estrategia)
         
 
 
-        new_row = [p_subcompetencias, p_resultados_aprendizaje, p_unidades, Paragraph(propuesta.actividad_dentro_aula, style), Paragraph(propuesta.actividad_fuera_aula, style), Paragraph(propuesta.tiempo_dentro_aula, style), Paragraph(propuesta.tiempo_fuera_aula, style), p_bibliografias, p_estrategias_ens, Paragraph(propuesta.modo_agrupamiento or "", style), Paragraph(propuesta.materiales_equipamiento or "", style)]
+        new_row = [p_subcompetencias, p_resultados_aprendizaje, p_unidades, Paragraph(propuesta.actividad_dentro_aula, propuestasContentTableStyle), Paragraph(propuesta.actividad_fuera_aula, propuestasContentTableStyle), Paragraph(propuesta.tiempo_dentro_aula, propuestasContentTableStyle), Paragraph(propuesta.tiempo_fuera_aula, propuestasContentTableStyle), p_bibliografias, p_estrategias_ens, Paragraph(propuesta.modo_agrupamiento or "", propuestasContentTableStyle), Paragraph(propuesta.materiales_equipamiento or "", propuestasContentTableStyle)]
         data.append(new_row)
 
     t = Table(data, colWidths=50)
@@ -310,7 +315,7 @@ def print_propuesta_desarrollo(Story, resultados_aprendizaje, propuestas_desarro
                 ('SPAN',(9,0),(9,1)),
                 ('SPAN',(10,0),(10,1)),
                 ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-                ('VALIGN', (0, 0), (-1, -1), 'TOP')
+                ('VALIGN', (0, 0), (-1, -1), 'TOP'),
             ]
             )
         )
@@ -328,20 +333,24 @@ def print_sistema_evaluacion(Story, actividades):
         [Paragraph('Tipo', styleTitleTable), Paragraph('Actividades de evaluación', styleTitleTable), Paragraph('Unidad tematica', styleTitleTable), Paragraph('Lugar/plataformas', styleTitleTable), Paragraph('Indicadores de logro', styleTitleTable), Paragraph('RA', styleTitleTable), Paragraph('Tec. de Evaluación', styleTitleTable)],
     ]
 
-    style = styles["Normal"]
+
+    propuestasContentTableStyle = ParagraphStyle(
+    'sistEvaluacionContentTable',
+    fontSize=7.5,
+    )
     for actividad in actividades:
 
         p_resultados_aprendizaje = []
         for resultado in actividad.resultados_de_aprendizaje.all():
-            p_resultado_aprendizaje = Paragraph(resultado.resultado, style, bulletText='-')
+            p_resultado_aprendizaje = Paragraph(resultado.resultado, propuestasContentTableStyle, bulletText='-')
             p_resultados_aprendizaje.append(p_resultado_aprendizaje)
         p_unidades = []
         for unidad in actividad.unidad_tematica.all():
-            p_unidad = Paragraph( str(unidad.numero)+ " " + unidad.titulo , style, bulletText='-')
+            p_unidad = Paragraph( str(unidad.numero)+ " " + unidad.titulo , propuestasContentTableStyle, bulletText='-')
             p_unidades.append(p_unidad)
         
 
-        new_row = [Paragraph(str(actividad.tipo_de_evaluacion.get_tipo_display()), style), Paragraph(actividad.get_actividad_display(), style), p_unidades, Paragraph(actividad.lugar, style), Paragraph(actividad.indicadores_de_logro, style), p_resultados_aprendizaje, Paragraph(actividad.tecnicas_de_evaluacion, style)]
+        new_row = [Paragraph(str(actividad.tipo_de_evaluacion.get_tipo_display()), propuestasContentTableStyle), Paragraph(actividad.get_actividad_display(), propuestasContentTableStyle), p_unidades, Paragraph(actividad.lugar, propuestasContentTableStyle), Paragraph(actividad.indicadores_de_logro, propuestasContentTableStyle), p_resultados_aprendizaje, Paragraph(actividad.tecnicas_de_evaluacion, propuestasContentTableStyle)]
         data.append(new_row)
 
     t = Table(data)
