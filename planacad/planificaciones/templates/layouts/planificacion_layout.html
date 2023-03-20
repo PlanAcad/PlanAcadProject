@@ -35,11 +35,8 @@ $(function () {
 
                     <nav>
                         <ol>
-                            <a
-                                href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}"
-                                class="active"
-                                title="Datos descriptivos"
-                                ><li class="section__title">
+                            <a href="{% url 'planificaciones:datosDescriptivos' planificacion.id %}">
+                                <li class="{% if 'datos-descriptivos' in request.path %} active {% endif %}">
                                     Datos descriptivos 
                                     {% if "1" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
@@ -51,12 +48,8 @@ $(function () {
                                     {% endif %}
                                 </li></a
                             >
-                            <a
-                                href="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}"
-                                class=""
-                                title="Estructura de la cátedra"
-                                class="section__title"
-                                ><li>Estructura de la cátedra
+                            <a href="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}">
+                                <li class="{% if 'estructura-de-la-catedra' in request.path %} active {% endif %}">Estructura de la cátedra
                                     {% if "2" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -67,22 +60,8 @@ $(function () {
                                     {% endif %}
                                 </li></a
                             >
-                            <a
-                                href="{% url 'planificaciones:fundamentacion' planificacion.id %}"
-                                class="
-                                    {%
-                                    if
-                                    '/fundamentacion'
-                                    in
-                                    url
-                                    %}
-                                    active
-                                    {%
-                                    endif
-                                    %}
-                                "
-                                title="Fundamentación"
-                                ><li class="section__title">
+                            <a href="{% url 'planificaciones:fundamentacion' planificacion.id %}">
+                                <li class="{% if 'fundamentacion' in request.path %} active {% endif %}">
                                     Fundamentación
                                     {% if "3" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
@@ -102,20 +81,7 @@ $(function () {
                                         {% url 'planificaciones:resultadosDeAprendizajes' planificacion.id %}
                                         {%endif%}
                                         "
-                                class="
-                                    {%
-                                    if
-                                    '/resultados-de-aprendizaje'
-                                    in
-                                    url
-                                    %}
-                                    active
-                                    {%
-                                    endif
-                                    %}
-                                "
-                                title="Resultados de aprendizaje prprevios para iniciar/continuar el desarrollo de los RA de la asignatura en relacion con el nivel de aporte a las sub-competencias y competencias"
-                                ><li class="section-title">
+                                ><li class="{% if 'resultados-de-aprendizaje' in request.path %} active {% endif %}">
                                     Resultados de aprendizaje previos
                                     {% if "4" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
@@ -128,12 +94,8 @@ $(function () {
                                 </li></a
                             >
 
-                            <a
-                                href="{% url 'planificaciones:competencias' planificacion.id %}"
-                                class=""
-                                title="Competencias y capacidades vinculadas con la asignatura"
-                            >
-                                <li>Competencias y capacidades
+                            <a href="{% url 'planificaciones:competencias' planificacion.id %}">
+                                <li class="{% if 'competencias' in request.path %} active {% endif %}">Competencias y capacidades
                                     {% if "5" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -145,12 +107,8 @@ $(function () {
                                 </li></a
                             >
 
-                            <a
-                                href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}"
-                                class=""
-                                title="Propuestas para el desarrollo"
-                            >
-                                <li>Propuestas para el desarrollo
+                            <a href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}">
+                                <li class="{% if 'propuesta-desarrollo' in request.path %} active {% endif %}">Propuestas para el desarrollo
                                     {% if "6" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -161,11 +119,8 @@ $(function () {
                                     {% endif %}
                                 </li></a
                             >
-                            <a
-                                href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}"
-                                class=""
-                                title=""
-                                ><li>
+                            <a href="{% url 'planificaciones:sistemaDeEvaluacion' planificacion.id %}">
+                                <li class="{% if 'sistema-de-evaluacion' in request.path %} active {% endif %}">
                                     Sistema de evaluación
                                     {% if "7" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
@@ -179,9 +134,8 @@ $(function () {
                                         <a
                                             href="{% url 'planificaciones:aprobacionDirecta' planificacion.id %}"
                                             class="p-1 pt-0"
-                                            title=""
                                         >
-                                            <li>
+                                            <li class="subsection_title {% if 'condicion-aprobacion-directa' in request.path %} active {% endif %}">
                                                 Condición aprobación directa
                                                 {% if "7.1" in correccionesEnSecciones %}
                                                 <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
@@ -196,9 +150,8 @@ $(function () {
                                         <a
                                             href="{% url 'planificaciones:aprobacionCursada' planificacion.id %}"
                                             class="p-1"
-                                            title=""
                                         >
-                                            <li>
+                                            <li class="subsection_title {% if 'condicion-aprobacion-cursada' in request.path %} active {% endif %}">
                                                 Condición aprobación cursada
                                                 {% if "7.2" in correccionesEnSecciones %}
                                                 <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
@@ -213,11 +166,8 @@ $(function () {
                                     </ol>
                                 </li>
                             </a>
-                            <a
-                                href="{% url 'planificaciones:cronograma' planificacion.id %}"
-                                class=""
-                                title="Webgrafia"
-                                ><li>Cronograma
+                            <a href="{% url 'planificaciones:cronograma' planificacion.id %}">
+                                <li class="{% if 'cronograma' in request.path %} active {% endif %}">Cronograma
                                     {% if "8" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -228,11 +178,8 @@ $(function () {
                                     {% endif %}
                                 </li>
                             </a>
-                            <a
-                                href="{% url 'planificaciones:bibliografia' planificacion.id %}"
-                                class=""
-                                title="Bibliografia"
-                                ><li>Biliografia
+                            <a href="{% url 'planificaciones:bibliografia' planificacion.id %}">
+                                <li class="{% if 'bibliografia' in request.path %} active {% endif %}">Biliografia
                                     {% if "9" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -243,11 +190,8 @@ $(function () {
                                     {% endif %}
                                 </li>
                             </a>
-                            <a
-                                href="{% url 'planificaciones:webgrafia' planificacion.id %}"
-                                class=""
-                                title="Webgrafia"
-                                ><li>Webgrafia
+                            <a href="{% url 'planificaciones:webgrafia' planificacion.id %}">
+                                <li class="{% if 'webgrafia' in request.path %} active {% endif %}">Webgrafia
                                     {% if "10" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -258,11 +202,8 @@ $(function () {
                                     {% endif %}
                                 </li>
                             </a>
-                            <a
-                                href="{% url 'planificaciones:contenido' planificacion.id %}"
-                                class=""
-                                title="-"
-                                ><li>Contenido
+                            <a href="{% url 'planificaciones:contenido' planificacion.id %}">
+                                <li class="{% if 'contenido' in request.path %} active {% endif %}">Contenido
                                     {% if "11" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -273,12 +214,8 @@ $(function () {
                                     {% endif %}
                                 </li></a
                             >
-                            <a
-                                href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}"
-                                class=""
-                                title="Distribución de Tareas"
-                            >
-                                <li>Distribución de tareas
+                            <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}">
+                                <li class="{% if 'distribucion-de-tareas' in request.path %} active {% endif %}">Distribución de tareas
                                     {% if "12" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -290,11 +227,8 @@ $(function () {
                                 </li>
                             </a>
 
-                            <a
-                                href="{% url 'planificaciones:justificacionOrdenanza' planificacion.id %}"
-                                class=""
-                                title="Justificacion ordenanza"
-                                ><li>Justificación ordenanza 604
+                            <a href="{% url 'planificaciones:justificacionOrdenanza' planificacion.id %}">
+                                <li class="{% if 'justificacion-ordenanza' in request.path %} active {% endif %}">Justificación ordenanza 604
                                     {% if "13" in correccionesEnSecciones %}
                                     <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
@@ -308,18 +242,16 @@ $(function () {
                         </ol>
 
                         <hr >
-                        <a
-                        href="{% url 'planificaciones:exportar' planificacion.id %}"
-                        class=""
-                        title="EXPORTAR PLANIFICACION"
-                        >
-                        <div style="display: flex; align-items: center;">
-                            <svg style="margin-right: 10px; margin-left: 5px" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                            </svg>
-                            EXPORTAR PLANIFICACION
-                        </div>
+                        <a href="{% url 'planificaciones:exportar' planificacion.id %}">
+                            <div style="display: flex; align-items: center;">
+                                <p class="{% if 'exportar' in request.path %} active {% endif %}">
+                                    <svg style="margin-right: 10px; margin-left: 5px" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                    </svg>
+                                    EXPORTAR PLANIFICACION
+                                </p>
+                            </div>
                         </a>
                         {% if planificacion.estado == "P" %} 
                         {% if request.user|has_group:"profesor" %}

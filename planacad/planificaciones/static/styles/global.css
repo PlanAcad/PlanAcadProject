@@ -45,8 +45,6 @@
 *** SIDEBAR ***
 ***************/
 
-.layout__sidebar {
-}
 .layout__sidebar a {
     text-decoration: none;
     color: var(--gray-dark);
@@ -58,6 +56,19 @@
 .layout__sidebar a:hover {
     color: var(--blue);
 }
+
+.subsection_title {
+    color:#000000;
+}
+
+.subsection_title:hover {
+    color: var(--blue);
+}
+
+.active {
+    color: var(--blue);
+}
+
 
 /**************
 *** SECCION ***
