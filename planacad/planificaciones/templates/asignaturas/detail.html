@@ -30,14 +30,13 @@
                     {% endif %}
 
                     {% if not planificaciones %}
-                      {% if not planificacionesDeAsignatura %}
+                      {% if not planificacionesDeAsignatura or request.user|has_group:"alumno" %}
                           <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                          <strong>No existen planificaciones!</strong>
-                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                            En este momento, no existen planificaciones disponibles.
                           </div>
                       {% else %}
                         <div class="alert alert-warning" role="alert">
-                          Existen planificaciones en otro estado actualmente
+                          Existen planificaciones en otro estado actualmente.
                         </div>
                         {% endif %}
                     {% endif %}
