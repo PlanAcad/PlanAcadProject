@@ -291,7 +291,7 @@ def MandarAvisoFechaLimiteDePlanificacion(request):
                     message = comentario
                     message = MIMEText(message)
                     message["Content-Type"] = "text/plain; charset=UTF-8"
-                    message['subject'] = 'Cambio de estado de la planificacion'
+                    message['subject'] = 'Correo informativo'
                     msg = message.as_string()
                     server.sendmail(from_email, to_email, msg)
 
