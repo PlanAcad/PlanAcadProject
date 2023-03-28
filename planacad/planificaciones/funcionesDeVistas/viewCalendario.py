@@ -20,7 +20,7 @@ def CreateCalendario(calendarioAcademico, parciales):
                 if(not existeLaFecha):
                     calen = Calendario(fecha =parcial.fecha_clase , hay_clase = True, actividades = [f'{parcial.get_es_examen_display()} de {parcial.planificacion.asignatura.nombre_materia}'])
                     calendarioConParciales.append(calen)
-        calendarioConParciales = sorted(calendarioConParciales, key=lambda x: x.fecha)        
+        calendarioConParciales = sorted(calendarioConParciales, key=lambda x: x.fecha)   
         return calendarioConParciales
                     
             

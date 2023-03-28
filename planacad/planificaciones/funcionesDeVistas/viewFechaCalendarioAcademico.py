@@ -30,7 +30,6 @@ def CalendarioAcademicoIndex(request, ano):
     fecha_inicio = fecha
     fecha_fin = datetime.datetime(ano+1,3,31)
     cantidad_de_dias = (fecha_fin - fecha_inicio).days 
-    print(cantidad_de_dias)
     calendario = None
     calendarioAcademico = None
     existe_calendario = None
@@ -67,22 +66,29 @@ def CalendarioAcademicoIndex(request, ano):
             asignaturasProfesor = Asignatura.objects.filter(profesor = request.user)
             for asig in asignaturasProfesor:
                 planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = ano , estado = 'A').last()
-                fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
+                if fechasParciales:
+                    fechasParciales = fechasParciales | Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'P'))
+                else:
+                    fechasParciales =  Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'P'))
         elif "jefe de carrera" in  usergroup or "consejo" in  usergroup:
             carreraUsuario = request.user.carrera.all()
             if(carreraUsuario.count()==1):
                 carrera = Carrera.objects.get(id = carreraUsuario.first().id) 
                 asignaturasProfesor = Asignatura.objects.filter(carrera = carrera)
-                print(asignaturasProfesor.count())
             for asig in asignaturasProfesor:
                 planificacion = Planificacion.objects.filter(asignatura = asig).filter(datos_descriptivos__ciclo_lectivo = ano , estado = 'A').last()
-                fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
-                print(fechasParciales)
+                if fechasParciales:
+                    fechasParciales = fechasParciales | Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'P'))
+                else:
+                    fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'P'))
         elif "alumno" in usergroup:
             for up in usuariosPlanificacion:
                 planificacion = Planificacion.objects.get(id = up.planificacion_id)
                 if(planificacion.datos_descriptivos.ciclo_lectivo == ano and planificacion.estado == 'A'):
-                    fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'A'))
+                    if fechasParciales:
+                        fechasParciales = fechasParciales | Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'P'))
+                    else:
+                        fechasParciales = Clase.objects.filter(planificacion = planificacion).filter(Q(es_examen = 'R') | Q(es_examen = 'P'))
 
         calendarioAcademico = FechaCalendarioAcademico.objects.filter(ciclo_lectivo=ano).exclude(actividad='DN').order_by('fecha')    
     

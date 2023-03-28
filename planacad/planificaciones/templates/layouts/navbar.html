@@ -95,6 +95,12 @@
                     {% endif %}
                     {% if not  request.user|has_group:"alumno" and not user.is_staff %}
                     <a
+                        class="item-subnavbar"
+                        href="{% url 'planificaciones:asignaturas' %}"
+                        >
+                            Asignaturas
+                        </a>
+                    <a
                     class="item-subnavbar"
                     href="{% url 'planificaciones:pdf_LibroRojo' %}" target="_blank"
                     >
