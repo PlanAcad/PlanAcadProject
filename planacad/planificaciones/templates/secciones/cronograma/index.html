@@ -20,7 +20,7 @@
   <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
 {% endif %}
 
-{% if existe_calendario and not cronograma_sintonizado %}
+{% if existe_calendario and not cronograma_sintonizado and not planificacion.estado == "A"%}
   <button type="button" class="link mt-2 mb-2 mr-2" style="float:right" data-toggle="modal" data-target="#modal-cronograma-create">
     Sincronizar con calendario académico
   </button>
