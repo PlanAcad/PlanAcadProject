@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 import json
 from django.db.models import Q
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from planificaciones.modelos.modelFechaCalendarioAcademico import FechaCalendarioAcademico  
 ## import model and form
@@ -36,27 +37,30 @@ def DatosDescriptivosNew(asignatura_id, carrera_id):
 @login_required
 def ImportDatosDescriptivos(request, id_planificacion):
     if request.method == 'POST':
-        planificacion = Planificacion.objects.get(id=id_planificacion)
-        datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
-        # Leer el archivo Excel y convertirlo en un DataFrame
-        df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
-        df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(int)
-        # Iterar sobre cada fila del DataFrame y crear usuarios de Django
-        for _, row in df.iterrows():
-            institucion = row['institucion']
-            if not pd.isna(institucion):
-                datosDescriptivos.institucion = row['institucion']
-                datosDescriptivos.departamento = row['departamento']
-                datosDescriptivos.area_bloque = row['area_bloque']
-                datosDescriptivos.porcentaje_horas_en_carrera = row['porcentaje_horas_en_carrera']
-                datosDescriptivos.porcentaje_horas_en_area = row['porcentaje_horas_en_area']
-                datosDescriptivos.nivel = row['nivel']
-                datosDescriptivos.ciclo_lectivo = datetime.now().year
-                datosDescriptivos.carga_horaria_total = row['carga_horaria_total']
-                datosDescriptivos.carga_horaria_semanal = row['carga_horaria_semanal']
-                datosDescriptivos.cursado = row['cursado'].strip('"')
-                datosDescriptivos.save()
-
+        try:  
+            planificacion = Planificacion.objects.get(id=id_planificacion)
+            datosDescriptivos = DatosDescriptivos.objects.get(id=planificacion.datos_descriptivos_id)
+            # Leer el archivo Excel y convertirlo en un DataFrame
+            df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
+            df['nivel'] = pd.to_numeric(df['nivel'], errors='coerce').fillna(0).astype(int)
+            # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+            for _, row in df.iterrows():
+                institucion = row['institucion']
+                if not pd.isna(institucion):
+                    datosDescriptivos.institucion = row['institucion']
+                    datosDescriptivos.departamento = row['departamento']
+                    datosDescriptivos.area_bloque = row['area_bloque']
+                    datosDescriptivos.porcentaje_horas_en_carrera = row['porcentaje_horas_en_carrera']
+                    datosDescriptivos.porcentaje_horas_en_area = row['porcentaje_horas_en_area']
+                    datosDescriptivos.nivel = row['nivel']
+                    datosDescriptivos.ciclo_lectivo = datetime.now().year
+                    datosDescriptivos.carga_horaria_total = row['carga_horaria_total']
+                    datosDescriptivos.carga_horaria_semanal = row['carga_horaria_semanal']
+                    datosDescriptivos.cursado = row['cursado'].strip('"')
+                    datosDescriptivos.save()
+            messages.success(request, 'Se ha guardado con éxito')
+        except:  
+            messages.error(request, 'La operación falló')
         
         return redirect(reverse('planificaciones:datosDescriptivos', args=[planificacion.id]) )
 
