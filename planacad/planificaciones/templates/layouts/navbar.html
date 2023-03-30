@@ -93,12 +93,15 @@
                         
 
                     {% endif %}
-                    <a
+                    {% if not  user.is_staff %}
+                        <a
                         class="item-subnavbar"
                         href="{% url 'planificaciones:asignaturas' %}"
                         >
                             Asignaturas
                         </a>
+                    {% endif %}
+
                     {% if not  request.user|has_group:"alumno" and not user.is_staff %}
                     <a
                     class="item-subnavbar"
@@ -116,6 +119,7 @@
                             Calendario
                         </a>
                     {% endif %}
+                    
                     {% if not  request.user|has_group:"alumno" and not user.is_staff %}
                     <a
                         class="item-subnavbar"
