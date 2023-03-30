@@ -121,7 +121,7 @@ def AddBibliografiaFromFile(request):
                         libro.save()
             messages.success(request, 'Se ha guardado con éxito')
         except:  
-                messages.error(request, 'La operación falló')
+            messages.error(request, 'La operación falló')
                 
         redirect_url = reverse('planificaciones:bibliografia', kwargs={'id_planificacion': planificacion.id})
         response = HttpResponse(redirect_url)
