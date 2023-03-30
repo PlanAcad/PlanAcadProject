@@ -25,6 +25,18 @@
 {% if existen_correcciones_pendientes %}
   <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
   {% endif %}
+
+{% if messages %}
+  {% for message in messages %}
+    {% if "success" in message.tags %}
+      <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+    {% endif %}
+    {% if "error" in message.tags %}
+      <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 <div class="seccion__card p-5">
     <table class="">
     <tbody>

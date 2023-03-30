@@ -14,6 +14,7 @@ from planificaciones.funcionesDeVistas import viewCorreccion
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib import messages
 
 import pandas as pd
 from django.views.decorators.csrf import csrf_exempt
@@ -98,26 +99,30 @@ def ReadBibliografiaFromFile(request):
 @csrf_exempt
 def AddBibliografiaFromFile(request):
     if request.method == 'POST':
-        file_excel = request.FILES.get('excel_file')
-        libro = request.POST.get('titulo_libro')
-        planificacion_id = request.POST.get('planificacion_id')
-        planificacion = Planificacion.objects.get(id=planificacion_id)
-        # Leer el archivo Excel y convertirlo en un DataFrame
-        df = pd.read_excel(file_excel,engine='openpyxl')
-        df['año_publicacion'] = pd.to_numeric(df['año_publicacion'], errors='coerce').fillna(0).astype(int)
-        # Iterar sobre cada fila del DataFrame y crear usuarios de Django
-        for _, row in df.iterrows():
-            titulo = row['titulo_libro']
-            if not pd.isna(titulo):
-                if(titulo == libro):
-                    libro = Bibliografia()
-                    libro.autor = row['autor']
-                    libro.titulo_libro = row['titulo_libro']
-                    libro.editor = row['editor']
-                    libro.año_publicacion = row['año_publicacion']
-                    libro.planificacion = planificacion
-                    libro.save()
-                    
+        try:  
+            file_excel = request.FILES.get('excel_file')
+            libro = request.POST.get('titulo_libro')
+            planificacion_id = request.POST.get('planificacion_id')
+            planificacion = Planificacion.objects.get(id=planificacion_id)
+            # Leer el archivo Excel y convertirlo en un DataFrame
+            df = pd.read_excel(file_excel,engine='openpyxl')
+            df['año_publicacion'] = pd.to_numeric(df['año_publicacion'], errors='coerce').fillna(0).astype(int)
+            # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+            for _, row in df.iterrows():
+                titulo = row['titulo_libro']
+                if not pd.isna(titulo):
+                    if(titulo == libro):
+                        libro = Bibliografia()
+                        libro.autor = row['autor']
+                        libro.titulo_libro = row['titulo_libro']
+                        libro.editor = row['editor']
+                        libro.año_publicacion = row['año_publicacion']
+                        libro.planificacion = planificacion
+                        libro.save()
+            messages.success(request, 'Se ha guardado con éxito')
+        except:  
+            messages.error(request, 'La operación falló')
+                
         redirect_url = reverse('planificaciones:bibliografia', kwargs={'id_planificacion': planificacion.id})
         response = HttpResponse(redirect_url)
         return response

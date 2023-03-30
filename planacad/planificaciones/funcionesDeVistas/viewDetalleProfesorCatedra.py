@@ -15,6 +15,7 @@ from planificaciones.modelos.modelDedicacion import Dedicacion
 
 #Agregar
 from django.db.models import Q
+from django.contrib import messages
 from planificaciones.modelos.modelCorrecciones import Correccion
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
@@ -93,26 +94,30 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
 @login_required
 def ImportDetalleProfesorCatedra(request, id_planificacion):
     if request.method == 'POST':
-        planificacion = Planificacion.objects.get(id=id_planificacion)
-        # Leer el archivo Excel y convertirlo en un DataFrame
-        df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
-        # Iterar sobre cada fila del DataFrame y crear usuarios de Django
-        for _, row in df.iterrows():
-            legajo = row['legajoProfesor']
-            if not pd.isna(legajo):
-                detalleProfesorCatedra = DetalleProfesorCatedra()
-                categoria = Categoria.objects.get(categoria= row['categoria'])
-                situacion = Situacion.objects.get(situacion= row['situacion'])
-                dedicacion = Dedicacion.objects.get(dedicacion= row['dedicacion'])
-                profesor = User.objects.get(username = legajo)
+        try:
+            planificacion = Planificacion.objects.get(id=id_planificacion)
+            # Leer el archivo Excel y convertirlo en un DataFrame
+            df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
+            df['legajoProfesor'] = pd.to_numeric(df['legajoProfesor'], errors='coerce').fillna(0).astype(int)
+            # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+            for _, row in df.iterrows():
+                legajo = row['legajoProfesor']
+                if not pd.isna(legajo) and legajo != 0:
+                    detalleProfesorCatedra = DetalleProfesorCatedra()
+                    categoria = Categoria.objects.get(categoria= row['categoria'])
+                    situacion = Situacion.objects.get(situacion= row['situacion'])
+                    dedicacion = Dedicacion.objects.get(dedicacion= row['dedicacion'])
+                    profesor = User.objects.get(username = legajo)
 
-                detalleProfesorCatedra.planificacion = planificacion
-                detalleProfesorCatedra.categoria = categoria
-                detalleProfesorCatedra.situacion = situacion
-                detalleProfesorCatedra.dedicacion = dedicacion
-                detalleProfesorCatedra.profesor = profesor
-                detalleProfesorCatedra.save()
-
+                    detalleProfesorCatedra.planificacion = planificacion
+                    detalleProfesorCatedra.categoria = categoria
+                    detalleProfesorCatedra.situacion = situacion
+                    detalleProfesorCatedra.dedicacion = dedicacion
+                    detalleProfesorCatedra.profesor = profesor
+                    detalleProfesorCatedra.save()
+            messages.success(request, 'Se ha guardado con éxito')
+        except:  
+            messages.error(request, 'La operación falló')
         
         return redirect(reverse('planificaciones:detallesprofesorcatedra', args=[planificacion.id]) )
 

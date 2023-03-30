@@ -17,6 +17,7 @@ from planificaciones.modelos.modelDatosDescriptivos import DatosDescriptivos
 from planificaciones.formularios.formCronogramaCreate import  CronogramaCreateForm
 #Agregar
 from django.db.models import Q
+from django.contrib import messages
 from planificaciones.modelos.modelCorrecciones import Correccion
 #Correcciones
 from planificaciones.formularios.formCorreccion import CorreccionForm
@@ -124,10 +125,12 @@ def ClaseUpdate(request, id_planificacion, id_clase):
                 instance.save()
                 form.save_m2m()
                 mensaje_exito="Guardamos los cambios correctamente."
+                messages.success(request, 'Se ha guardado con éxito')
                 return redirect('planificaciones:cronograma', id_planificacion=id_planificacion)
                  
             except:  
                 mensaje_error = "No pudimos guardar los cambios."
+                messages.error(request, 'La operación falló')
                 print(mensaje_error)
                 form = ClaseForm(instance=data)
                 form.fields['profesor_a_cargo'].queryset = User.objects.filter(asignatura__id = planificacion.asignatura_id)
