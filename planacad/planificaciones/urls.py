@@ -47,6 +47,7 @@ urlpatterns = [
     path('planificacion/<int:id>/eliminar-planif-temporal', viewPlanificacion.PlanificacionLogicDestroy, name='deleteLogicPlanificacion'),
     path('planificacion/<int:id>/recuperar-planificacion',viewPlanificacion.PlanificacionRestore, name='restorePlanificacion'),
     path('planificacion/<int:id>/eliminar-planificacion', viewPlanificacion.PlanificacionDestroy, name='deletePlanificacion'),
+    
     path('planificacion/<int:id_planificacion>/<int:id_asignatura>/subcribirse-planificacion', viewUsuarioPlanificacion.PlanificacionUsuarioNew, name='subcribirsePlanificacion'),
     path('planificacion/<int:id_planificacion>/<int:id_asignatura>/dessubcribirse-planificacion', viewUsuarioPlanificacion.PlanificacionUsuarioDelete, name='dessubcribirsePlanificacion'),
 
