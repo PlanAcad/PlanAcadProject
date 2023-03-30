@@ -4,6 +4,18 @@
 .helptext{
     font-size: 0.8rem;
 }
+.errorlist li {
+    color: red;
+    font-weight: bold;
+  }
+
+/**************
+*** NAVBAR ***
+***************/
+
+  .form-register ul li {
+    font-size: 0.8rem;
+  }
 /**************
 *** NAVBAR ***
 ***************/
