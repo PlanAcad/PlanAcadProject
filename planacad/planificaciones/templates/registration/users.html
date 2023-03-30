@@ -38,6 +38,16 @@
                     <h2 style="margin-bottom: 0">
                         Usuarios
                       </h2>
+                      {% if messages %}
+                        {% for message in messages %}
+                            {% if "success" in message.tags %}
+                            <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+                            {% endif %}
+                            {% if "error" in message.tags %}
+                            <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                      {% endif %}
                       {% if not usuarios %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                           <strong>No existen usuarios!</strong>

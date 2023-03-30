@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.contrib import messages
 # Para usar los objetos y/o funciones de 'redirect'
 from planificaciones.formularios.formPlanificacion import PlanificacionForm
 from django.urls import reverse
@@ -33,9 +34,11 @@ def AsignaturaNew(request):
             asig.save()
             form.save_m2m()
             asignatura_id = asig.id
+            messages.success(request, 'Se ha guardado con éxito')
             return redirect('planificaciones:updateAsignatura', id=asignatura_id)
         else: 
-            print("no valido")
+            messages.success(request, 'Se ha guardado con éxito')
+            messages.error(request, 'La operación falló')
     context = {
         'form':form,
          
@@ -45,25 +48,30 @@ def AsignaturaNew(request):
 @login_required
 def bulkAsignaturaNew(request):
     if request.method == 'POST':
-        # Leer el archivo Excel y convertirlo en un DataFrame
-        df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
-        df['ano'] = pd.to_numeric(df['ano'], errors='coerce').fillna(0).astype(int)
-        # Iterar sobre cada fila del DataFrame y crear usuarios de Django
-        for _, row in df.iterrows():
-            nombreCarrera = row['carrera']
-            if not pd.isna(nombreCarrera):
-                carrera = Carrera.objects.get(nombre_carrera = row['carrera'])
-                asignatura = Asignatura.objects.create(
-                    nombre_materia= row['name'],
-                    ano=row['ano'],
-                    comision=row['comision'],
-                    carrera_id= carrera.id
-                )
-                for userNameProfesor in row['profesores'].split(','):
-                        if(userNameProfesor):
-                            prof = User.objects.get(username=userNameProfesor.strip('"'))
-                            asignatura.profesor.add(prof)
-                            asignatura.save()
+        try:
+            # Leer el archivo Excel y convertirlo en un DataFrame
+            df = pd.read_excel(request.FILES['excel_file'],engine='openpyxl')
+            df['ano'] = pd.to_numeric(df['ano'], errors='coerce').fillna(0).astype(int)
+            # Iterar sobre cada fila del DataFrame y crear usuarios de Django
+            for _, row in df.iterrows():
+                nombreCarrera = row['carrera']
+                if not pd.isna(nombreCarrera):
+                    carrera = Carrera.objects.get(nombre_carrera = row['carrera'])
+                    asignatura = Asignatura.objects.create(
+                        nombre_materia= row['name'],
+                        ano=row['ano'],
+                        comision=row['comision'],
+                        carrera_id= carrera.id
+                    )
+                    for userNameProfesor in row['profesores'].split(','):
+                            if(userNameProfesor):
+                                prof = User.objects.get(username=userNameProfesor.strip('"'))
+                                asignatura.profesor.add(prof)
+                                asignatura.save()
+            messages.success(request, 'Se ha guardado con éxito')
+        except:  
+            messages.error(request, 'La operación falló')
+        
         return redirect('planificaciones:asignaturas')
 
 @login_required
@@ -239,6 +247,7 @@ def AsignaturaUpdate(request, id):
             asig = form.save(commit=False)
             asig.save()
             form.save_m2m()
+            messages.success(request, 'Se ha guardado con éxito')
             return redirect('planificaciones:asignaturas')
     profesoresCarrera = User.objects.filter(carrera = asignatura.carrera)
     form.fields['profesor'].queryset = User.objects.filter(carrera = asignatura.carrera)
