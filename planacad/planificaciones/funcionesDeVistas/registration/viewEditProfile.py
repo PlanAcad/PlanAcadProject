@@ -3,6 +3,7 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.formularios.registration.formEditProfile import EditUserForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 @login_required
 def editUserView(request,id):
@@ -18,9 +19,10 @@ def editUserView(request,id):
             user.carrera.clear()
             user.carrera.set(carreras)
             user.save()
+            messages.success(request, 'Se ha guardado con éxito')
             return redirect('planificaciones:usuarios')
         else:
-
+            messages.error(request, 'La operación falló')
             form.fields['rol'].initial = user.groups.all().first()
             form.fields['carrera'].initial = user.carrera.all().first()
 

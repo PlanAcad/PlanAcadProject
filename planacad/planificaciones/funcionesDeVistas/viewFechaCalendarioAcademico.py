@@ -155,7 +155,7 @@ def UpdateFechaCalendarioAcademico(request,ano):
 
 @login_required
 def CerrarCalendarioAcademico(request, ano):
-    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    # locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     mensaje_exito = None
     mensaje_error = None  
     calendario = None
@@ -193,7 +193,7 @@ def CerrarCalendarioAcademico(request, ano):
             else:
                 mensaje_error="ya hay un calendario con esa fecha"                
         except:  
-            mensaje_error="no se cargo nada de nada"  
+            mensaje_error="ups ocurrio un error"  
     else:  
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')
     return redirect('planificaciones:calendarioacademico', ano=ano)

@@ -103,7 +103,7 @@ def CorreccionUpdate(request, id_correccion):
 # To to add new one
 def CorreccionesEnSecciones(id_planificacion):
     correccionesEnSecciones = []
-    correcciones = Correccion.objects.filter(planificacion_id = id_planificacion)
+    correcciones = Correccion.objects.filter(planificacion_id = id_planificacion).filter(estado = "G")
     if(correcciones.filter(seccion = 1).exists()):
         correccionesEnSecciones.append("1")
     if(correcciones.filter(seccion = 2).exists()):
