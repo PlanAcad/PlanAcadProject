@@ -1,5 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 {% load util %}
+{% now "Y" as current_year %}
+{% now "n" as current_month %}
 <div class="layout d-flex flex-column min-vh-100">
     <!-- Add navbar -->
     {% include "layouts/navbar.html" %}
@@ -152,20 +154,53 @@
                                           action="{% url 'planificaciones:downloadPdf' planificacion.id %}"><button type="submit">Ver planificación</button>{% csrf_token %}</form></li>
                                           {% if usuariosPlanificacion %}
                                             {% for usuarioPlanificacion in usuariosPlanificacion %}
+                                            {% if current_month < 3 %}
+                                            {% with cycle_year=current_year|add:"-1" %}
+                                              {% if planificacion.datos_descriptivos.ciclo_lectivo == cycle_year|default_if_none:"0"|add:"0" %}
+                                                {% if usuarioPlanificacion.planificacion != planificacion %}
+                                                  <li><form
+                                                    method="POST"
+                                                    action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>  
+                                                {% else %}
+                                                  <li><form
+                                                    method="POST"
+                                                    action="{% url 'planificaciones:dessubcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Eliminar Parciales</button>{% csrf_token %}</form></li>    
+                                                {% endif %}
+                                              {% endif %}
+                                            {% endwith %}
+                                          {% else %}
+                                            {% if planificacion.datos_descriptivos.ciclo_lectivo == current_year|default_if_none:"0"|add:"0" %}
                                               {% if usuarioPlanificacion.planificacion != planificacion %}
                                                 <li><form
                                                   method="POST"
                                                   action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>  
-                                                {% else %}
+                                              {% else %}
                                                 <li><form
                                                   method="POST"
                                                   action="{% url 'planificaciones:dessubcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Eliminar Parciales</button>{% csrf_token %}</form></li>    
                                               {% endif %}
+                                            {% endif %}
+                                          {% endif %}
+                                          
+                                              
                                             {% endfor %}
                                           {% else %}
-                                            <li><form
-                                              method="POST"
-                                              action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>  
+                                          {% if current_month < 3 %}
+                                            {% with cycle_year=current_year|add:"-1" %}
+                                              {% if planificacion.datos_descriptivos.ciclo_lectivo == cycle_year|default_if_none:"0"|add:"0" %}
+                                                <li><form
+                                                  method="POST"
+                                                  action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>      
+                                              {% endif %}
+                                            {% endwith %}
+                                          {% else %}
+                                            {% if planificacion.datos_descriptivos.ciclo_lectivo == current_year|default_if_none:"0"|add:"0" %}
+                                              <li><form
+                                                method="POST"
+                                                action="{% url 'planificaciones:subcribirsePlanificacion' planificacion.id asignatura.id %}"><button type="submit">Añadir Parciales</button>{% csrf_token %}</form></li>  
+                                            {% endif %}
+                                          {% endif %}
+
                                           {% endif %}
                                       {% endif %}
                                     {% endif %}           
@@ -188,6 +223,7 @@
                               </div>
                               {% if not request.user|has_group:'alumno' %}
                                 {% if planificacion.estado == "A" %}
+                                
                                   <form
                                   method="POST"  class="card-footer" action="{% url 'planificaciones:copiarPlanif' planificacion.id %}">
                                       <button 
