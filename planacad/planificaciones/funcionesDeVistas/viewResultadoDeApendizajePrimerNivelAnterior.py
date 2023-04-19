@@ -27,6 +27,7 @@ def ResultadoDeAprendizajeAnteriorPrimerNivelNew(request,id_planificacion):
     data = ResultadoDeAprendizajeAnteriorPrimerNivel.objects.filter(planificacion=planificacion)
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 4)).prefetch_related('comentarios')
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
@@ -35,7 +36,7 @@ def ResultadoDeAprendizajeAnteriorPrimerNivelNew(request,id_planificacion):
     
     for item in correcciones:
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
     form = ResultadoDeAprendizajeAnteriorPrimerNivelForm()
     if request.method == "POST":  
         form = ResultadoDeAprendizajeAnteriorPrimerNivelForm(request.POST)
@@ -89,7 +90,8 @@ def ResultadoDeAprendizajeAnteriorPrimerNivelUpdate(request, id_planificacion, i
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = ResultadoDeAprendizajeAnteriorPrimerNivelForm(instance = data)
-        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+        correcciones = viewCorreccion.OrderCorrecciones(correcciones)
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 
     return render(request,'secciones/resultadosDeAprendizajeUpdatePrimerNivel.html',{'data':data,'planificacion':planificacion,'form':form,'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   

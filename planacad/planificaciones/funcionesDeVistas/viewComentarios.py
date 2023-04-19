@@ -4,6 +4,8 @@ from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.modelos.modelComentarios import Comentario
 from planificaciones.formularios.formComentarios import ComentarioForm
 from django.contrib.auth.decorators import login_required
+import datetime
+
 
 
 
@@ -17,6 +19,8 @@ def ComentarioNew(request, id_correccion, id_seccion):
             try:  
                 instance = form.save(commit=False)  
                 instance.correccion_id=correccion.id
+                instance.creador = request.user
+                instance.fechaDeCreacion =  datetime.datetime.now()
                 instance.save()
                 mensaje_exito="Añadimos el contenido correctamente."  
             except:  

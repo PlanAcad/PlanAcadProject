@@ -44,7 +44,7 @@ def TareasFuncionesIndex(request,id_planificacion):
     for item in correcciones:
         print(item.estado)
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
 
     if request.method == "POST":  
         tareasFuncionesForm = TareasFuncionesForm(request.POST)  
@@ -69,7 +69,7 @@ def TareasFuncionesIndex(request,id_planificacion):
     for item in correcciones:
         print(item.estado)
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
 
     context = {
         'planificacion': planificacion,

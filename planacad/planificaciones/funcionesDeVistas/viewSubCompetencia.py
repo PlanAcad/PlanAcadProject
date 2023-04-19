@@ -31,7 +31,8 @@ def SubCompetenciaNew(request,id_planificacion,id_competencia):
                  mensaje_error = "No pudimos crear correctamente"    
     else:  
         form = SubCompetenciaForm()  
-        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+        correcciones = viewCorreccion.OrderCorrecciones(correcciones)
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     return render(request,'secciones/subcompetencias/index.html',{'planificacion':planificacion,'competencia':competencia,'form':form, 'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 @login_required
@@ -56,7 +57,8 @@ def SubCompetenciaUpdate(request, id_planificacion, id_competencia, id_subcompet
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = SubCompetenciaForm(instance=data)  
-        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+        correcciones = viewCorreccion.OrderCorrecciones(correcciones)
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     return render(request,'secciones/subcompetencias/editar.html',{'data':data,'competencia':competencia,'planificacion':planificacion,'form':form, 'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   
 @login_required
