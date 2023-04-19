@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <h2 class="seccion__encabezado">13. Justificación (en caso que no se adapte a la ordenanza 604)</h2>
 {% if existen_correcciones_pendientes %}
   <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
@@ -18,7 +18,7 @@
     {% if form.errors %}
     <div class="alert alert-danger">{{form.errors}}</div>
     {% endif %}
-    {% if not planificacion.estado == "A" %} 
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} 
     <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
     {% endif %}
   </form>

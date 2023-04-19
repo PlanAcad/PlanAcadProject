@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <style>
     table {
         border-collapse: collapse;
@@ -49,7 +49,7 @@
                 <tbody>
                     {% if data %} {% for fila in data %}
 
-                    <tr {% if not planificacion.estado == "A" %} onclick="location.href=`{% url 'planificaciones:resultadosDeAprendizajesAnteriorPrimerNivelUpdate' planificacion.id fila.id %}`" {% endif %}>
+                    <tr {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} onclick="location.href=`{% url 'planificaciones:resultadosDeAprendizajesAnteriorPrimerNivelUpdate' planificacion.id fila.id %}`" {% endif %}>
                         <td class="py-4">{{fila.resultado|default:""}}</td>
                     </tr>
                     {% endfor %}{% else %}
@@ -62,7 +62,7 @@
         </tbody>
     </table>
 
-    {% if not planificacion.estado == "A" %} 
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%} 
         <div class="d-flex">
         <!-- Abrir modal  -->
         <button

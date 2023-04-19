@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <style>
   table {
     border-collapse: collapse;
@@ -43,7 +43,7 @@
   <div id="mensaje_error" class="alert alert-danger mt-1">{{mensaje_error}}</div>
 {% endif %}
 <div class="seccion__card p-5">
-  {% if not planificacion.estado == "A" %} 
+  {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%} 
         <!-- Abrir modal contenido -->
     <div class="d-flex-row">
       <button
@@ -74,7 +74,7 @@
               <h5  class="mb-0 title-card-collapse" data-toggle="collapse" data-target="#collapseheading{{contenido.unidad.numero}}" aria-expanded="true" aria-controls="collapseheading{{contenido.unidad.numero}}">
                   <b><u>UNIDAD {{ contenido.unidad.numero }}:</u> {{ contenido.unidad.titulo }}</b>
               </h5>
-              {% if not planificacion.estado == "A" %} 
+              {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} 
               <a class="item icon" href="{% url 'planificaciones:updateContenido' planificacion.id contenido.id %}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>

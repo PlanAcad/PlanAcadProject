@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <style>
     table {
         border-collapse: collapse;
@@ -105,7 +105,7 @@
                             <tbody>
                                 {% for r in resultados_aprendizaje_materia %}
                                 <tr
-                                {% if not planificacion.estado == "A" %} onclick="location.href=`{% url 'planificaciones:updatePDResultadoAprendizaje' planificacion.id r.id %}`" {% endif %}
+                                {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} onclick="location.href=`{% url 'planificaciones:updatePDResultadoAprendizaje' planificacion.id r.id %}`" {% endif %}
                                 >
                                     <td class="">R{{ forloop.counter }}</td>
                                     <td class="">{{r.resultado}}</td>
@@ -117,7 +117,7 @@
                         </table>
                     </tbody>
                 </table>
-                {% if not planificacion.estado == "A" %} 
+                {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%} 
                     <!-- Abrir modal resultado de aprendizaje -->
                     <button
                     type="button"
@@ -172,7 +172,7 @@
                 {% if propuestas_desarrollo %}
                 <tbody>
                     {% for propuesta in propuestas_desarrollo %}
-                    <tr {% if not planificacion.estado == "A" %}  onclick="location.href=`{% url 'planificaciones:updatePropuestaDesarrollo' planificacion.id propuesta.id %}`" {% endif %}>
+                    <tr {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %}  onclick="location.href=`{% url 'planificaciones:updatePropuestaDesarrollo' planificacion.id propuesta.id %}`" {% endif %}>
                         <td>
                             {% for subcompetencia in propuesta.subcompetencias.all %}
                             <p>{{ forloop.counter }}. {{ subcompetencia.descripcion }}</p>
@@ -214,7 +214,7 @@
             </table>
         </tbody>
     </table>
-    {% if not planificacion.estado == "A" %} 
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%} 
     <!-- Abrir modal propuesta de desarrollo -->
     <button
         type="button"
