@@ -8,6 +8,7 @@ from datetime import timedelta
 from django.http import HttpResponseRedirect
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademicoForm
 from planificaciones.formularios.formFechaCalendarioUpdate import FechaCalendarioAcademicoUpdateForm
+from django.contrib import messages
 
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
 from planificaciones.modelos.modelCarrera import Carrera
@@ -126,7 +127,6 @@ def UpdateFechaCalendarioAcademico(request,ano):
     else:
         fecha_hasta = datetime.datetime.strptime(fecha_hasta, '%d/%m/%Y')
     actividad = request.POST.get('actividad')
-    print(actividad)
     data = FechaCalendarioAcademico.objects.filter(fecha__range=[fecha_desde,fecha_hasta])
     if request.method == "POST":
         try:  
@@ -140,8 +140,10 @@ def UpdateFechaCalendarioAcademico(request,ano):
                 instance.save()
                 
             mensaje_exito="Guardamos los cambios correctamente."
+            messages.success(request, 'Se ha guardado con éxito')
         except:  
-            mensaje_error = "No pudimos guardar los cambios."  
+            mensaje_error = "No pudimos guardar los cambios."
+            messages.error(request, 'La operación falló')  
     
     context = {
         'data':data, 
@@ -165,7 +167,7 @@ def CerrarCalendarioAcademico(request, ano):
                 calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano)
                 calendario.update(editable = False)
                 mensaje_exito="Cerramos el calendario correctamente"
-                
+                messages.success(request, 'Se ha guardado con éxito')
                 prefesores = Group.objects.get(name='profesor')
                 jefes = Group.objects.get(name='jefe de carrera')
                 consejeros = Group.objects.get(name='consejo')
@@ -191,8 +193,10 @@ def CerrarCalendarioAcademico(request, ano):
                 return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'año':ano,'mensaje_error': mensaje_error,
                         'mensaje_exito':mensaje_exito}) 
             else:
+                messages.error(request, 'La operación falló')
                 mensaje_error="ya hay un calendario con esa fecha"                
-        except:  
+        except:
+            messages.error(request, 'La operación falló')  
             mensaje_error="ups ocurrio un error"  
     else:  
         calendario = FechaCalendarioAcademico.objects.filter(ciclo_lectivo = ano).exclude(actividad='DN').order_by('fecha')
