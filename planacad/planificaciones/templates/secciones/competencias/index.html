@@ -22,7 +22,17 @@
 <h2 class="seccion__encabezado">5. Competencias</h2>
 {% if existen_correcciones_pendientes %}
   <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
-  {% endif %}
+{% endif %}
+{% if messages %}
+    {% for message in messages %}
+    {% if "success" in message.tags %}
+        <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+    {% endif %}
+    {% if "error" in message.tags %}
+        <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
 <div class="seccion__card">
     {% if mensaje_exito %}
     <div class="alert alert-success">{{mensaje_exito}}</div>

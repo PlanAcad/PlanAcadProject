@@ -6,7 +6,16 @@
     class="link-arrow my-2 mb-5"
     >{% include "iconos/chevron-left.html" %}<span>Volver</span></a
 >
-
+{% if messages %}
+  {% for message in messages %}
+    {% if "success" in message.tags %}
+      <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+    {% endif %}
+    {% if "error" in message.tags %}
+      <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
 <h2 class="seccion__encabezado"></h2>
 <div class="seccion__card">
   {% if mensaje_exito %}
