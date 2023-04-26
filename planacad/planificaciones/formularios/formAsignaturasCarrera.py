@@ -13,7 +13,7 @@ class AsignaturaCarreraForm(forms.Form):
         queryset=None,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'})
     )
-    comentario = forms.CharField(
+    aviso = forms.CharField(
         max_length=500, 
         widget=forms.Textarea()
         )
