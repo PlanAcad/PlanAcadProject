@@ -420,7 +420,16 @@
                             Bienvenido {{ user.first_name  }}
                           </h2>  
                           <div class="row">
-
+                          {% if messages %}
+                            {% for message in messages %}
+                              {% if "success" in message.tags %}
+                                <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+                              {% endif %}
+                              {% if "error" in message.tags %}
+                                <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+                              {% endif %}
+                            {% endfor %}
+                          {% endif %}
                             <button
                             type="button"
                             class="btn btn-primary mt-4"

@@ -306,6 +306,8 @@ def MandarAvisoFechaLimiteDePlanificacion(request):
 
                 ##Cierro conexion al servidor
                 server.quit()
+                
+            messages.success(request, 'Se ha mandado con éxito')
             return redirect('planificaciones:asignaturas')
     else:
         form.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carrera)
