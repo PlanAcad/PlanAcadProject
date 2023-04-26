@@ -172,26 +172,27 @@ def CerrarCalendarioAcademico(request, ano):
                 jefes = Group.objects.get(name='jefe de carrera')
                 consejeros = Group.objects.get(name='consejo')
                 
+                try:
+                    users = User.objects.filter(Q(groups__name=prefesores.name) | Q(groups__name=jefes.name) | Q(groups__name=consejeros.name))
+                    ## Me conecto al servidor
+                    server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+                    server.starttls()
+                    server.login("victoria060298@ca.frre.utn.edu.ar", "Vi02cto0$$")
+                    from_email = "victoria060298@ca.frre.utn.edu.ar"
+                    for usuario in users:
+                        to_email = usuario.email
+                        message = 'Calendario Academico'
+                        message = MIMEText(message)
+                        message["Content-Type"] = "text/plain; charset=UTF-8"
+                        message['subject'] = f'Se ha cerra el calendario academico del ciclo lectivo {ano}' 
+                        msg = message.as_string()
+                        server.sendmail(from_email, to_email, msg)
+                    ##Cierro conexion al servidor
+                    server.quit()
+                except:
+                    print("no se pudo mandar el correo")
 
-                users = User.objects.filter(Q(groups__name=prefesores.name) | Q(groups__name=jefes.name) | Q(groups__name=consejeros.name))
-                ## Me conecto al servidor
-                server = smtplib.SMTP('smtp-mail.outlook.com', 587)
-                server.starttls()
-                server.login("victoria060298@ca.frre.utn.edu.ar", "Vi02cto0$$")
-                from_email = "victoria060298@ca.frre.utn.edu.ar"
-                for usuario in users:
-                    to_email = usuario.email
-                    message = 'Calendario Academico'
-                    message = MIMEText(message)
-                    message["Content-Type"] = "text/plain; charset=UTF-8"
-                    message['subject'] = f'Se ha cerra el calendario academico del ciclo lectivo {ano}' 
-                    msg = message.as_string()
-                    server.sendmail(from_email, to_email, msg)
-                ##Cierro conexion al servidor
-                server.quit()
-
-                return render(request,'calendario/calendario-academico.html',{'calendario':calendario,'año':ano,'mensaje_error': mensaje_error,
-                        'mensaje_exito':mensaje_exito}) 
+                redirect('planificaciones:calendarioacademico', ano=ano)
             else:
                 messages.error(request, 'La operación falló')
                 mensaje_error="ya hay un calendario con esa fecha"                
