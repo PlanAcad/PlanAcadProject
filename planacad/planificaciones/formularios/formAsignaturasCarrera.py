@@ -11,6 +11,7 @@ class AsignaturaMultipleChoiceField(forms.ModelMultipleChoiceField):
 class AsignaturaCarreraForm(forms.Form):
     asignaturas = AsignaturaMultipleChoiceField(
         queryset=None,
+        required=True,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'})
     )
     aviso = forms.CharField(
