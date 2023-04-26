@@ -34,10 +34,8 @@ def AsignaturaNew(request):
             asig.save()
             form.save_m2m()
             asignatura_id = asig.id
-            messages.success(request, 'Se ha guardado con éxito')
             return redirect('planificaciones:updateAsignatura', id=asignatura_id)
         else: 
-            messages.success(request, 'Se ha guardado con éxito')
             messages.error(request, 'La operación falló')
     context = {
         'form':form,
