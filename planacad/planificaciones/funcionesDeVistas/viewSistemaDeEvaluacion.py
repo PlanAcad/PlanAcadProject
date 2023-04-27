@@ -32,7 +32,7 @@ def SistemaDeEvaluacion(request, planificacion_id):
     for item in correcciones:
         print(item.estado)
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
     if request.method == 'POST':
         form = ActividadForm(request.POST)
         if form.is_valid():

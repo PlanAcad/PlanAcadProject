@@ -18,7 +18,7 @@
 
 <div class="seccion__card">
 
-  {% if not planificacion.estado == "A" %} 
+  {% if not planificacion.estado == "A"  and request.user|is_profesor:planificacion.asignatura%} 
     <input type="submit" class="btn btn-primary mb-4" value="Importar Datos" data-toggle="modal"
     data-target="#modal-import-datosDescriptivos" />
   {% endif %}
@@ -189,7 +189,7 @@
     {% endif %}
 
     
-    {% if not planificacion.estado == "A" %} 
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} 
     <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
     {% endif %}
     

@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <style>
     table {
         border-collapse: collapse;
@@ -41,7 +41,7 @@
 {% endif %}
 <div class="seccion__card">
 
-    {% if not planificacion.estado == "A" %} 
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%} 
         <input type="submit" class="btn btn-primary mb-4" value="Importar Datos" data-toggle="modal"
         data-target="#modal-import-detalleProfesorCatedra" />
     {% endif %}
@@ -58,11 +58,11 @@
 
             {% if data %} {% for detalleprofesor in data %}
             <tr
-            {% if not planificacion.estado == "A" %} onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"{% endif %} 
+            {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} onclick="location.href='detalles-profesor-catedra/edit/{{detalleprofesor.id}}'"{% endif %} 
             >
                 <td class="py-4">
                     <a
-                    {% if not planificacion.estado == "A" %}  href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}" {% endif %}
+                    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %}  href="detalles-profesor-catedra/edit/{{detalleprofesor.id}}" {% endif %}
                         >{{detalleprofesor.profesor.first_name|default:""}}
                         {{detalleprofesor.profesor.last_name|default:""}}</a
                     >
@@ -84,7 +84,7 @@
         </tbody>
     </table>
     
-    {% if not planificacion.estado == "A" %}
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%}
     <div class="d-flex-row">
       <button
       type="button"

@@ -5,4 +5,4 @@ class CorreccionForm(forms.ModelForm):
     correccion = forms.CharField(widget=forms.Textarea())
     class Meta:  
         model = Correccion  
-        exclude = ['planificacion']
+        exclude = ['planificacion','creador','usuarioQueResolvio']

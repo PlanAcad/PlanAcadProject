@@ -45,6 +45,7 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
     data = ResultadoDeAprendizajeAnterior.objects.filter(planificacion=planificacion)
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 4)).prefetch_related('comentarios')
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
@@ -53,7 +54,7 @@ def ResultadoDeAprendizajeAnteriorNew(request,id_planificacion):
     
     for item in correcciones:
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
     formresultadoAprendizaje = ResultadoDeAprendizajeForm()
     if request.method == "POST":  
         form = ResultadoDeAprendizajeAnteriorForm(request.POST)
@@ -142,7 +143,8 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
         form = ResultadoDeAprendizajeAnteriorForm(instance = data)
         form.fields['asignatura'].queryset = Asignatura.objects.filter(Q(carrera=planificacion.asignatura.carrera) | Q(carrera__nombre_carrera="Basicas")).distinct().exclude(id = planificacion.asignatura_id)
         # form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
-        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+        correcciones = viewCorreccion.OrderCorrecciones(correcciones)
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 
     return render(request,'secciones/resultadosDeAprendizajeUpdate.html',{'data':data,'planificacion':planificacion,'form':form,'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   

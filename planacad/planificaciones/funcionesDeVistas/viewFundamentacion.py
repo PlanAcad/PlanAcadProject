@@ -49,6 +49,7 @@ def FundamentacionUpdate(request, id_planificacion):
     mensaje_error = None
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 3)).prefetch_related('comentarios')
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
@@ -58,7 +59,7 @@ def FundamentacionUpdate(request, id_planificacion):
     for item in correcciones:
         print(item.estado)
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
 
     if request.method == 'POST':  
         form = FundamentacionForm(request.POST,instance = fundamentacion)

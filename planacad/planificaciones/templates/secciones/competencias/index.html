@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <style>
   table {
     border-collapse: collapse;
@@ -22,7 +22,17 @@
 <h2 class="seccion__encabezado">5. Competencias</h2>
 {% if existen_correcciones_pendientes %}
   <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
-  {% endif %}
+{% endif %}
+{% if messages %}
+    {% for message in messages %}
+    {% if "success" in message.tags %}
+        <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+    {% endif %}
+    {% if "error" in message.tags %}
+        <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
 <div class="seccion__card">
     {% if mensaje_exito %}
     <div class="alert alert-success">{{mensaje_exito}}</div>
@@ -44,7 +54,7 @@
                     {% if data %} {% for competencia in data %}
 
                     <tr
-                    {% if not planificacion.estado == "A" %} onclick="location.href='competencias/edit/{{competencia.id}}'" {% endif %}
+                    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} onclick="location.href='competencias/edit/{{competencia.id}}'" {% endif %}
                         class="position-relative"
                     >
                         <td class="py-4">
@@ -53,7 +63,7 @@
                         <td class="py-4">
                             <a
                                 class="stretched-link"
-                                {% if not planificacion.estado == "A" %} href="competencias/edit/{{competencia.id}}" {% endif %}
+                                {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%} href="competencias/edit/{{competencia.id}}" {% endif %}
                                 >{{competencia.descripcion|default:""}}</a
                             >
                         </td>
@@ -77,7 +87,7 @@
         </tbody>
     </table>
 
-    {% if not planificacion.estado == "A" %} 
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%} 
         <div class="d-flex-row">
         <!-- Abrir modal añadir competencia -->
         <button
@@ -102,9 +112,6 @@
     {% endif %}
     
 
-    {% if form.errors %}
-    <div class="alert alert-danger">{{form.errors}}</div>
-    {% endif %}
 </div>
 
 <!-- Modal competencia -->

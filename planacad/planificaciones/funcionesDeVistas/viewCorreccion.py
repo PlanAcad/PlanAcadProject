@@ -4,8 +4,24 @@ from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelCorrecciones import Correccion
 from planificaciones.formularios.formCorreccion import CorreccionForm
 from django.contrib.auth.decorators import login_required
+import datetime
+from django.db.models import Case, When
 
+def orden_por_estado(objeto):
+    if objeto.estado == "G":
+        return 1
+    elif objeto.estado == "R":
+        return 2
+    elif objeto.estado == "C":
+        return 3
 
+def OrderCorrecciones(correcciones):
+    return correcciones.order_by(
+    Case(
+        When(estado='G', then=0),
+        When(estado='R', then=1),
+        When(estado='C', then=2)
+    ))
 
 # To to add new one
 @login_required
@@ -18,6 +34,8 @@ def CorreccionNew(request, id_planificacion, id_seccion):
                 instance = form.save(commit=False)  
                 instance.planificacion_id=planificacion.id
                 instance.seccion = id_seccion
+                instance.creador = request.user
+                instance.fechaDeCreacion =  datetime.datetime.now()
                 instance.estado = 'G'
                 instance.save()
                 mensaje_exito="Añadimos el contenido correctamente."   
@@ -61,11 +79,12 @@ def CorreccionNew(request, id_planificacion, id_seccion):
 
 # To to add new one
 @login_required
-def CorreccionUpdate(request, id_correccion):
+def CorreccionResolver(request, id_correccion):
     data = Correccion.objects.get(id = id_correccion)
     if request.method == 'POST':
         data.estado = 'R'
-        data.save(update_fields=["estado"]) 
+        data.usuarioQueResolvio = request.user
+        data.save(update_fields=["estado", "usuarioQueResolvio"])
     
         if   data.seccion ==1:
             return redirect('planificaciones:datosDescriptivos', id_planificacion=data.planificacion.id)
@@ -97,6 +116,45 @@ def CorreccionUpdate(request, id_correccion):
             return redirect('planificaciones:distribucionDeTareas', id_planificacion=data.planificacion.id)
         elif data.seccion ==13:
             return redirect('planificaciones:justificacionOrdenanza', id_planificacion=data.planificacion.id)
+
+# To to add new one
+@login_required
+def CorreccionCerrar(request, id_correccion):
+    data = Correccion.objects.get(id = id_correccion)
+    if request.method == 'POST':
+        data.estado = 'C' 
+        data.save(update_fields=["estado"]) 
+        if   data.seccion ==1:
+            return redirect('planificaciones:datosDescriptivos', id_planificacion=data.planificacion.id)
+        elif data.seccion ==2:
+            return redirect('planificaciones:detallesprofesorcatedra', id_planificacion=data.planificacion.id)
+        elif data.seccion ==3:
+            return redirect('planificaciones:fundamentacion', id_planificacion=data.planificacion.id)
+        elif data.seccion ==4:
+            return redirect('planificaciones:resultadosDeAprendizajes', id_planificacion=data.planificacion.id)
+        elif data.seccion ==5:
+            return redirect('planificaciones:competencias', id_planificacion=data.planificacion.id)
+        elif data.seccion ==6:
+            return redirect('planificaciones:propuestaDesarrollo', id_planificacion=data.planificacion.id)
+        elif data.seccion ==7:
+            return redirect('planificaciones:sistemaDeEvaluacion', planificacion_id=data.planificacion.id)
+        elif data.seccion ==71:
+            return redirect('planificaciones:aprobacionDirecta', id_planificacion=data.planificacion.id)
+        elif data.seccion ==72:
+            return redirect('planificaciones:aprobacionCursada', id_planificacion=data.planificacion.id)
+        elif data.seccion ==8:
+            return redirect('planificaciones:cronograma', id_planificacion=data.planificacion.id)
+        elif data.seccion ==9:
+            return redirect('planificaciones:bibliografia', id_planificacion=data.planificacion.id)
+        elif data.seccion ==10:
+            return redirect('planificaciones:webgrafia', id_planificacion=data.planificacion.id)
+        elif data.seccion ==11:
+            return redirect('planificaciones:contenido', id_planificacion=data.planificacion.id)
+        elif data.seccion ==12:
+            return redirect('planificaciones:distribucionDeTareas', id_planificacion=data.planificacion.id)
+        elif data.seccion ==13:
+            return redirect('planificaciones:justificacionOrdenanza', id_planificacion=data.planificacion.id)
+
 
 
 

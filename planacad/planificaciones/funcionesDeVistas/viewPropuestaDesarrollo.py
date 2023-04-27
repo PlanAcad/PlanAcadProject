@@ -50,6 +50,7 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
     
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 6)).prefetch_related('comentarios')
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
@@ -59,7 +60,7 @@ def IndexPropuestaDesarrollo(request, id_planificacion):
     for item in correcciones:
         print(item.estado)
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
 
     if request.method == 'POST':
         if request.POST.get("form_name") == "resultado_aprendizaje":
@@ -157,6 +158,7 @@ def UpdateResultadoAprendizaje(request, id_planificacion, id_resultado_aprendiza
             mensaje_error = "No pudimos añadir el resultado de aprendizaje." 
             print(form.errors)
 
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {
         'planificacion': planificacion,
@@ -235,6 +237,7 @@ def UpdatePropuestaDesarrollo(request, id_planificacion, id_propuesta_desarrollo
             mensaje_error = "No pudimos actualizar la propuesta de desarrollo." 
             print(form_propuesta_desarrollo.errors)
 
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {
         'planificacion': planificacion,

@@ -39,7 +39,7 @@ $(function () {
                                 <li class="{% if 'datos-descriptivos' in request.path %} active {% endif %}">
                                     Datos descriptivos 
                                     {% if "1" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -51,7 +51,7 @@ $(function () {
                             <a href="{% url 'planificaciones:detallesprofesorcatedra' planificacion.id %}">
                                 <li class="{% if 'estructura-de-la-catedra' in request.path %} active {% endif %}">Estructura de la cátedra
                                     {% if "2" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -64,7 +64,7 @@ $(function () {
                                 <li class="{% if 'fundamentacion' in request.path %} active {% endif %}">
                                     Fundamentación
                                     {% if "3" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -84,7 +84,7 @@ $(function () {
                                 ><li class="{% if 'resultados-de-aprendizaje' in request.path %} active {% endif %}">
                                     Resultados de aprendizaje previos
                                     {% if "4" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -97,7 +97,7 @@ $(function () {
                             <a href="{% url 'planificaciones:competencias' planificacion.id %}">
                                 <li class="{% if 'competencias' in request.path %} active {% endif %}">Competencias y capacidades
                                     {% if "5" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -110,7 +110,7 @@ $(function () {
                             <a href="{% url 'planificaciones:propuestaDesarrollo' planificacion.id %}">
                                 <li class="{% if 'propuesta-desarrollo' in request.path %} active {% endif %}">Propuestas para el desarrollo
                                     {% if "6" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -123,7 +123,7 @@ $(function () {
                                 <li class="{% if 'sistema-de-evaluacion' in request.path %} active {% endif %}">
                                     Sistema de evaluación
                                     {% if "7" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -138,7 +138,7 @@ $(function () {
                                             <li class="subsection_title {% if 'condicion-aprobacion-directa' in request.path %} active {% endif %}">
                                                 Condición aprobación directa
                                                 {% if "7.1" in correccionesEnSecciones %}
-                                                <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                                <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                                         <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                                         <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -154,7 +154,7 @@ $(function () {
                                             <li class="subsection_title {% if 'condicion-aprobacion-cursada' in request.path %} active {% endif %}">
                                                 Condición aprobación cursada
                                                 {% if "7.2" in correccionesEnSecciones %}
-                                                <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                                <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                                         <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                                         <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -169,7 +169,7 @@ $(function () {
                             <a href="{% url 'planificaciones:cronograma' planificacion.id %}">
                                 <li class="{% if 'cronograma' in request.path %} active {% endif %}">Cronograma
                                     {% if "8" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -181,7 +181,7 @@ $(function () {
                             <a href="{% url 'planificaciones:bibliografia' planificacion.id %}">
                                 <li class="{% if 'bibliografia' in request.path %} active {% endif %}">Biliografia
                                     {% if "9" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -193,7 +193,7 @@ $(function () {
                             <a href="{% url 'planificaciones:webgrafia' planificacion.id %}">
                                 <li class="{% if 'webgrafia' in request.path %} active {% endif %}">Webgrafia
                                     {% if "10" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -205,7 +205,7 @@ $(function () {
                             <a href="{% url 'planificaciones:contenido' planificacion.id %}">
                                 <li class="{% if 'contenido' in request.path %} active {% endif %}">Contenido
                                     {% if "11" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -217,7 +217,7 @@ $(function () {
                             <a href="{% url 'planificaciones:distribucionDeTareas' planificacion.id %}">
                                 <li class="{% if 'distribucion-de-tareas' in request.path %} active {% endif %}">Distribución de tareas
                                     {% if "12" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
@@ -230,7 +230,7 @@ $(function () {
                             <a href="{% url 'planificaciones:justificacionOrdenanza' planificacion.id %}">
                                 <li class="{% if 'justificacion-ordenanza' in request.path %} active {% endif %}">Justificación ordenanza 604
                                     {% if "13" in correccionesEnSecciones %}
-                                    <span data-toggle="tooltip" data-placement="right" title="Hay correcciones ha resolver">
+                                    <span data-toggle="tooltip" data-placement="right" title="Hay observaciones a resolver">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                                             <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>

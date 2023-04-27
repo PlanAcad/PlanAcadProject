@@ -37,6 +37,7 @@ def DistribucionDeTareas(request, id_planificacion):
     mensaje_error = None
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 12)).prefetch_related('comentarios')
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
@@ -46,7 +47,7 @@ def DistribucionDeTareas(request, id_planificacion):
     for item in correcciones:
         print(item.estado)
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
 
     form = DetalleProfesorCatedraForm()
     if request.method == 'POST':
@@ -140,6 +141,7 @@ def UpdateDistribucionDeTareas(request, id_planificacion, id_detalleprofesorcate
         elif(data.situacion == "3"):
             form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='alumno'))
         form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id) 
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {
         'data':data,

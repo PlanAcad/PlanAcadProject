@@ -8,7 +8,16 @@
 {% if form.errors %}
 <div class="alert alert-danger">{{form.errors}}</div>
 {% endif %}
-
+{% if messages %}
+  {% for message in messages %}
+    {% if "success" in message.tags %}
+      <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+    {% endif %}
+    {% if "error" in message.tags %}
+      <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
 
 {% if existe_calendario %}
 

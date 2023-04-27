@@ -184,7 +184,9 @@ urlpatterns = [
     
     #Correcciones
     path('planificacion/<int:id_planificacion>/<int:id_seccion>/agregar-correccion', viewCorreccion.CorreccionNew, name='agregarCorreccion'),
-    path('planificacion/<int:id_correccion>/resolver-correccion', viewCorreccion.CorreccionUpdate, name='resolverCorreccion'),
+    path('planificacion/<int:id_correccion>/resolver-correccion', viewCorreccion.CorreccionResolver, name='resolverCorreccion'),
+    path('planificacion/<int:id_correccion>/cerrar-correccion', viewCorreccion.CorreccionCerrar, name='cerrarCorreccion'),
+    
     #Comentarios
     path('planificacion/<int:id_correccion>/<int:id_seccion>/agregar-comentario', viewComentarios.ComentarioNew, name='agrergarComentario'),
     #Email

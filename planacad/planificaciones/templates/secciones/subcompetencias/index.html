@@ -1,5 +1,10 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
+<a
+    href="{% url 'planificaciones:competenciaUpdate' planificacion.id competencia.id %}"
+    class="link-arrow my-2 mb-5"
+    >{% include "iconos/chevron-left.html" %}<span>Volver</span></a
+>
 <h2 class="seccion__encabezado">3. Competencias</h2>
 <div class="seccion__card">
     {% if mensaje_exito %}
@@ -9,15 +14,26 @@
     <h3 class="mt-4">Agregar sub-competencia para la competencia {{competencia.descripcion}}</h3>
 
     <form
+        id="sub-competencia-form"
         method="POST"
         action="{% url 'planificaciones:subcompetencias' planificacion.id competencia.id %}"
     >
         {% csrf_token %} {{form.as_p}}
-        <button type="submit" class="btn btn-primary">Añadir</button>
     </form>
-    {% if form.errors %}
-    <div class="alert alert-danger">{{form.errors}}</div>
-    {% endif %}
+    <div id="right-buttons">
+        <a
+            href="{% url 'planificaciones:competenciaUpdate' planificacion.id competencia.id %}"
+            style="text-decoration: none"
+        >
+            <button class="btn btn-outline-primary my-4">Cancelar</button>
+        </a>
+        <button
+            class="btn btn-primary my-4"
+            onclick="document.getElementById('sub-competencia-form').submit()"
+        >
+            Guardar
+        </button>
+    </div>
     {% if mensaje_error %}
     <div class="alert alert-danger">{{mensaje_error}}</div>
     {% endif %}

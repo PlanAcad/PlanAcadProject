@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <style>
   table {
       border-collapse: collapse;
@@ -43,7 +43,7 @@
         </tr>
 
         {% for actividad in actividades %}
-        <tr {% if not planificacion.estado == "A" %}  onclick="location.href=`{% url 'planificaciones:updateActividad' planificacion.id actividad.id %}`" {% endif %}>
+        <tr {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %}  onclick="location.href=`{% url 'planificaciones:updateActividad' planificacion.id actividad.id %}`" {% endif %}>
           <td>
             {{ actividad.tipo_de_evaluacion.get_tipo_display }}
           </td>
@@ -79,7 +79,7 @@
     </tbody>
   </table>
 
-  {% if not planificacion.estado == "A" %} 
+  {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} 
     <button
     type="button"
     class="btn btn-primary mt-4"

@@ -12,7 +12,7 @@ from planificaciones.modelos.modelCarrera import Carrera
 from planificaciones.modelos.modelClase import Clase
 from planificaciones.modelos.modelPlanificacion import Planificacion
 from planificaciones.modelos.modelUsuarioPlanificacion import PlanificacionUsuario
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group 
 
 from planificaciones.formularios.formFechaCalendarioAcademico import FechaCalendarioAcademico
 from planificaciones.funcionesDeVistas import viewCalendario
@@ -34,10 +34,8 @@ def AsignaturaNew(request):
             asig.save()
             form.save_m2m()
             asignatura_id = asig.id
-            messages.success(request, 'Se ha guardado con éxito')
             return redirect('planificaciones:updateAsignatura', id=asignatura_id)
         else: 
-            messages.success(request, 'Se ha guardado con éxito')
             messages.error(request, 'La operación falló')
     context = {
         'form':form,
@@ -249,8 +247,9 @@ def AsignaturaUpdate(request, id):
             form.save_m2m()
             messages.success(request, 'Se ha guardado con éxito')
             return redirect('planificaciones:asignaturas')
-    profesoresCarrera = User.objects.filter(carrera = asignatura.carrera)
-    form.fields['profesor'].queryset = User.objects.filter(carrera = asignatura.carrera)
+            
+    profesoresCarrera = User.objects.filter(carrera = asignatura.carrera,  groups__name__in=['profesor', 'jefe de carrera'])
+    form.fields['profesor'].queryset = profesoresCarrera
     form.fields['profesor'].choices  = [(user.id, f"{user.first_name} {user.last_name}") for user in form.fields['profesor'].queryset]
     context = {
         'asignatura': asignatura,
@@ -306,6 +305,8 @@ def MandarAvisoFechaLimiteDePlanificacion(request):
 
                 ##Cierro conexion al servidor
                 server.quit()
+                
+            messages.success(request, 'Se ha mandado con éxito')
             return redirect('planificaciones:asignaturas')
     else:
         form.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carrera)

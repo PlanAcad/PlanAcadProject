@@ -1,6 +1,6 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
-{% if not planificacion.estado == "A" %} 
+{% load util %}
+{% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} 
   <header class="seccion__acciones">
     <button onclick="document.getElementById('fundamentacion-form').submit()" class="btn btn-primary">Guardar</button>
   </header>

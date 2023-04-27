@@ -44,6 +44,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     tareasFuncionesForm = TareasFuncionesForm()
     #CORRECCIONES
     correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 2)).prefetch_related('comentarios')
+    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     existen_correcciones_pendientes = None
     #Forms Correcciones y Comentarios
@@ -52,7 +53,7 @@ def DetalleProfesorCatedraNew(request, id_planificacion):
     
     for item in correcciones:
         if(item.estado == "G"):
-            existen_correcciones_pendientes = "Existen correcciones pendientes de resolver"
+            existen_correcciones_pendientes = "Existen observaciones pendientes de resolver"
 
     if request.method == "POST":  
         form = DetalleProfesorCatedraForm(request.POST)  
@@ -166,7 +167,8 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
         elif(data.situacion == "3"):
             form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='alumno'))
         form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
-        correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
+        correcciones = viewCorreccion.OrderCorrecciones(correcciones)
+    correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 
     return render(request,'secciones/detalles-profesor-catedra-update.html',{'data':data,'planificacion':planificacion,'form':form,'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
   

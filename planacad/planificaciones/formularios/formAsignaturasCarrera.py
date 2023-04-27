@@ -11,9 +11,10 @@ class AsignaturaMultipleChoiceField(forms.ModelMultipleChoiceField):
 class AsignaturaCarreraForm(forms.Form):
     asignaturas = AsignaturaMultipleChoiceField(
         queryset=None,
+        required=True,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'multiple-select-list'})
     )
-    comentario = forms.CharField(
+    aviso = forms.CharField(
         max_length=500, 
         widget=forms.Textarea()
         )

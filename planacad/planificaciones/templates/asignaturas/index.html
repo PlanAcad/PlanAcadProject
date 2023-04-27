@@ -420,7 +420,16 @@
                             Bienvenido {{ user.first_name  }}
                           </h2>  
                           <div class="row">
-
+                          {% if messages %}
+                            {% for message in messages %}
+                              {% if "success" in message.tags %}
+                                <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+                              {% endif %}
+                              {% if "error" in message.tags %}
+                                <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+                              {% endif %}
+                            {% endfor %}
+                          {% endif %}
                             <button
                             type="button"
                             class="btn btn-primary mt-4"
@@ -551,7 +560,8 @@
                   ></button>
               </div>
               <div class="modal-body">
-                <form action="{% url 'planificaciones:mandarAviso' %}" method="POST">
+                <form action="{% url 'planificaciones:mandarAviso' %}" id="mandarAvisoForm" method="POST">
+                  <div id="id_mensaje_error" style="color: red;"></div>
                   {% csrf_token %} {{formAsignaturaCarrera.as_p}}
 
                   <div class="modal-footer">
@@ -625,5 +635,21 @@
         </div>
     </div>
 </div>
+
+<script>
+  $(document).ready(function() {
+    $('#mandarAvisoForm').on('submit', function(event) {
+        console.log("funciona")
+        // Comprobamos si el campo opciones tiene algún valor seleccionado
+        if (!$('#id_asignaturas').val()) {
+            console.log("entro")
+            // Si el campo está vacío, mostramos un mensaje de error
+            $('#id_mensaje_error').text('Debes seleccionar al menos una asignatura.');
+            event.preventDefault(); // Evitamos que el formulario se envíe
+        }
+    });
+});
+</script>
+
 {% endblock %}
 

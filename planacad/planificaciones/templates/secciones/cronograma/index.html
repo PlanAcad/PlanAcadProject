@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <h2 class="seccion__encabezado">8. Cronograma</h2>
 
 {% if messages %}
@@ -20,7 +20,7 @@
   <div class="alert alert-info">{{existen_correcciones_pendientes}}</div>
 {% endif %}
 
-{% if existe_calendario and not cronograma_sintonizado and not planificacion.estado == "A"%}
+{% if existe_calendario and not cronograma_sintonizado and not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura%}
   <button type="button" class="link mt-2 mb-2 mr-2" style="float:right" data-toggle="modal" data-target="#modal-cronograma-create">
     Sincronizar con calendario académico
   </button>
@@ -59,7 +59,7 @@
                 <td class="text-center">
                   <a
                                 class="stretched-link"
-                                 href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}" 
+                                {% if request.user|is_profesor:planificacion.asignatura %}  href="{% url 'planificaciones:cronogramaUpdate' planificacion.id fila.id %}" {% endif %} 
                                 >
                   {{fila.fecha_clase|default:""}}
                   {% if fila.numero_de_clase_o_semana %}
@@ -110,7 +110,7 @@
             </tbody>
     </tbody>
 </table>
-{% if not planificacion.estado == "A" %} 
+{% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} 
   <button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modal-cronograma">
     Añadir fila
   </button>

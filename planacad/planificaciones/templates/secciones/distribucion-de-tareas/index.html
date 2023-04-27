@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <style>
   table {
     border-collapse: collapse;
@@ -81,7 +81,7 @@
                 <tbody>
                      {% for detalleprofesor in profesores %}
                         <tr 
-                        {% if not planificacion.estado == "A" %} onclick="location.href=`{% url 'planificaciones:updateDistribucionDeTareas' planificacion.id detalleprofesor.id %}`" {% endif %}
+                        {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} onclick="location.href=`{% url 'planificaciones:updateDistribucionDeTareas' planificacion.id detalleprofesor.id %}`" {% endif %}
                         > 
                             <td>
                                 {{detalleprofesor.profesor.first_name|default:""}}
@@ -120,7 +120,7 @@
 
                     <tbody>
                         {% for detalleprofesor in profesores_auxiliares %}
-                            <tr {% if not planificacion.estado == "A" %} onclick="location.href=`{% url 'planificaciones:updateDistribucionDeTareas' planificacion.id detalleprofesor.id %}`" {% endif %}> 
+                            <tr {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} onclick="location.href=`{% url 'planificaciones:updateDistribucionDeTareas' planificacion.id detalleprofesor.id %}`" {% endif %}> 
                                 <td>
                                     {{detalleprofesor.profesor.first_name|default:""}}
                                     {{detalleprofesor.profesor.last_name|default:""}}
@@ -141,7 +141,7 @@
             Aún no se asignaron profesores auxiliares.
         </div>
     {% endif %}
-    {% if not planificacion.estado == "A" %}
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %}
     <div class="d-flex-row">
       <button
       type="button"
@@ -155,7 +155,7 @@
     {% endif %}
     
 </div>
-{% if not planificacion.estado == "A" %} 
+{% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura %} 
   <button type="button" class="btn btn-primary mt-4" onclick="document.getElementById('distribucion-tareas-form').submit()">
   Guardar</button>
 {% endif %}

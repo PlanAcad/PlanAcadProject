@@ -1,5 +1,5 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
-
+{% load util %}
 <h2 class="seccion__encabezado">
   7.2 Condiciones para la aprobación de la cursada (Regularidad)
 </h2>
@@ -20,7 +20,7 @@
     {% if form.errors %}
     <div class="alert alert-danger">{{form.errors}}</div>
     {% endif %}
-    {% if not planificacion.estado == "A" %} 
+    {% if not planificacion.estado == "A" and request.user|is_profesor:planificacion.asignatura  %} 
     <input type="submit" class="btn btn-primary mt-4" value="Guardar" />
     {% endif %}
   </form>
