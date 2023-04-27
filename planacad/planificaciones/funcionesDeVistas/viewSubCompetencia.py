@@ -79,8 +79,10 @@ def SubCompetenciaDestroy(request, id_planificacion, id_competencia, id_subcompe
         try:
             subcompetencia = SubCompetencia.objects.get(id=id_subcompetencia)  
             subcompetencia.delete()
+            messages.success(request, 'Se ha guardado con éxito')
             mensaje_exito = "Se ha borrado correctamente."        
         except:
+            messages.error(request, 'La operación falló')
             mensaje_error = "No pudimos borrar correctamente"  
         
         return HttpResponseRedirect(reverse('planificaciones:competenciaUpdate', args=[id_planificacion, id_competencia]))

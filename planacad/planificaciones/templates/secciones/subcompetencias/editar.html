@@ -1,27 +1,59 @@
 {% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
 
 <h2 class="seccion__encabezado"></h2>
+<a
+href="{% url 'planificaciones:competenciaUpdate' planificacion.id competencia.id %}"
+class="link-arrow my-2 mb-5"
+>{% include "iconos/chevron-left.html" %}<span>Volver</span></a
+>
 <div class="seccion__card">
   {% if mensaje_exito %}
   <div class="alert alert-success">{{mensaje_exito}}</div>
   {% endif %}
+
+
+
   <h3>Modificar subcompetencia</h3>
 
   <form
+    id="update-subcompentencia-form"
     method="POST"
     action="{% url 'planificaciones:subcompetenciasUpdate' planificacion.id competencia.id data.id %}"
   >
     {% csrf_token %} {{form.as_p}}
     
-    <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
   <form
+    id="delete-subcompentencia-form"
     method="POST"
     action="{% url 'planificaciones:subcompetenciasDestroy' planificacion.id competencia.id data.id %}"
   >
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger my-4">Eliminar</button>
   </form>
+
+  <div id="buttons-footer" style="display: flex; justify-content: space-between">
+    <button
+        class="btn btn-danger my-4"
+        onclick="document.getElementById('delete-subcompentencia-form').submit()"
+    >
+        Eliminar
+    </button>
+
+    <div id="right-buttons">
+        <a
+        href="{% url 'planificaciones:competenciaUpdate' planificacion.id competencia.id %}"
+        style="text-decoration: none"
+        >
+            <button class="btn btn-outline-primary my-4">Cancelar</button>
+        </a>  
+        <button
+        class="btn btn-primary my-4"
+        onclick="document.getElementById('update-subcompentencia-form').submit()"
+        >
+          Guardar
+        </button>
+    </div>
+  </div>
 
   {% if form.errors %}
   <div class="alert alert-danger">{{form.errors}}</div>
