@@ -60,7 +60,7 @@ def ImportDatosDescriptivos(request, id_planificacion):
                     datosDescriptivos.save()
             messages.success(request, 'Se ha guardado con éxito')
         except Exception as e:  
-            messages.error(request, 'La operación falló:', e)
+             messages.add_message(request, messages.ERROR, f'La operación falló: {str(e)}')
         
         return redirect(reverse('planificaciones:datosDescriptivos', args=[planificacion.id]) )
 
