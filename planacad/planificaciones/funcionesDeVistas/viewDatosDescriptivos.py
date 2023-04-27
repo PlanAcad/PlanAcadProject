@@ -59,8 +59,8 @@ def ImportDatosDescriptivos(request, id_planificacion):
                     datosDescriptivos.cursado = row['cursado'].strip('"')
                     datosDescriptivos.save()
             messages.success(request, 'Se ha guardado con éxito')
-        except:  
-            messages.error(request, 'La operación falló')
+        except Exception as e:  
+            messages.error(request, 'La operación falló:', e)
         
         return redirect(reverse('planificaciones:datosDescriptivos', args=[planificacion.id]) )
 
