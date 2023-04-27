@@ -287,7 +287,7 @@ def MandarAvisoFechaLimiteDePlanificacion(request):
         form.fields['asignaturas'].queryset = Asignatura.objects.filter(carrera=carrera)
         if form.is_valid():
             asignaturas = form.cleaned_data['asignaturas']
-            comentario = form.cleaned_data['comentario']
+            comentario = form.cleaned_data['aviso']
             for asignatura in asignaturas:
                  ## Me conecto al servidor
                 server = smtplib.SMTP('smtp-mail.outlook.com', 587)
