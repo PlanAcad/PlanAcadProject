@@ -8,14 +8,23 @@
                 <div class="d-flex mt-4 justify-content-between">
                     <h2  style="font-weight: bold;" class="m-0">Editar Usuario</h2>
                     <div class="d-inline-flex">
-                        <a type="submit" class=" btn btn-primary" href="{% url 'planificaciones:cambiarContraseña' user.id %}">Cambiar contraeña</a>
+                        <a type="submit" class=" btn btn-primary" href="{% url 'planificaciones:cambiarContraseña' user.id %}">Cambiar contraseña</a>
                         <form action="{% url 'planificaciones:delete_profile' user.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="ms-2 btn btn-danger">Eliminar usuario</button>
                         </form>
                     </div>
-                    
                 </div>
+                {% if messages %}
+                        {% for message in messages %}
+                            {% if "success" in message.tags %}
+                            <div id="mensaje_exito" class="alert alert-success mt-1">{{ message }}</div>
+                            {% endif %}
+                            {% if "error" in message.tags %}
+                            <div id="mensaje_error" class="alert alert-danger mt-1">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                {% endif %}
                     <div class="seccion__card">  
                     <form class="form-register" method="POST">
                         {% csrf_token %}
