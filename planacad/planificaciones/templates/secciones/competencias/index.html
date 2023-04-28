@@ -184,11 +184,13 @@
             </div>
             <div class="modal-body">
                 <form
+                    id="cargarCompetenciasForm"
                     method="POST"
                     action="{% url 'planificaciones:cargarCompetencias' planificacion.id %}"
                 >
+                    <div id="id_mensaje_error" style="color: red;"></div>
                     {% csrf_token %}
-                    <ul class="multiple-select-list">
+                    <ul class="multiple-select-list" id="competencias">
                         {% for ca in competenciaAnterior %}
                         <li>
                             <label for="{{ ca.pk }}">{{ opcion.label }}
@@ -223,4 +225,28 @@
   {% include 'layouts/correcciones_layout.html' %}
 {% endwith %}
 
+<script>
+    $(document).ready(function() {
+      $('#cargarCompetenciasForm').on('submit', function(event) {
+          // Obtener todos los elementos de entrada en la lista
+          var inputs = document.querySelectorAll('#competencias input[type="checkbox"]');
+  
+          // Iterar sobre los elementos de entrada y verificar si alguno está seleccionado
+          var algunSeleccionado = false;
+          for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].checked) {
+              algunSeleccionado = true;
+              break;
+            }
+          }
+  
+          if (algunSeleccionado) {
+            $('#id_mensaje_error').text('');
+          } else {
+            $('#id_mensaje_error').text('Debes seleccionar al menos una asignatura.');
+              event.preventDefault(); // Evitamos que el formulario se envíe
+          }
+      });
+  });
+  </script>
 {% endblock %}
