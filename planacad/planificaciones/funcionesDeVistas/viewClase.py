@@ -153,6 +153,7 @@ def ClaseUpdate(request, id_planificacion, id_clase):
         form.fields['profesor_a_cargo'].choices  = [(user.id, f"{user.first_name} {user.last_name}") for user in form.fields['profesor_a_cargo'].queryset]
         form.fields['resultado_de_aprendizaje'].queryset = ResultadoDeAprendizaje.objects.filter(planificacion = planificacion)
         form.fields['unidad_tematica_o_tema'].queryset = Contenido.objects.filter(planificacion=planificacion)
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 1)).prefetch_related('comentarios')
     correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)   
     return render(request,'secciones/cronograma/editar.html',{'data':data,'planificacion':planificacion,'form':form,'correccionesEnSecciones':correccionesEnSecciones, 'mensaje_error': mensaje_error,'mensaje_exito':mensaje_exito}) 
