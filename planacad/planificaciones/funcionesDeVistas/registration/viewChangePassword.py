@@ -28,6 +28,7 @@ def cambiarContraseñaAdmin(request, user_id):
     if request.user.is_superuser: # Verificar si el usuario actual es un superusuario
         usuario = User.objects.get(id=user_id)
         form = CambiarContraseñaForm()
+
         if request.method == 'POST':
             form = CambiarContraseñaForm(request.POST)
             if form.is_valid():
