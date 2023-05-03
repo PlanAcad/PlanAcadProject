@@ -56,7 +56,7 @@ DATABASES = {
         'NAME': 'PlanacadDB',
         'USER': 'Planacad',
         'PASSWORD': 'Carlosingeniero2023',
-        'HOST': 'planacad-server-sql.database.windows.net',
+        'HOST': 'planacadserversql.database.windows.net',
         'PORT': '1433'
         
     },
