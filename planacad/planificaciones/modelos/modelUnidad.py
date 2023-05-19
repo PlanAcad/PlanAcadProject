@@ -8,4 +8,4 @@ class Unidad(models.Model):
    planificacion = models.ForeignKey(Planificacion, on_delete=models.CASCADE, null=True, blank=True)
 
    def __str__(self):
-        return "%s, %s" %(self.numero,self.titulo)
+        return "%s- %s" %(self.numero,self.titulo)
