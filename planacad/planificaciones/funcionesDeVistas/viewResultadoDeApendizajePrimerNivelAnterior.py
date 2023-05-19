@@ -90,6 +90,8 @@ def ResultadoDeAprendizajeAnteriorPrimerNivelUpdate(request, id_planificacion, i
                  mensaje_error = "No pudimos guardar los cambios."    
     else:  
         form = ResultadoDeAprendizajeAnteriorPrimerNivelForm(instance = data)
+        #CORRECCIONES
+        correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 4)).prefetch_related('comentarios')
         correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 

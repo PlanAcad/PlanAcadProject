@@ -156,6 +156,7 @@ def UpdateBibliografia(request, id_planificacion, id_bibliografia):
 
         else:
             mensaje_error = "No pudimos añadir la bibliografía." 
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 9)).prefetch_related('comentarios')
     correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {

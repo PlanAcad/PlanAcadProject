@@ -113,6 +113,7 @@ def UpdateContenido(request, id_planificacion, id_contenido):
             print(form.errors)
     else:
         form.fields['unidad'].queryset = Unidad.objects.filter(planificacion_id=id_planificacion)
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 11)).prefetch_related('comentarios')
     correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     
