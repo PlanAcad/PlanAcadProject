@@ -167,6 +167,8 @@ def DetalleProfesorCatedraUpdate(request, id_planificacion, id_detalleprofesorca
         elif(data.situacion == "3"):
             form.fields['profesor'].queryset = User.objects.filter(groups = Group.objects.get(name='alumno'))
         form.fields['tareas'].queryset = TareasFunciones.objects.filter(planificacion_id = planificacion.id)
+         #CORRECCIONES
+        correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 2)).prefetch_related('comentarios')
         correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 

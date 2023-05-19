@@ -1,4 +1,5 @@
-{% extends 'layouts/planificacion_layout_edicion.html' %} {% block seccion %}
+{% extends 'layouts/planificacion_layout.html' %} {% block seccion %}
+{% load util %}
 
 {% url 'planificaciones:detallesprofesorcatedra' planificacion.id as url %}
 {% include 'componentes/seccion_cabecera.html' with seccion_url=url titulo="Modificar docente" %}
@@ -34,7 +35,7 @@
             {{ form.tareas }}
         {% else %}
             <input disabled></input>
-            <span>No posee funciones y/o tareas agregadas. Cierre el modal y cargue las funciones y/o tareas
+            <span>No posee funciones y/o tareas agregadas. Vuelva atras y cargue las funciones y/o tareas
             </span>
         {% endif %}
         </div>

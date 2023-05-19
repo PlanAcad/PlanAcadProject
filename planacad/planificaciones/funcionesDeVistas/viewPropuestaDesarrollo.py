@@ -158,6 +158,7 @@ def UpdateResultadoAprendizaje(request, id_planificacion, id_resultado_aprendiza
             mensaje_error = "No pudimos añadir el resultado de aprendizaje." 
             print(form.errors)
 
+    correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 6)).prefetch_related('comentarios')
     correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {
@@ -237,7 +238,6 @@ def UpdatePropuestaDesarrollo(request, id_planificacion, id_propuesta_desarrollo
             mensaje_error = "No pudimos actualizar la propuesta de desarrollo." 
             print(form_propuesta_desarrollo.errors)
 
-    correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
     context = {
         'planificacion': planificacion,

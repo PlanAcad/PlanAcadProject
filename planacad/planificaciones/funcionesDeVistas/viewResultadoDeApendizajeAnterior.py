@@ -143,6 +143,8 @@ def ResultadoDeAprendizajeAnteriorUpdate(request, id_planificacion, id_resultado
         form = ResultadoDeAprendizajeAnteriorForm(instance = data)
         form.fields['asignatura'].queryset = Asignatura.objects.filter(Q(carrera=planificacion.asignatura.carrera) | Q(carrera__nombre_carrera="Basicas")).distinct().exclude(id = planificacion.asignatura_id)
         # form.fields['asignatura'].queryset = Asignatura.objects.filter(planificacion__estado='A').distinct().exclude(id = planificacion.asignatura_id)
+        #CORRECCIONES
+        correcciones = Correccion.objects.filter(Q(planificacion_id = id_planificacion) & Q(seccion = 4)).prefetch_related('comentarios')
         correcciones = viewCorreccion.OrderCorrecciones(correcciones)
     correccionesEnSecciones = viewCorreccion.CorreccionesEnSecciones(id_planificacion)
 
